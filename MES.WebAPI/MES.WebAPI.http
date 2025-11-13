@@ -1,0 +1,6 @@
+@MES.WebAPI_HostAddress = http://localhost:5064
+
+GET {{MES.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
