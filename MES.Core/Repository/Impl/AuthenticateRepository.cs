@@ -139,7 +139,7 @@ namespace MES.Core.Repository.Impl
                     conn.Open();
                     data = conn.QueryFirstOrDefault<Authenticate>("SELECT * FROM Authenticate WHERE Account = @Account",
                         new { 
-                            Account = t.Account,
+                            Account = t.Account == null ? "" :t.Account,
                         }
                     );
                 }

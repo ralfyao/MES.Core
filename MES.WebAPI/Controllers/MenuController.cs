@@ -17,13 +17,21 @@ namespace MES.WebAPI.Controllers
         }
         [HttpGet]
         [Route("api/GetMenu")]
-        public CommonRep<Menu> GetMenu(string account)
+        public CommonRep<Menu> GetMenu(string? account)
         {
             CommonRep<Menu> rep = new CommonRep<Menu>();
             try
             {
                 AuthenticateMenu authenticateMenu = new AuthenticateMenu();
-                List<Menu> menuList = authenticateMenu.GetMenuByAccount(account);
+                List<Menu> menuList = new List<Menu>();
+                if (account != null)
+                {
+                    menuList = authenticateMenu.GetMenuByAccount(account);
+                }
+                else
+                {
+                    menuList = authenticateMenu.GetMenuByAccount(null);
+                }
                 rep.resultList = menuList;
             }
             catch (Exception ex)

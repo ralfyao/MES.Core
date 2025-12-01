@@ -53,10 +53,19 @@ namespace MES.Core.Repository.Impl
                 using (var conn = new SqlConnection(IRepository<Privilege>.ConnStr))
                 {
                     conn.Open();
-                    var result = conn.Query<Privilege>(sql, new {
-                        id = t.ID
-                    });
-                    list = result.ToList();
+                    if (t != null)
+                    {
+                        var result = conn.Query<Privilege>(sql, new
+                        {
+                            id = t.ID
+                        });
+                        list = result.ToList();
+                    }
+                    else
+                    {
+                        var result = conn.Query<Privilege>(sql, null);
+                        list = result.ToList();
+                    }
                 }
             }
             catch (Exception ex)
