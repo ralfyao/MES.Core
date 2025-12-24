@@ -40,6 +40,34 @@ namespace MES.Core.Repository.Impl
             return delCnt;
         }
 
+        public int DeleteBy(Privilege? t, string propName)
+        {
+            int delCnt = 0;
+            try
+            {
+                string sql = @"DELETE FROM Privilege WHERE 1=1";
+                if (t != null)
+                {
+                    sql += $" AND {propName} = @{propName}";
+                }
+                else
+                {
+                    return 0;
+                }
+                var parameters = new DynamicParameters(t);
+                using (var conn = new SqlConnection(IRepository<Authenticate>.ConnStr))
+                {
+                    conn.Open();
+                    delCnt = conn.Execute(sql, t);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+            }
+            return delCnt;
+        }
+
         public List<Privilege> GetList(Privilege t)
         {
             List<Privilege> list = new List<Privilege>();
@@ -157,17 +185,17 @@ namespace MES.Core.Repository.Impl
             {
                 var sql = @"  INSERT INTO dbo.Privilege
                               (
-                                  Name,
-                                  Permission,
+                                  PrivilegeName,
+                                  PrivilegeDesc,
                                   CreateUser,
                                   CreateDate
                               )
                               VALUES
                               (   
-	                              @Name,
-                                  @Permission,
+	                              @PrivilegeName,
+                                  @PrivilegeDesc,
                                   @CreateUser,
-                                  @CreateDate
+                                  GETDATE()
                               )
                         SELECT @@IDENTITY;";
                 var parameters = new DynamicParameters(t);

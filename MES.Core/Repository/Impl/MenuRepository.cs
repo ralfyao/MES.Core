@@ -70,18 +70,25 @@ namespace MES.Core.Repository.Impl
             try
             {
                 string sql = @"SELECT * FROM Menu WHERE 1=1";
-                if (t != null)
+                if (t.ID != null && t.ID != 0)
                 {
                     sql += " AND ID like @id+'%'";
                 }
                 using (var conn = new SqlConnection(IRepository<Menu>.ConnStr))
                 {
                     conn.Open();
-                    var result = conn.Query<Menu>(sql, new
+                    if (t != null && t.ID != 0)
                     {
-                        id = t.ID
-                    });
-                    list = result.ToList();
+                        var result = conn.Query<Menu>(sql, new
+                        {
+                            id = t.ID
+                        });
+                        list = result.ToList();
+                    } else
+                    {
+                        var result = conn.Query<Menu>(sql);
+                        list = result.ToList();
+                    }
                 }
             }
             catch (Exception ex)

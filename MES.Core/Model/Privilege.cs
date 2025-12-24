@@ -14,7 +14,7 @@ namespace MES.Core.Model
         [Key]
         public int ID {  get; set; }
         public string CreateUser { get; set; }
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
         [Computed]
         public List<PrivilegeMenu> privilegeMenus { get; set; }
     }

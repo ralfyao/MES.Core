@@ -39,6 +39,34 @@ namespace MES.Core.Repository.Impl
             return delCnt;
         }
 
+        public int DeleteBy(PrivilegeMenu t, string propName)
+        {
+            int delCnt = 0;
+            try
+            {
+                string sql = @"DELETE FROM PrivilegeMenu WHERE 1=1";
+                if (t != null)
+                {
+                    sql += $" AND {propName} = @{propName}";
+                }
+                else
+                {
+                    return 0;
+                }
+                var parameters = new DynamicParameters(t);
+                using (var conn = new SqlConnection(IRepository<PrivilegeMenu>.ConnStr))
+                {
+                    conn.Open();
+                    delCnt = conn.Execute(sql, t);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+            }
+            return delCnt;
+        }
+
 
         public List<PrivilegeMenu> GetList(PrivilegeMenu t)
         {
@@ -146,17 +174,19 @@ namespace MES.Core.Repository.Impl
             int insertCnt = 0;
             try
             {
-                var sql = @"  INSERT INTO dbo.Privilege
+                var sql = @"  INSERT INTO dbo.PrivilegeMenu
                               (
-                                  Name,
-                                  Permission,
+                                  PrivilegeName,
+                                  MenuID,
+                                  MenuSubID,
                                   CreateUser,
                                   CreateDate
                               )
                               VALUES
                               (   
-	                              @Name,
-                                  @Permission,
+	                              @PrivilegeName,
+                                  @MenuID,
+                                  @MenuSubID,
                                   @CreateUser,
                                   @CreateDate
                               )

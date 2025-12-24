@@ -13,6 +13,7 @@ namespace MES.Core.Model
         public int ID { get; set; }
         public string PrivilegeName { get; set; }
         public int MenuID { get; set; }
+        public int MenuSubID { get; set; }
         public string CreateUser { get; set; }
         public DateTime CreateDate { get; set; }
         [Computed]

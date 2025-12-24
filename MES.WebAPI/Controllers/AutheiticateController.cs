@@ -163,6 +163,11 @@ namespace MES.WebAPI.Controllers
             }
             return rep;
         }
+        /// <summary>
+        /// 刪除使用者
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/DeleteUser")]
         public CommonRep<Authenticate> deleteUser(User user)
