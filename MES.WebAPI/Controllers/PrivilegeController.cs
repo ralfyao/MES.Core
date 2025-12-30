@@ -34,6 +34,36 @@ namespace MES.WebAPI.Controllers
             }
             return rep;
         }
+        [Route("api/GetUserPrivileges"), HttpGet]
+        public CommonRep<Privilege> GetUserPrivilege(string account) 
+        {
+            CommonRep<Privilege> commonRep = new CommonRep<Privilege>();
+            try
+            {
+                PrivilegeRepository privilegeRepository = new PrivilegeRepository();
+                AuthenticateRepository authenticateRepository = new AuthenticateRepository();
+                AuthenticatePrivilegeRepository authenticatePrivilegeRepository = new AuthenticatePrivilegeRepository();
+                Authenticate authenticate = new Authenticate();
+                authenticate.Account = account;
+                authenticate = authenticateRepository.GetListBy(authenticate, "Account").ToList().FirstOrDefault();
+                if (authenticate != null)
+                {
+                    var authenticatePrivileges = authenticatePrivilegeRepository.GetListBy(new AuthenticatePrivilege() { AuthenticatePrivilegeName = new Guid(authenticate.Privilege) }, "AuthenticatePrivilegeName");
+                    foreach (var item in authenticatePrivileges)
+                    {
+                        var privilegeList = privilegeRepository.GetListBy(new Privilege() { PrivilegeName=item.PrivilegeNameMapped.ToString() }, "PrivilegeName").ToList();
+                        commonRep.resultList.AddRange(privilegeList);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(commonRep.ErrorMessage);
+            }
+            return commonRep;
+        }
         [Route("api/SaveRolePrivilege"), HttpPost]
         public CommonRep<string> SaveRole([FromBody]UserRoleRequest request)
         {
@@ -75,6 +105,29 @@ namespace MES.WebAPI.Controllers
                     privilegeMiddle.createPrivilegeMenu(menuAdd);
                 }
                 privilegeMiddle.createPrivilege(createData);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(commonRep.ErrorMessage);
+            }
+            return commonRep;
+        }
+        [Route("api/GetPrivMenuByRole"), HttpGet]
+        public CommonRep<PrivilegeMenu> GetPrivMenuByRole(string roleName)
+        {
+            CommonRep<PrivilegeMenu> commonRep = new CommonRep<PrivilegeMenu>();
+            PrivilegeRepository privilegeRepository = new PrivilegeRepository();
+            PrivilegeMenuRepository privilegeMenuRepository = new PrivilegeMenuRepository();
+            try
+            {
+                List<Privilege> privileges = privilegeRepository.GetListBy(new Privilege() { PrivilegeDesc = roleName}, "PrivilegeDesc");
+                foreach (var item in privileges)
+                {
+                    List<PrivilegeMenu> privMenus = privilegeMenuRepository.GetListBy(new PrivilegeMenu() { PrivilegeName = item.PrivilegeName }, "PrivilegeName");
+                    commonRep.resultList.AddRange(privMenus);
+                }
             }
             catch (Exception ex)
             {

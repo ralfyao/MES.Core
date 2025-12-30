@@ -11,6 +11,7 @@ namespace MES.Core.Repository
         public static string ConnStr = Constant.CONNECTION_STRING;
         public List<T> GetList(T t);
         public List<T> GetListBy(T t, string propName);
+        public List<T> GetListBy(T t, List<string> propName);
         public List<T> GetListLike(T t, string propName);
         public T GetUnique(T t);
         public int Delete(T t);

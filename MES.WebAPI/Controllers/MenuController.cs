@@ -123,5 +123,23 @@ namespace MES.WebAPI.Controllers
             }
             return rep;
         }
+        [HttpGet]
+        [Route("api/GetRoleList")]
+        public CommonRep<Privilege> GetRoleList()
+        {
+            CommonRep<Privilege> commonRep = new CommonRep<Privilege>();
+            try
+            {
+                PrivilegeRepository privilegeRepository = new PrivilegeRepository();
+                commonRep.resultList = privilegeRepository.GetList(null);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
     }
 }

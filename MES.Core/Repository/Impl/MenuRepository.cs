@@ -210,5 +210,33 @@ namespace MES.Core.Repository.Impl
             }
             return list;
         }
+
+        public List<Menu> GetListBy(Menu t, List<string> propName)
+        {
+            List<Menu> list = new List<Menu>();
+            try
+            {
+                string sql = @"SELECT * FROM Menu WHERE 1=1";
+                if (t != null)
+                {
+                    propName.ForEach(x =>
+                    {
+                        sql += $" AND {x} = @{x}";
+                    });
+                }
+                var parameters = new DynamicParameters(t);
+                using (var conn = new SqlConnection(IRepository<Menu>.ConnStr))
+                {
+                    conn.Open();
+                    var result = conn.Query<Menu>(sql, parameters);
+                    list = result.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+            }
+            return list;
+        }
     }
 }

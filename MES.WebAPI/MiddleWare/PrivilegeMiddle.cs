@@ -87,6 +87,7 @@ namespace MES.WebAPI.MiddleWare
             queryCondition.PrivilegeName = idStr;
             queryCondition.CreateDate = null;
             Privilege privilege = privilegeRepository.GetListBy(queryCondition, "PrivilegeName").FirstOrDefault();
+            
             privilegeRepository.DeleteBy(privilege, "PrivilegeName");
 
             PrivilegeMenuRepository privilegeMenuRepository = new PrivilegeMenuRepository();

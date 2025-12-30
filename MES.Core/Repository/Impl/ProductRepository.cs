@@ -92,6 +92,41 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
+        public List<Product> GetListBy(Product t, List<string> propName)
+        {
+            List<Product> list = new List<Product>();
+            try
+            {
+                string sql = @"SELECT * FROM Product WHERE 1=1";
+                if (t != null)
+                {
+                    using (var conn = new SqlConnection(IRepository<Product>.ConnStr))
+                    {
+                        conn.Open();
+                        var parameters = new DynamicParameters(t);
+                        propName.ForEach(x => {
+                            if (!string.IsNullOrEmpty(x))
+                                sql += $" AND {x} = @{x}";
+                        });
+                        list = conn.Query<Product>(sql, parameters).ToList();
+                    }
+                }
+                else
+                {
+                    using (var conn = new SqlConnection(IRepository<Product>.ConnStr))
+                    {
+                        conn.Open();
+                        list = conn.Query<Product>(sql).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex + ex.StackTrace);
+            }
+            return list;
+        }
+
         public List<Product> GetListLike(Product t, string propName)
         {
             List<Product> list = new List<Product>();

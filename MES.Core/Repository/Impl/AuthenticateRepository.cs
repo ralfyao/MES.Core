@@ -97,6 +97,44 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
+        public List<Authenticate> GetListBy(Authenticate t, List<string> propName)
+        {
+            List<Authenticate> list = new List<Authenticate>();
+            try
+            {
+                string sql = @"SELECT * FROM Authenticate WHERE 1=1";
+                if (t != null)
+                {
+                    using (var conn = new SqlConnection(IRepository<Authenticate>.ConnStr))
+                    {
+                        conn.Open();
+                        var parameters = new DynamicParameters(t);
+                        propName.ForEach(x =>
+                        {
+                            if (!string.IsNullOrEmpty(x))
+                            {
+                                sql += $" AND {x} = @{x}";
+                            }
+                        });
+                        list = conn.Query<Authenticate>(sql, parameters).ToList();
+                    }
+                }
+                else
+                {
+                    using (var conn = new SqlConnection(IRepository<Authenticate>.ConnStr))
+                    {
+                        conn.Open();
+                        list = conn.Query<Authenticate>(sql).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex + ex.StackTrace);
+            }
+            return list;
+        }
+
         public List<Authenticate> GetListLike(Authenticate t, string propName)
         {
             List<Authenticate> list = new List<Authenticate>();
