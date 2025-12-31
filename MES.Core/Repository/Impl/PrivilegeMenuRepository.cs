@@ -95,15 +95,42 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
-        public List<PrivilegeMenu> GetListBy(PrivilegeMenu t, string propName)
+        public List<PrivilegeMenu> GetListBy(PrivilegeMenu t, string propName, string fields = "")
         {
             List<PrivilegeMenu> list = new List<PrivilegeMenu>();
             try
             {
-                string sql = @"SELECT * FROM PrivilegeMenu WHERE 1=1";
+                string sql = $@"SELECT {(string.IsNullOrEmpty(fields)?"*":fields)} FROM PrivilegeMenu WHERE 1=1";
                 if (t != null)
                 {
                     sql += $" AND {propName} = @{propName}";
+                }
+                var parameters = new DynamicParameters(t);
+                using (var conn = new SqlConnection(IRepository<Privilege>.ConnStr))
+                {
+                    conn.Open();
+                    var result = conn.Query<PrivilegeMenu>(sql, parameters);
+                    list = result.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+            }
+            return list;
+        }
+
+        public List<PrivilegeMenu> GetListBy(PrivilegeMenu t, List<string> propName, string fields = "")
+        {
+            List<PrivilegeMenu> list = new List<PrivilegeMenu>();
+            try
+            {
+                string sql = $@"SELECT {(string.IsNullOrEmpty(fields) ? "*" : fields)} FROM PrivilegeMenu WHERE 1=1";
+                if (t != null)
+                {
+                    propName.ForEach(x => {
+                        sql += $" AND {x} = @{x}";
+                    });
                 }
                 var parameters = new DynamicParameters(t);
                 using (var conn = new SqlConnection(IRepository<Privilege>.ConnStr))
@@ -134,6 +161,31 @@ namespace MES.Core.Repository.Impl
                             sql += $" AND {x} = @{x}";
                         }
                     });
+                }
+                var parameters = new DynamicParameters(t);
+                using (var conn = new SqlConnection(IRepository<Privilege>.ConnStr))
+                {
+                    conn.Open();
+                    var result = conn.Query<PrivilegeMenu>(sql, parameters);
+                    list = result.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+            }
+            return list;
+        }
+
+        public List<PrivilegeMenu> GetListBy(PrivilegeMenu t, string propName)
+        {
+            List<PrivilegeMenu> list = new List<PrivilegeMenu>();
+            try
+            {
+                string sql = $@"SELECT * FROM PrivilegeMenu WHERE 1=1";
+                if (t != null)
+                {
+                    sql += $" AND {propName} = @{propName}";
                 }
                 var parameters = new DynamicParameters(t);
                 using (var conn = new SqlConnection(IRepository<Privilege>.ConnStr))
