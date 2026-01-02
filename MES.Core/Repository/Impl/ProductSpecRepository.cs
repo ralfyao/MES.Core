@@ -12,19 +12,19 @@ using System.Threading.Tasks;
 
 namespace MES.Core.Repository.Impl
 {
-    public class ProductRepository : IRepository<Product>
+    public class ProductSpecRepository:IRepository<ProductSpec>
     {
-        private static ILog logger = LogManager.GetLogger(typeof(ProductRepository));
-        public ProductRepository()
+        private static ILog logger = LogManager.GetLogger(typeof(ProductSpecRepository));
+        public ProductSpecRepository() 
         {
             XmlConfigurator.Configure(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config"));
         }
-        public int Delete(Product t)
+        public int Delete(ProductSpec t)
         {
             int delCnt = 0;
             try
             {
-                string sql = @"DELETE FROM Product WHERE ID=@ID";
+                string sql = @"DELETE FROM ProductSpec WHERE ID=@ID";
 
                 var parameters = new DynamicParameters(t);
                 using (var conn = new SqlConnection(IRepository<Product>.ConnStr))
@@ -39,22 +39,21 @@ namespace MES.Core.Repository.Impl
             }
             return delCnt;
         }
-
-        public List<Product> GetList(Product t)
+        public List<ProductSpec> GetList(ProductSpec t)
         {
-            List<Product> prodList = new List<Product>();
+            List<ProductSpec> prodList = new List<ProductSpec>();
             try
             {
-                using (var conn = new SqlConnection(IRepository<Authenticate>.ConnStr))
+                using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
                 {
                     conn.Open();
-                    string sql = "SELECT * FROM Product WHERE 1=1 ";
+                    string sql = "SELECT * FROM ProductSpec WHERE 1=1 ";
                     if (t != null)
                     {
-                        sql += " AND ProductId like @ProductId + '%'";
+                        sql += " AND ProductSpecId like @ProductSpecId + '%'";
                     }
                     var parameters = new DynamicParameters(t);
-                    var result = conn.Query<Product>(sql, parameters);
+                    var result = conn.Query<ProductSpec>(sql, parameters);
                     prodList.AddRange(result);
                 }
             }
@@ -64,21 +63,20 @@ namespace MES.Core.Repository.Impl
             }
             return prodList;
         }
-
-        public List<Product> GetListBy(Product t, string propName)
+        public List<ProductSpec> GetListBy(ProductSpec t, string propName)
         {
-            List<Product> list = new List<Product>();
+            List<ProductSpec> list = new List<ProductSpec>();
             try
             {
-                string sql = @"SELECT * FROM Product WHERE 1=1";
+                string sql = @"SELECT * FROM ProductSpec WHERE 1=1";
                 if (t != null)
                 {
-                    using (var conn = new SqlConnection(IRepository<Product>.ConnStr))
+                    using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
                     {
                         conn.Open();
                         var parameters = new DynamicParameters(t);
                         sql += $" AND {propName} = @{propName}";
-                        list = conn.Query<Product>(sql, parameters).ToList();
+                        list = conn.Query<ProductSpec>(sql, parameters).ToList();
                     }
                 }
                 else
@@ -86,7 +84,7 @@ namespace MES.Core.Repository.Impl
                     using (var conn = new SqlConnection(IRepository<Product>.ConnStr))
                     {
                         conn.Open();
-                        list = conn.Query<Product>(sql).ToList();
+                        list = conn.Query<ProductSpec>(sql).ToList();
                     }
                 }
             }
@@ -96,16 +94,15 @@ namespace MES.Core.Repository.Impl
             }
             return list;
         }
-
-        public List<Product> GetListBy(Product t, List<string> propName)
+        public List<ProductSpec> GetListBy(ProductSpec t, List<string> propName)
         {
-            List<Product> list = new List<Product>();
+            List<ProductSpec> list = new List<ProductSpec>();
             try
             {
                 string sql = @"SELECT * FROM Product WHERE 1=1";
                 if (t != null)
                 {
-                    using (var conn = new SqlConnection(IRepository<Product>.ConnStr))
+                    using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
                     {
                         conn.Open();
                         var parameters = new DynamicParameters(t);
@@ -113,15 +110,15 @@ namespace MES.Core.Repository.Impl
                             if (!string.IsNullOrEmpty(x))
                                 sql += $" AND {x} = @{x}";
                         });
-                        list = conn.Query<Product>(sql, parameters).ToList();
+                        list = conn.Query<ProductSpec>(sql, parameters).ToList();
                     }
                 }
                 else
                 {
-                    using (var conn = new SqlConnection(IRepository<Product>.ConnStr))
+                    using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
                     {
                         conn.Open();
-                        list = conn.Query<Product>(sql).ToList();
+                        list = conn.Query<ProductSpec>(sql).ToList();
                     }
                 }
             }
@@ -131,29 +128,62 @@ namespace MES.Core.Repository.Impl
             }
             return list;
         }
-
-        public List<Product> GetListLike(Product t, string propName)
+        public List<ProductSpec> GetListBy(ProductSpec t, List<string> propName, string fields ="")
         {
-            List<Product> list = new List<Product>();
+            List<ProductSpec> list = new List<ProductSpec>();
+            try
+            {
+                string sql = $@"SELECT {(string.IsNullOrEmpty(fields)?"*":fields)} FROM Product WHERE 1=1";
+                if (t != null)
+                {
+                    using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
+                    {
+                        conn.Open();
+                        var parameters = new DynamicParameters(t);
+                        propName.ForEach(x => {
+                            if (!string.IsNullOrEmpty(x))
+                                sql += $" AND {x} = @{x}";
+                        });
+                        list = conn.Query<ProductSpec>(sql, parameters).ToList();
+                    }
+                }
+                else
+                {
+                    using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
+                    {
+                        conn.Open();
+                        list = conn.Query<ProductSpec>(sql).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex + ex.StackTrace);
+            }
+            return list;
+        }
+        public List<ProductSpec> GetListLike(ProductSpec t, string propName)
+        {
+            List<ProductSpec> list = new List<ProductSpec>();
             try
             {
                 string sql = @"SELECT * FROM Product WHERE 1=1";
                 if (t != null)
                 {
-                    using (var conn = new SqlConnection(IRepository<Product>.ConnStr))
+                    using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
                     {
                         conn.Open();
                         var parameters = new DynamicParameters(t);
                         sql += $" AND {propName} like @{propName}+'%'";
-                        list = conn.Query<Product>(sql, parameters).ToList();
+                        list = conn.Query<ProductSpec>(sql, parameters).ToList();
                     }
                 }
                 else
                 {
-                    using (var conn = new SqlConnection(IRepository<Product>.ConnStr))
+                    using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
                     {
                         conn.Open();
-                        list = conn.Query<Product>(sql).ToList();
+                        list = conn.Query<ProductSpec>(sql).ToList();
                     }
                 }
             }
@@ -163,19 +193,18 @@ namespace MES.Core.Repository.Impl
             }
             return list;
         }
-
-        public Product GetUnique(Product t)
+        public ProductSpec GetUnique(ProductSpec t)
         {
-            Product? data = new Product();
+            ProductSpec? data = new ProductSpec();
             try
             {
-                using (var conn = new SqlConnection(IRepository<Product>.ConnStr))
+                using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
                 {
                     conn.Open();
-                    data = conn.QueryFirstOrDefault<Product>("SELECT * FROM Product WHERE ID = @ID",
+                    data = conn.QueryFirstOrDefault<ProductSpec>("SELECT * FROM ProductSpec WHERE ID = @ID",
                         new
                         {
-                            Account = t.ID,
+                            ID = t.ID,
                         }
                     );
                 }
@@ -186,39 +215,35 @@ namespace MES.Core.Repository.Impl
             }
             return data;
         }
-
-        public int Insert(Product t)
+        public int Insert(ProductSpec t)
         {
             int insertCnt = 0;
             try
             {
-                var sql = @"INSERT INTO dbo.Product
+                var sql = @"INSERT INTO dbo.ProductSpec
                             (
                                 ID,
-                                ProductId,
-                                ProductName,
-                                ProductDescription,
-                                ProductVersion,
-                                ProductSpec,
+                                ProductGroupId,
+                                ProductSpecName,
+                                ProductSpecValue,
                                 CreateUser,
                                 CreateDate,
                                 ModifyUser,
                                 ModifyDate
                             )
                             VALUES
-                            (   @ID                     ,
-                                @ProductId              ,
-                                @ProductName            ,
-                                @ProductDescription     ,
-                                @ProductVersion         ,
-                                @ProductSpec            ,
-                                @CreateUser             ,
-                                @CreateDate             ,
-                                @ModifyUser             ,
-                                @ModifyDate             
+                            (   
+                                @ID,
+                                @ProductGroupId,
+                                @ProductSpecName,
+                                @ProductSpecValue,
+                                @CreateUser,
+                                @CreateDate,
+                                @ModifyUser,
+                                @ModifyDate
                                 )
                         SELECT @@IDENTITY;";
-                using (var conn = new SqlConnection(IRepository<Authenticate>.ConnStr))
+                using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
                 {
                     conn.Open();
                     var result = conn.QueryFirstOrDefault<int>(sql, t);
@@ -231,23 +256,20 @@ namespace MES.Core.Repository.Impl
             }
             return insertCnt;
         }
-
-        public int Update(Product t)
+        public int Update(ProductSpec t)
         {
             int updateCnt = 0;
             try
             {
                 var sql = @"UPDATE dbo.Product
                                 SET 
-	                            ProductId				= @ProductId				,
-                                ProductName				= @ProductName				,
-                                ProductDescription		= @ProductDescription		,
-                                ProductVersion			= @ProductVersion			,		
-                                ProductSpec				= @ProductSpec				,
-                                CreateUser				= @CreateUser				,
-                                CreateDate				= @CreateDate				,
-                                ModifyUser				= @ModifyUser				,
-                                ModifyDate				= @ModifyDate
+	                            ProductGroupId      = @ProductGroupId,
+                                ProductSpecName     = @ProductSpecName,
+                                ProductSpecValue    = @ProductSpecValue,
+                                CreateUser          = @CreateUser,
+                                CreateDate          = @CreateDate,
+                                ModifyUser          = @ModifyUser,
+                                ModifyDate          = @ModifyDate
 	                            WHERE ID=@ID";
                 var parameters = new DynamicParameters(t);
                 using (var conn = new SqlConnection(IRepository<Authenticate>.ConnStr))
