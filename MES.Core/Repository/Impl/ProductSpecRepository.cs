@@ -19,6 +19,7 @@ namespace MES.Core.Repository.Impl
         {
             XmlConfigurator.Configure(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config"));
         }
+
         public int Delete(ProductSpec t)
         {
             int delCnt = 0;
@@ -39,6 +40,7 @@ namespace MES.Core.Repository.Impl
             }
             return delCnt;
         }
+
         public List<ProductSpec> GetList(ProductSpec t)
         {
             List<ProductSpec> prodList = new List<ProductSpec>();
@@ -63,6 +65,7 @@ namespace MES.Core.Repository.Impl
             }
             return prodList;
         }
+
         public List<ProductSpec> GetListBy(ProductSpec t, string propName)
         {
             List<ProductSpec> list = new List<ProductSpec>();
@@ -94,6 +97,7 @@ namespace MES.Core.Repository.Impl
             }
             return list;
         }
+
         public List<ProductSpec> GetListBy(ProductSpec t, List<string> propName)
         {
             List<ProductSpec> list = new List<ProductSpec>();
@@ -128,7 +132,7 @@ namespace MES.Core.Repository.Impl
             }
             return list;
         }
-        public List<ProductSpec> GetListBy(ProductSpec t, List<string> propName, string fields ="")
+        public List<ProductSpec> GetListBy(ProductSpec t, List<string> propName, string fields ="*")
         {
             List<ProductSpec> list = new List<ProductSpec>();
             try
@@ -162,6 +166,7 @@ namespace MES.Core.Repository.Impl
             }
             return list;
         }
+
         public List<ProductSpec> GetListLike(ProductSpec t, string propName)
         {
             List<ProductSpec> list = new List<ProductSpec>();
@@ -193,6 +198,7 @@ namespace MES.Core.Repository.Impl
             }
             return list;
         }
+
         public ProductSpec GetUnique(ProductSpec t)
         {
             ProductSpec? data = new ProductSpec();
@@ -215,6 +221,7 @@ namespace MES.Core.Repository.Impl
             }
             return data;
         }
+
         public int Insert(ProductSpec t)
         {
             int insertCnt = 0;
@@ -222,10 +229,11 @@ namespace MES.Core.Repository.Impl
             {
                 var sql = @"INSERT INTO dbo.ProductSpec
                             (
-                                ID,
-                                ProductGroupId,
+                                ProductSpecId,
                                 ProductSpecName,
                                 ProductSpecValue,
+                                ProductSpecMaxValue,
+                                ProductSpecMinValue,
                                 CreateUser,
                                 CreateDate,
                                 ModifyUser,
@@ -233,14 +241,15 @@ namespace MES.Core.Repository.Impl
                             )
                             VALUES
                             (   
-                                @ID,
-                                @ProductGroupId,
+                                @ProductSpecId,
                                 @ProductSpecName,
                                 @ProductSpecValue,
+                                @ProductSpecMaxValue,
+                                @ProductSpecMinValue,
                                 @CreateUser,
-                                @CreateDate,
+                                GETDATE(),
                                 @ModifyUser,
-                                @ModifyDate
+                                GETDATE()
                                 )
                         SELECT @@IDENTITY;";
                 using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
@@ -256,6 +265,7 @@ namespace MES.Core.Repository.Impl
             }
             return insertCnt;
         }
+
         public int Update(ProductSpec t)
         {
             int updateCnt = 0;

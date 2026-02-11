@@ -66,32 +66,22 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
-        public List<MenuSub> GetListBy(MenuSub t, List<string> propertyName)
+        public List<MenuSub> GetListBy(MenuSub t, string propName, string fields = "")
         {
             List<MenuSub> list = new List<MenuSub>();
             try
             {
-                string sql = @"SELECT * FROM MenuSub WHERE 1=1";
+                string sql = $@"SELECT {(string.IsNullOrEmpty(fields) ? "*" : fields)} FROM MenuSub WHERE 1=1";
                 if (t != null)
                 {
-                    var parameters = new DynamicParameters(t);
-                    using (var conn = new SqlConnection(IRepository<MenuSub>.ConnStr))
-                    {
-                        conn.Open();
-                        propertyName.ForEach(x =>
-                        {
-                            sql += $" AND {x} = @{x}";
-                        });
-                        list = conn.Query<MenuSub>(sql, parameters).ToList();
-                    }
+                    sql += $" AND {propName} = @{propName}";
                 }
-                else
+                var parameters = new DynamicParameters(t);
+                using (var conn = new SqlConnection(IRepository<MenuSub>.ConnStr))
                 {
-                    using (var conn = new SqlConnection(IRepository<MenuSub>.ConnStr))
-                    {
-                        conn.Open();
-                        list = conn.Query<MenuSub>(sql).ToList();
-                    }
+                    conn.Open();
+                    var result = conn.Query<MenuSub>(sql, parameters);
+                    list = result.ToList();
                 }
             }
             catch (Exception ex)
@@ -114,11 +104,19 @@ namespace MES.Core.Repository.Impl
                 using (var conn = new SqlConnection(IRepository<MenuSub>.ConnStr))
                 {
                     conn.Open();
-                    var result = conn.Query<MenuSub>(sql, new
+                    if (t != null)
                     {
-                        id = t.ID
-                    });
-                    list = result.ToList();
+                        var result = conn.Query<MenuSub>(sql, new
+                        {
+                            id = t.ID
+                        });
+                        list = result.ToList();
+                    }
+                    else
+                    {
+                        var result = conn.Query<MenuSub>(sql);
+                        list = result.ToList();
+                    }
                 }
             }
             catch (Exception ex)
@@ -231,6 +229,44 @@ namespace MES.Core.Repository.Impl
                         conn.Open();
                         var parameters = new DynamicParameters(t);
                         sql += $" AND {propName} like @{propName}+'%'";
+                        list = conn.Query<MenuSub>(sql, parameters).ToList();
+                    }
+                }
+                else
+                {
+                    using (var conn = new SqlConnection(IRepository<MenuSub>.ConnStr))
+                    {
+                        conn.Open();
+                        list = conn.Query<MenuSub>(sql).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+            }
+            return list;
+        }
+
+        public List<MenuSub> GetListBy(MenuSub t, List<string> propName)
+        {
+            List<MenuSub> list = new List<MenuSub>();
+            try
+            {
+                string sql = @"SELECT * FROM MenuSub WHERE 1=1";
+                if (t != null)
+                {
+                    var parameters = new DynamicParameters(t);
+                    using (var conn = new SqlConnection(IRepository<MenuSub>.ConnStr))
+                    {
+                        conn.Open();
+                        propName.ForEach(x =>
+                        {
+                            if (!string.IsNullOrEmpty(x))
+                            {
+                                sql += $" AND {x} = @{x}";
+                            }
+                        });
                         list = conn.Query<MenuSub>(sql, parameters).ToList();
                     }
                 }

@@ -81,11 +81,19 @@ namespace MES.Core.Repository.Impl
                 using (var conn = new SqlConnection(IRepository<PrivilegeMenu>.ConnStr))
                 {
                     conn.Open();
-                    var result = conn.Query<PrivilegeMenu>(sql, new
+                    if (t != null)
                     {
-                        id = t.ID
-                    });
-                    list = result.ToList();
+                        var result = conn.Query<PrivilegeMenu>(sql, new
+                        {
+                            id = t.ID
+                        });
+                        list = result.ToList();
+                    }
+                    else
+                    {
+                        var result = conn.Query<PrivilegeMenu>(sql);
+                        list = result.ToList();
+                    }
                 }
             }
             catch (Exception ex)
@@ -120,16 +128,19 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
-        public List<PrivilegeMenu> GetListBy(PrivilegeMenu t, List<string> propName, string fields = "")
+        public List<PrivilegeMenu> GetListBy(PrivilegeMenu t, List<string> propName)
         {
             List<PrivilegeMenu> list = new List<PrivilegeMenu>();
             try
             {
-                string sql = $@"SELECT {(string.IsNullOrEmpty(fields) ? "*" : fields)} FROM PrivilegeMenu WHERE 1=1";
+                string sql = @"SELECT * FROM PrivilegeMenu WHERE 1=1";
                 if (t != null)
                 {
                     propName.ForEach(x => {
-                        sql += $" AND {x} = @{x}";
+                        if (!string.IsNullOrEmpty(x))
+                        {
+                            sql += $" AND {x} = @{x}";
+                        }
                     });
                 }
                 var parameters = new DynamicParameters(t);
@@ -147,12 +158,12 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
-        public List<PrivilegeMenu> GetListBy(PrivilegeMenu t, List<string> propName)
+        public List<PrivilegeMenu> GetListBy(PrivilegeMenu t, List<string> propName, string fields = "")
         {
             List<PrivilegeMenu> list = new List<PrivilegeMenu>();
             try
             {
-                string sql = @"SELECT * FROM PrivilegeMenu WHERE 1=1";
+                string sql = $@"SELECT {(string.IsNullOrEmpty(fields)?"*":fields)} FROM PrivilegeMenu WHERE 1=1";
                 if (t != null)
                 {
                     propName.ForEach(x => {

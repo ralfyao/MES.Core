@@ -97,10 +97,10 @@ namespace MES.WebAPI.Controllers
             PrivilegeMenuRepository privilegeMenuRepository = new PrivilegeMenuRepository();
             try
             {
-                List<Privilege> privileges = privilegeRepository.GetListBy(new Privilege() { PrivilegeDesc = roleName}, "PrivilegeDesc");
+                List<Privilege> privileges = privilegeRepository.GetListBy(new Privilege() { PrivilegeDesc = roleName }, "PrivilegeDesc", " DISTINCT PrivilegeName ");
                 foreach (var item in privileges)
                 {
-                    List<PrivilegeMenu> privMenus = privilegeMenuRepository.GetListBy(new PrivilegeMenu() { PrivilegeName = item.PrivilegeName }, "PrivilegeName");
+                    List<PrivilegeMenu> privMenus = privilegeMenuRepository.GetListBy(new PrivilegeMenu() { PrivilegeName = item.PrivilegeName }, "PrivilegeName", " DISTINCT MenuID, MenuSubID");
                     commonRep.resultList.AddRange(privMenus);
                 }
             }

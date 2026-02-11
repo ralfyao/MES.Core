@@ -1,4 +1,5 @@
-﻿
+﻿using log4net;
+using log4net.Config;
 using MES.Core.Model;
 using MES.Core.Repository.Impl;
 using MES.WebAPI.Models;
@@ -8,6 +9,11 @@ namespace MES.WebAPI.MiddleWare
 {
     public class PrivilegeMiddle
     {
+        private static ILog logger = LogManager.GetLogger(typeof(PrivilegeMiddle));
+        public PrivilegeMiddle() 
+        {
+            XmlConfigurator.Configure(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config"));
+        }
         public bool checkRoleName(string roleName)
         {
             PrivilegeRepository privilegeRepository = new PrivilegeRepository();

@@ -14,6 +14,7 @@ namespace MES.WebAPI.Controllers
         {
             XmlConfigurator.Configure(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config"));
         }
+        #region 產品
         /// <summary>
         /// 產品列表
         /// </summary>
@@ -35,6 +36,8 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        #endregion
+        #region 產品規格
         /// <summary>
         /// 產品規格列表
         /// </summary>
@@ -56,5 +59,28 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/AddProductSpec"), HttpPost]
+        public CommonRep<int> ProductSpecAdd([FromBody]ProductSpecReq spec) 
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            try
+            {
+                spec.productSpecId = Guid.NewGuid().ToString();
+                ProductMiddle productMiddle = new ProductMiddle();
+                commonRep.result = productMiddle.AddProductSpec(spec);
+                if (commonRep.result == 0)
+                {
+                    commonRep.ErrorMessage = "寫入資料有誤";
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(commonRep.ErrorMessage);
+            }
+            return commonRep;
+        }
+        #endregion
     }
 }

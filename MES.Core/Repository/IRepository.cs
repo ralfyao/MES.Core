@@ -15,7 +15,9 @@ namespace MES.Core.Repository
         public List<T> GetListLike(T t, string propName);
         public T GetUnique(T t);
         public int Delete(T t);
+
         public int Insert(T t);
+
         public int Update(T t);
     }
 }
