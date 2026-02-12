@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MES.MiddleWare\MES.MiddleWare\MES.MiddleWare.csproj" />
     <ProjectReference Include="..\MES.Core\MES.Core.csproj" />
   </ItemGroup>
 
