@@ -3,6 +3,7 @@ using MES.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,6 +93,7 @@ namespace MES.Core.Repository.Impl
         /// <returns></returns>
         public override int Insert(C客戶設定 t)
         {
+            
             using(SqlConnection conn = new SqlConnection(IRepository<C客戶設定>.ConnStr))
             {
                 conn.Open();
@@ -164,6 +166,10 @@ namespace MES.Core.Repository.Impl
                         {
                             data.COMPANY = t.COMPANY;
                         }
+                        data.姓名 = data.姓名 == null ? "" : data.姓名;
+                        data.職稱 = data.職稱 == null ? "" : data.職稱;
+                        data.電話 = data.電話 == null ? "" : data.電話;
+                        data.EMAIL = data.EMAIL == null ? "" : data.EMAIL;
                         sql = @"INSERT INTO dbo.C客戶連絡人清單
                                                 (
                                                     COMPANY,
@@ -191,6 +197,8 @@ namespace MES.Core.Repository.Impl
                         {
                             data.COMPANY = t.COMPANY;
                         }
+
+                        data.日期 = DateTime.ParseExact(data.日期.Replace("/", "-"), "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
                         sql = @"INSERT INTO C客戶聯絡明細
                                             (
                                                 COMPANY,

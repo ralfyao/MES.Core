@@ -157,7 +157,13 @@ namespace MES.MiddleWare.Modules
             try
             {
                 RFQRepository customerRepository = new RFQRepository();
+                //CommonRepository<H員工清冊> commonRepository = new CommonRepository<H員工清冊>();
+                //List<H員工清冊> employees = commonRepository.GetList(null);
                 Lst = customerRepository.GetList(null);
+                //foreach(var data in Lst)
+                //{
+                //    data.SALES = employees.Where(x => x.工號 == data.SALES).FirstOrDefault()?.姓名;  
+                //}
             }
             catch (Exception ex)
             {
@@ -287,15 +293,47 @@ namespace MES.MiddleWare.Modules
             return rfqNo;
         }
 
+        public string getQuono()
+        {
+            string rfqNo = string.Empty;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    string strSQL = $"SELECT COUNT(0) FROM C報價單 WHERE QUONO LIKE 'DC{DateTime.Now.ToString("yyyy")}%'";
+                    List<string> ls = conn.Query<string>(strSQL).ToList();
+                    if (ls.Count() > 0)
+                    {
+                        var count = int.Parse(ls[0]);
+                        count++;
+                        rfqNo = $"DC{DateTime.Now.ToString("yyyy")}{count.ToString("000")}";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return rfqNo;
+        }
+
         public List<C報價單> getQuotationList(string rfqNo)
         {
             List<C報價單> ls = new List<C報價單>();
             try
             {
-                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                if (!string.IsNullOrEmpty(rfqNo))
                 {
-                    string strSQL = $"SELECT * FROM C報價單 WHERE RFQNO = '{rfqNo}'";
-                    ls = conn.Query<C報價單>(strSQL).ToList();
+                    using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                    {
+                        string strSQL = $"SELECT * FROM C報價單 WHERE RFQNO = '{rfqNo}'";
+                        ls = conn.Query<C報價單>(strSQL).ToList();
+                    }
+                }
+                else
+                {
+                    CommonRepository<C報價單> commonRepository = new CommonRepository<C報價單>();
+                    ls = commonRepository.GetList(null);
                 }
             }
             catch (Exception ex)
@@ -361,6 +399,237 @@ namespace MES.MiddleWare.Modules
                 throw ex;
             }
             return ls;
+        }
+
+        public int insertRfq(C客戶詢問函 custInqForm)
+        {
+            int retCode = 0;
+            try
+            {
+                CustInquireyFormRepository custInquireyFormRepository = new CustInquireyFormRepository();
+                retCode = custInquireyFormRepository.Insert(custInqForm);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return retCode;
+        }
+
+        public int UpdateRfq(C客戶詢問函 custInqForm)
+        {
+            int retCode = 0;
+            try
+            {
+                CustInquireyFormRepository custInquireyFormRepository = new CustInquireyFormRepository();
+                retCode = custInquireyFormRepository.Update(custInqForm);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return retCode;
+        }
+
+        public int DeleteRfq(string rfqNo)
+        {
+            int retCode = 0;
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    conn.Execute($"DELETE FROM C客戶詢問函 WHERE RFQNO='{rfqNo}'");
+                }
+            }
+            catch (Exception ex)
+            {
+                retCode = 1;
+            }
+            return retCode;
+        }
+
+        public List<A機台類型> getEqpType()
+        {
+            List<A機台類型> list = new List<A機台類型>();
+            try
+            {
+                CommonRepository<A機台類型> commonRepository = new CommonRepository<A機台類型>();
+                list = commonRepository.GetList(null);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
+        public List<F幣別> getCurrencyList()
+        {
+            List<F幣別> list = new List<F幣別>();
+            try
+            {
+                CommonRepository<F幣別> commonRepository = new CommonRepository<F幣別>();
+                list = commonRepository.GetList(null);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
+        public List<F匯率> getExRateList(string currency)
+        {
+            List<F匯率> list = new List<F匯率>();
+            try
+            {
+                CommonRepository<F匯率> commonRepository = new CommonRepository<F匯率>();
+                list.Add(commonRepository.GetList(null).Where(x => x.CURRENCY == currency).OrderByDescending(x => x.日期).FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
+        public List<F訂單交易條件> getTxCondition(string condition)
+        {
+            List<F訂單交易條件> fs = new List<F訂單交易條件>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    fs = conn.Query<F訂單交易條件>($"SELECT * FROM F訂單交易條件 WHERE 條文編號 LIKE '{condition}%' AND 條文名稱 IS NOT NULL").ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return fs;
+        }
+
+        public int saveQuotation(C報價單 form)
+        {
+            int retCode = 0;
+            try
+            {
+                CustomerQuotationRepository quotationFormRepository = new CustomerQuotationRepository();
+                retCode = quotationFormRepository.Insert(form);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return retCode;
+        }
+
+        public int updateQuotation(C報價單 form)
+        {
+            int retCode = 0;
+            try
+            {
+                CustomerQuotationRepository quotationFormRepository = new CustomerQuotationRepository();
+                retCode = quotationFormRepository.Update(form);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return retCode;
+        }
+
+        public int deleteQuotation(C報價單 form)
+        {
+            int retCode = 0;
+            try
+            {
+                CustomerQuotationRepository quotationFormRepository = new CustomerQuotationRepository();
+                retCode = quotationFormRepository.DeleteQuotation(form);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return retCode;
+        }
+
+        public C報價單 getQuotation(C報價單 quo)
+        {
+            C報價單 retObj = new C報價單();
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                retObj = conn.Query<C報價單>($"SELECT * FROM C報價單 WHERE QUONO='{quo.QUONO}'").FirstOrDefault();
+                retObj.quotationDetailFormList = conn.Query<C報價明細>($"SELECT * FROM C報價明細 WHERE QUONO='{quo.QUONO}'").ToList();
+            }
+            return retObj;
+        }
+
+        public C報價單 updateQuotationExpiry(string? quono, string? type, string? account)
+        {
+            C報價單 ret = new C報價單();
+            try
+            {
+                string sql = $@"UPDATE C報價單 SET 核准='{account}', 核准日=GETDATE() WHERE QUONO='{quono}'";
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    conn.Execute(sql);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return ret;
+        }
+
+        public C客戶詢問函 getRfq(string rfqno)
+        {
+            C客戶詢問函 obj = new C客戶詢問函();
+            try
+            {
+                
+                obj.RFQNO = rfqno;
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    obj = conn.Query<C客戶詢問函>($@"SELECT * FROM C客戶詢問函 WHERE RFQNO='{rfqno}'").FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return obj;
+        }
+
+        public C客戶設定 getCompany(C客戶設定 quo)
+        {
+            C客戶設定 obj = new C客戶設定();
+            try
+            {
+
+                obj.COMPANY = quo.COMPANY;
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    obj = conn.Query<C客戶設定>($@"SELECT * FROM C客戶設定 WHERE COMPANY='{obj.COMPANY}'").FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return obj;
         }
     }
 }

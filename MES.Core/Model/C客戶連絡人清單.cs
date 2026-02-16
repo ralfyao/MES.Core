@@ -12,10 +12,10 @@ namespace MES.Core.Model
         [Key]
         public int 識別碼 {  get; set; }
         public string COMPANY { get; set; }
-        public string 姓名 { get; set; }
-        public string 職稱 { get; set; }
-        public string 電話 { get; set; }
-        public string 分機 { get; set; }
-        public string EMAIL { get; set; }
+        public string? 姓名 { get; set; }
+        public string? 職稱 { get; set; }
+        public string? 電話 { get; set; }
+        public string? 分機 { get; set; }
+        public string? EMAIL { get; set; }
     }
 }

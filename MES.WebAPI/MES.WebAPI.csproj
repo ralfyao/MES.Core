@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MES.Core\MES.Core.csproj" />
+    <ProjectReference Include="..\MES.MiddleWare\MES.MiddleWare.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MES.MiddleWare">
+      <HintPath>..\MES.MiddleWare\bin\Debug\net8.0\MES.MiddleWare.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

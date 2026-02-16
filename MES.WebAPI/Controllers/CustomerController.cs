@@ -8,11 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace MES.WebAPI.Controllers
 {
     /// <summary>
-    /// 負責維護客戶資料的後端程式
+    /// 負責維護
+    /// 1. 客戶資料
+    /// 2. 客戶詢問函
+    /// 3. 客戶報價單
+    /// 的後端程式
     /// </summary>
+    [ApiController]
     public class CustomerController : ControllerBase
     {
         private static ILog logger = LogManager.GetLogger(typeof(ProductionController));
+        #region 客戶資料維護
         public CustomerController()
         {
             XmlConfigurator.Configure(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config"));
@@ -21,7 +27,7 @@ namespace MES.WebAPI.Controllers
         /// 帶出所有客戶
         /// </summary>
         /// <returns></returns>
-        [Route("api/GetCustList"),  HttpGet]
+        [Route("api/GetCustList"), HttpGet]
         public CommonRep<C客戶設定> getCustomerList()
         {
             CommonRep<C客戶設定> commonRep = new CommonRep<C客戶設定>();
@@ -103,9 +109,9 @@ namespace MES.WebAPI.Controllers
         /// <param name="cust"></param>
         /// <returns></returns>
         [Route("api/SaveCustomer"), HttpPost]
-        public CommonRep<C客戶設定> SaveCustomer([FromBody]C客戶設定 cust)
+        public CommonRep<C客戶設定> SaveCustomer([FromBody] C客戶設定 cust)
         {
-            
+
             CommonRep<C客戶設定> commonRep = new CommonRep<C客戶設定>();
             CustomerMiddle custMiddle = new CustomerMiddle();
             try
@@ -244,26 +250,6 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
         /// <summary>
-        /// 取得客戶詢問清單
-        /// </summary>
-        /// <returns></returns>
-        [Route("api/GetSalesRecordList"), HttpGet]
-        public CommonRep<C客戶詢問函> GetSalesRecordList()
-        {
-            CommonRep<C客戶詢問函> commonRep = new CommonRep<C客戶詢問函>();
-            CustomerMiddle customerMiddle = new CustomerMiddle();
-            try
-            {
-                commonRep.resultList = customerMiddle.getSalesRecordList();
-            }
-            catch (Exception ex)
-            {
-                commonRep.ErrorMessage = ex.Message;
-                commonRep.WorkStatus = WorkStatus.Fail.ToString();
-            }
-            return commonRep;
-        }
-        /// <summary>
         /// 取得客戶的公司列表
         /// </summary>
         /// <returns></returns>
@@ -337,7 +323,7 @@ namespace MES.WebAPI.Controllers
         /// <param name="companyName"></param>
         /// <returns></returns>
         [Route("api/GetContactList"), HttpGet]
-        public CommonRep<C客戶連絡人清單> GetContactList(string companyName)
+        public CommonRep<C客戶連絡人清單> GetContactList(string? companyName)
         {
             CommonRep<C客戶連絡人清單> commonRep = new CommonRep<C客戶連絡人清單>();
             try
@@ -352,6 +338,10 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        /// <summary>
+        /// 取得銷售潛力清單
+        /// </summary>
+        /// <returns></returns>
         [Route("api/GetRankingList"), HttpGet]
         public CommonRep<C成交潛力值> GetRankingList()
         {
@@ -368,6 +358,10 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        /// <summary>
+        /// 取得客戶狀態清單
+        /// </summary>
+        /// <returns></returns>
         [Route("api/GetCustStatusList"), HttpGet]
         public CommonRep<C客戶動態> GetCustStatusList()
         {
@@ -385,7 +379,7 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
         /// <summary>
-        /// 
+        /// 取得轉介代理清單
         /// </summary>
         /// <returns></returns>
         [Route("api/GetAgentOptionList"), HttpGet]
@@ -404,6 +398,32 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        #endregion
+        #region 詢價單
+        /// <summary>
+        /// 取得客戶詢問清單
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/GetSalesRecordList"), HttpGet]
+        public CommonRep<C客戶詢問函> GetSalesRecordList()
+        {
+            CommonRep<C客戶詢問函> commonRep = new CommonRep<C客戶詢問函>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getSalesRecordList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 客戶詢問單取號
+        /// </summary>
+        /// <returns></returns>
         [Route("api/GetRfqNo"), HttpGet]
         public CommonRep<string> GetRfqNo()
         {
@@ -415,41 +435,32 @@ namespace MES.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
             }
             return commonRep;
         }
-        [Route("api/GetQuotationList"), HttpGet]
-        public CommonRep<C報價單> GetQuotationList(string rfqNo)
+        [Route("api/GetRfq"), HttpGet]
+        public CommonRep<C客戶詢問函> GetRfq(string rfqno)
         {
-            CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
+            CommonRep< C客戶詢問函> commonRep = new CommonRep<C客戶詢問函>();
             try
             {
                 CustomerMiddle customerMiddle = new CustomerMiddle();
-                commonRep.resultList = customerMiddle.getQuotationList(rfqNo).ToList();
+                commonRep.result = customerMiddle.getRfq(rfqno);
             }
             catch (Exception ex)
             {
-                throw;
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
             }
             return commonRep;
         }
-
-        [Route("api/GetQuotationDetailList"), HttpGet]
-        public CommonRep<C報價明細> GetQuotationDetailList(string quono)
-        {
-            CommonRep<C報價明細> commonRep = new CommonRep<C報價明細>();
-            try
-            {
-                CustomerMiddle customerMiddle = new CustomerMiddle();
-                commonRep.resultList = customerMiddle.getQuotationDetailList(quono).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            return commonRep;
-        }
+        /// <summary>
+        /// 取得業務工作紀錄
+        /// </summary>
+        /// <param name="rfqNo"></param>
+        /// <returns></returns>
         [Route("api/GetSalesWorkRecordList"), HttpGet]
         public CommonRep<工作紀錄A> GetSalesWorkRecordList(string rfqNo)
         {
@@ -461,9 +472,392 @@ namespace MES.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
             }
             return commonRep;
         }
+        /// <summary>
+        /// 寫入客戶詢問函
+        /// </summary>
+        /// <param name="custInqForm"></param>
+        /// <returns></returns>
+        [Route("api/SaveRfq"), HttpPost]
+        public CommonRep<C客戶詢問函> SaveRfq([FromBody] C客戶詢問函 custInqForm)
+        {
+            CommonRep<C客戶詢問函> commonRep = new CommonRep<C客戶詢問函>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                int retCode = customerMiddle.insertRfq(custInqForm);
+                if (retCode == 0)
+                {
+                    commonRep.ErrorMessage = "寫入客戶資料失敗，請洽系統管理員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 更新客戶詢問函
+        /// </summary>
+        /// <param name="custInqForm"></param>
+        /// <returns></returns>
+        [Route("api/UpdateRfq"), HttpPost]
+        public CommonRep<C客戶詢問函> UpdateRfq([FromBody] C客戶詢問函 custInqForm)
+        {
+            CommonRep<C客戶詢問函> commonRep = new CommonRep<C客戶詢問函>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                int retCode = customerMiddle.UpdateRfq(custInqForm);
+                if (retCode != 0)
+                {
+                    commonRep.ErrorMessage = "更新客戶資料失敗，請洽系統管理員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 刪除客戶詢問函
+        /// </summary>
+        /// <param name="rfqNo"></param>
+        /// <returns></returns>
+        [Route("api/DeleteRfq"), HttpGet]
+        public CommonRep<C客戶詢問函> DeleteRfq(string rfqNo)
+        {
+            CommonRep<C客戶詢問函> commonRep = new CommonRep<C客戶詢問函>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                int retCode = customerMiddle.DeleteRfq(rfqNo);
+                if (retCode != 0)
+                {
+                    commonRep.ErrorMessage = "刪除客戶資料失敗，請洽系統管理員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        #endregion
+        #region 報價單
+        /// <summary>
+        /// 產生報價單號
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/GetQuono"), HttpGet]
+        public CommonRep<string> GetQuono()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.getQuono();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 依詢問單找報價單
+        /// </summary>
+        /// <param name="rfqNo"></param>
+        /// <returns></returns>
+        [Route("api/GetQuotationList"), HttpGet]
+        public CommonRep<C報價單> GetQuotationList(string? rfqNo)
+        {
+            CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                if (!string.IsNullOrEmpty(rfqNo))
+                {
+                    commonRep.resultList = customerMiddle.getQuotationList(rfqNo).ToList();
+                }
+                else
+                {
+                    commonRep.resultList = customerMiddle.getQuotationList(rfqNo).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 找尋報價單細項資料
+        /// </summary>
+        /// <param name="quono"></param>
+        /// <returns></returns>
+        [Route("api/GetQuotationDetailList"), HttpGet]
+        public CommonRep<C報價明細> GetQuotationDetailList(string quono)
+        {
+            CommonRep<C報價明細> commonRep = new CommonRep<C報價明細>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                commonRep.resultList = customerMiddle.getQuotationDetailList(quono).ToList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 機台類別清單
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/GetEqpType"), HttpGet]
+        public CommonRep<A機台類型> GetEqpType()
+        {
+            CommonRep<A機台類型> commonRep = new CommonRep<A機台類型>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                commonRep.resultList = customerMiddle.getEqpType();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 幣別清單
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/GetCurrencyList"), HttpGet]
+        public CommonRep<F幣別> GetCurrencyList()
+        {
+            CommonRep<F幣別> commonRep = new CommonRep<F幣別>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                commonRep.resultList = customerMiddle.getCurrencyList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                //throw;
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 匯率清單
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <returns></returns>
+        [Route("api/GetExRateList"), HttpGet]
+        public CommonRep<F匯率> GetExRateList(string currency)
+        {
+            CommonRep<F匯率> commonRep = new CommonRep<F匯率>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                commonRep.resultList = customerMiddle.getExRateList(currency);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 稅率清單
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <returns></returns>
+        [Route("api/GetTaxRateList"), HttpGet]
+        public CommonRep<string> GetTaxRateList()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                commonRep.resultList = new string[] { "0", "0.05" }.ToList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 報價單下拉選單資料來源-訂單交易條件
+        /// T:價格條件
+        /// R:交期要求
+        /// D:交貨方式
+        /// Y:付款條件
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        [Route("api/GetTxCondition"), HttpGet]
+        public CommonRep<F訂單交易條件> GetTxCondition(string condition)
+        {
+            CommonRep<F訂單交易條件> commonRep = new CommonRep<F訂單交易條件>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                commonRep.resultList = customerMiddle.getTxCondition(condition);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/SaveQuotation"), HttpPost]
+        public CommonRep<C報價單> SaveQuotation([FromBody] C報價單 form)
+        {
+            CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            int retCode = 0;
+            try
+            {
+                retCode = customerMiddle.saveQuotation(form);
+                if (retCode == 0)
+                {
+                    commonRep.ErrorMessage = "寫入客戶資料失敗，請洽系統管理員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateQuotation"), HttpPost]
+        public CommonRep<C報價單> UpdateQuotation([FromBody] C報價單 form)
+        {
+            CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            int retCode = 0;
+            try
+            {
+                retCode = customerMiddle.updateQuotation(form);
+                if (retCode == 0)
+                {
+                    commonRep.ErrorMessage = "寫入客戶資料失敗，請洽系統管理員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteQuotation"), HttpGet]
+        public CommonRep<C報價單> DeleteQuotation(string quono)
+        {
+            CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
+            C報價單 quo = new C報價單();
+            quo.QUONO = quono;
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            int retCode = 0;
+            try
+            {
+                retCode = customerMiddle.deleteQuotation(quo);
+                if (retCode != 0)
+                {
+                    commonRep.ErrorMessage = "寫入客戶資料失敗，請洽系統管理員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetQuotation"), HttpGet]
+        public CommonRep<C報價單> GetQuotation(string quono)
+        {
+            CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
+            C報價單 quo = new C報價單();
+            quo.QUONO = quono;
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            int retCode = 0;
+            try
+            {
+                quo = customerMiddle.getQuotation(quo);
+                commonRep.result = quo;
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateQuotationExpiry"), HttpGet]
+        public CommonRep<C報價單> UpdateQuotationExpiry(string? quono, string? type, string? account)
+        {
+            CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
+            try
+            {
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                commonRep.result = customerMiddle.updateQuotationExpiry(quono, type, account);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetCompany"), HttpGet]
+        public CommonRep<C客戶設定> GetCompany(string? company)
+        {
+            CommonRep<C客戶設定> commonRep = new CommonRep<C客戶設定>();
+            C客戶設定 quo = new C客戶設定();
+            quo.COMPANY = company;
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            int retCode = 0;
+            try
+            {
+                quo = customerMiddle.getCompany(quo);
+                commonRep.result = quo;
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        #endregion
     }
 }
