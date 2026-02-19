@@ -5,6 +5,7 @@ using MES.Core.Repository.Impl;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,6 +84,21 @@ namespace MES.MiddleWare.Modules
             {
                 CustomerRepository repository = new CustomerRepository();
                 retCode = repository.GetUnique(retCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return retCode;
+        }
+        public C客戶設定 getCustomerByName(string company)
+        {
+            C客戶設定 retCode = new C客戶設定();
+            retCode.COMPANY = company;
+            try
+            {
+                CustomerRepository repository = new CustomerRepository();
+                retCode = repository.GetListBy(retCode, "COMPANY").FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -565,6 +581,9 @@ namespace MES.MiddleWare.Modules
             {
                 conn.Open();
                 retObj = conn.Query<C報價單>($"SELECT * FROM C報價單 WHERE QUONO='{quo.QUONO}'").FirstOrDefault();
+                retObj.CONDATE = !string.IsNullOrEmpty(retObj.CONDATE) ? DateTime.ParseExact(retObj.CONDATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
+                retObj.QUODATE = !string.IsNullOrEmpty(retObj.QUODATE) ? DateTime.ParseExact(retObj.QUODATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
+                retObj.SHIPDATE = !string.IsNullOrEmpty(retObj.SHIPDATE) ? DateTime.ParseExact(retObj.SHIPDATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
                 retObj.quotationDetailFormList = conn.Query<C報價明細>($"SELECT * FROM C報價明細 WHERE QUONO='{quo.QUONO}'").ToList();
             }
             return retObj;
@@ -630,6 +649,181 @@ namespace MES.MiddleWare.Modules
                 throw ex;
             }
             return obj;
+        }
+
+        public int transferToSalesOrder(C報價單 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                CustOrderRepository repository = new CustOrderRepository();
+                C訂單 salesOrder = new C訂單();
+                C客戶詢問函 rfq = getRfqByNo(form.RFQNO);
+                C客戶設定 customer = getCustomerByName(rfq.COMPANY);
+                salesOrder.客戶編號 = customer.正航編號;
+                salesOrder.交貨方式 = form.交貨方式;
+                salesOrder.付款方式 = form.付款方式;
+                salesOrder.交貨日期 = form.交貨日期;
+                salesOrder.日期 = DateTime.Now.ToString("yyyy/MM/dd");
+                salesOrder.幣別 = form.CURRENCY;
+                salesOrder.價格條件 = form.價格條件;
+                salesOrder.佣金 = !string.IsNullOrEmpty(form.COMMISSION) ? decimal.Parse(form.COMMISSION) : 0;
+                salesOrder.指配國別 = customer.COUNTRY;
+                salesOrder.業務員 = form.DADDRESS;
+                salesOrder.單號 = getSalesOrderNo();
+                salesOrder.稅率 = form.CURRENCY == "NTD" ? "0.05" : "0";
+                salesOrder.總額 = form.AMOUNT;
+                salesOrder.orderListDetail = new List<C訂單明細>();
+                foreach (var item in form.quotationDetailFormList)
+                {
+                    C訂單明細 detail = new C訂單明細();
+                    detail.QUONO = form.QUONO;
+                    detail.單價1 = item.單價;
+                    detail.數量1 = item.數量;
+                    detail.金額1 = item.金額;
+                    detail.產品編號 = item.產品編號;
+                    detail.品名規格 = item.品名規格;
+                    detail.單號 = salesOrder.單號;
+                    salesOrder.orderListDetail.Add(detail);
+                }
+                execCnt = repository.Insert(salesOrder);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        public string? getSalesOrderNo()
+        {
+            string salesOrderNo = string.Empty;
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $"SELECT * FROM C訂單 WHERE 單號 LIKE 'SO{DateTime.Now.ToString("yyyyMM")}%'";
+                    List<C訂單> list = conn.Query<C訂單>(sql).ToList();
+                    int count = list.Count();
+                    count++;
+                    salesOrderNo = $"SO{DateTime.Now.ToString("yyyyMM")}{count.ToString("000")}";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return salesOrderNo;
+        }
+
+        private C客戶詢問函 getRfqByNo(string? rFQNO)
+        {
+            C客戶詢問函 retCode = new C客戶詢問函();
+            retCode.RFQNO = rFQNO;
+            try
+            {
+                CustInquireyFormRepository repository = new CustInquireyFormRepository();
+                retCode = repository.GetListBy(retCode, "RFQNO").FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return retCode;
+        }
+
+        public List<C訂單> getSalesOrderList()
+        {
+            List<C訂單> list = new List<C訂單>();
+            try
+            {
+                CustOrderRepository custOrderRepository = new CustOrderRepository();
+                CustOrderDetailRepository detailRepository = new CustOrderDetailRepository();
+                list = custOrderRepository.GetList(null);
+                foreach(var order in list)
+                {
+                    C訂單明細 obj = new C訂單明細();
+                    obj.單號 = order.單號;
+                    order.orderListDetail = detailRepository.GetListBy(obj, "單號");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
+        public List<C客戶設定> getCustomerNumberList()
+        {
+            List<C客戶設定> list = new List<C客戶設定>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"SELECT DISTINCT C.正航編號, C.欄位2 COMPANY, C.CREDIBILITY, C.COUNTRY FROM dbo.C客戶設定 AS C
+                                     WHERE 正航編號 IS NOT NULL AND 正航編號 != ''  AND LEN(正航編號)=6";
+                    list = conn.Query<C客戶設定>(sql).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return list;
+        }
+
+        public C訂單 updateSalesOrderCloseFlag(string flag, string orderNo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int saveSalesOrder(C訂單 form)
+        {
+            int execCount = 0;
+            try
+            {
+                CustOrderRepository custOrderRepository = new CustOrderRepository();
+                execCount = custOrderRepository.Insert(form);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCount;
+        }
+
+        public int updateSalesOrder(C訂單 form)
+        {
+            int execCount = 0;
+            try
+            {
+                CustOrderRepository custOrderRepository = new CustOrderRepository();
+                execCount = custOrderRepository.Update(form);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCount;
+        }
+
+        public int deleteSalesOrder(string salesOrderNo)
+        {
+            int execCount = 0;
+            try
+            {
+                CustOrderRepository custOrderRepository = new CustOrderRepository();
+                execCount = custOrderRepository.DeleteSalesOrderByNo(salesOrderNo);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCount;
         }
     }
 }

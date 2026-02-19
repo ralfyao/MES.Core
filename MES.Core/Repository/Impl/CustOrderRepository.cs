@@ -11,6 +11,33 @@ namespace MES.Core.Repository.Impl
 {
     public class CustOrderRepository : AbstractRepository<C訂單>
     {
+        public int DeleteSalesOrderByNo(string salesOrderNo)
+        {
+            int retCount = 0;
+
+            string sql = $@"DELETE FROM C訂單 WHERE 單號='{salesOrderNo}';
+                            DELETE FROM C訂單明細 WHERE 單號='{salesOrderNo}'";
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        retCount = conn.Execute(sql, null, tran);
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        retCount = 0;
+                        throw ex;
+                    }
+                }
+            }
+            return retCount;
+        }
+
         public override int Insert(C訂單 t)
         {
             int retCount = 0;
@@ -84,6 +111,10 @@ namespace MES.Core.Repository.Impl
                         retCount = conn.Execute(sql, parameters, tran);
                         foreach(var item in t.orderListDetail)
                         {
+                            if (string.IsNullOrEmpty(item.單號))
+                            {
+                                item.單號 = t.單號;
+                            }
                             sql = $@"INSERT INTO dbo.C訂單明細
                                         (
                                             單號,
@@ -175,6 +206,10 @@ namespace MES.Core.Repository.Impl
                         retCount = conn.Execute($@"DELETE FROM C訂單明細 WHERE 單號=@單號", parameters, tran);
                         foreach (var item in t.orderListDetail)
                         {
+                            if (string.IsNullOrEmpty(item.單號))
+                            {
+                                item.單號 = t.單號;
+                            }
                             sql = $@"INSERT INTO dbo.C訂單明細
                                         (
                                             單號,
