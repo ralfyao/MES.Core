@@ -10,7 +10,7 @@ namespace MES.Core.Model
     public class C出貨單明細
     {
         [Key]
-        public int 識別碼 { get; set; }
+        public int? 識別碼 { get; set; }
         public string? 單號 { get; set; }
         public string? 產品編號 { get; set; }
         public string? 品名規格 { get; set; }

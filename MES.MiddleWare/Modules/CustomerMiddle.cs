@@ -989,7 +989,14 @@ namespace MES.MiddleWare.Modules
             try
             {
                 ShipOrderRepository shipOrderRepository = new ShipOrderRepository();
+                ShipOrderDetailRepository shipOrderDetailRepository = new ShipOrderDetailRepository();
                 list = shipOrderRepository.GetList(null).ToList();
+                foreach(var item in list)
+                {
+                    C出貨單明細 obj = new C出貨單明細();
+                    obj.單號 = item.單號;
+                    item.shipOrderLists = shipOrderDetailRepository.GetListBy(obj, "單號").ToList();
+                }
             }
             catch (Exception ex)
             {
@@ -1015,6 +1022,58 @@ namespace MES.MiddleWare.Modules
                 throw ex;
             }
             return list;
+        }
+
+        public int saveShippingOrder(C出貨單 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                ShipOrderRepository shipOrderRepository = new ShipOrderRepository();
+                execCnt = shipOrderRepository.Insert(form);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        public int updateShippingOrder(C出貨單 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                ShipOrderRepository shipOrderRepository = new ShipOrderRepository();
+                execCnt = shipOrderRepository.Update(form);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        public int deleteShippingOrder(string shippingOrderNo)
+        {
+            int execCnt = 0;
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    execCnt += conn.Execute($"DELETE FROM C出貨單明細 WHERE 單號='{shippingOrderNo}'");
+                    execCnt += conn.Execute($"DELETE FROM C出貨單 WHERE 單號='{shippingOrderNo}'");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return execCnt;
         }
     }
 }

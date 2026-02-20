@@ -232,6 +232,7 @@ namespace MES.Core.Repository.Impl
                             dp = new DynamicParameters(item);
                             execCnt += conn.Execute(strSQL, dp, tran);
                         }
+                        tran.Commit();
                     }
                 }
             }

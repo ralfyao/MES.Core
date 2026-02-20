@@ -1221,6 +1221,85 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/SaveShippingOrder"), HttpPost]
+        public CommonRep<C出貨單> SaveShippingOrder([FromBody] C出貨單 form)
+        {
+            CommonRep<C出貨單> commonRep = new CommonRep<C出貨單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int execCnt = customerMiddle.saveShippingOrder(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "寫入出貨單有誤，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateShippingOrder"), HttpPost]
+        public CommonRep<C出貨單> UpdateShippingOrder([FromBody] C出貨單 form)
+        {
+            CommonRep<C出貨單> commonRep = new CommonRep<C出貨單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int execCnt = customerMiddle.updateShippingOrder(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "寫入出貨單有誤，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetShippingOrderNo"), HttpGet]
+        public CommonRep<string> GetShippingOrderNo()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.getShipOrderNo();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteShippingOrder"), HttpGet]
+        public CommonRep<C出貨單> SaveShippingOrder(string shippingOrderNo)
+        {
+            CommonRep<C出貨單> commonRep = new CommonRep<C出貨單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int execCnt = customerMiddle.deleteShippingOrder(shippingOrderNo);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "刪除出貨單有誤，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         #endregion
     }
 }
