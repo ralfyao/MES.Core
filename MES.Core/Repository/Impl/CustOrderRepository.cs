@@ -16,7 +16,8 @@ namespace MES.Core.Repository.Impl
             int retCount = 0;
 
             string sql = $@"DELETE FROM C訂單 WHERE 單號='{salesOrderNo}';
-                            DELETE FROM C訂單明細 WHERE 單號='{salesOrderNo}'";
+                            DELETE FROM C訂單明細 WHERE 單號='{salesOrderNo}';
+                            DELETE FROM F收款分期 WHERE 單號='{salesOrderNo}';";
             using (var conn = new SqlConnection(IRepository<string>.ConnStr))
             {
                 conn.Open();
@@ -150,6 +151,32 @@ namespace MES.Core.Repository.Impl
                             parameters = new DynamicParameters(item);
                             retCount += conn.Execute(sql, parameters, tran);
                         }
+
+                        foreach (var item in t.arListDetail)
+                        {
+                            if (string.IsNullOrEmpty(item.單號))
+                            {
+                                item.單號 = t.單號;
+                            }
+                            sql = $@"insert INTO　dbo.F收款分期
+                                        (
+                                            單號,
+                                            款項期別,
+                                            成數,
+                                            金額,
+                                            請款單號
+                                        )
+                                        VALUES
+                                        (   
+                                            @單號,
+                                            @款項期別,
+                                            @成數,
+                                            @金額,
+                                            @請款單號
+                                        )";
+                            parameters = new DynamicParameters(item);
+                            retCount += conn.Execute(sql, parameters, tran);
+                        }
                         tran.Commit();
                     }
                     catch (Exception ex)
@@ -204,6 +231,7 @@ namespace MES.Core.Repository.Impl
                         DynamicParameters parameters = new DynamicParameters(t);
                         retCount = conn.Execute(sql, parameters, tran);
                         retCount = conn.Execute($@"DELETE FROM C訂單明細 WHERE 單號=@單號", parameters, tran);
+                        retCount = conn.Execute($@"DELETE FROM F收款分期 WHERE 單號=@單號", parameters, tran);
                         foreach (var item in t.orderListDetail)
                         {
                             if (string.IsNullOrEmpty(item.單號))
@@ -242,6 +270,31 @@ namespace MES.Core.Repository.Impl
                                             @佣金率,
                                             @MTYPE
                                             )";
+                            parameters = new DynamicParameters(item);
+                            retCount += conn.Execute(sql, parameters, tran);
+                        }
+                        foreach (var item in t.arListDetail)
+                        {
+                            if (string.IsNullOrEmpty(item.單號))
+                            {
+                                item.單號 = t.單號;
+                            }
+                            sql = $@"insert INTO　dbo.F收款分期
+                                        (
+                                            單號,
+                                            款項期別,
+                                            成數,
+                                            金額,
+                                            請款單號
+                                        )
+                                        VALUES
+                                        (   
+                                            @單號,
+                                            @款項期別,
+                                            @成數,
+                                            @金額,
+                                            @請款單號
+                                        )";
                             parameters = new DynamicParameters(item);
                             retCount += conn.Execute(sql, parameters, tran);
                         }

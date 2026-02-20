@@ -716,6 +716,27 @@ namespace MES.MiddleWare.Modules
             }
             return salesOrderNo;
         }
+        public string? getShipOrderNo()
+        {
+            string shipOrderNo = string.Empty;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $"SELECT * FROM C出貨單 WHERE 單號 LIKE 'SD{DateTime.Now.ToString("yyyyMM")}%'";
+                    List<C訂單> list = conn.Query<C訂單>(sql).ToList();
+                    int count = list.Count();
+                    count++;
+                    shipOrderNo = $"SD{DateTime.Now.ToString("yyyyMM")}{count.ToString("000")}";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return shipOrderNo;
+        }
 
         private C客戶詢問函 getRfqByNo(string? rFQNO)
         {
@@ -740,12 +761,17 @@ namespace MES.MiddleWare.Modules
             {
                 CustOrderRepository custOrderRepository = new CustOrderRepository();
                 CustOrderDetailRepository detailRepository = new CustOrderDetailRepository();
+                CustAccountReceivableRepository custAccountReceivableRepository = new CustAccountReceivableRepository();
+                CustomerQuotationRepository quotationRepository = new CustomerQuotationRepository();
                 list = custOrderRepository.GetList(null);
                 foreach(var order in list)
                 {
                     C訂單明細 obj = new C訂單明細();
                     obj.單號 = order.單號;
                     order.orderListDetail = detailRepository.GetListBy(obj, "單號");
+                    F收款分期 obj2 = new F收款分期();
+                    obj2.單號 = order.單號;
+                    order.arListDetail = custAccountReceivableRepository.GetListBy(obj2, "單號");
                 }
             }
             catch (Exception ex)
@@ -763,7 +789,7 @@ namespace MES.MiddleWare.Modules
                 using(var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();
-                    string sql = $@"SELECT DISTINCT C.正航編號, C.欄位2 COMPANY, C.CREDIBILITY, C.COUNTRY FROM dbo.C客戶設定 AS C
+                    string sql = $@"SELECT DISTINCT C.正航編號, C.欄位2 COMPANY, C.COMPANY COMPANYFULLNAME, C.CREDIBILITY, C.COUNTRY FROM dbo.C客戶設定 AS C
                                      WHERE 正航編號 IS NOT NULL AND 正航編號 != ''  AND LEN(正航編號)=6";
                     list = conn.Query<C客戶設定>(sql).ToList();
                 }
@@ -776,9 +802,24 @@ namespace MES.MiddleWare.Modules
             return list;
         }
 
-        public C訂單 updateSalesOrderCloseFlag(string flag, string orderNo)
+        public C訂單 updateSalesOrderCloseFlag(bool flag, string orderNo)
         {
-            throw new NotImplementedException();
+            C訂單 c = new C訂單();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"UPDATE C訂單 SET 結案='{(flag?"1":"0")}' WHERE 單號='{orderNo}'";
+                    conn.Execute(sql);
+                    c = conn.Query<C訂單>($"SELECT * FROM C訂單 WHERE 單號='{orderNo}'").FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return c;
         }
 
         public int saveSalesOrder(C訂單 form)
@@ -824,6 +865,156 @@ namespace MES.MiddleWare.Modules
                 throw ex;
             }
             return execCount;
+        }
+
+        public List<F款項期別> getInstallmentType()
+        {
+            List<F款項期別> list = new List<F款項期別>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<F款項期別>("SELECT * FROM F款項期別").ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
+        public F銀行設定 getBankInfo(string? bankAccount)
+        {
+            F銀行設定 obj = new F銀行設定();
+            obj.銀存編碼 = bankAccount;
+            try
+            {
+                BankInfoRepository bankInfoRepository = new BankInfoRepository();
+                obj = bankInfoRepository.GetListBy(obj, "銀存編碼").FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return obj;
+        }
+
+        public List<C報價明細> getQuotationDistrubutionList(string? custNo, string? orderDate)
+        {
+            List<C報價明細> list = new List<C報價明細>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<C報價明細>($@"SELECT e.* 
+                                                      FROM dbo.C客戶詢問函 AS C,
+	                                                       dbo.C客戶設定 AS b,
+	                                                       dbo.C報價單 AS d,
+	                                                       dbo.C報價明細 AS e
+                                                    WHERE C.COMPANY=b.COMPANY
+                                                      AND c.RFQNO=d.RFQNO
+                                                      AND 正航編號='{custNo}' AND d.CONDATE >= '{orderDate}'
+                                                      AND d.QUONO=e.QUONO").ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+        /// <summary>
+        /// 訂單轉出貨單
+        /// </summary>
+        /// <param name="form"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public int transferToShipOrder(C訂單 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                ShipOrderRepository repository = new ShipOrderRepository();
+                C出貨單 shipOrder = new C出貨單();
+                shipOrder.日期 = !string.IsNullOrEmpty(form.日期) ? DateTime.ParseExact(form.日期, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd") : "";
+                shipOrder.客戶編號 = form.客戶編號;
+                shipOrder.單號 = getShipOrderNo();
+                shipOrder.業務員 = form.業務員;
+                shipOrder.幣別 = form.幣別;
+                shipOrder.稅別 = form.稅別;
+                shipOrder.稅率 = form.稅率;
+                shipOrder.總額 = form.總額;
+                shipOrder.佣金 = form.佣金;
+                shipOrder.交貨地址 = form.交貨地址;
+                shipOrder.指配國別 = form.指配國別;
+                shipOrder.目的港 = form.目的港;
+                shipOrder.價格條件 = form.價格條件;
+                shipOrder.交貨方式 = form.交貨方式;
+                shipOrder.付款方式 = form.付款方式;
+                shipOrder.交貨日期 = form.交貨日期;
+                shipOrder.Remark = form.Remark;
+                foreach (var item in form.orderListDetail)
+                {
+                    C出貨單明細 shipOrderDetail = new C出貨單明細();
+                    shipOrderDetail.單號 = shipOrder.單號;
+                    shipOrderDetail.產品編號 = item.產品編號;
+                    shipOrderDetail.品名規格 = item.品名規格;
+                    shipOrderDetail.數量2 = item.數量1;
+                    shipOrderDetail.單位 = item.單位;
+                    shipOrderDetail.單價2 = item.單價1;
+                    shipOrderDetail.金額2 = item.金額1;
+                    shipOrderDetail.樣品別 = item.樣品別;
+                    shipOrderDetail.描述 = item.描述;
+                    //shipOrderDetail.倉庫別 = item.倉庫別;
+                    //shipOrderDetail.ORDNO = item.ORDNO;
+                    if (shipOrder.shipOrderLists == null)
+                        shipOrder.shipOrderLists = new List<C出貨單明細>();
+                    shipOrder.shipOrderLists.Add(shipOrderDetail);
+                }
+                execCnt = repository.Insert(shipOrder);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        public List<C出貨單> getShippingOrderList()
+        {
+            List<C出貨單> list = new List<C出貨單>();
+            try
+            {
+                ShipOrderRepository shipOrderRepository = new ShipOrderRepository();
+                list = shipOrderRepository.GetList(null).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
+        public List<F庫別> getWarehouseList()
+        {
+            List<F庫別> list = new List<F庫別>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<F庫別>($@"SELECT * FROM F庫別").ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return list;
         }
     }
 }

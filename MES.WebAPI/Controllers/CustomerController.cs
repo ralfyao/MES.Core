@@ -4,6 +4,8 @@ using MES.Core.Model;
 using MES.MiddleWare.Modules;
 using MES.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace MES.WebAPI.Controllers
 {
@@ -971,7 +973,7 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
         [Route("api/UpdateSalesOrderCloseFlag"), HttpGet]
-        public CommonRep<C訂單> UpdateSalesOrderCloseFlag(string flag, string orderNo)
+        public CommonRep<C訂單> UpdateSalesOrderCloseFlag(bool flag, string orderNo)
         {
             CommonRep<C訂單> commonRep = new CommonRep<C訂單>();
             try
@@ -1108,6 +1110,109 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = new string[] { "應稅", "零稅率", "免稅" }.ToList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetInstallmentType"), HttpGet]
+        public CommonRep<F款項期別> GetInstallmentType()
+        {
+            CommonRep<F款項期別> commonRep = new CommonRep<F款項期別>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getInstallmentType();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetBankInfo"), HttpGet]
+        public CommonRep<F銀行設定> GetBankInfo(string? bankAccount)
+        {
+            CommonRep<F銀行設定> commonRep = new CommonRep<F銀行設定>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.getBankInfo(bankAccount);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetQuotationDistributionList"), HttpGet]
+        public CommonRep<C報價明細> GetBankInfo(string? custNo, string? orderDate)
+        {
+            CommonRep<C報價明細> commonRep = new CommonRep<C報價明細>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            orderDate = DateTime.ParseExact(orderDate, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+            try
+            {
+                commonRep.resultList = customerMiddle.getQuotationDistrubutionList(custNo, orderDate);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/TransferToShipOrder")]
+        public CommonRep<C訂單> TransferToShipOrder([FromBody] C訂單 form)
+        {
+            CommonRep<C訂單> commonRep = new CommonRep<C訂單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int execCnt = customerMiddle.transferToShipOrder(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "寫入出貨單有誤，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        #endregion
+        #region 出貨單
+        [Route("api/GetShippingOrderList"), HttpGet]
+        public CommonRep<C出貨單> GetShippingOrderList()
+        {
+            CommonRep<C出貨單> commonRep = new CommonRep<C出貨單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getShippingOrderList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetWarehouseList"), HttpGet]
+        public CommonRep<F庫別> GetWarehouseList()
+        {
+            CommonRep<F庫別> commonRep = new CommonRep<F庫別>();
+            try
+            {
+                commonRep.resultList = new CustomerMiddle().getWarehouseList();
             }
             catch (Exception ex)
             {

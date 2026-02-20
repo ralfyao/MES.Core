@@ -22,5 +22,7 @@ namespace MES.Core.Model
         public string? 專案序號 { get; set; }
         public string? 佣金率 { get; set; }
         public string? MTYPE { get; set; }
+        public decimal? 報價單價 { get; set; }
+        public decimal? 折數 { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace MES.Core.Model
         [Key]
         public int 識別 { get; set; }
         public string COMPANY { get; set; } = "";
+        public string COMPANYFULLNAME { get; set; } = "";
         public string MA { get; set; } = "";
         public string TEL { get; set; } = "";
         public string FAX { get; set; } = "";
