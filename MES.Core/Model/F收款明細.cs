@@ -14,8 +14,8 @@ namespace MES.Core.Model
         public string? 單號 { get; set; }
         public string? 帳款來源 { get; set; }
         public string? 沖帳碼 { get; set; }
-        public string? 原幣收帳金額 { get; set; }
-        public string? 台幣換算金額 { get; set; }
+        public decimal? 原幣收帳金額 { get; set; }
+        public decimal? 台幣換算金額 { get; set; }
         public string? 說明 { get; set; }
         public string? 專案序號 { get; set; }
     }
