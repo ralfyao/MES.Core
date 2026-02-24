@@ -14,7 +14,14 @@ namespace MES.Core.Repository.Impl
     {
         public override int Insert(C客戶詢問函 t)
         {
-            t.RFQDATE = DateTime.ParseExact(t.RFQDATE.Replace("/", "-"), "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+            try
+            {
+                t.RFQDATE = DateTime.ParseExact(t.RFQDATE.Replace("/", "-"), "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+            }
+            catch
+            {
+                t.RFQDATE = DateTime.ParseExact(t.RFQDATE.Replace("/", "-"), "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd");
+            }
             int retCode = 0;
             string sql = $@"INSERT INTO dbo.C客戶詢問函
                                 (
@@ -22,6 +29,7 @@ namespace MES.Core.Repository.Impl
                                     SALES,
                                     RFQDATE,
                                     COMPANY,
+                                    COMPANYID,
                                     [M/A],
                                     TEL,
                                     CONTACT,
@@ -47,6 +55,7 @@ namespace MES.Core.Repository.Impl
                                     @SALES,
                                     @RFQDATE,
                                     @COMPANY,
+                                    @COMPANYID,
                                     @MA,
                                     @TEL,
                                     @CONTACT,
@@ -91,6 +100,7 @@ namespace MES.Core.Repository.Impl
                                SET  SALES=              @SALES,        
                                     RFQDATE=            @RFQDATE,
                                     COMPANY=            @COMPANY,
+                                    COMPANYID=            @COMPANYID,
                                     [M/A]=                 @MA,
                                     TEL=                @TEL,
                                     CONTACT=            @CONTACT,

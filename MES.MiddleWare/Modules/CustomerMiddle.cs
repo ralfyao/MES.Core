@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MES.Core;
 using MES.Core.Model;
 using MES.Core.Repository;
 using MES.Core.Repository.Impl;
@@ -176,6 +177,10 @@ namespace MES.MiddleWare.Modules
                 //CommonRepository<H員工清冊> commonRepository = new CommonRepository<H員工清冊>();
                 //List<H員工清冊> employees = commonRepository.GetList(null);
                 Lst = customerRepository.GetList(null);
+                Lst.ForEach((x) =>
+                {
+                    x.RFQDATE = Utility.ConvertDate(x.RFQDATE);
+                });
                 //foreach(var data in Lst)
                 //{
                 //    data.SALES = employees.Where(x => x.工號 == data.SALES).FirstOrDefault()?.姓名;  
@@ -422,6 +427,23 @@ namespace MES.MiddleWare.Modules
             int retCode = 0;
             try
             {
+                try
+                {
+                    var date = DateTime.ParseExact(
+                                    custInqForm.RFQDATE,
+                                    "yyyy/MM/dd",
+                                    CultureInfo.InvariantCulture
+                                );
+                    custInqForm.RFQDATE = date.ToString("dd/MM/yyyy");
+                } catch
+                {
+                    var date = DateTime.ParseExact(
+                                    custInqForm.RFQDATE,
+                                    "yyyy-MM-dd",
+                                    CultureInfo.InvariantCulture
+                                );
+                    custInqForm.RFQDATE = date.ToString("dd/MM/yyyy");
+                }
                 CustInquireyFormRepository custInquireyFormRepository = new CustInquireyFormRepository();
                 retCode = custInquireyFormRepository.Insert(custInqForm);
             }
@@ -1074,6 +1096,47 @@ namespace MES.MiddleWare.Modules
                 throw ex;
             }
             return execCnt;
+        }
+
+        public List<C報價明細> getQuotationListByCustid(string custid)
+        {
+            List<C報價明細> list = new List<C報價明細>();
+            try
+            {
+                string sql = $@"SELECT c.*, b.CONDATE, b.RFQNO 
+                                  FROM dbo.C客戶詢問函 AS a
+                                  LEFT OUTER JOIN C報價單 b ON a.RFQNO=b.RFQNO
+                                  LEFT OUTER JOIN dbo.C報價明細 AS c ON b.QUONO=c.QUONO
+                                 WHERE a.COMPANYID={custid}";
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<C報價明細>(sql).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
+        public List<C客戶詢問函> getRfqListByCust(string custid)
+        {
+            List<C客戶詢問函> list = new List<C客戶詢問函>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<C客戶詢問函>($@"SELECT * FROM C客戶詢問函 WHERE COMPANYID='{custid}'").ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,10 @@ namespace MES.Core
                 throw ex;
             }
             return ds;
+        }
+        public static string ConvertDate(string data)
+        {
+            return !string.IsNullOrEmpty(data) ? DateTime.ParseExact(data, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
         }
     }
 }

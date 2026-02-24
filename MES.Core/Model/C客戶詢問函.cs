@@ -12,6 +12,7 @@ namespace MES.Core.Model
         public string? SALES { get; set; }
         public string? RFQDATE { get; set; }
         public string? COMPANY { get; set; }
+        public int? COMPANYID { get; set; }
         public string? MA      {get; set;}
         public string? TEL { get; set; }
         public string? CONTACT { get; set; }

@@ -402,6 +402,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetQuotationListByCustid"), HttpGet]
+        public CommonRep<C報價明細> GetQuotationListByCustid(string custid)
+        {
+            CommonRep<C報價明細> commonRep = new CommonRep<C報價明細>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getQuotationListByCustid(custid);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         #endregion
         #region 詢價單
         /// <summary>
@@ -444,6 +460,11 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        /// <summary>
+        /// 依單號取得客戶詢問函
+        /// </summary>
+        /// <param name="rfqno"></param>
+        /// <returns></returns>
         [Route("api/GetRfq"), HttpGet]
         public CommonRep<C客戶詢問函> GetRfq(string? rfqno)
         {
@@ -525,7 +546,7 @@ namespace MES.WebAPI.Controllers
                 {
                     CustomerMiddle customerMiddle = new CustomerMiddle();
                     int retCode = customerMiddle.UpdateRfq(custInqForm);
-                    if (retCode != 0)
+                    if (retCode == 0)
                     {
                         commonRep.ErrorMessage = "更新客戶資料失敗，請洽系統管理員";
                         commonRep.WorkStatus = WorkStatus.Fail.ToString();
@@ -560,6 +581,22 @@ namespace MES.WebAPI.Controllers
                         commonRep.WorkStatus = WorkStatus.Fail.ToString();
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetRfqListByCust"), HttpGet]
+        public CommonRep<C客戶詢問函> GetRfqListByCust(string custid)
+        {
+            CommonRep<C客戶詢問函> commonRep = new CommonRep<C客戶詢問函>();
+            CustomerMiddle custMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = custMiddle.getRfqListByCust(custid);
             }
             catch (Exception ex)
             {
