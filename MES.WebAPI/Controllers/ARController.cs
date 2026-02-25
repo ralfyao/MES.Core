@@ -166,6 +166,150 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetItemNumberList"), HttpGet]
+        public CommonRep<F收支項目設定> GetItemNumberList()
+        {
+            CommonRep<F收支項目設定> commonRep = new CommonRep<F收支項目設定>();
+            ARMiddle aRMiddle = new ARMiddle();
+            try
+            {
+                commonRep.resultList = aRMiddle.getItemNumberList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetOtherIncomeNo"), HttpGet] 
+        public CommonRep<string> GetOtherIncomeNo()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                commonRep.result = arMiddle.getOtherIncomeNo();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 儲存其他收入單
+        /// </summary>
+        /// <param name="form"></param>
+        /// <returns></returns>
+        [Route("api/SaveOtherIncome"), HttpPost]
+        public CommonRep<F其他收入單> SaveOtherIncome([FromBody] F其他收入單 form)
+        {
+            CommonRep<F其他收入單> commonRep = new CommonRep<F其他收入單>();
+            if (form == null)
+            {
+                commonRep.ErrorMessage = "送出表單為NULL!";
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                return commonRep;
+            }
+            try
+            {
+                ARMiddle aRMiddle = new ARMiddle();
+                int execCnt = aRMiddle.saveOtherIncome(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "執行寫入發生錯誤，請洽系統人員!";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 修改其他收入單
+        /// </summary>
+        /// <param name="form"></param>
+        /// <returns></returns>
+        [Route("api/UpdateOtherIncome"), HttpPost]
+        public CommonRep<F其他收入單> UpdateOtherIncome([FromBody] F其他收入單 form)
+        {
+            CommonRep<F其他收入單> commonRep = new CommonRep<F其他收入單>();
+            if (form == null)
+            {
+                commonRep.ErrorMessage = "送出表單為NULL!";
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                return commonRep;
+            }
+            try
+            {
+                ARMiddle aRMiddle = new ARMiddle();
+                int execCnt = aRMiddle.updateOtherIncome(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "執行寫入發生錯誤，請洽系統人員!";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 刪除其他收入單
+        /// </summary>
+        /// <param name="form"></param>
+        /// <returns></returns>
+        [Route("api/DeleteOtherIncome"), HttpPost]
+        public CommonRep<F其他收入單> DeleteOtherIncome([FromBody] F其他收入單 form)
+        {
+            CommonRep<F其他收入單> commonRep = new CommonRep<F其他收入單>();
+            if (form == null)
+            {
+                commonRep.ErrorMessage = "送出表單為NULL!";
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                return commonRep;
+            }
+            try
+            {
+                ARMiddle aRMiddle = new ARMiddle();
+                int execCnt = aRMiddle.deleteOtherIncome(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "執行寫入發生錯誤，請洽系統人員!";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetOtherIncomeList"), HttpGet]
+        public CommonRep<F其他收入單> GetOtherIncomeList()
+        {
+            CommonRep<F其他收入單> commonRep = new CommonRep<F其他收入單>();
+            try
+            {
+                ARMiddle aRMiddle = new ARMiddle();
+                commonRep.resultList = aRMiddle.getOtherIncomeList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         #endregion
     }
 }
