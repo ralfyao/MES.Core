@@ -53,15 +53,15 @@ namespace MES.WebAPI.Controllers
         /// 帳款來源與沖帳碼
         /// </summary>
         /// <returns></returns>
-        [Route("api/GetAccountSourceAndCode"), HttpGet]
-        public CommonRep<F帳款管理> GetAccountSourceAndCode()
+        [Route("api/GetARAccountSourceAndCode"), HttpGet]
+        public CommonRep<F帳款管理> GetAccountSourceAndCode(string? custNo)
         {
             
             CommonRep<F帳款管理> commonRep = new CommonRep<F帳款管理>();
             ARMiddle arMiddle = new ARMiddle();
             try
             {
-                commonRep.resultList = arMiddle.getAccountSourceAndCode();
+                commonRep.resultList = arMiddle.getAccountSourceAndCode(custNo, "應收");
             }
             catch (Exception ex)
             {

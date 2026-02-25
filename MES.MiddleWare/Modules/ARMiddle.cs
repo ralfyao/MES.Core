@@ -13,9 +13,9 @@ namespace MES.MiddleWare.Modules
 {
     public class ARMiddle
     {
-        public List<F帳款管理> getAccountSourceAndCode()
+        public List<F帳款管理> getAccountSourceAndCode(string custNo, string type)
         {
-            string sql = "SELECT DISTINCT [帳款來源], [沖帳碼] FROM [F帳款管理]";
+            string sql = $"SELECT DISTINCT [帳款來源], [沖帳碼] FROM [F帳款管理] WHERE 對象='{custNo}' AND 收付別='應收' ";
             List<F帳款管理> list = new List<F帳款管理>();
             try
             {

@@ -1204,7 +1204,7 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
-        [Route("api/TransferToShipOrder")]
+        [Route("api/TransferToShipOrder"), HttpPost]
         public CommonRep<C訂單> TransferToShipOrder([FromBody] C訂單 form)
         {
             CommonRep<C訂單> commonRep = new CommonRep<C訂單>();
@@ -1217,6 +1217,28 @@ namespace MES.WebAPI.Controllers
                     commonRep.ErrorMessage = "寫入出貨單有誤，請洽系統人員";
                     commonRep.WorkStatus = WorkStatus.Fail.ToString();
                 }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/TransferReceivable"), HttpPost]
+        public CommonRep<string> TransferReceivable([FromBody] C訂單 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int execCnt = customerMiddle.transferToReceivable(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "寫入出貨單有誤，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+                commonRep.result = form.AR單號;
             }
             catch (Exception ex)
             {

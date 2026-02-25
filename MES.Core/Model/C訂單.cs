@@ -17,6 +17,7 @@ namespace MES.Core.Model
         public string? 客戶編號 { get; set; }
         public string? 業務員 { get; set; }
         public string? 幣別 { get; set; }
+        public decimal? 匯率 { get; set; }
         public string? 稅別 { get; set; }
         public string? 稅率 { get; set; }
         public decimal? 總額 { get; set; }
@@ -38,6 +39,7 @@ namespace MES.Core.Model
         public string? 建檔日 { get; set; }
         public string? 修改日 { get; set; }
         public string? 核准日 { get; set; }
+        public string? AR單號 { get; set; }
         public List<C訂單明細> orderListDetail { get; set; }
         public List<F收款分期> arListDetail { get; set; }
     }

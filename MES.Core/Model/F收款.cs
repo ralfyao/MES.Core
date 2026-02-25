@@ -9,6 +9,17 @@ namespace MES.Core.Model
 {
     public class F收款
     {
+        public F收款() { }
+        public F收款(C訂單 form) 
+        {
+            this.日期 = form.日期;
+            this.單號 = form.AR單號;
+            this.客戶編號 = form.客戶編號;
+            this.幣別 = form.幣別;
+            this.匯率 = form.匯率;
+            this.請款人員 = form.建檔;
+            this.收款總額 = form.總額;
+        }
         [Key]
         public int? 識別碼 { get; set; }
         public string? 日期 { get; set; }

@@ -1138,5 +1138,68 @@ namespace MES.MiddleWare.Modules
             }
             return list;
         }
+
+        public int transferToReceivable(C訂單 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                AccountsReceivableRepository accountsReviver = new AccountsReceivableRepository();
+                CustAccountReceivableRepository c = new CustAccountReceivableRepository();
+                form.AR單號 = new ARMiddle().getARNo();
+                form.匯率 = decimal.Parse(getExRateList(form.幣別)[0].匯率);
+                F收款 f = new F收款(form);
+                execCnt += accountsReviver.Insert(f);
+                foreach(var item in form.arListDetail)
+                {
+                    item.單號 = form.單號;
+                    item.請款單號 = f.單號;
+                    execCnt += c.Insert(item);
+                }
+                //ShipOrderRepository repository = new ShipOrderRepository();
+                //C出貨單 shipOrder = new C出貨單();
+                //shipOrder.日期 = !string.IsNullOrEmpty(form.日期) ? DateTime.ParseExact(form.日期, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd") : "";
+                //shipOrder.客戶編號 = form.客戶編號;
+                //shipOrder.單號 = getShipOrderNo();
+                //shipOrder.業務員 = form.業務員;
+                //shipOrder.幣別 = form.幣別;
+                //shipOrder.稅別 = form.稅別;
+                //shipOrder.稅率 = form.稅率;
+                //shipOrder.總額 = form.總額;
+                //shipOrder.佣金 = form.佣金;
+                //shipOrder.交貨地址 = form.交貨地址;
+                //shipOrder.指配國別 = form.指配國別;
+                //shipOrder.目的港 = form.目的港;
+                //shipOrder.價格條件 = form.價格條件;
+                //shipOrder.交貨方式 = form.交貨方式;
+                //shipOrder.付款方式 = form.付款方式;
+                //shipOrder.交貨日期 = form.交貨日期;
+                //shipOrder.Remark = form.Remark;
+                //foreach (var item in form.orderListDetail)
+                //{
+                //    C出貨單明細 shipOrderDetail = new C出貨單明細();
+                //    shipOrderDetail.單號 = shipOrder.單號;
+                //    shipOrderDetail.產品編號 = item.產品編號;
+                //    shipOrderDetail.品名規格 = item.品名規格;
+                //    shipOrderDetail.數量2 = item.數量1;
+                //    shipOrderDetail.單位 = item.單位;
+                //    shipOrderDetail.單價2 = item.單價1;
+                //    shipOrderDetail.金額2 = item.金額1;
+                //    shipOrderDetail.樣品別 = item.樣品別;
+                //    shipOrderDetail.描述 = item.描述;
+                //    //shipOrderDetail.倉庫別 = item.倉庫別;
+                //    //shipOrderDetail.ORDNO = item.ORDNO;
+                //    if (shipOrder.shipOrderLists == null)
+                //        shipOrder.shipOrderLists = new List<C出貨單明細>();
+                //    shipOrder.shipOrderLists.Add(shipOrderDetail);
+                //}
+                //execCnt = repository.Insert(shipOrder);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
     }
 }
