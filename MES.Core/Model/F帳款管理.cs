@@ -11,6 +11,8 @@ namespace MES.Core.Model
     {
         [Key]
         public int? 識別碼 { get; set; }
+        public string? 識別 { get; set; }
+        public string? COMPANY { get; set; }
         public string? 收付別 { get; set; }
         public string? 對象 { get; set; }
         public string? 帳款來源 { get; set; }
@@ -33,5 +35,6 @@ namespace MES.Core.Model
         public string? 台幣折讓 { get; set; }
         public string? 結案 { get; set; }
         public string? 請款 { get; set; }
+        public List<F帳款管理> detailList { get; set; }
     }
 }

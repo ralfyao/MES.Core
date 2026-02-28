@@ -166,6 +166,8 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        #endregion
+        #region 其他收入
         [Route("api/GetItemNumberList"), HttpGet]
         public CommonRep<F收支項目設定> GetItemNumberList()
         {
@@ -302,6 +304,24 @@ namespace MES.WebAPI.Controllers
             {
                 ARMiddle aRMiddle = new ARMiddle();
                 commonRep.resultList = aRMiddle.getOtherIncomeList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        #endregion
+        #region 客戶未收帳查詢
+        [Route("api/UnclosedARList")]
+        public CommonRep<F帳款管理> UnclosedARList()
+        {
+            CommonRep<F帳款管理> commonRep = new CommonRep<F帳款管理>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                commonRep.resultList = arMiddle.getUnclsedARList();
             }
             catch (Exception ex)
             {

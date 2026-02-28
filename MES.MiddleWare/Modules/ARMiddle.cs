@@ -410,6 +410,47 @@ namespace MES.MiddleWare.Modules
             }
             return list;
         }
+
+        public List<F帳款管理> getUnclsedARList()
+        {
+            List<F帳款管理> list = new List<F帳款管理>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = @"SELECT DISTINCT a.對象+a.備註 識別, b.COMPANY
+                                           , a.對象
+	                                       , a.備註
+	                                       , a.幣別
+	                                       , SUM(a.原幣未稅) 原幣未稅
+                                           , sum(未稅) 未稅
+	                                       , SUM(稅) 稅
+	                                       , SUM(a.金額) 金額
+                                      FROM F帳款管理 a
+                                      LEFT OUTER JOIN dbo.C客戶設定 AS b ON a.對象=b.正航編號
+                                     WHERE 結案=0 AND 收付別='應收'
+                                     GROUP BY  b.COMPANY
+                                           , a.對象
+	                                       , a.備註
+	                                       , a.幣別";
+                    list = conn.Query<F帳款管理>(strSQL).ToList();
+                    foreach(var item in list)
+                    {
+                        strSQL = $@"SELECT * FROM F帳款管理 WHERE 1=1
+                                       AND 對象='{item.對象}'
+                                       AND 備註='{item.備註}'
+                                       AND 幣別='{item.幣別}' AND  結案=0 AND 收付別='應收'";
+                        item.detailList = conn.Query<F帳款管理>(strSQL).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
         #endregion
     }
 }
