@@ -47,7 +47,14 @@ namespace MES.MiddleWare
                     menu.MenuIcon = row["MenuIcon"].ToString();
                     menu.MenuUrl = row["MenuID"].ToString();
                     menu.menuSubList = new List<MenuSub>();
-                    strSQL = $"SELECT DISTINCT MenuSubID, MenuSubUrl, MenuSubName FROM MenuSub WHERE MenuID='{menu.MenuID}'";
+                    strSQL = $@"SELECT DISTINCT e.MenuID, d.MenuSubID, f.MenuSubName, f.MenuSubUrl
+                                      FROM dbo.Authenticate AS A
+                                      LEFT OUTER JOIN AuthenticatePrivilege b ON a.Privilege=b.AuthenticatePrivilegeName
+                                      LEFT OUTER JOIN Privilege c ON b.PrivilegeNameMapped=c.PrivilegeName
+                                      LEFT OUTER JOIN PrivilegeMenu d ON c.PrivilegeName=d.PrivilegeName
+                                      LEFT OUTER JOIN dbo.Menu AS e ON d.MenuID=e.MenuID
+                                      LEFT OUTER JOIN dbo.MenuSub AS f ON e.MenuID=f.MenuID AND d.MenuSubID=f.MenuSubID
+                                     WHERE e.MenuID='{menu.MenuID}' AND A.Account='{account}' AND MenuSubName IS NOT NULL ";
                     DataSet ds2 = Utility.getDataSet(IRepository<PrivilegeMenu>.ConnStr, strSQL);
                     foreach (DataRow row2 in ds2.Tables[0].Rows)
                     {
