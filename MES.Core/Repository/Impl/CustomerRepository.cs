@@ -134,7 +134,8 @@ namespace MES.Core.Repository.Impl
                                                        ,[建檔]
                                                        ,[修改]
                                                        ,[建檔日]
-                                                       ,[修改日]) VALUES (
+                                                       ,[修改日]
+                                                       ,[啟用日]) VALUES (
                                                         @COMPANY
                                                        ,@MA
                                                        ,@TEL
@@ -162,7 +163,7 @@ namespace MES.Core.Repository.Impl
                                                        ,@建檔
                                                        ,@修改
                                                        ,getdate()
-                                                       ,@修改日)";
+                                                       ,@修改日,getdate())";
                 try
                 {
                     DynamicParameters dynamicParameters = new DynamicParameters(t);
@@ -270,6 +271,7 @@ namespace MES.Core.Repository.Impl
                                 ,[MODIFYDATE]		=	@MODIFYDATE
                                 ,[修改]			   =	@修改
                                 ,[修改日]			  =		GETDATE()
+                                ,[啟用日]			  =		@啟用日
                                 WHERE 識別=@識別";
             try
             {

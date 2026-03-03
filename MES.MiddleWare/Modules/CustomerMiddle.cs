@@ -1347,6 +1347,112 @@ namespace MES.MiddleWare.Modules
             }
             return list;
         }
+
+        public int updateCompanyName(string? originalName, string? changeToName)
+        {
+            int execCnt = 0;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    execCnt += conn.Execute($@"BEGIN TRAN UPDATE C客戶設定 SET COMPANY='{changeToName}' WHERE COMPANY='{originalName}'
+                                    UPDATE C客戶連絡人清單 SET COMPANY='{changeToName}' WHERE COMPANY='{originalName}'
+                                    UPDATE C客戶聯絡明細 SET COMPANY='{changeToName}' WHERE COMPANY='{originalName}'
+                                    UPDATE C客戶詢問函 SET COMPANY='{changeToName}' WHERE COMPANY='{originalName}' COMMIT TRAN;");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        public string getCustNo(string country)
+        {
+            string ret = string.Empty;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"SELECT * FROM C客戶設定 WHERE 正航編號 LIKE (SELECT RTRIM(CODE)+'%' FROM C客戶國別 WHERE 國別 = '{country}')";
+                    var retList = conn.Query<string>(strSQL);
+                    strSQL = $"SELECT CODE FROM C客戶國別 WHERE 國別 = '{country}'";
+                    C客戶國別 custCountry = conn.QueryFirst<C客戶國別>(strSQL);
+                    int cnt = retList.Count();
+                    cnt++;
+                    ret = custCountry.CODE.Trim()+"-"+cnt.ToString("000");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ret;
+        }
+
+        public int updateIndustryList(List<C產業代碼> list)
+        {
+            int execCnt = 0;
+            try
+            {
+                List<C產業代碼> dataToUpdate = list.Where(x => x.中分類碼.Trim() == "").ToList();
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using(var tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            foreach(var item in dataToUpdate)
+                            {
+                                string sql = $"SELECT * FROM C產業代碼 WHERE RTRIM(大分類碼)='{item.大分類碼.Trim()}'";
+                                var rs = conn.Query<C產業代碼>(sql, null, tran).ToList();
+                                int serial = rs.Count();
+                                serial++;
+                                string strSQL = $@"INSERT INTO dbo.C產業代碼
+                                                    (
+                                                        大分類碼,
+                                                        大分類名稱,
+                                                        中分類碼,
+                                                        中分類名稱,
+                                                        英文,
+                                                        内容,
+                                                        其他
+                                                    )
+                                                    VALUES
+                                                    (   
+	                                                    @大分類碼,
+                                                        @大分類名稱,
+                                                        '{item.大分類碼.Trim()}.{serial.ToString("00")}',
+                                                        @中分類名稱,
+                                                        @英文,
+                                                        @内容,
+                                                        @其他
+                                                        ) ";
+                                DynamicParameters dynamicParameters = new DynamicParameters(item);
+                                execCnt = conn.Execute(strSQL, dynamicParameters, tran);
+                            }
+                            tran.Commit();
+                        }
+                        catch (Exception)
+                        {
+                            execCnt = 0;
+                            tran.Rollback();
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
     }
     public class QueryCustListByConditionReq
     {

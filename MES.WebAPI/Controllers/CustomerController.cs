@@ -225,6 +225,64 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/UpdateCompanyName"), HttpGet]
+        public CommonRep<string> UpdateCompanyName(string? originalName, string? changeToName)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int execCode =customerMiddle.updateCompanyName(originalName, changeToName);
+                if (execCode == 0)
+                {
+                    commonRep.ErrorMessage = "更名失敗，請洽系統人員!";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/CustNo"), HttpGet]
+        public CommonRep<string> CustNo(string country)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.getCustNo(country);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateIndustryList"), HttpPost]
+        public CommonRep<string> UpdateIndustryList([FromBody]List<C產業代碼> list)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int retCode = customerMiddle.updateIndustryList(list);
+                if (retCode ==  0)
+                {
+                    commonRep.ErrorMessage = "產業代碼更新失敗，請洽系統人員!";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         /// <summary>
         /// 依識別碼取得單一客戶資料
         /// </summary>
