@@ -27,6 +27,38 @@ namespace MES.WebAPI.Controllers
         {
             XmlConfigurator.Configure(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config"));
         }
+        [Route("api/QueryCustListByCondition"), HttpPost]
+        public CommonRep<C客戶設定> QueryCustListByCondition([FromBody]QueryCustListByConditionReq request)
+        {
+            CommonRep<C客戶設定> commonRep = new CommonRep<C客戶設定>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getCustListByCondition(request);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetUserCompany"), HttpGet]
+        public CommonRep<公司基本資料> GetUserCompany()
+        {
+            CommonRep<公司基本資料> commonRep = new CommonRep<公司基本資料>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.getUserCompany();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        } 
         /// <summary>
         /// 帶出所有客戶
         /// </summary>
@@ -39,6 +71,39 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = custMiddle.getCustomerList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        // 
+        [Route("api/GetProjectSerialList"), HttpGet]
+        public CommonRep<工令單> GetProjectSerialList(string custNo)
+        {
+            CommonRep<工令單> commonRep = new CommonRep<工令單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getProjectSerialList(custNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetCARNo"), HttpGet]
+        public CommonRep<string> GetCARNo()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.getCARNo();
             }
             catch (Exception ex)
             {
@@ -1361,4 +1426,5 @@ namespace MES.WebAPI.Controllers
         }
         #endregion
     }
+    
 }

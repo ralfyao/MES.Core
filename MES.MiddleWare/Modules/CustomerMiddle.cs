@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MES.MiddleWare.Modules
 {
@@ -26,9 +27,15 @@ namespace MES.MiddleWare.Modules
             try
             {
                 CustomerRepository customerRepository = new CustomerRepository();
-                Lst = customerRepository.GetList(null);
+                Lst = customerRepository.GetList(null).OrderBy(x=>x.正航編號).ToList();
                 foreach(var cust in  Lst)
                 {
+                    var industry = customerRepository.getIndustryCode(cust.INDUSTRYCODE).FirstOrDefault();
+                    if (industry != null)
+                    {
+                        cust.INDUSTRYCODE_C = industry.中分類名稱;
+                        cust.INDUSTRYCODE_E = industry.英文;
+                    }
                     cust.contactLists = customerRepository.getCustomerContactList(cust.COMPANY);
                     cust.contactDetails = customerRepository.getCustomerDetails(cust.COMPANY);
                 }
@@ -338,6 +345,29 @@ namespace MES.MiddleWare.Modules
                         var count = int.Parse(ls[0]);
                         count++;
                         rfqNo = $"DC{DateTime.Now.ToString("yyyy")}{count.ToString("000")}";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return rfqNo;
+        }
+        public string getCARNo()
+        {
+            string rfqNo = string.Empty;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    string strSQL = $"SELECT COUNT(0) FROM 客戶訴願處理單 WHERE 單號 LIKE 'CH{DateTime.Now.ToString("yyyyMMdd")}%'";
+                    List<string> ls = conn.Query<string>(strSQL).ToList();
+                    if (ls.Count() > 0)
+                    {
+                        var count = int.Parse(ls[0]);
+                        count++;
+                        rfqNo = $"CH{DateTime.Now.ToString("yyyyMMdd")}{count.ToString("00")}";
                     }
                 }
             }
@@ -1228,5 +1258,106 @@ namespace MES.MiddleWare.Modules
             }
             return execCnt;
         }
+
+        public List<工令單> getProjectSerialList(string custNo)
+        {
+            List<工令單> list = new List<工令單>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"SELECT * FROM 工令單 WHERE 客戶簡稱='{custNo}'";
+                    list = conn.Query<工令單>(strSQL).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
+        public 公司基本資料 getUserCompany()
+        {
+            公司基本資料 data = new 公司基本資料();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"SELECT * FROM 公司基本資料";
+                    data = conn.Query<公司基本資料>(strSQL).ToList().FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return data;
+        }
+
+        public List<C客戶設定> getCustListByCondition(QueryCustListByConditionReq request)
+        {
+            List<C客戶設定> list = new List<C客戶設定>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"SELECT * FROM C客戶設定";
+                    list = conn.Query<C客戶設定>(strSQL).ToList();
+                    if (!string.IsNullOrEmpty(request.company))
+                    {
+                        list = list.Where(x => x.COMPANY.IndexOf(request.company) != -1).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(request.companyAlias))
+                    {
+                        list = list.Where(x => x.欄位2.IndexOf(request.companyAlias) != -1).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(request.custNo))
+                    {
+                        list = list.Where(x => x.正航編號.IndexOf(request.custNo) != -1).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(request.country))
+                    {
+                        list = list.Where(x => x.COUNTRY == request.country).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(request.industryCode))
+                    {
+                        list = list.Where(x => x.INDUSTRYCODE.Trim() == request.industryCode).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(request.eqpType))
+                    {
+                        list = list.Where(x => x.MACHINEISSUE.IndexOf(request.eqpType) != -1).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(request.custType))
+                    {
+                        list = list.Where(x => x.MA.IndexOf(request.custType) != -1).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(request.remark))
+                    {
+                        list = list.Where(x => x.MEMO.IndexOf(request.remark) != -1).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+    }
+    public class QueryCustListByConditionReq
+    {
+        public string? company { get; set; }
+        public string? companyAlias { get; set; }
+        public string? custNo { get; set; }
+        public string? country { get; set; }
+        public string? industryCode { get; set; }
+        public string? eqpType { get; set; }
+        public string? custType { get; set; }
+        public string? remark { get; set; }
+
     }
 }

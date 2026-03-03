@@ -66,7 +66,7 @@ namespace MES.Core.Repository.Impl
         /// 取得產業別下拉列表資料來源
         /// </summary>
         /// <returns></returns>
-        public List<C產業代碼> getIndustryCode()
+        public List<C產業代碼> getIndustryCode(string code = "")
         {
             List<C產業代碼> l = new List<C產業代碼>();
             try
@@ -75,9 +75,17 @@ namespace MES.Core.Repository.Impl
                 {
                     conn.Open();
                     SqlCommand sqlCommand = conn.CreateCommand();
-                    string strSQL = "SELECT * FROM C產業代碼 ";
+                    string strSQL = "SELECT * FROM C產業代碼 WHERE 1=1 ";
+                    if (!string.IsNullOrEmpty(code))
+                    {
+                        strSQL += $" AND RTRIM(中分類碼)='{code.Trim()}'";
+                    }
                     var result = conn.Query<C產業代碼>(strSQL);
                     l = result.ToList();
+                    l.ForEach((x) =>
+                    {
+                        x.中分類碼 = x.中分類碼.Trim();
+                    });
                 }
             }
             catch (Exception ex)

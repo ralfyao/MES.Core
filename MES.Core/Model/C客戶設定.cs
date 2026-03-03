@@ -21,6 +21,8 @@ namespace MES.Core.Model
         public string EMAIL { get; set; } = "";
         public string COUNTRY { get; set; } = "";
         public string INDUSTRYCODE { get; set; } = "";
+        public string INDUSTRYCODE_C { get; set; } = "";
+        public string INDUSTRYCODE_E { get; set; } = "";
         public string INDUSTRY { get; set; } = "";
         public string MACHINEISSUE { get; set; } = "";
         public string 正航編號 { get; set; } = "";            
@@ -41,6 +43,13 @@ namespace MES.Core.Model
         public string 建檔日 { get; set; } = "";
         public string 修改日 { get; set; } = "";
         public string 停用日 { get; set; } = "";
+        private string _啟用日;
+        public string 啟用日
+        {
+            get { return _啟用日; }
+            set { _啟用日 = value; }
+        }
+
         public List<C客戶連絡人清單> contactLists { get; set; } = new List<C客戶連絡人清單>();
         public List<C客戶聯絡明細> contactDetails { get; set; } = new List<C客戶聯絡明細>();
     }
