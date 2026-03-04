@@ -38,14 +38,25 @@ namespace MES.WebAPI.Controllers
                 {
                     foreach(var item in result)
                     {
+
                         if (item.Password == user.password)
                         {
-                            rep.WorkStatus = WorkStatus.OK.ToString();
-                            rep.ErrorMessage = string.Empty;
-                            return rep;
+                            if (!(bool)item.IsActivate)
+                            {
+                                rep.WorkStatus = WorkStatus.NG.ToString();
+                                rep.ErrorMessage = "帳號已停用";
+                                return rep;
+                            } 
+                            else
+                            {
+                                rep.WorkStatus = WorkStatus.OK.ToString();
+                                rep.ErrorMessage = string.Empty;
+                                return rep;
+                            }
                         }
                         else
                         {
+                            rep.WorkStatus = WorkStatus.NG.ToString();
                             rep.ErrorMessage = "密碼錯誤";
                         }
                     }

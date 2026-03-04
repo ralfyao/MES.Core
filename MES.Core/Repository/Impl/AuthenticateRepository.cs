@@ -233,22 +233,52 @@ namespace MES.Core.Repository.Impl
             int updateCnt = 0;
             try
             {
-                var sql = @"UPDATE Authenticate
-                               SET Password = @Password,
-                                   AccountName=@AccountName,
-                                   Privilege = @Privilege,
-                                   LastModifier = @LastModifier
-                             WHERE Account=@Account";
-                var parameters = new DynamicParameters(t);
                 using (var conn = new SqlConnection(IRepository<Authenticate>.ConnStr))
                 {
                     conn.Open();
-                    updateCnt = conn.Execute(sql, parameters);
+                    var parameters = new DynamicParameters(t);
+                    if (!string.IsNullOrEmpty(t.Privilege))
+                    {
+                        string sql = @"UPDATE Authenticate
+                                          SET Privilege = @Privilege,
+                                              LastModifier = @LastModifier
+                                        WHERE Account=@Account";
+                        updateCnt += conn.Execute(sql, parameters);
+                    }
+
+                    if (!string.IsNullOrEmpty(t.Password))
+                    {
+                        string sql = @"UPDATE Authenticate
+                                          SET Password = @Password,
+                                              LastModifier = @LastModifier
+                                        WHERE Account=@Account";
+                        updateCnt += conn.Execute(sql, parameters);
+                    }
+
+
+                    if (!string.IsNullOrEmpty(t.AccountName))
+                    {
+                        string sql = @"UPDATE Authenticate
+                                          SET AccountName = @AccountName,
+                                              LastModifier = @LastModifier
+                                        WHERE Account=@Account";
+                        updateCnt += conn.Execute(sql, parameters);
+                    }
+
+                    if (t.IsActivate != null)
+                    {
+                        string sql = @"UPDATE Authenticate
+                                          SET IsActivate = @IsActivate,
+                                              LastModifier = @LastModifier
+                                        WHERE Account=@Account";
+                        updateCnt += conn.Execute(sql, parameters);
+                    }
                 }
             }
             catch(Exception ex)
             {
                 logger.Error(ex);
+                throw ex;
             }
             return updateCnt;
             //throw new NotImplementedException();

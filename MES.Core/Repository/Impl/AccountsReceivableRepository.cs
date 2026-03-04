@@ -79,10 +79,12 @@ namespace MES.Core.Repository.Impl
                     conn.Open();
                     DynamicParameters dynamicParameters = new DynamicParameters(t);
                     execCnt += conn.Execute(sql, dynamicParameters);
-                    foreach(var item in t.arListDetail) 
+                    if (t.arListDetail != null)
                     {
-                        item.單號 = t.單號;
-                        sql = $@"INSERT INTO dbo.F收款分期
+                        foreach (var item in t.arListDetail)
+                        {
+                            item.單號 = t.單號;
+                            sql = $@"INSERT INTO dbo.F收款分期
                                 (
                                     單號,
                                     款項期別,
@@ -98,8 +100,9 @@ namespace MES.Core.Repository.Impl
                                     @金額,
                                     @請款單號
                                     )";
-                        dynamicParameters = new DynamicParameters(item);
-                        execCnt += conn.Execute(sql, dynamicParameters);
+                            dynamicParameters = new DynamicParameters(item);
+                            execCnt += conn.Execute(sql, dynamicParameters);
+                        }
                     }
                 }
             }
