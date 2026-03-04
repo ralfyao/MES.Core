@@ -14,6 +14,8 @@ namespace MES.Core.Model
         public string? AccountName { get; set; }
         public string Password { get; set; }
         public string Privilege { get; set; }
+        public string? 職務 { get; set; }
+        public string? 員工編號 { get; set; }
         public string LastModifier { get; set; }
         public string LastModifyDate {  get; set; }
     }

@@ -2,6 +2,7 @@
 using log4net.Config;
 using MES.Core.Model;
 using MES.Core.Repository.Impl;
+using MES.WebAPI.MiddleWare;
 using MES.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -90,6 +91,32 @@ namespace MES.WebAPI.Controllers
                 rep.WorkStatus = WorkStatus.Fail.ToString();
             }
             return rep;
+        }
+        [Route("api/UpdatePassword"), HttpGet]
+        public CommonRep<string> UpdatePassword(string? account, string? password)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            UserMiddle userMiddle = new UserMiddle();
+            try
+            {
+                int retCode = userMiddle.UpdatePassword(account, password);
+                if (retCode  == 0)
+                {
+                    commonRep.ErrorMessage = "變更密碼失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                } 
+                else
+                {
+                    commonRep.result = password;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
         }
         /// <summary>
         /// 取得所有使用者帳號
