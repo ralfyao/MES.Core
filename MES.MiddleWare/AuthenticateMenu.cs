@@ -47,26 +47,60 @@ namespace MES.MiddleWare
                     menu.MenuIcon = row["MenuIcon"].ToString();
                     menu.MenuUrl = row["MenuID"].ToString();
                     menu.menuSubList = new List<MenuSub>();
-                    strSQL = $@"SELECT DISTINCT e.MenuID, d.MenuSubID, f.MenuSubName, f.MenuSubUrl
+                    strSQL = $@"SELECT DISTINCT e.MenuID, d.MenuSubID, f.MenuSubName, f.MenuSubUrl, A2.職務代理效期
                                       FROM dbo.Authenticate AS A
                                       LEFT OUTER JOIN AuthenticatePrivilege b ON a.Privilege=b.AuthenticatePrivilegeName
                                       LEFT OUTER JOIN Privilege c ON b.PrivilegeNameMapped=c.PrivilegeName
                                       LEFT OUTER JOIN PrivilegeMenu d ON c.PrivilegeName=d.PrivilegeName
                                       LEFT OUTER JOIN dbo.Menu AS e ON d.MenuID=e.MenuID
                                       LEFT OUTER JOIN dbo.MenuSub AS f ON e.MenuID=f.MenuID AND d.MenuSubID=f.MenuSubID
-                                     WHERE e.MenuID='{menu.MenuID}' AND A.Account='{account}' AND MenuSubName IS NOT NULL ";
+                                      LEFT OUTER JOIN A使用者授權 A2 ON CONVERT(VARCHAR, A.ID)=A2.員工編號 AND A2.授權表單=f.MenuID AND A2.授權子表單=f.MenuSubID
+                                     WHERE e.MenuID='{menu.MenuID}' AND A.Account='{account}' AND f.MenuSubName IS NOT NULL ";
                     DataSet ds2 = Utility.getDataSet(IRepository<PrivilegeMenu>.ConnStr, strSQL);
+                    if (ds2.Tables[0].Rows.Count > 0)
+                    {
+                        if (ds2.Tables[0].Rows[0]["MenuID"].ToString() == "0")
+                        {
+                            continue;
+                        }
+                    }
                     foreach (DataRow row2 in ds2.Tables[0].Rows)
                     {
                         MenuSub menuSub = new MenuSub();
                         menuSub.MenuSubID = row2["MenuSubID"].ToString() == "" ? -1 : int.Parse(row2["MenuSubID"].ToString());
                         menuSub.MenuSubName = row2["MenuSubName"].ToString();
                         menuSub.MenuSubUrl = row2["MenuSubUrl"].ToString();
-                        menu.menuSubList.Add(menuSub);
+                        try
+                        {
+                            if (!string.IsNullOrEmpty(row2["職務代理效期"].ToString()))
+                            {
+                                string avaliableDate = DateTime.Parse(row2["職務代理效期"].ToString()).ToString("yyyyMMdd");
+                                string nowDate = DateTime.Now.ToString("yyyyMMdd");
+                                if (avaliableDate != "19000101")
+                                {
+                                    if (avaliableDate.CompareTo(nowDate) > 0)//到期前我都可以存取表單
+                                    {
+                                        menu.menuSubList.Add(menuSub);
+                                    }
+                                }
+                                else
+                                {
+                                    menu.menuSubList.Add(menuSub);
+                                }
+                            }
+                            else
+                            {
+                                menu.menuSubList.Add(menuSub);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                        ;
                     }
                     menuList.Add(menu);
                 }
-
                 menuList = menuList.OrderBy(x => x.MenuID).ToList();
             }
             catch (Exception ex)
