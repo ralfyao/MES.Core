@@ -225,5 +225,61 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetMenuFuncByAccount")]
+        public CommonRep<MenuSub> GetMenuFuncByAccount(string? account)
+        {
+            CommonRep<MenuSub> commonRep = new CommonRep<MenuSub>();
+            UserMiddle userMiddle = new UserMiddle();
+            try
+            {
+                commonRep.resultList = userMiddle.GetMenuFuncByAccount(account);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/PositionList"), HttpGet]
+        public CommonRep<string> PositionList()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            UserMiddle userMiddle = new UserMiddle();
+            try
+            {
+                commonRep.resultList = userMiddle.GetPositionList();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateUserAuth"), HttpPost]
+        public CommonRep<string> UpdateUserAuth([FromBody]List<MenuSub> menuSubs)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            UserMiddle userMiddle = new UserMiddle();
+            try
+            {
+                int retCode = userMiddle.updateUserAuth(menuSubs);
+                if (retCode == 0)
+                {
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                    commonRep.ErrorMessage = "更新使用者授權失敗，請洽系統人員";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
     }
 }

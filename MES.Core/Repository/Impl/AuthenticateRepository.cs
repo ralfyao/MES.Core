@@ -48,7 +48,17 @@ namespace MES.Core.Repository.Impl
                 using (var conn = new SqlConnection(IRepository<Authenticate>.ConnStr))
                 {
                     conn.Open();
-                    string sql = "SELECT * FROM Authenticate WHERE 1=1 ";
+                    string sql = @"SELECT    Account
+                                            ,Password
+                                            ,Privilege
+                                            ,LastModifier
+                                            ,LastModifyDate
+                                            ,AccountName
+                                            ,IsActivate
+                                            ,ID
+                                            ,職務
+                                            ,員工編號
+                                       FROM Authenticate WHERE 1=1 ";
                     if (t != null)
                     {
                         sql += " AND Account like @Account + '%'";
@@ -200,6 +210,9 @@ namespace MES.Core.Repository.Impl
                                 AccountName,
                                 Password,
                                 Privilege,
+                                IsActivate,
+                                IsEmail,
+                                職務,
                                 LastModifier,
                                 LastModifyDate
                             )
@@ -209,6 +222,9 @@ namespace MES.Core.Repository.Impl
                                 @AccountName,
                                 @Password,
                                 @Privilege,
+                                @IsActivate,
+                                @IsEmail,
+                                @職務,
                                 @LastModifier,
                                 GETDATE()  
                             )
@@ -255,6 +271,23 @@ namespace MES.Core.Repository.Impl
                         updateCnt += conn.Execute(sql, parameters);
                     }
 
+                    if (!string.IsNullOrEmpty(t.職務))
+                    {
+                        string sql = @"UPDATE Authenticate
+                                          SET 職務 = @職務,
+                                              LastModifier = @LastModifier
+                                        WHERE Account=@Account";
+                        updateCnt += conn.Execute(sql, parameters);
+                    }
+
+                    if (!string.IsNullOrEmpty(t.員工編號))
+                    {
+                        string sql = @"UPDATE Authenticate
+                                          SET 員工編號 = @員工編號,
+                                              LastModifier = @LastModifier
+                                        WHERE Account=@Account";
+                        updateCnt += conn.Execute(sql, parameters);
+                    }
 
                     if (!string.IsNullOrEmpty(t.AccountName))
                     {
@@ -269,6 +302,15 @@ namespace MES.Core.Repository.Impl
                     {
                         string sql = @"UPDATE Authenticate
                                           SET IsActivate = @IsActivate,
+                                              LastModifier = @LastModifier
+                                        WHERE Account=@Account";
+                        updateCnt += conn.Execute(sql, parameters);
+                    }
+
+                    if (t.IsEmail != null)
+                    {
+                        string sql = @"UPDATE Authenticate
+                                          SET IsEmail = @IsEmail,
                                               LastModifier = @LastModifier
                                         WHERE Account=@Account";
                         updateCnt += conn.Execute(sql, parameters);
