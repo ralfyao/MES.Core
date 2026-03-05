@@ -55,6 +55,7 @@ namespace MES.Core.Repository.Impl
                                             ,LastModifyDate
                                             ,AccountName
                                             ,IsActivate
+                                            ,IsEmail
                                             ,ID
                                             ,職務
                                             ,員工編號
