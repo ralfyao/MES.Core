@@ -10,16 +10,16 @@ namespace MES.Core.Model
     public class Authenticate
     {
         [Key]
-        public string Account { get; set; }
+        public string? Account { get; set; }
         public string? AccountName { get; set; }
-        public string Password { get; set; }
-        public string Privilege { get; set; }
-        public string 職務 { get; set; }
-        public string 員工編號 { get; set; }
+        public string? Password { get; set; }
+        public string? Privilege { get; set; }
+        public string? 職務 { get; set; }
+        public string? 員工編號 { get; set; }
         public bool? AllowEmail { get; set; } = false;
         public bool? IsActivate { get; set; } = true;
         public bool? IsEmail { get; set; } = false;
-        public string LastModifier { get; set; }
-        public string LastModifyDate {  get; set; }
+        public string? LastModifier { get; set; }
+        public string? LastModifyDate {  get; set; }
     }
 }

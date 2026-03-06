@@ -54,8 +54,8 @@ namespace MES.Core.Repository.Impl
                                             ,LastModifier
                                             ,LastModifyDate
                                             ,AccountName
-                                            ,IsActivate
-                                            ,IsEmail
+                                            ,isnull(IsActivate, 1) IsActivate
+                                            ,isnull(IsEmail, 0) IsEmail
                                             ,ID
                                             ,職務
                                             ,員工編號

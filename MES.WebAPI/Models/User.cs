@@ -4,9 +4,9 @@ namespace MES.WebAPI.Models
 {
     public class User
     {
-        public string name { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
+        public string? name { get; set; }
+        public string? username { get; set; }
+        public string? password { get; set; }
         public bool? isActivate { get; set; }
         public bool? isEmail { get; set; }
         public string? position { get; set; }

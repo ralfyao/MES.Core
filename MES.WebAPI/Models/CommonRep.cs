@@ -1,4 +1,6 @@
-﻿namespace MES.WebAPI.Models
+﻿using MES.Core.Model;
+
+namespace MES.WebAPI.Models
 {
     public class CommonRep<T>
     {
@@ -9,5 +11,6 @@
         public Dictionary<string, T> resultDictionary { get; set; } = new Dictionary<string, T>();
         public CommonRep() { }
         public CommonRep(HttpRequestMessage requestMessage) { }
+
     }
 }
