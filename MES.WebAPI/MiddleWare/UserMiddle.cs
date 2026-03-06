@@ -47,6 +47,7 @@ namespace MES.WebAPI.MiddleWare
 		                                        , ISNULL(A2.報表, 0) 報表
 		                                        , ISNULL(A2.輸出, 0) 輸出
 		                                        , ISNULL(A2.註記, '') 註記
+		                                        , ISNULL(A2.查詢, '') 查詢
 		                                        , ISNULL(A2.職務代理效期, '') 職務代理效期
 		                                        , ISNULL(A2.機號, '') 機號
                                                 , 0 showDatePopup
@@ -116,6 +117,7 @@ namespace MES.WebAPI.MiddleWare
                                                      編修,
                                                      報表,
                                                      輸出,
+                                                     查詢,
                                                      註記,
                                                      職務代理效期,
                                                      機號,
@@ -131,6 +133,7 @@ namespace MES.WebAPI.MiddleWare
                                                      @編修,
                                                      @報表,
                                                      @輸出,
+                                                     @查詢,
                                                      @註記,
                                                      @職務代理效期,
                                                      @機號,
