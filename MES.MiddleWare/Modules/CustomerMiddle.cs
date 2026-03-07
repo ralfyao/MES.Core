@@ -21,6 +21,8 @@ namespace MES.MiddleWare.Modules
         public static object quotationLock { get; set; } = new object();
         public static object shippingLock { get; set; } = new object();
         public static object customerLock { get; set; } = new object();
+        public static object carLock { get; set; } = new object();
+        public static object repairLock = new object();
         public List<C客戶設定> getCustomerList()
         {
             List<C客戶設定> Lst = new List<C客戶設定>();
@@ -747,7 +749,7 @@ namespace MES.MiddleWare.Modules
                     C訂單 salesOrder = new C訂單();
                     C客戶詢問函 rfq = getRfqByNo(form.RFQNO);
                     C客戶設定 customer = getCustomerByName(rfq.COMPANY);
-                    salesOrder.客戶編號 = customer.正航編號;
+                    salesOrder.客戶編號 = customer?.正航編號??"";
                     salesOrder.交貨方式 = form.交貨方式;
                     salesOrder.付款方式 = form.付款方式;
                     salesOrder.交貨日期 = form.交貨日期;
@@ -755,7 +757,7 @@ namespace MES.MiddleWare.Modules
                     salesOrder.幣別 = form.CURRENCY;
                     salesOrder.價格條件 = form.價格條件;
                     salesOrder.佣金 = !string.IsNullOrEmpty(form.COMMISSION) ? decimal.Parse(form.COMMISSION) : 0;
-                    salesOrder.指配國別 = customer.COUNTRY;
+                    salesOrder.指配國別 = customer?.COUNTRY ?? "";
                     salesOrder.業務員 = form.DADDRESS;
                     salesOrder.單號 = getSalesOrderNo();
                     salesOrder.稅率 = form.CURRENCY == "NTD" ? "0.05" : "0";
@@ -1452,6 +1454,333 @@ namespace MES.MiddleWare.Modules
                 throw ex;
             }
             return execCnt;
+        }
+        public List<客訴及維修原因類別> getCARRepairReasonList()
+        {
+            List<客訴及維修原因類別> list = new List<客訴及維修原因類別>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = "SELECT * FROM 客訴及維修原因類別";
+                    list = conn.Query<客訴及維修原因類別>(strSQL).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+        public int saveCAR(客戶訴願處理單 form)
+        {
+            int retCode = 0;
+            try
+            {
+                lock (carLock)
+                {
+                    form.單號 = getCARNo();
+                    using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                    {
+                        conn.Open();
+                        string strSQL = $@"INSERT INTO dbo.客戶訴願處理單
+                                        (
+                                            單號,
+                                            申請日期,
+                                            業務人員,
+                                            客戶簡稱,
+                                            客戶名稱,
+                                            專案序號,
+                                            機台型號,
+                                            機台類型,
+                                            機台名稱,
+                                            訴願聯絡窗口,
+                                            訴願類別,
+                                            訴求內容,
+                                            解決對策,
+                                            議決人員,
+                                            初步成效確認,
+                                            回覆日期,
+                                            回覆摘要,
+                                            客戶反應,
+                                            滿意度評分,
+                                            維修服務單號,
+                                            轉維修,
+                                            原因類別1,
+                                            簡要描述1,
+                                            原因鑑定1,
+                                            鑑定人員1,
+                                            原因類別2,
+                                            簡要描述2,
+                                            原因鑑定2,
+                                            鑑定人員2,
+                                            原因類別3,
+                                            簡要描述3,
+                                            原因鑑定3,
+                                            鑑定人員3
+                                        )
+                                        VALUES
+                                        (   
+	                                        @單號,
+	                                        @申請日期,
+	                                        @業務人員,
+	                                        @客戶簡稱,
+	                                        @客戶名稱,
+	                                        @專案序號,
+	                                        @機台型號,
+	                                        @機台類型,
+	                                        @機台名稱,
+	                                        @訴願聯絡窗口,
+	                                        @訴願類別,
+	                                        @訴求內容,
+	                                        @解決對策,
+	                                        @議決人員,
+	                                        @初步成效確認,
+	                                        @回覆日期,
+	                                        @回覆摘要,
+	                                        @客戶反應,
+	                                        @滿意度評分,
+	                                        @維修服務單號,
+	                                        @轉維修,
+	                                        @原因類別1,
+	                                        @簡要描述1,
+	                                        @原因鑑定1,
+	                                        @鑑定人員1,
+	                                        @原因類別2,
+	                                        @簡要描述2,
+	                                        @原因鑑定2,
+	                                        @鑑定人員2,
+	                                        @原因類別3,
+	                                        @簡要描述3,
+	                                        @原因鑑定3,
+	                                        @鑑定人員3
+                                            )";
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        retCode = conn.Execute(strSQL, dynamicParameters);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return retCode;
+        }
+        public int updateCAR(客戶訴願處理單 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                lock (carLock)
+                {
+                    using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                    {
+                        conn.Open();
+                        string strSQL = $@"UPDATE dbo.客戶訴願處理單
+                                        SET 申請日期 = @申請日期,
+                                            業務人員 = @業務人員,
+                                            客戶簡稱 = @客戶簡稱,
+                                            客戶名稱 = @客戶名稱,
+                                            專案序號 = @專案序號,
+                                            機台型號 = @機台型號,
+                                            機台類型 = @機台類型,
+                                            機台名稱 = @機台名稱,
+                                            訴願聯絡窗口 = @訴願聯絡窗口,
+                                            訴願類別 = @訴願類別,
+                                            訴求內容 = @訴求內容,
+                                            解決對策 = @解決對策,
+                                            議決人員 = @議決人員,
+                                            初步成效確認 = @初步成效確認,
+                                            回覆日期 = @回覆日期,
+                                            回覆摘要 = @回覆摘要,
+                                            客戶反應 = @客戶反應,
+                                            滿意度評分 = @滿意度評分,
+                                            維修服務單號 = @維修服務單號,
+                                            轉維修 = @轉維修,
+                                            原因類別1 = @原因類別1,
+                                            簡要描述1 = @簡要描述1,
+                                            原因鑑定1 = @原因鑑定1,
+                                            鑑定人員1 = @鑑定人員1,
+                                            原因類別2 = @原因類別2,
+                                            簡要描述2 = @簡要描述2,
+                                            原因鑑定2 = @原因鑑定2,
+                                            鑑定人員2 = @鑑定人員2,
+                                            原因類別3 = @原因類別3,
+                                            簡要描述3 = @簡要描述3,
+                                            原因鑑定3 = @原因鑑定3,
+                                            鑑定人員3 = @鑑定人員3
+                                        WHERE 單號=@單號";
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        execCnt = conn.Execute(strSQL, dynamicParameters);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+        public int updateCARRepairNo(客戶訴願處理單 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                lock (carLock)
+                {
+                    using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                    {
+                        conn.Open();
+                        string strSQL = $@"UPDATE dbo.客戶訴願處理單
+                                        SET 維修服務單號 = @維修服務單號,
+                                            轉維修 = @轉維修
+                                        WHERE 單號=@單號";
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        execCnt = conn.Execute(strSQL, dynamicParameters);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+        public int deleteCAR(string formNo)
+        {
+            int execCnt = 0;
+            try
+            {
+                lock (carLock)
+                {
+                    using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                    {
+                        conn.Open();
+                        string strSQL = $@"DELETE FROM dbo.客戶訴願處理單
+                                            WHERE 單號='{formNo}'";
+                        execCnt = conn.Execute(strSQL);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+        public List<客戶訴願處理單> getCARList()
+        {
+            List<客戶訴願處理單> list = new List<客戶訴願處理單>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<客戶訴願處理單>(@"SELECT  [識別碼]
+                                                              ,[單號]
+                                                              ,CONVERT(VARCHAR,[申請日期],120) [申請日期]
+                                                              ,[業務人員]
+                                                              ,[客戶簡稱]
+                                                              ,[客戶名稱]
+                                                              ,[專案序號]
+                                                              ,[機台型號]
+                                                              ,[機台類型]
+                                                              ,[機台名稱]
+                                                              ,[訴願聯絡窗口]
+                                                              ,[訴願類別]
+                                                              ,[訴求內容]
+                                                              ,[解決對策]
+                                                              ,[議決人員]
+                                                              ,[初步成效確認]
+                                                              ,CONVERT(VARCHAR,[回覆日期],120) [回覆日期]
+                                                              ,[回覆摘要]
+                                                              ,[客戶反應]
+                                                              ,[滿意度評分]
+                                                              ,[維修服務單號]
+                                                              ,[轉維修]
+                                                              ,[原因類別1]
+                                                              ,[簡要描述1]
+                                                              ,[原因鑑定1]
+                                                              ,[鑑定人員1]
+                                                              ,[原因類別2]
+                                                              ,[簡要描述2]
+                                                              ,[原因鑑定2]
+                                                              ,[鑑定人員2]
+                                                              ,[原因類別3]
+                                                              ,[簡要描述3]
+                                                              ,[原因鑑定3]
+                                                              ,[鑑定人員3] FROM 客戶訴願處理單").ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return list;
+        }
+        public 客戶訴願處理單 transferToRepair(客戶訴願處理單 form)
+        {
+            string formNo = string.Empty;
+            try
+            {
+                RepairFormRepository repairFormRepository = new RepairFormRepository();
+                維修服務單 application = new 維修服務單(form);
+                lock (repairLock)
+                {
+                    formNo = getRepairFormNo();
+                    application.單號 = formNo;
+                    repairFormRepository.Insert(application);
+                    form.維修服務單號 = formNo;
+                    form.轉維修 = 1;
+                    updateCARRepairNo(form);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return form;
+        }
+
+        private string getRepairFormNo()
+        {
+            string rfqNo = string.Empty;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    string strSQL = $"SELECT COUNT(0) FROM 維修服務單 WHERE 單號 LIKE 'RS{DateTime.Now.ToString("yyyyMMdd")}%'";
+                    List<string> ls = conn.Query<string>(strSQL).ToList();
+                    if (ls.Count() > 0)
+                    {
+                        var count = int.Parse(ls[0]);
+                        count++;
+                        rfqNo = $"RS{DateTime.Now.ToString("yyyyMMdd")}{count.ToString("00")}";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return rfqNo;
+        }
+
+        public List<H員工清冊> getRepairtorList()
+        {
+            List<H員工清冊> Lst = new List<H員工清冊>();
+            try
+            {
+                HumanResourceRepository customerRepository = new HumanResourceRepository();
+                Lst = customerRepository.GetList(null).Where(x => (x.職能 == "設計" || x.職能 == "組測" || x.職能 == "程控") && x.狀況 == "正常").ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Lst;
         }
     }
     public class QueryCustListByConditionReq

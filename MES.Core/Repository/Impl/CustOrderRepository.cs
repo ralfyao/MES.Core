@@ -151,14 +151,15 @@ namespace MES.Core.Repository.Impl
                             parameters = new DynamicParameters(item);
                             retCount += conn.Execute(sql, parameters, tran);
                         }
-
-                        foreach (var item in t.arListDetail)
+                        if (t.arListDetail != null)
                         {
-                            if (string.IsNullOrEmpty(item.單號))
+                            foreach (var item in t.arListDetail)
                             {
-                                item.單號 = t.單號;
-                            }
-                            sql = $@"insert INTO　dbo.F收款分期
+                                if (string.IsNullOrEmpty(item.單號))
+                                {
+                                    item.單號 = t.單號;
+                                }
+                                sql = $@"insert INTO　dbo.F收款分期
                                         (
                                             單號,
                                             款項期別,
@@ -174,8 +175,9 @@ namespace MES.Core.Repository.Impl
                                             @金額,
                                             @請款單號
                                         )";
-                            parameters = new DynamicParameters(item);
-                            retCount += conn.Execute(sql, parameters, tran);
+                                parameters = new DynamicParameters(item);
+                                retCount += conn.Execute(sql, parameters, tran);
+                            }
                         }
                         tran.Commit();
                     }

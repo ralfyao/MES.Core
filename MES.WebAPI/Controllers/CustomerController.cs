@@ -424,6 +424,26 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
         /// <summary>
+        /// 取得業務清單
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/GetRepairtorList"), HttpGet]
+        public CommonRep<H員工清冊> getRepairtorList()
+        {
+            CommonRep<H員工清冊> commonRep = new CommonRep<H員工清冊>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getRepairtorList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
         /// 取得單一客戶資料
         /// </summary>
         /// <param name="companyName"></param>
@@ -1483,6 +1503,119 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
         #endregion
+        #region 客訴單
+        [Route("api/CARRepairReasonList"), HttpGet]
+        public CommonRep<客訴及維修原因類別> CARRepairReasonList()
+        {
+            CommonRep<客訴及維修原因類別> commonRep = new CommonRep<客訴及維修原因類別>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getCARRepairReasonList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/CARList"), HttpGet]
+        public CommonRep<客戶訴願處理單> CARList()
+        {
+            CommonRep<客戶訴願處理單> commonRep = new CommonRep<客戶訴願處理單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getCARList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/SaveCAR"), HttpPost]
+        public CommonRep<string> SaveCAR([FromBody] 客戶訴願處理單 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int retCode = customerMiddle.saveCAR(form);
+                if (retCode == 0)
+                {
+                    commonRep.ErrorMessage = "新增客訴單失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateCAR"), HttpPost]
+        public CommonRep<string> UpdateCAR([FromBody] 客戶訴願處理單 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int retCode = customerMiddle.updateCAR(form);
+                if (retCode == 0)
+                {
+                    commonRep.ErrorMessage = "更新客訴單失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteCAR"), HttpGet]
+        public CommonRep<string> DeleteCAR(string formNo)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int retCode = customerMiddle.deleteCAR(formNo);
+                if (retCode == 0)
+                {
+                    commonRep.ErrorMessage = "更新客訴單失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/TransferToRepair"), HttpPost]
+        public CommonRep<客戶訴願處理單> TransferCARToRepair([FromBody] 客戶訴願處理單 form)
+        {
+            CommonRep<客戶訴願處理單> commonRep = new CommonRep<客戶訴願處理單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.transferToRepair(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        #endregion
     }
-    
+
 }
