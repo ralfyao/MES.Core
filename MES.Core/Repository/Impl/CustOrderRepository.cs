@@ -220,7 +220,7 @@ namespace MES.Core.Repository.Impl
                                         修改        =@修改              ,
                                         核准        =@核准              ,
                                         建檔日      =@建檔日             ,
-                                        修改日      =@修改日             ,
+                                        修改日      =GETDATE()             ,
                                         核准日      =@核准日
                                     WHERE 單號=@單號";
             using (var conn = new SqlConnection(IRepository<string>.ConnStr))
