@@ -1019,7 +1019,7 @@ namespace MES.MiddleWare.Modules
 	                                                       dbo.C報價明細 AS e
                                                     WHERE C.COMPANY=b.COMPANY
                                                       AND c.RFQNO=d.RFQNO
-                                                      AND 正航編號='{custNo}' AND d.CONDATE >= '{orderDate}'
+                                                      AND 正航編號='{custNo}' AND CONVERT(VARCHAR, d.CONDATE, 112) >= '{orderDate}'
                                                       AND d.QUONO=e.QUONO").ToList();
                 }
             }

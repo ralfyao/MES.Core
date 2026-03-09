@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -450,6 +451,59 @@ namespace MES.MiddleWare.Modules
                 throw ex;
             }
             return list;
+        }
+
+        public F其他收入單 doValidation(string? formNo, bool? valid, string? account)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    F其他收入單 form = new F其他收入單();
+                    form.單號 = formNo;
+                    OtherIncomeRepository repairFormRepository = new OtherIncomeRepository();
+                    form = repairFormRepository.GetUnique(form);
+                    form.核准 = account;//((bool)valid?"1":"0");
+                    repairFormRepository.UpdateValidate(form, valid);
+                    form = repairFormRepository.GetUnique(form);
+                    return form;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public F收款 doARValidation(string? formNo, bool? valid, string? account)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    F收款 form = new F收款();
+                    form.單號 = formNo;
+                    AccountsReceivableRepository repairFormRepository = new AccountsReceivableRepository();
+                    form = repairFormRepository.GetListBy(form, "單號", "單號").FirstOrDefault();
+                    if (form != null)
+                    {
+                        form.核准 = account;
+                        repairFormRepository.UpdateValidate(form, valid);
+                        form = repairFormRepository.GetListBy(form, "單號", "單號").FirstOrDefault();
+                    }
+                    else
+                    {
+                        return form;
+                    }
+                    return form;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         #endregion
     }

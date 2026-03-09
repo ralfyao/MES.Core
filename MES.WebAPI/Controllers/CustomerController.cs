@@ -2,6 +2,7 @@
 using log4net.Config;
 using MES.Core.Model;
 using MES.MiddleWare.Modules;
+using MES.WebAPI.MiddleWare;
 using MES.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -553,6 +554,27 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = customerMiddle.getQuotationListByCustid(custid);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ValidateQuotation"), HttpGet]
+        public CommonRep<string> ValidateQuotation(string? formNo, bool? valid, string? account)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            UserMiddle userMiddle = new UserMiddle();
+            try
+            {
+                int execCnt = userMiddle.doValidateQuotation(formNo, valid, account);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "覆核失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
             }
             catch (Exception ex)
             {
@@ -1335,7 +1357,21 @@ namespace MES.WebAPI.Controllers
         {
             CommonRep<C報價明細> commonRep = new CommonRep<C報價明細>();
             CustomerMiddle customerMiddle = new CustomerMiddle();
-            orderDate = DateTime.ParseExact(orderDate, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+            try
+            {
+                orderDate = DateTime.ParseExact(orderDate, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyyMMdd");
+            }
+            catch
+            {
+                try
+                {
+                    orderDate = DateTime.ParseExact(orderDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyyMMdd");
+                }
+                catch
+                {
+                    orderDate = DateTime.ParseExact(orderDate, "yyyy/MM/dd", CultureInfo.InvariantCulture).ToString("yyyyMMdd");
+                }
+            }
             try
             {
                 commonRep.resultList = customerMiddle.getQuotationDistrubutionList(custNo, orderDate);
@@ -1492,6 +1528,48 @@ namespace MES.WebAPI.Controllers
                 if (execCnt == 0)
                 {
                     commonRep.ErrorMessage = "刪除出貨單有誤，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ValidateShipOrder"), HttpGet]
+        public CommonRep<string> ValidateShipOrder(string? formNo, bool? valid, string? account)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            UserMiddle userMiddle = new UserMiddle();
+            try
+            {
+                int execCnt = userMiddle.doValidateShipOrder(formNo, valid, account);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "覆核失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ValidateSalesOrder"), HttpGet]
+        public CommonRep<string> ValidateSalesOrder(string? formNo, bool? valid, string? account)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            UserMiddle userMiddle = new UserMiddle();
+            try
+            {
+                int execCnt = userMiddle.doValidateSalesOrder(formNo, valid, account);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "覆核失敗，請洽系統人員";
                     commonRep.WorkStatus = WorkStatus.Fail.ToString();
                 }
             }

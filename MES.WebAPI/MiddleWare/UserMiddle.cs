@@ -3,6 +3,7 @@ using Dapper;
 using MES.Core.Model;
 using MES.Core.Repository;
 using Microsoft.AspNetCore.SignalR;
+using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 
 namespace MES.WebAPI.MiddleWare
@@ -154,5 +155,65 @@ namespace MES.WebAPI.MiddleWare
             return execCnt;
         }
 
+        internal int doValidateShipOrder(string? formNo, bool? validate, string? account)
+        {
+            int execCnt = 0;    
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    
+                    string strSQL = $@"UPDATE C出貨單 SET 核准='{((bool)validate ? account : "")}', 核准日={((bool)validate ? "GETDATE()" : "NULL")}
+                                        WHERE 單號='{formNo}'";
+                    execCnt += conn.Execute(strSQL);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        public int doValidateSalesOrder(string? formNo, bool? valid, string? account)
+        {
+            int execCnt = 0;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"UPDATE C訂單 SET 核准='{((bool)valid ? account : "")}', 核准日={((bool)valid ? "GETDATE()" : "NULL")}
+                                        WHERE 單號='{formNo}'";
+                    execCnt += conn.Execute(strSQL);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        internal int doValidateQuotation(string? formNo, bool? valid, string? account)
+        {
+            int execCnt = 0;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"UPDATE C報價單 SET 核准='{((bool)valid ? account : "")}', 核准日={((bool)valid ? "GETDATE()" : "NULL")}
+                                        WHERE QUONO='{formNo}'";
+                    execCnt += conn.Execute(strSQL);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
     }
 }

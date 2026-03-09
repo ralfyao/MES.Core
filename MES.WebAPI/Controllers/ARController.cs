@@ -166,6 +166,27 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/ValidateAR"), HttpGet]
+        public CommonRep<F收款> ValidateAR(string? formNo, bool? valid, string? account)
+        {
+            CommonRep<F收款> commonRep = new CommonRep<F收款>();
+            try
+            {
+                ARMiddle aRMiddle = new ARMiddle();
+                commonRep.result = aRMiddle.doARValidation(formNo, valid, account);
+                if (commonRep.result == null)
+                {
+                    commonRep.ErrorMessage = ((bool)valid ? "覆核" : "取消覆核") + "失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         #endregion
         #region 其他收入
         [Route("api/GetItemNumberList"), HttpGet]
@@ -304,6 +325,27 @@ namespace MES.WebAPI.Controllers
             {
                 ARMiddle aRMiddle = new ARMiddle();
                 commonRep.resultList = aRMiddle.getOtherIncomeList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ValidateOtherIncome"), HttpGet]
+        public CommonRep<F其他收入單> ValidateOtherIncome(string? formNo, bool? valid, string? account)
+        {
+            CommonRep<F其他收入單> commonRep = new CommonRep<F其他收入單>();
+            try
+            {
+                ARMiddle aRMiddle = new ARMiddle();
+                commonRep.result = aRMiddle.doValidation(formNo, valid, account);
+                if (commonRep.result == null)
+                {
+                    commonRep.ErrorMessage = ((bool)valid?"覆核":"取消覆核")+"失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
             }
             catch (Exception ex)
             {

@@ -135,7 +135,7 @@ namespace MES.Core.Repository.Impl
             List<T> list = new List<T>();
             try
             {
-                string sql = $@"SELECT {(string.IsNullOrEmpty(fields) ? "*" : fields)} FROM Product WHERE 1=1";
+                string sql = $@"SELECT {(string.IsNullOrEmpty(fields) ? "*" : fields)} FROM {typeof(T).Name} WHERE 1=1";
                 if (t != null)
                 {
                     using (var conn = new SqlConnection(IRepository<T>.ConnStr))

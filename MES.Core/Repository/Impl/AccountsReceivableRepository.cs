@@ -11,6 +11,7 @@ namespace MES.Core.Repository.Impl
 {
     public class AccountsReceivableRepository : AbstractRepository<F收款>
     {
+        public static object arLock = new object();
         public override int Insert(F收款 t)
         {
             int execCnt = 0;
@@ -163,6 +164,31 @@ namespace MES.Core.Repository.Impl
                                         請款單號=@請款單號
                                   WHERE 識別=@識別";
                         dynamicParameters = new DynamicParameters(item);
+                        execCnt += conn.Execute(sql, dynamicParameters);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        public int UpdateValidate(F收款 form, bool? valid)
+        {
+            int execCnt = 0;
+            try
+            {
+                lock (arLock)
+                {
+                    string sql = $@"UPDATE dbo.F收款
+                                       SET 核准 ={((bool)valid ? "@核准" : "NULL")}, 核准日 = {((bool)valid ? "GETDATE()" : "NULL")} 
+                                     WHERE 單號=@單號;";
+                    using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                    {
+                        conn.Open();
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
                         execCnt += conn.Execute(sql, dynamicParameters);
                     }
                 }
