@@ -1694,6 +1694,147 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
         #endregion
+        #region 維修單
+        [Route("api/RepairTestList"), HttpGet]
+        public CommonRep<維修服務單> RepairTestList()
+        {
+            CommonRep<維修服務單> commonRep = new CommonRep<維修服務單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getRepairTestList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/SaveRepairTest"), HttpPost]
+        public CommonRep<維修服務單> SaveRepairTest([FromBody] 維修服務單 form)
+        {
+            CommonRep<維修服務單> commonRep = new CommonRep<維修服務單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int execCnt = customerMiddle.saveRepairTest(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "寫入維修資料失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateRepairTest"), HttpPost]
+        public CommonRep<維修服務單> UpdateRepairTest([FromBody] 維修服務單 form)
+        {
+            CommonRep<維修服務單> commonRep = new CommonRep<維修服務單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int execCnt = customerMiddle.updateRepairTest(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "更新維修資料失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteRepairTest"), HttpPost]
+        public CommonRep<維修服務單> DeleteRepairTest([FromBody] 維修服務單 form)
+        {
+            CommonRep<維修服務單> commonRep = new CommonRep<維修服務單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int execCnt = customerMiddle.deleteRepairTest(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "刪除維修資料失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetRepairFormNo"), HttpGet]
+        public CommonRep<string> GetRepairFormNo()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.getRepairFormNo();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ValidateRepairForm"), HttpGet]
+        public CommonRep<string> ValidateRepairForm(string? formNo, bool? valid, string? account)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            UserMiddle userMiddle = new UserMiddle();
+            try
+            {
+                int execCnt = userMiddle.doValidateRepairForm(formNo, valid, account);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "覆核失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/TransferRepairToWorkOrder"), HttpPost]
+        public CommonRep<string> TransferRepairTo零件申請單([FromBody] 維修服務單 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                int retCode = 0;
+                retCode = customerMiddle.transferRepairTo零件申請單(form);
+                if (retCode == 0)
+                {
+                    commonRep.ErrorMessage = "寫入訂單資料失敗，請洽系統管理員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        #endregion
     }
 
 }

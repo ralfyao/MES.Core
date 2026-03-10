@@ -215,5 +215,10 @@ namespace MES.WebAPI.MiddleWare
             }
             return execCnt;
         }
+
+        internal int doValidateRepairForm(string? formNo, bool? valid, string? account)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

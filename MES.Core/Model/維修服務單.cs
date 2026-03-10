@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,8 +30,9 @@ namespace MES.Core.Model
             this.簡要描述2 = form.簡要描述2;
             this.簡要描述3 = form.簡要描述3;
         }
-
+        public 維修服務單() { }
         public int? 識別碼 { get; set; }
+        [Key]
         public string? 單號 { get; set; }
         public string? 申請日期 { get; set; }
         public string? 維修檢查人員 { get; set; }

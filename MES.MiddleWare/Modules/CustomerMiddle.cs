@@ -1744,7 +1744,7 @@ namespace MES.MiddleWare.Modules
             return form;
         }
 
-        private string getRepairFormNo()
+        public string getRepairFormNo()
         {
             string rfqNo = string.Empty;
             try
@@ -1781,6 +1781,83 @@ namespace MES.MiddleWare.Modules
                 throw ex;
             }
             return Lst;
+        }
+
+        public List<維修服務單> getRepairTestList()
+        {
+            List<維修服務單> list = new List<維修服務單>();
+            try
+            {
+                RepairFormRepository repairFormRepository = new RepairFormRepository();
+                list = repairFormRepository.GetList(null).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+        public int saveRepairTest(維修服務單 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                RepairFormRepository repairFormRepository = new RepairFormRepository();
+                execCnt = repairFormRepository.Insert(form);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        public int updateRepairTest(維修服務單 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                RepairFormRepository repairFormRepository = new RepairFormRepository();
+                execCnt = repairFormRepository.Update(form);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        public int deleteRepairTest(維修服務單 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                RepairFormRepository repairFormRepository = new RepairFormRepository();
+                execCnt = repairFormRepository.Delete(form);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
+        }
+
+        public int transferRepairTo零件申請單(維修服務單 form)
+        {
+            int execCnt = 0;
+            WorkOrderMiscRepository workOrderMiscRepository = new WorkOrderMiscRepository();
+            try
+            {
+                lock (repairLock)
+                {
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return execCnt;
         }
     }
     public class QueryCustListByConditionReq
