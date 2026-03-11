@@ -1832,6 +1832,9 @@ namespace MES.MiddleWare.Modules
             int execCnt = 0;
             try
             {
+
+
+
                 RepairFormRepository repairFormRepository = new RepairFormRepository();
                 execCnt = repairFormRepository.Delete(form);
             }

@@ -43,5 +43,7 @@ namespace MES.Core.Model
         public string 主旨 { get; set; }
         public string 申請用途 { get; set; }
         public string 客戶編號 { get; set; }
+        public List<零件申請明細> detailList = new List<零件申請明細>();
+        public List<零件申請BRG> detailBRGList = new List<零件申請BRG>();
     }
 }
