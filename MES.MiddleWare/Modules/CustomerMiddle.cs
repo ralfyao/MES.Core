@@ -1998,6 +1998,33 @@ namespace MES.MiddleWare.Modules
             }
             return list;
         }
+
+        public List<維修服務單> queryRepairTestListByCondition(string? custNo, string topn = "TOP 1000")
+        {
+            List<維修服務單> list = new List<維修服務單>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"SELECT {topn} a.*
+                                      FROM 維修服務單 a
+                                     WHERE 1=1 ";
+                    if (!string.IsNullOrEmpty(custNo) && custNo != "undefined")
+                    {
+                        sql += $@" AND 客戶簡稱='{custNo}'";
+                    }
+                    
+                    list = conn.Query<維修服務單>(sql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
     }
     public class QueryCustListByConditionReq
     {

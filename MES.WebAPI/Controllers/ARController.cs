@@ -2,6 +2,7 @@
 using MES.MiddleWare.Modules;
 using MES.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Principal;
 
 namespace MES.WebAPI.Controllers
 {
@@ -177,6 +178,29 @@ namespace MES.WebAPI.Controllers
                 if (commonRep.result == null)
                 {
                     commonRep.ErrorMessage = ((bool)valid ? "覆核" : "取消覆核") + "失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateCloseFlag"), HttpGet]
+        public CommonRep<string> UpdateCloseFlag(string? formNo)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            try
+            {
+                ARMiddle aRMiddle = new ARMiddle();
+                F收款 f = aRMiddle.getARList().Where((x) => x.單號 == formNo).FirstOrDefault();
+                f.結案 = !f.結案;
+                int execCnt = aRMiddle.doUpdateCloseFlag(f);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = ((bool)f.結案 ? "結案" : "取消結案") + "失敗，請洽系統人員";
                     commonRep.WorkStatus = WorkStatus.Fail.ToString();
                 }
             }

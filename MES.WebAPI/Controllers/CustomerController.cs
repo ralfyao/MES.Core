@@ -1866,6 +1866,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/QueryRepairTestFormByCondition"), HttpGet]
+        public CommonRep<維修服務單> QueryRepairTestFormByCondition(string? custNo)
+        {
+            CommonRep<維修服務單> commonRep = new CommonRep<維修服務單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.queryRepairTestListByCondition(custNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         #endregion
     }
    

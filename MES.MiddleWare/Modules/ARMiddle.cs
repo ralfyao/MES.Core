@@ -507,6 +507,32 @@ namespace MES.MiddleWare.Modules
                 return null;
             }
         }
+
+        public int doUpdateCloseFlag(F收款? formNo)
+        {
+            int execCnt = 0;
+            lock (arLock)
+            {
+                try
+                {
+                    using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                    {
+                        conn.Open();
+                        string strSQL = $@"UPDATE F收款 SET 結案 = {((bool)formNo.結案?"1":"0")}
+                                            WHERE 單號='{formNo.單號}'";
+                        execCnt =  conn.Execute(strSQL);
+                        //DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        //execCnt += conn.Execute(@"DELETE FROM F其他收入單 WHERE 單號=@單號;
+                        //               DELETE FROM F其他收支明細 WHERE 單號=@單號;", dynamicParameters);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return execCnt;
+        }
         #endregion
     }
 }

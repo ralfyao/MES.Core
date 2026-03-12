@@ -9,12 +9,12 @@ namespace MES.WebAPI.Controllers
     public class SupplierController : ControllerBase
     {
         [Route("api/GetSupplierList"), HttpGet]
-        public CommonRep<B廠商設定> GetSupplierList()
+        public CommonRep<B廠商設定> GetSupplierList(string? supplierNo = "", string supplierName = "")
         {
             CommonRep<B廠商設定> commonRep = new CommonRep<B廠商設定>();
             try
             {
-                commonRep.resultList = new SupplierMiddle().getSupplierList();
+                commonRep.resultList = new SupplierMiddle().getSupplierList(supplierNo, supplierName);
             }
             catch (Exception ex)
             {
