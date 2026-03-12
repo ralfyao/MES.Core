@@ -68,12 +68,12 @@ namespace MES.Core.Repository.Impl
         }
 
 
-        public List<PrivilegeMenu> GetList(PrivilegeMenu t)
+        public List<PrivilegeMenu> GetList(PrivilegeMenu t, string topn = "")
         {
             List<PrivilegeMenu> list = new List<PrivilegeMenu>();
             try
             {
-                string sql = @"SELECT * FROM PrivilegeMenu WHERE 1=1";
+                string sql = $@"SELECT {topn} * FROM PrivilegeMenu WHERE 1=1";
                 if (t != null)
                 {
                     sql += " AND ID like @id+'%'";

@@ -41,7 +41,7 @@ namespace MES.Core.Repository.Impl
             return delCnt;
         }
 
-        public List<ProductSpec> GetList(ProductSpec t)
+        public List<ProductSpec> GetList(ProductSpec t, string topn = "")
         {
             List<ProductSpec> prodList = new List<ProductSpec>();
             try
@@ -49,7 +49,7 @@ namespace MES.Core.Repository.Impl
                 using (var conn = new SqlConnection(IRepository<ProductSpec>.ConnStr))
                 {
                     conn.Open();
-                    string sql = "SELECT * FROM ProductSpec WHERE 1=1 ";
+                    string sql = $"SELECT {topn} * FROM ProductSpec WHERE 1=1 ";
                     if (t != null)
                     {
                         sql += " AND ProductSpecId like @ProductSpecId + '%'";

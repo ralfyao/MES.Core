@@ -91,12 +91,12 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
-        public List<MenuSub> GetList(MenuSub t)
+        public List<MenuSub> GetList(MenuSub t, string topn = "")
         {
             List<MenuSub> list = new List<MenuSub>();
             try
             {
-                string sql = @"SELECT * FROM MenuSub WHERE 1=1";
+                string sql = $@"SELECT {topn} * FROM MenuSub WHERE 1=1";
                 if (t != null)
                 {
                     sql += " AND ID like @id+'%'";

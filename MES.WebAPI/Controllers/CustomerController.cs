@@ -1136,6 +1136,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/QueryQuotationListByCondition"), HttpPost]
+        public CommonRep<C報價單> QueryQuotationListByCondition([FromBody] QueryQuotationListByConditionReq form)
+        {
+            CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.queryQuotationListByCondition(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         #endregion
         #region 訂單
         /// <summary>
@@ -1418,6 +1434,22 @@ namespace MES.WebAPI.Controllers
                     commonRep.WorkStatus = WorkStatus.Fail.ToString();
                 }
                 commonRep.result = form.AR單號;
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/QueryOrderListByCondition"), HttpPost]
+        public CommonRep<C訂單> QueryOrderListByCondition([FromBody] QueryOrderListByConditionReq form)
+        {
+            CommonRep<C訂單> commonRep = new CommonRep<C訂單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.queryOrderListByCondition(form);
             }
             catch (Exception ex)
             {
@@ -1836,5 +1868,5 @@ namespace MES.WebAPI.Controllers
         }
         #endregion
     }
-
+   
 }

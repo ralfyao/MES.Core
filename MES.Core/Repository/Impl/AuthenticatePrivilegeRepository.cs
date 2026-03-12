@@ -39,12 +39,12 @@ namespace MES.Core.Repository.Impl
             return delCnt;
         }
 
-        public List<AuthenticatePrivilege> GetList(AuthenticatePrivilege t)
+        public List<AuthenticatePrivilege> GetList(AuthenticatePrivilege t, string topn = "")
         {
             List<AuthenticatePrivilege> list = new List<AuthenticatePrivilege>();
             try
             {
-                string sql = @"SELECT * FROM AuthenticatePrivilege WHERE 1=1";
+                string sql = $@"SELECT {topn} * FROM AuthenticatePrivilege WHERE 1=1";
                 if (t != null)
                 {
                     sql += " AND ID like @id+'%'";

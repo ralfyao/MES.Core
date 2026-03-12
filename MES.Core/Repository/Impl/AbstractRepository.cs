@@ -39,7 +39,7 @@ namespace MES.Core.Repository.Impl
             return delCnt;
         }
 
-        public List<T> GetList(T t)
+        public List<T> GetList(T t, string topn = "TOP 1000")
         {
             List<T> prodList = new List<T>();
             try
@@ -47,7 +47,7 @@ namespace MES.Core.Repository.Impl
                 using (var conn = new SqlConnection(IRepository<T>.ConnStr))
                 {
                     conn.Open();
-                    string sql = $"SELECT * FROM {typeof(T).Name} WHERE 1=1 ";
+                    string sql = $"SELECT {topn} * FROM {typeof(T).Name} WHERE 1=1 ";
                     if (t != null)
                     {
                         sql += $" AND {theId} like @{theId} + '%'";

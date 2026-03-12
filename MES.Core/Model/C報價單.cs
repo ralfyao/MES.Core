@@ -16,6 +16,8 @@ namespace MES.Core.Model
         public string? MTYPE             { get; set; }
         public string? MMODEL            { get; set; }
         public string? CURRENCY          { get; set; }
+        public string? COMPANY           { get; set; }
+        public string? CONTACT { get; set; }
         public decimal AMOUNT            { get; set; }
         public string? COMMISSION        { get; set; }
         public string? STATUS            { get; set; }
@@ -27,6 +29,7 @@ namespace MES.Core.Model
         public string? RANKING           { get; set; }
         public string? ADDRESS           { get; set; }
         public string? DADDRESS          { get; set; }
+        public string? 業務人員 { get; set; }
         public string? 價格條件          { get; set; }
         public string? 交貨方式          { get; set; }
         public string? 付款方式          { get; set; }

@@ -29,7 +29,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 CustomerRepository customerRepository = new CustomerRepository();
-                Lst = customerRepository.GetList(null).OrderBy(x=>x.正航編號).ToList();
+                Lst = customerRepository.GetList(null, "TOP 1000").OrderBy(x=>x.正航編號).ToList();
                 foreach(var cust in  Lst)
                 {
                     var industry = customerRepository.getIndustryCode(cust.INDUSTRYCODE).FirstOrDefault();
@@ -380,7 +380,7 @@ namespace MES.MiddleWare.Modules
             return rfqNo;
         }
 
-        public List<C報價單> getQuotationList(string rfqNo)
+        public List<C報價單> getQuotationList(string rfqNo, string topn = "TOP 1000")
         {
             List<C報價單> ls = new List<C報價單>();
             try
@@ -389,15 +389,34 @@ namespace MES.MiddleWare.Modules
                 {
                     using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                     {
-                        string strSQL = $"SELECT * FROM C報價單 WHERE RFQNO = '{rfqNo}'";
+                        string strSQL = $"SELECT {topn} * FROM C報價單 WHERE RFQNO = '{rfqNo}'";
                         ls = conn.Query<C報價單>(strSQL).ToList();
                     }
                 }
                 else
                 {
                     CommonRepository<C報價單> commonRepository = new CommonRepository<C報價單>();
-                    ls = commonRepository.GetList(null);
+                    ls = commonRepository.GetQuotationCustomList(null);
                 }
+                //ls.ForEach((x) =>
+                //{
+                //    C客戶詢問函 rfq = new C客戶詢問函();
+                //    rfq.RFQNO = x.RFQNO;
+                //    CommonRepository<C客戶詢問函> commonRepository = new CommonRepository<C客戶詢問函>();
+                //    rfq = commonRepository.GetList(rfq, "RFQNO").FirstOrDefault();
+                //    if (rfq != null)
+                //    {
+                //        CommonRepository<C客戶設定> custRepository = new CommonRepository<C客戶設定>();
+                //        C客戶設定 cust = new C客戶設定();
+                //        cust.COMPANY = rfq.COMPANY;
+                //        cust = custRepository.GetList(cust, "COMPANY").FirstOrDefault();
+                //        if (cust != null)
+                //        {
+                //            x.COMPANY = cust.COMPANY;
+                //            x.CONTACT = cust.CONTACTPERSON;
+                //        }
+                //    }
+                //});
             }
             catch (Exception ex)
             {
@@ -853,9 +872,17 @@ namespace MES.MiddleWare.Modules
                 CustOrderDetailRepository detailRepository = new CustOrderDetailRepository();
                 CustAccountReceivableRepository custAccountReceivableRepository = new CustAccountReceivableRepository();
                 CustomerQuotationRepository quotationRepository = new CustomerQuotationRepository();
-                list = custOrderRepository.GetList(null);
+                CustomerRepository customerRepository = new CustomerRepository();
+                HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
+                list = custOrderRepository.GetList(null, "TOP 1000");
                 foreach(var order in list)
                 {
+                    C客戶設定 cust = new C客戶設定();
+                    H員工清冊 employee = new H員工清冊();
+                    cust.正航編號 = order.客戶編號;
+                    employee.工號 = order.業務員;
+                    order.客戶全稱 = customerRepository.GetListBy(cust, "正航編號").FirstOrDefault()?.COMPANY;
+                    order.業務人員 = humanResourceRepository.GetListBy(employee, "工號").FirstOrDefault()?.姓名;
                     C訂單明細 obj = new C訂單明細();
                     obj.單號 = order.單號;
                     order.orderListDetail = detailRepository.GetListBy(obj, "單號");
@@ -1096,12 +1123,16 @@ namespace MES.MiddleWare.Modules
             {
                 ShipOrderRepository shipOrderRepository = new ShipOrderRepository();
                 ShipOrderDetailRepository shipOrderDetailRepository = new ShipOrderDetailRepository();
+                CustomerMiddle customerMiddle = new CustomerMiddle();
+                HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
                 list = shipOrderRepository.GetList(null).ToList();
                 foreach(var item in list)
                 {
                     C出貨單明細 obj = new C出貨單明細();
                     obj.單號 = item.單號;
                     item.shipOrderLists = shipOrderDetailRepository.GetListBy(obj, "單號").ToList();
+                    item.客戶簡稱 = customerMiddle.getCustomerByCustNo(item.客戶編號)?.欄位2;
+                    item.業務人員 = humanResourceRepository.GetListBy(new H員工清冊() { 工號 = item.業務員 }, "工號").FirstOrDefault()?.姓名;//customerMiddle.getCustomerByCustNo(item.業務員)?.欄位2;
                 }
             }
             catch (Exception ex)
@@ -1109,6 +1140,22 @@ namespace MES.MiddleWare.Modules
                 throw ex;
             }
             return list;
+        }
+
+        private C客戶設定? getCustomerByCustNo(string? 客戶編號)
+        {
+            C客戶設定 retCode = new C客戶設定();
+            retCode.正航編號 = 客戶編號;
+            try
+            {
+                CustomerRepository repository = new CustomerRepository();
+                retCode = repository.GetListBy(retCode, "正航編號").FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return retCode;
         }
 
         public List<F庫別> getWarehouseList()
@@ -1299,7 +1346,7 @@ namespace MES.MiddleWare.Modules
             return data;
         }
 
-        public List<C客戶設定> getCustListByCondition(QueryCustListByConditionReq request)
+        public List<C客戶設定> getCustListByCondition(QueryCustListByConditionReq request, string topn = "TOP 1000")
         {
             List<C客戶設定> list = new List<C客戶設定>();
             try
@@ -1307,7 +1354,7 @@ namespace MES.MiddleWare.Modules
                 using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();
-                    string strSQL = $@"SELECT * FROM C客戶設定";
+                    string strSQL = $@"SELECT {topn} * FROM C客戶設定";
                     list = conn.Query<C客戶設定>(strSQL).ToList();
                     if (!string.IsNullOrEmpty(request.company))
                     {
@@ -1862,6 +1909,95 @@ namespace MES.MiddleWare.Modules
             }
             return execCnt;
         }
+
+        public List<C訂單> queryOrderListByCondition(QueryOrderListByConditionReq req, string topn = "TOP 1000")
+        {
+            List<C訂單> list = new List<C訂單>();
+            CustOrderRepository custOrderRepository = new CustOrderRepository();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"SELECT {topn} * FROM C訂單 WHERE 1=1";
+                    if (!string.IsNullOrEmpty(req.company))
+                    {
+                        sql += $@" AND (客戶編號 = '{req.company}' OR 客戶編號 IN (SELECT 正航編號 FROM C客戶設定 WHERE COMPANY LIKE '%{req.company}%'))";
+                    }
+                    if (!string.IsNullOrEmpty(req.country))
+                    {
+                        sql += $@" AND 指配國別 = '{req.country}'";
+                    }
+                    if (!string.IsNullOrEmpty(req.itemNo))
+                    {
+                        sql += $@" AND 單號 IN (SELECT 單號 FROM C訂單明細 WHERE 產品編號 LIKE '%{req.itemNo}%')";
+                    }
+                    list = conn.Query<C訂單>(sql).ToList();
+                    list.ForEach((x)=>x.orderListDetail = getOrderListDetail(x.單號));
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+        public List<C訂單明細> getOrderListDetail(string orderNo)
+        {
+            List<C訂單明細> list = new List<C訂單明細>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<C訂單明細>($@"SELECT * FROM C訂單明細 WHERE 單號='{orderNo}'").ToList();
+                }
+            }
+            catch (Exception )
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        public List<C報價單> queryQuotationListByCondition(QueryQuotationListByConditionReq form, string topn = "TOP 1000")
+        {
+            List<C報價單> list = new List<C報價單>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"SELECT {topn} a.*, c.COMPANY, c.CONTACTPERSON CONTACT
+                                      FROM C報價單 a
+                                      LEFT OUTER JOIN C客戶詢問函 b ON a.RFQNO=b.RFQNO
+                                      LEFT OUTER JOIN C客戶設定 c ON b.COMPANY=c.COMPANY
+                                     WHERE 1=1";
+                    if (!string.IsNullOrEmpty(form.quono))
+                    {
+                        sql += $@" AND a.QUONO like '%{form.quono}%'";
+                    }
+                    if (!string.IsNullOrEmpty(form.company))
+                    {
+                        sql += $@" AND a.RFQNO IN (SELECT RFQNO FROM C客戶詢問函 WHERE COMPANY LIKE '%{form.company}%')";
+                    }
+                    if (!string.IsNullOrEmpty(form.itemNo))
+                    {
+                        sql += $@" AND a.QUONO IN (SELECT QUONO FROM C報價明細 WHERE 產品編號 LIKE '%{form.itemNo}%')";
+                    }
+                    list = conn.Query<C報價單>(sql).ToList();
+                    list.ForEach((x) => x.quotationDetailFormList = getQuotationDetailList(x.QUONO));
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
     }
     public class QueryCustListByConditionReq
     {
@@ -1874,5 +2010,17 @@ namespace MES.MiddleWare.Modules
         public string? custType { get; set; }
         public string? remark { get; set; }
 
+    }
+    public class QueryOrderListByConditionReq
+    {
+        public string? company { get; set; }
+        public string? country { get; set; }
+        public string? itemNo { get; set; }
+    }
+    public class QueryQuotationListByConditionReq
+    {
+        public string? quono { get; set; }
+        public string? company { get; set; }
+        public string? itemNo { get; set; }
     }
 }

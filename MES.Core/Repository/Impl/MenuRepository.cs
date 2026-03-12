@@ -64,12 +64,12 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
-        public List<Menu> GetList(Menu t)
+        public List<Menu> GetList(Menu t, string topn = "")
         {
             List<Menu> list = new List<Menu>();
             try
             {
-                string sql = @"SELECT * FROM Menu WHERE 1=1";
+                string sql = $@"SELECT {topn} * FROM Menu WHERE 1=1";
                 if (t.ID != null && t.ID != 0)
                 {
                     sql += " AND ID like @id+'%'";

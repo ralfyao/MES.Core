@@ -205,7 +205,7 @@ namespace MES.MiddleWare.Modules
             return execCnt;
         }
 
-        public List<F收款> getARList()
+        public List<F收款> getARList(string topn = "TOP 1000")
         {
             List<F收款> list = new List<F收款>();
             try
@@ -213,33 +213,35 @@ namespace MES.MiddleWare.Modules
                 using(var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();
-                    list = conn.Query<F收款>(@"SELECT   識別碼, 日期,
-                                                        單號,
-                                                        客戶編號,
-                                                        幣別,
-                                                        匯率,
-                                                        請款人員,
-                                                        收款日期,
-                                                        類別,
-                                                        收現金額,
-                                                        銀轉金額,
-                                                        匯費,
-                                                        銀存編碼,
-                                                        收票金額,
-                                                        票據號碼,
-                                                        收款總額,
-                                                        MACHINENO,
-                                                        發票號碼,
-                                                        備註,
-                                                        建檔,
-                                                        建檔日,
-                                                        修改,
-                                                        修改日,
-                                                        核准,
-                                                        核准日,
-                                                        傳票,
-                                                        CASE WHEN RTRIM(結案) = '1' THEN 1 ELSE 0 END AS 結案
-                                                   FROM F收款").ToList();
+                    list = conn.Query<F收款>($@"SELECT {topn}  a.識別碼, a.日期,
+                                                        a.單號,
+                                                        a.客戶編號,
+                                                        b.COMPANY 客戶名稱,
+                                                        a.幣別,
+                                                        a.匯率,
+                                                        a.請款人員,
+                                                        a.收款日期,
+                                                        a.類別,
+                                                        a.收現金額,
+                                                        a.銀轉金額,
+                                                        a.匯費,
+                                                        a.銀存編碼,
+                                                        a.收票金額,
+                                                        a.票據號碼,
+                                                        a.收款總額,
+                                                        a.MACHINENO,
+                                                        a.發票號碼,
+                                                        a.備註,
+                                                        a.建檔,
+                                                        a.建檔日,
+                                                        a.修改,
+                                                        a.修改日,
+                                                        a.核准,
+                                                        a.核准日,
+                                                        a.傳票,
+                                                        CASE WHEN RTRIM(a.結案) = '1' THEN 1 ELSE 0 END AS 結案
+                                                   FROM F收款 a
+                                                   LEFT OUTER JOIN C客戶設定 b on a.客戶編號=b.正航編號").ToList();
                     foreach (var item in list)
                     {
                         item.日期 = Utility.ConvertDate(item.日期);

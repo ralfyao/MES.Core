@@ -40,7 +40,7 @@ namespace MES.Core.Repository.Impl
             //throw new NotImplementedException();
         }
 
-        public List<Authenticate> GetList(Authenticate t)
+        public List<Authenticate> GetList(Authenticate t, string topn = "")
         {
             List <Authenticate> authList = new List<Authenticate>();
             try
@@ -48,7 +48,7 @@ namespace MES.Core.Repository.Impl
                 using (var conn = new SqlConnection(IRepository<Authenticate>.ConnStr))
                 {
                     conn.Open();
-                    string sql = @"SELECT    Account
+                    string sql = $@"SELECT  {topn}  Account
                                             ,Password
                                             ,Privilege
                                             ,LastModifier
