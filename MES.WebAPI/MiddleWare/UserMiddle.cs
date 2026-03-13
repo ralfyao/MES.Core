@@ -216,9 +216,24 @@ namespace MES.WebAPI.MiddleWare
             return execCnt;
         }
 
-        internal int doValidateRepairForm(string? formNo, bool? valid, string? account)
+        public int doValidateRepairForm(string? formNo, bool? valid, string? account)
         {
-            throw new NotImplementedException();
+            int execCnt = 0;
+            try
+            {
+                string sql = $@"UPDATE 維修服務單 SET 核准='{((bool)valid?account:"")}', 核准日={((bool)valid ? "GETDATE()" : "NULL")} WHERE 單號='{formNo}'";
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    execCnt += conn.Execute(sql);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
         }
     }
 }

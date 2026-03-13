@@ -30,13 +30,13 @@ namespace MES.Core.Model
         public string? R1{ get; set; }
         public string? R2{ get; set; }
         public string? R3{ get; set; }
-        public string? 停用{ get; set; }
+        public bool? 停用{ get; set; }
         public string? 建檔{ get; set; }
         public string? 建檔日{ get; set; }
         public string? 修改{ get; set; }
         public string? 修改日{ get; set; }
         public string? 核准{ get; set; }
         public string? 核准日{ get; set; }
-        public List<B廠商供料> supplyList { get; set; }
+        public List<B廠商供料>? supplyList { get; set; }
     }
 }
