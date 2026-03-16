@@ -18,6 +18,12 @@ namespace MES.Core.Repository.Impl
     {
         private static ILog logger = LogManager.GetLogger(typeof(AbstractRepository<T>));
         protected string theId;
+        public SqlConnection getConnection()
+        {
+            SqlConnection conn = new SqlConnection(IRepository<string>.ConnStr);
+            conn.Open();
+            return conn;
+        }
         public int Delete(T t)
         {
             int delCnt = 0;

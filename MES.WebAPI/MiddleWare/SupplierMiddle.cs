@@ -40,6 +40,38 @@ namespace MES.WebAPI.MiddleWare
             return list;
         }
 
+        public List<B廠商設定> getAllSupplierList(string? supplierNo = "", string supplierName = "")
+        {
+            List<B廠商設定> list = new List<B廠商設定>();
+            try
+            {
+                SupplierRepository supplierMiddle = new SupplierRepository();
+                SupplierDetailRepository supplierDetailRepository = new Core.Repository.Impl.SupplierDetailRepository();
+                list = supplierMiddle.GetList(null, "");
+                if (!string.IsNullOrEmpty(supplierNo))
+                {
+                    list = list.Where(x => x.廠商編號 == supplierNo).ToList();
+                }
+                if (!string.IsNullOrEmpty(supplierName))
+                {
+                    list = list.Where(x => x.廠商名稱.IndexOf(supplierName) != -1).ToList();
+                }
+                // 詢價清單
+                foreach (var item in list)
+                {
+                    B廠商供料 aItem = new B廠商供料();
+                    aItem.廠商編號 = item.廠商編號;
+                    item.supplyList = supplierDetailRepository.GetListBy(aItem, "廠商編號");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
         public int updateSupplier(B廠商設定 form)
         {
             int execCnt = 0;
@@ -211,6 +243,62 @@ namespace MES.WebAPI.MiddleWare
                     DynamicParameters dynamicParameters = new DynamicParameters(form);
                     execCnt += conn.Execute(sql, dynamicParameters);
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
+        }
+
+        public string getSupplierNo()
+        {
+            string supplierNo = string.Empty;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    string strSQL = $"SELECT COUNT(0) FROM B廠商評鑑 WHERE 單號 LIKE 'SE{DateTime.Now.ToString("yyyyMM")}%'";
+                    List<string> ls = conn.Query<string>(strSQL).ToList();
+                    if (ls.Count() > 0)
+                    {
+                        var count = int.Parse(ls[0]);
+                        count++;
+                        supplierNo = $"SE{DateTime.Now.ToString("yyyyMM")}{count.ToString("000")}";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return supplierNo;
+        }
+
+        internal int insertSupplierEvaluate(B廠商評鑑 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                SupplierEvaluateRepository supplierEvaluateRepository = new SupplierEvaluateRepository();
+                execCnt = supplierEvaluateRepository.Insert(form);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
+        }
+
+        public int validateSupplierEvaluate(string formNo, bool validate, string user)
+        {
+            int execCnt = 0;
+            try
+            {
+                SupplierEvaluateRepository supplierEvaluateRepository = new SupplierEvaluateRepository();
+                execCnt = supplierEvaluateRepository.ValidateSupplierEvaluate(formNo, validate, user);
             }
             catch (Exception)
             {
