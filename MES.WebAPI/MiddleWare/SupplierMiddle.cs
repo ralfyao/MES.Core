@@ -2,6 +2,10 @@
 using MES.Core.Model;
 using MES.Core.Repository;
 using MES.Core.Repository.Impl;
+using MES.WebAPI.Models;
+using Microsoft.SqlServer.Server;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 
 namespace MES.WebAPI.MiddleWare
@@ -306,6 +310,38 @@ namespace MES.WebAPI.MiddleWare
                 throw;
             }
             return execCnt;
+        }
+
+        internal int validateSupplier(string formNo, bool validate, string user)
+        {
+            int execCnt = 0;
+            try
+            {
+                SupplierEvaluateRepository supplierEvaluateRepository = new SupplierEvaluateRepository();
+                execCnt = supplierEvaluateRepository.ValidateSupplier(formNo, validate, user);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
+        }
+
+        internal List<B廠商供料> getSupplierQuotationList()
+        {
+            List<B廠商供料> list = new List<B廠商供料>();
+            try
+            {
+                SupplierQuotationRepository supplierEvaluateRepository = new SupplierQuotationRepository();
+                list = supplierEvaluateRepository.GetList(null);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
         }
     }
 }

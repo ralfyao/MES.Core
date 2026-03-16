@@ -190,6 +190,39 @@ namespace MES.Core.Repository.Impl
             return execCnt;
         }
 
+        public int ValidateSupplier(string formNo, bool validate, string user)
+        {
+            int execCnt = 0;
+            try
+            {
+                B廠商設定 evaluate = new B廠商設定();
+                evaluate.廠商編號 = formNo;
+                if (validate)
+                {
+                    evaluate.核准 = user;
+                    evaluate.核准日 = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    evaluate.核准 = "";
+                    evaluate.核准日 = "";
+                }
+
+                string sql = $@"UPDATE B廠商設定 SET 核准=@核准, 核准日 = @核准日 WHERE 廠商編號=@廠商編號";
+                using (var conn = getConnection())
+                {
+                    DynamicParameters dynamicParameters = new DynamicParameters(evaluate);
+                    execCnt += conn.Execute(sql, dynamicParameters);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
+        }
+
         public int ValidateSupplierEvaluate(string formNo, bool validate, string user)
         {
             int execCnt = 0;
