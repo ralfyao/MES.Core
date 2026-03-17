@@ -11,6 +11,40 @@ namespace MES.Core.Repository.Impl
 {
     public class SupplierEvaluateRepository : AbstractRepository<B廠商評鑑>
     {
+        public int ActivateSupplier(string formNo, bool validate, string user)
+        {
+            int execCnt = 0;
+            try
+            {
+                B廠商設定 evaluate = new B廠商設定();
+                evaluate.廠商編號 = formNo;
+                evaluate.停用 = !validate;
+                if (validate)
+                {
+                    evaluate.修改日 = DateTime.Now.ToString("yyyy-MM-dd");
+                    evaluate.修改 = user;
+                }
+                else
+                {
+                    evaluate.修改日 = "";
+                    evaluate.修改 = user;
+                }
+
+                string sql = $@"UPDATE B廠商設定 SET 停用=@停用, 修改=@修改, 修改日 = @修改日 WHERE 廠商編號=@廠商編號";
+                using (var conn = getConnection())
+                {
+                    DynamicParameters dynamicParameters = new DynamicParameters(evaluate);
+                    execCnt += conn.Execute(sql, dynamicParameters);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
+        }
+
         public override int Insert(B廠商評鑑 t)
         {
             int execCnt = 0;

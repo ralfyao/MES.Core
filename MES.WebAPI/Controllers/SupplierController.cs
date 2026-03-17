@@ -1,4 +1,5 @@
 ﻿using MES.Core.Model;
+using MES.Core.Repository.Impl;
 using MES.WebAPI.MiddleWare;
 using MES.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -185,6 +186,28 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/ActivateSupplier"), HttpGet]
+        public CommonRep<string> ActivateSupplier(string formNo, bool validate, string user)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            SupplierMiddle supplierMiddle = new SupplierMiddle();
+            try
+            {
+                int execCnt = 0;
+                execCnt = supplierMiddle.activateSupplier(formNo, validate, user);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "核准供應商失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         [Route("api/GetSupplierQuotationList"), HttpGet]
         public CommonRep<B廠商供料> GetSupplierQuotationList()
         {
@@ -193,6 +216,10 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = supplierMiddle.getSupplierQuotationList();
+                foreach (var item in commonRep.resultList)
+                {
+                    item.品名規格 = supplierMiddle.get品名規格(item.品項編號);
+                }
             }
             catch (Exception ex)
             {
@@ -200,6 +227,95 @@ namespace MES.WebAPI.Controllers
                 commonRep.WorkStatus = WorkStatus.Fail.ToString();
             }
             return commonRep;
+        }
+        [Route("api/ItemList")]
+        public CommonRep<A材料> ItemList() 
+        {
+            CommonRep<A材料> commonRep = new CommonRep<A材料>();
+            try
+            {
+                ItemRepository itemRepo = new ItemRepository();
+                commonRep.resultList = itemRepo.GetList(null, "");
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/AddSupplierQuotation"), HttpPost]
+        public CommonRep<B廠商供料> AddSupplierQuotation([FromBody] B廠商供料 form)
+        {
+            CommonRep<B廠商供料> commonRep = new CommonRep<B廠商供料>();
+            SupplierQuotationRepository supplierQuotationRepository = new SupplierQuotationRepository();
+            try
+            {
+                int execCnt = supplierQuotationRepository.Insert(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "新增廠商供料失敗，請洽系統人員";
+                    commonRep.WorkStatus= WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/QuotationByItem"), HttpGet]
+        public CommonRep<廠商供料List> QuotationByItem(string itemNo)
+        {
+            CommonRep<廠商供料List> commonRep = new CommonRep<廠商供料List>();
+            SupplierMiddle supplierMiddle = new SupplierMiddle();
+            try
+            {
+                commonRep.result = supplierMiddle.getQuotationByItem(itemNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateSupplierQuotationList"), HttpPost]
+        public CommonRep<string> UpdateSupplierQuotationList([FromBody] List<B廠商供料> list)
+        {
+            CommonRep<string> listData = new CommonRep<string>();
+            SupplierMiddle supplierMiddle = new SupplierMiddle();
+            try
+            {
+                foreach (var item in list)
+                {
+                    if (item.詢價日期.IndexOf("Invalid") != -1)
+                    {
+                        item.詢價日期 = "1900/01/01";
+                    }
+                    if (item.報價有效日期.IndexOf("Invalid") != -1)
+                    {
+                        item.報價有效日期 = "1900/01/01";
+                    }
+                    item.詢價日期 = DateTime.Parse(item.詢價日期).ToString("yyyy-MM-dd");
+                    item.報價有效日期 = DateTime.Parse(item.報價有效日期).ToString("yyyy-MM-dd");
+                    if (item.識別 == null)
+                    {
+                        supplierMiddle.insertSupplierQuotation(item);
+                    } 
+                    else
+                    {
+                        supplierMiddle.updateSupplierQuotation(item);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                listData.ErrorMessage = ex.Message;
+                listData.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return listData;
         }
     }
 }

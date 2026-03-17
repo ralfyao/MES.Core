@@ -343,5 +343,84 @@ namespace MES.WebAPI.MiddleWare
             }
             return list;
         }
+
+        internal string? get品名規格(string? 品項編號)
+        {
+            string 品名規格 = string.Empty;
+            try
+            {
+                MaterialRepository materialRepository = new MaterialRepository();
+                A材料 a = new A材料();
+                a.產品編號 = 品項編號;
+                var aMaterial = materialRepository.GetUnique(a);
+                if (aMaterial != null)
+                {
+                    品名規格 = aMaterial.品名規格;
+                }
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+                return 品名規格;
+        }
+
+        public int activateSupplier(string formNo, bool validate, string user)
+        {
+            int execCnt = 0;
+            try
+            {
+                SupplierEvaluateRepository supplierEvaluateRepository = new SupplierEvaluateRepository();
+                execCnt = supplierEvaluateRepository.ActivateSupplier(formNo, validate, user);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
+        }
+
+        public 廠商供料List getQuotationByItem(string itemNo)
+        {
+            廠商供料List retObj = new 廠商供料List();
+            MaterialRepository materialRepository = new MaterialRepository();
+            SupplierRepository supplierRepository = new SupplierRepository();
+            SupplierQuotationRepository supplierQuotationRepository = new SupplierQuotationRepository();
+            try
+            {
+                A材料 query = new A材料();
+                query.產品編號 = itemNo;
+                retObj = new 廠商供料List( materialRepository.GetUnique(query));
+                B廠商供料 query2 = new B廠商供料();
+                query2.品項編號 = itemNo;
+                B廠商設定 vendor = new B廠商設定();
+                retObj.materialList = supplierQuotationRepository.GetListBy(query2, "品項編號");
+                retObj.materialList.ForEach((x) =>
+                {
+                    vendor.廠商編號 = x.廠商編號;
+                    x.廠商簡稱 = supplierRepository.GetUnique(vendor)?.廠商簡稱;
+                    x.supplierList = supplierRepository.GetListBy(null, "");
+                });
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return retObj;
+        }
+
+        internal void insertSupplierQuotation(B廠商供料 item)
+        {
+            SupplierQuotationRepository supplierQuotationRepository = new SupplierQuotationRepository();
+            supplierQuotationRepository.Insert(item);
+        }
+
+        internal void updateSupplierQuotation(B廠商供料 item)
+        {
+            SupplierQuotationRepository supplierQuotationRepository = new SupplierQuotationRepository();
+            supplierQuotationRepository.Update(item);
+        }
     }
 }
