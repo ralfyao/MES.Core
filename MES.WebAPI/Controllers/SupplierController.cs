@@ -317,5 +317,26 @@ namespace MES.WebAPI.Controllers
             }
             return listData;
         }
+        [Route("api/DeleteSupplierQuotation"), HttpPost]
+        public CommonRep<string> DeleteSupplierQuotation([FromBody]B廠商供料 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            SupplierMiddle supplierMiddle = new SupplierMiddle();
+            try
+            {
+                int execCnt = supplierMiddle.deleteSupplierQuotation(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "刪除詢價失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
     }
 }

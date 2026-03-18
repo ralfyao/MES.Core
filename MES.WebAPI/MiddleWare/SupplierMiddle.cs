@@ -422,5 +422,11 @@ namespace MES.WebAPI.MiddleWare
             SupplierQuotationRepository supplierQuotationRepository = new SupplierQuotationRepository();
             supplierQuotationRepository.Update(item);
         }
+
+        internal int deleteSupplierQuotation(B廠商供料 form)
+        {
+            SupplierQuotationRepository supplierQuotationRepository = new SupplierQuotationRepository();
+            return supplierQuotationRepository.Delete(form);
+        }
     }
 }
