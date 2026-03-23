@@ -31,5 +31,6 @@ namespace MES.Core.Model
         public string? RFQSTATUS { get; set; }
         public string? RANKING { get; set; }
         public string? AGENT { get; set; }
-}
+        public string? 業務人員 { get; set; }
+    }
 }

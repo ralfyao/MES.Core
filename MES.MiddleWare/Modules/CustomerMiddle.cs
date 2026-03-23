@@ -2025,6 +2025,56 @@ namespace MES.MiddleWare.Modules
             }
             return list;
         }
+
+        public List<C客戶詢問函> querySalesRecordList(QuerySalesRecordListParam param)
+        {
+            List<C客戶詢問函> list = new List<C客戶詢問函>();
+            RFQRepository rFQRepository = new RFQRepository();
+            CustomerRepository customerRepository = new CustomerRepository();
+            list = rFQRepository.GetList(null, "");
+            try
+            {
+                if (!string.IsNullOrEmpty(param.startDate)) 
+                {
+                    list = (from l in list where DateTime.ParseExact(l.RFQDATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyyMMdd").CompareTo(param.startDate.Replace("/", "")) >= 0 select l).ToList();
+                }
+                if (!string.IsNullOrEmpty(param.endDate))
+                {
+                    list = (from l in list where DateTime.ParseExact(l.RFQDATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyyMMdd").CompareTo(param.endDate.Replace("/", "")) <= 0 select l).ToList();
+                }
+                if (!string.IsNullOrEmpty(param.sales))
+                {
+                    list = (from l in list where l.SALES == param.sales select l).ToList();
+                }
+                if (!string.IsNullOrEmpty(param.custName))
+                {
+                    list = (from l in list where l.COMPANY.IndexOf(param.custName) != -1 select l).ToList();
+                }
+                if (!string.IsNullOrEmpty(param.industrycode))
+                {
+                    list = (from l in list where l.INDUSTRYCODE == (param.industrycode) select l).ToList();
+                }
+                if (!string.IsNullOrEmpty(param.situation))
+                {
+                    list = (from l in list where l.STATUS == (param.situation) select l).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(param.country))
+                {
+                    C客戶國別 country = (from l in customerRepository.GetCountryList() where l.CODE.Trim() == param.country select l).ToList().FirstOrDefault();
+                    if (country != null)
+                    {
+                        list = (from l in list where l.COUNTRY == (country.國別) select l)?.ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return list;
+        }
     }
     public class QueryCustListByConditionReq
     {
@@ -2049,5 +2099,15 @@ namespace MES.MiddleWare.Modules
         public string? quono { get; set; }
         public string? company { get; set; }
         public string? itemNo { get; set; }
+    }
+    public class QuerySalesRecordListParam
+    {
+        public string? startDate { get; set; }
+        public string? endDate { get; set; }
+        public string? custName { get; set; }
+        public string? country { get; set; }
+        public string? sales { get; set; }
+        public string? situation { get; set; }
+        public string? industrycode { get; set; }
     }
 }

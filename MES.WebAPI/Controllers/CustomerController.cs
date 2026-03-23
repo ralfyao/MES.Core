@@ -1,6 +1,7 @@
 ﻿using log4net;
 using log4net.Config;
 using MES.Core.Model;
+using MES.Core.Repository.Impl;
 using MES.MiddleWare.Modules;
 using MES.WebAPI.MiddleWare;
 using MES.WebAPI.Models;
@@ -594,9 +595,19 @@ namespace MES.WebAPI.Controllers
         {
             CommonRep<C客戶詢問函> commonRep = new CommonRep<C客戶詢問函>();
             CustomerMiddle customerMiddle = new CustomerMiddle();
+            HumanResourceRepository resourceRepository = new HumanResourceRepository();
             try
             {
                 commonRep.resultList = customerMiddle.getSalesRecordList();
+                var salesList = resourceRepository.GetList(null);
+                foreach (var item in commonRep.resultList)
+                {
+                    var sales = (from h in salesList where h.工號 == item.SALES select h).FirstOrDefault();
+                    if (sales != null)
+                    {
+                        item.業務人員 = sales.姓名;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -762,6 +773,22 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = custMiddle.getRfqListByCust(custid);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/QuerySalesRecordList"), HttpPost]
+        public CommonRep<C客戶詢問函> QuerySalesRecordList([FromBody] QuerySalesRecordListParam param)
+        {
+            CommonRep<C客戶詢問函> commonRep = new CommonRep<C客戶詢問函>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.querySalesRecordList(param);
             }
             catch (Exception ex)
             {
@@ -1884,5 +1911,5 @@ namespace MES.WebAPI.Controllers
         }
         #endregion
     }
-   
+    
 }
