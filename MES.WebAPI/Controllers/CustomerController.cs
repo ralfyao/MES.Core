@@ -36,7 +36,7 @@ namespace MES.WebAPI.Controllers
             CustomerMiddle customerMiddle = new CustomerMiddle();
             try
             {
-                commonRep.resultList = customerMiddle.getCustListByCondition(request);
+                commonRep.resultList = customerMiddle.getCustListByCondition(request, "");
             }
             catch (Exception ex)
             {
@@ -663,9 +663,9 @@ namespace MES.WebAPI.Controllers
         /// <param name="rfqNo"></param>
         /// <returns></returns>
         [Route("api/GetSalesWorkRecordList"), HttpGet]
-        public CommonRep<工作紀錄A> GetSalesWorkRecordList(string rfqNo)
+        public CommonRep<C詢問函聯絡紀錄> GetSalesWorkRecordList(string rfqNo)
         {
-            CommonRep<工作紀錄A> commonRep = new CommonRep<工作紀錄A>();
+            CommonRep<C詢問函聯絡紀錄> commonRep = new CommonRep<C詢問函聯絡紀錄>();
             try
             {
                 CustomerMiddle customerMiddle = new CustomerMiddle();
@@ -794,6 +794,68 @@ namespace MES.WebAPI.Controllers
             {
                 commonRep.ErrorMessage = ex.Message;
                 commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetRfqJob"), HttpGet]
+        public CommonRep<string> GetRfqJob()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getRfqJobs();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 任務分類清單
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/GetRfqJobClassification"), HttpGet]
+        public CommonRep<string> GetRfqJobClassification()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getRfqJobClassification();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        /// <summary>
+        /// 新增客戶詢問函追蹤紀錄
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        [Route("api/AddRfqTrackingRecord"), HttpPost]
+        public CommonRep<string> AddRfqTrackingRecord([FromBody] 工作紀錄A form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customMiddle = new CustomerMiddle();
+            try
+            {
+                int execCnt = customMiddle.addRfqTrackingRecord(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = $@"新增追蹤紀錄失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
             return commonRep;
         }

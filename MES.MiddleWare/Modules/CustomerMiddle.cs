@@ -443,37 +443,25 @@ namespace MES.MiddleWare.Modules
             return ls;
         }
 
-        public List<工作紀錄A> geRfqSalesWorkRecordList(string rfqNo)
+        public List<C詢問函聯絡紀錄> geRfqSalesWorkRecordList(string rfqNo)
         {
-            List<工作紀錄A> ls = new List<工作紀錄A>();
+            List<C詢問函聯絡紀錄> ls = new List<C詢問函聯絡紀錄>();
             try
             {
                 using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
-                    string strSQL = $@"SELECT [識別碼]
-                                              ,[日誌單號]
-                                              ,[工作日期] 
-                                              ,[職務]
-                                              ,[員工編號] 
-                                              ,b.姓名
-                                              ,[專案序號]
-                                              ,[模組編碼]
-                                              ,[模組名稱]
-                                              ,[任務分類]
-                                              ,[成效點數]
-                                              ,[工作項目]
-                                              ,[組裝零件]
-                                              ,[進度]
-                                              ,[本日工時]
-                                              ,[特別註記]
-                                              ,[單價]
-                                              ,[工作簡述] 
-                                              ,[SSMA_TimeStamp]
-                                              ,[預計再訪]
-                                          FROM [工作紀錄A] a
-                                          LEFT OUTER JOIN [CHINYO].[dbo].H員工清冊 b ON a.[員工編號]=b.工號  and 職務='業務'
-                                          where　1=1 AND 專案序號 = '{rfqNo}'";
-                    ls = conn.Query<工作紀錄A>(strSQL).ToList();
+                    string strSQL = $@"SELECT b.姓名, 
+                                              SERNO		,
+                                              RFQNO		,
+                                              RFQDATE		,
+                                              DESCRIPTION	,
+                                              BSNSTYPE	,
+                                              SALES		,
+                                              RECALL
+                                          FROM [C詢問函聯絡紀錄] a
+                                          LEFT OUTER JOIN H員工清冊 b ON a.SALES=b.工號  and 職能='業務'
+                                          where　1=1 AND RFQNO = '{rfqNo}'";
+                    ls = conn.Query<C詢問函聯絡紀錄>(strSQL).ToList();
                 }
             }
             catch (Exception ex)
@@ -1879,9 +1867,6 @@ namespace MES.MiddleWare.Modules
             int execCnt = 0;
             try
             {
-
-
-
                 RepairFormRepository repairFormRepository = new RepairFormRepository();
                 execCnt = repairFormRepository.Delete(form);
             }
@@ -2074,6 +2059,62 @@ namespace MES.MiddleWare.Modules
                 throw ex;
             }
             return list;
+        }
+
+        public List<string> getRfqJobClassification(string topn = "TOP 1000")
+        {
+            List<string> list = new List<string>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"SELECT {topn} [代碼]+'-'+分類 Data
+                                      FROM [CHINYO].[dbo].[H職務工作分類]
+                                     WHERE 職務='業務'";
+                    list = conn.Query<string>(sql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return list;
+        }
+
+        public List<string> getRfqJobs()
+        {
+            List<string> list = new List<string>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = "SELECT DISTINCT 職務 FROM [CHINYO].[dbo].[H職務工作分類]";
+                    list = conn.Query<string>(sql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return list;
+        }
+
+        public int addRfqTrackingRecord(工作紀錄A form)
+        {
+            int execCnt = 0;
+            try
+            {
+                RFQRepository rFQRepository = new RFQRepository();
+                execCnt = rFQRepository.InsertTrackingRecord(form);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
         }
     }
     public class QueryCustListByConditionReq
