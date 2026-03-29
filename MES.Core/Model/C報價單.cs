@@ -42,6 +42,6 @@ namespace MES.Core.Model
         public string? 建檔日            { get; set; }
         public string? 修改日            { get; set; }
         public string? 核准日 { get; set; }
-        public List<C報價明細> quotationDetailFormList { get; set; }
+        public List<C報價明細>? quotationDetailFormList { get; set; }
     }
 }

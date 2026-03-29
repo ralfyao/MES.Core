@@ -213,6 +213,39 @@ namespace MES.Core.Repository.Impl
             return retCode;
         }
 
+        public int UpdateRemark(C報價單 t)
+        {
+            int retCode = 0;
+            //t.QUODATE = !string.IsNullOrEmpty(t.QUODATE) ? DateTime.ParseExact(t.QUODATE.Replace("/", "-"), "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd") : "";
+            //t.CONDATE = !string.IsNullOrEmpty(t.CONDATE) ? DateTime.ParseExact(t.CONDATE.Replace("/", "-"), "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd") : "";
+            string sql = $@"UPDATE dbo.C報價單
+                            SET Remark         = @Remark,    
+                                修改           = @修改,
+                                修改日         = GETDATE()   
+                            WHERE QUONO = @QUONO";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        DynamicParameters dynamicParameters = new DynamicParameters(t);
+                        retCode = conn.Execute(sql, dynamicParameters, tran);
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        return retCode;
+                    }
+                }
+            }
+            retCode = 1;
+            return retCode;
+        }
+
         public int DeleteQuotation(C報價單 t)
         {
             int retCode = 0;

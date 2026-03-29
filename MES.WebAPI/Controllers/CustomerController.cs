@@ -1096,6 +1096,28 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/UpdateQuotationRemark"), HttpPost]
+        public CommonRep<C報價單> UpdateQuotationRemark([FromBody] C報價單 form)
+        {
+            CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            int retCode = 0;
+            try
+            {
+                retCode = customerMiddle.updateQuotationRemark(form);
+                if (retCode == 0)
+                {
+                    commonRep.ErrorMessage = "寫入客戶資料失敗，請洽系統管理員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         /// <summary>
         /// 刪除報價單
         /// </summary>

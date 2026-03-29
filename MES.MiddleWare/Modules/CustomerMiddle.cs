@@ -647,6 +647,24 @@ namespace MES.MiddleWare.Modules
             return retCode;
         }
 
+        public int updateQuotationRemark(C報價單 form)
+        {
+            int retCode = 0;
+            try
+            {
+                CustomerQuotationRepository quotationFormRepository = new CustomerQuotationRepository();
+                lock (quotationLock)
+                {
+                    retCode = quotationFormRepository.UpdateRemark(form);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return retCode;
+        }
+
         public int deleteQuotation(C報價單 form)
         {
             int retCode = 0;
