@@ -1569,6 +1569,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/QueryTransferToSalesOrder"), HttpGet]
+        public CommonRep<C訂單明細> QueryTransferToSalesOrder(string quono)
+        {
+            CommonRep<C訂單明細> commonRep = new CommonRep<C訂單明細>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getSalesOrderListDetailByQuono(quono);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         #endregion
         #region 出貨單
         [Route("api/GetShippingOrderList"), HttpGet]

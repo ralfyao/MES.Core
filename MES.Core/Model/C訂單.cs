@@ -24,7 +24,7 @@ namespace MES.Core.Model
         public string? 稅率 { get; set; }
         public decimal? 總額 { get; set; }
         public decimal? 佣金 { get; set; }
-        public string? 結案 { get; set; }
+        public bool? 結案 { get; set; }
         public string? 要望日期 { get; set; }
         public string? 交貨地址 { get; set; }
         public string? 指配國別 { get; set; }

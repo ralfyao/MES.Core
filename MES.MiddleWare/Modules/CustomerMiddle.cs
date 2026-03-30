@@ -1294,7 +1294,7 @@ namespace MES.MiddleWare.Modules
                 AccountsReceivableRepository accountsReviver = new AccountsReceivableRepository();
                 CustAccountReceivableRepository c = new CustAccountReceivableRepository();
                 form.AR單號 = new ARMiddle().getARNo();
-                form.匯率 = decimal.Parse(getExRateList(form.幣別)[0].匯率);
+                form.匯率 = decimal.Parse(getExRateList(form.幣別).Count() > 0 && getExRateList(form.幣別)[0] != null ? getExRateList(form.幣別)[0]?.匯率 : "1");
                 F收款 f = new F收款(form);
                 lock (soLock)
                 {
@@ -2133,6 +2133,39 @@ namespace MES.MiddleWare.Modules
                 throw;
             }
             return execCnt;
+        }
+
+        public List<C訂單明細> getSalesOrderListDetailByQuono(string quono)
+        {
+            List<C訂單明細> list = new List<C訂單明細>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<C訂單明細>($@"SELECT a.單號
+                                                           , a.識別碼
+                                                           , a.產品編號
+                                                           , a.品名規格
+                                                           , a.數量1
+                                                           , a.單位
+                                                           , a.單價1
+                                                           , a.金額1
+                                                           , a.專案序號
+                                                           , a.quono
+                                                           , b.日期
+                                                           , b.建檔
+                                                      FROM C訂單明細 a 
+                                                      LEFT OUTER JOIN C訂單 b ON a.單號=b.單號
+                                                     WHERE a.QUONO='{quono}'").ToList();
+                }
+            }   
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
         }
     }
     public class QueryCustListByConditionReq

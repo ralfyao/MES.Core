@@ -10,6 +10,8 @@ namespace MES.Core.Model
     {
         public string? 識別碼 { get; set; }
         public string? 單號 { get; set; }
+        public string? 日期 { get; set; }
+        public string? 建檔 { get; set; }
         public string? 產品編號 { get; set; }
         public string? 品名規格 { get; set; }
         public decimal? 數量1 { get; set; }
