@@ -84,6 +84,7 @@ namespace MES.Core.Repository.Impl
                         execCnt += conn.Execute(strSQL, dp, tran);
                         foreach (var item in t.shipOrderLists)
                         {
+                            item.單號 = t.單號;
                             strSQL = $@"INSERT INTO dbo.C出貨單明細
                                 (
                                     單號,

@@ -7,6 +7,7 @@ using MES.WebAPI.MiddleWare;
 using MES.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 
 namespace MES.WebAPI.Controllers
@@ -1285,6 +1286,31 @@ namespace MES.WebAPI.Controllers
             }
             return list;
         }
+        /// <summary>
+        /// 依單號搜尋訂單
+        /// </summary>
+        /// <param name="orderNo"></param>
+        /// <returns></returns>
+        [Route("api/GetSalesOrderListByNo"), HttpGet]
+        public CommonRep<C訂單> GetSalesOrderListByNo(string orderNo)
+        {
+            CommonRep<C訂單> list = new CommonRep<C訂單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                list.resultList = customerMiddle.getSalesOrderListByNo(orderNo);
+            }
+            catch (Exception ex)
+            {
+                list.ErrorMessage = ex.Message;
+                list.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return list;
+        }
+        /// <summary>
+        /// 客戶編號列表
+        /// </summary>
+        /// <returns></returns>
         [Route("api/GetCustNumberList"), HttpGet]
         public CommonRep<C客戶設定> GetCustNumberList()
         {
@@ -1301,6 +1327,12 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        /// <summary>
+        /// 訂單結案
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="orderNo"></param>
+        /// <returns></returns>
         [Route("api/UpdateSalesOrderCloseFlag"), HttpGet]
         public CommonRep<C訂單> UpdateSalesOrderCloseFlag(bool flag, string orderNo)
         {
@@ -1463,6 +1495,11 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        /// <summary>
+        /// 銀行核對資訊
+        /// </summary>
+        /// <param name="bankAccount"></param>
+        /// <returns></returns>
         [Route("api/GetBankInfo"), HttpGet]
         public CommonRep<F銀行設定> GetBankInfo(string? bankAccount)
         {
@@ -1479,14 +1516,20 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        /// <summary>
+        /// 報價分配清單
+        /// </summary>
+        /// <param name="custNo"></param>
+        /// <param name="orderDate"></param>
+        /// <returns></returns>
         [Route("api/GetQuotationDistributionList"), HttpGet]
-        public CommonRep<C報價明細> GetBankInfo(string? custNo, string? orderDate)
+        public CommonRep<C報價明細> GetQuotationDistributionList(string? custNo, string? orderDate)
         {
             CommonRep<C報價明細> commonRep = new CommonRep<C報價明細>();
             CustomerMiddle customerMiddle = new CustomerMiddle();
             try
             {
-                orderDate = DateTime.ParseExact(orderDate, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyyMMdd");
+                orderDate = DateTime.Parse(orderDate).ToString("yyyyMMdd");
             }
             catch
             {
@@ -1577,6 +1620,22 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = customerMiddle.getSalesOrderListDetailByQuono(quono);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetShipOrderListBySalesOrderId"), HttpGet]
+        public CommonRep<C訂單明細> GetShipOrderListBySalesOrderId(string custNo)
+        {
+            CommonRep<C訂單明細> commonRep = new CommonRep<C訂單明細>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getShipOrderListBySalesOrderId(custNo);
             }
             catch (Exception ex)
             {

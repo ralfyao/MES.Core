@@ -26,5 +26,6 @@ namespace MES.Core.Model
         public string? MTYPE { get; set; }
         public decimal? 報價單價 { get; set; }
         public decimal? 折數 { get; set; }
+        public decimal? 出貨數量 { get; set; }
     }
 }

@@ -892,6 +892,19 @@ namespace MES.MiddleWare.Modules
                     C訂單明細 obj = new C訂單明細();
                     obj.單號 = order.單號;
                     order.orderListDetail = detailRepository.GetListBy(obj, "單號");
+
+                    using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                    {
+                        order.orderListDetail.ForEach((x) =>
+                        {
+                            string sql = $@"SELECT * FROM C報價明細 WHERE (QUONO='{x.專案序號}' OR QUONO='{x.QUONO}' AND 產品編號='{x.產品編號}' AND 品名規格='{x.品名規格}')";
+                            var result = conn.Query<C報價明細>(sql).ToList().FirstOrDefault();
+                            if (result != null)
+                            {
+                                x.報價單價 = result.單價;
+                            }
+                        });
+                    }
                     F收款分期 obj2 = new F收款分期();
                     obj2.單號 = order.單號;
                     order.arListDetail = custAccountReceivableRepository.GetListBy(obj2, "單號");
@@ -976,6 +989,15 @@ namespace MES.MiddleWare.Modules
                 {
                     CustOrderRepository custOrderRepository = new CustOrderRepository();
                     execCount = custOrderRepository.Update(form);
+                    using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                    {
+                        conn.Open();
+                        foreach (var item in form.orderListDetail)
+                        {
+                            string strSQL = $@"UPDATE C報價明細 SET 單價='{item.報價單價}' WHERE (QUONO='{item.QUONO}' OR QUONO='{item.專案序號}') AND 產品編號='{item.產品編號}' AND 品名規格='{item.品名規格}'";
+                            conn.Execute(strSQL);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -1053,7 +1075,8 @@ namespace MES.MiddleWare.Modules
                                                     WHERE C.COMPANY=b.COMPANY
                                                       AND c.RFQNO=d.RFQNO
                                                       AND 正航編號='{custNo}' AND CONVERT(VARCHAR, d.CONDATE, 112) >= '{orderDate}'
-                                                      AND d.QUONO=e.QUONO").ToList();
+                                                      AND d.QUONO=e.QUONO
+                                                      AND (SELECT COUNT(0) FROM C訂單明細 WHERE (QUONO=d.QUONO OR 專案序號=d.QUONO) AND 產品編號=e.產品編號 AND 品名規格=e.品名規格) = 0").ToList();
                 }
             }
             catch (Exception ex)
@@ -1105,6 +1128,7 @@ namespace MES.MiddleWare.Modules
                         shipOrderDetail.單價2 = item.單價1;
                         shipOrderDetail.金額2 = item.金額1;
                         shipOrderDetail.樣品別 = item.樣品別;
+                        shipOrderDetail.ORDNO = form.單號;// 這裡要記錄訂單單號
                         shipOrderDetail.描述 = item.描述;
                         //shipOrderDetail.倉庫別 = item.倉庫別;
                         //shipOrderDetail.ORDNO = item.ORDNO;
@@ -1935,6 +1959,14 @@ namespace MES.MiddleWare.Modules
                     {
                         sql += $@" AND 單號 IN (SELECT 單號 FROM C訂單明細 WHERE 產品編號 LIKE '%{req.itemNo}%')";
                     }
+                    if (!string.IsNullOrEmpty(req.orderDateFrom))
+                    {
+                        sql += $@" AND CONVERT(VARCHAR, 日期, 112) >='{req.orderDateFrom.Replace("-","")}' ";
+                    }
+                    if (!string.IsNullOrEmpty(req.orderDateTo))
+                    {
+                        sql += $@" AND CONVERT(VARCHAR, 日期, 112) <='{req.orderDateTo.Replace("-", "")}' ";
+                    }
                     list = conn.Query<C訂單>(sql).ToList();
                     list.ForEach((x)=>x.orderListDetail = getOrderListDetail(x.單號));
                 }
@@ -2167,6 +2199,71 @@ namespace MES.MiddleWare.Modules
             }
             return list;
         }
+
+        public List<C訂單> getSalesOrderListByNo(string orderNo)
+        {
+            List<C訂單> list = new List<C訂單>();
+            try
+            {
+                CustOrderRepository custOrderRepository = new CustOrderRepository();
+                CustOrderDetailRepository detailRepository = new CustOrderDetailRepository();
+                CustAccountReceivableRepository custAccountReceivableRepository = new CustAccountReceivableRepository();
+                CustomerQuotationRepository quotationRepository = new CustomerQuotationRepository();
+                CustomerRepository customerRepository = new CustomerRepository();
+                HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
+                list = custOrderRepository.GetList(null, "").Where(x=>x.單號 == orderNo).ToList();
+                foreach (var order in list)
+                {
+                    C客戶設定 cust = new C客戶設定();
+                    H員工清冊 employee = new H員工清冊();
+                    cust.正航編號 = order.客戶編號;
+                    employee.工號 = order.業務員;
+                    order.客戶全稱 = customerRepository.GetListBy(cust, "正航編號").FirstOrDefault()?.COMPANY;
+                    order.業務人員 = humanResourceRepository.GetListBy(employee, "工號").FirstOrDefault()?.姓名;
+                    C訂單明細 obj = new C訂單明細();
+                    obj.單號 = order.單號;
+                    order.orderListDetail = detailRepository.GetListBy(obj, "單號");
+                    F收款分期 obj2 = new F收款分期();
+                    obj2.單號 = order.單號;
+                    order.arListDetail = custAccountReceivableRepository.GetListBy(obj2, "單號");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
+        public List<C訂單明細> getShipOrderListBySalesOrderId(string custNo)
+        {
+            List<C訂單明細> list = new List<C訂單明細>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"SELECT a.*, CONVERT(VARCHAR, a1.日期, 120) 日期, a1.建檔, ISNULL(b.數量2,0) 出貨數量
+                                      FROM C訂單 _a
+									  LEFT OUTER JOIN C訂單明細 a ON _a.單號 = a.單號
+                                      LEFT OUTER JOIN C訂單 a1 ON a.單號=a1.單號
+                                      LEFT OUTER JOIN C出貨單明細 b ON a.單號 = b.ORDNO  AND a.產品編號=b.產品編號 AND a.品名規格=b.品名規格
+                                     WHERE _a.客戶編號 = '{custNo}'";
+                        //$@"SELECT a.*, CONVERT(VARCHAR, a1.日期, 120) 日期, a1.建檔, ISNULL(b.數量2,0) 出貨數量
+                        //              FROM C訂單明細 a
+                        //              LEFT OUTER JOIN C訂單 a1 ON a.單號=a1.單號
+                        //              LEFT OUTER JOIN C出貨單明細 b ON a.單號 = b.ORDNO 
+                        //             WHERE b.ORDNO='{salesOrderId}'";
+                    list = conn.Query<C訂單明細>(sql).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                throw;
+            }
+            return list;
+        }
     }
     public class QueryCustListByConditionReq
     {
@@ -2185,6 +2282,8 @@ namespace MES.MiddleWare.Modules
         public string? company { get; set; }
         public string? country { get; set; }
         public string? itemNo { get; set; }
+        public string? orderDateFrom { get; set; }
+        public string? orderDateTo { get; set; }
     }
     public class QueryQuotationListByConditionReq
     {
