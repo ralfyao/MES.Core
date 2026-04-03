@@ -131,7 +131,7 @@ namespace MES.WebAPI.Controllers
             try
             {
                 PrivilegeRepository privilegeRepository = new PrivilegeRepository();
-                commonRep.resultList = privilegeRepository.GetList(null);
+                commonRep.resultList = privilegeRepository.GetList((Privilege)null);
             }
             catch (Exception ex)
             {

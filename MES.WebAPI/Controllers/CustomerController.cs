@@ -600,7 +600,7 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = customerMiddle.getSalesRecordList();
-                var salesList = resourceRepository.GetList(null);
+                var salesList = resourceRepository.GetList((H員工清冊)null);
                 foreach (var item in commonRep.resultList)
                 {
                     var sales = (from h in salesList where h.工號 == item.SALES select h).FirstOrDefault();

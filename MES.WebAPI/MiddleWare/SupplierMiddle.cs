@@ -19,7 +19,7 @@ namespace MES.WebAPI.MiddleWare
             {
                 SupplierRepository supplierMiddle = new SupplierRepository();
                 SupplierDetailRepository supplierDetailRepository = new Core.Repository.Impl.SupplierDetailRepository();
-                list = supplierMiddle.GetList(null);
+                list = supplierMiddle.GetList((B廠商設定)null);
                 if (!string.IsNullOrEmpty(supplierNo))
                 {
                     list = list.Where(x => x.廠商編號 == supplierNo).ToList();
@@ -334,7 +334,7 @@ namespace MES.WebAPI.MiddleWare
             try
             {
                 SupplierQuotationRepository supplierEvaluateRepository = new SupplierQuotationRepository();
-                list = supplierEvaluateRepository.GetList(null);
+                list = supplierEvaluateRepository.GetList((B廠商供料)null);
             }
             catch (Exception)
             {

@@ -23,7 +23,7 @@ namespace MES.MiddleWare
             try
             {
                 ProductRepository productRepository = new ProductRepository();
-                return productRepository.GetList(null);
+                return productRepository.GetList((Product)null);
             }
             catch (Exception ex)
             {

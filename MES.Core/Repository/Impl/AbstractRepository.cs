@@ -228,6 +228,34 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
+        public List<T> GetList(string tableName, string alias = "", string where = "", string orderBy = "")
+        {
+            List<T> prodList = new List<T>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<T>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $"SELECT {alias+"."}* FROM {typeof(T).Name} {alias} WHERE 1=1 ";
+                    if (!string.IsNullOrEmpty(where))
+                    {
+                        sql += where;
+                    }
+                    if (!string.IsNullOrEmpty(orderBy))
+                    {
+                        sql += orderBy;
+                    }
+                    var result = conn.Query<T>(sql);
+                    prodList.AddRange(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+            return prodList;
+        }
+
         public T GetUnique(T t)
         {
             T? data = default(T);

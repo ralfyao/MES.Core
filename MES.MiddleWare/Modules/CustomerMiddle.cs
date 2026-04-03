@@ -196,7 +196,7 @@ namespace MES.MiddleWare.Modules
                 RFQRepository customerRepository = new RFQRepository();
                 //CommonRepository<H員工清冊> commonRepository = new CommonRepository<H員工清冊>();
                 //List<H員工清冊> employees = commonRepository.GetList(null);
-                Lst = customerRepository.GetList(null);
+                Lst = customerRepository.GetList((C客戶詢問函)null);
                 Lst.ForEach((x) =>
                 {
                     x.RFQDATE = Utility.ConvertDate(x.RFQDATE);
@@ -218,7 +218,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 HumanResourceRepository customerRepository = new HumanResourceRepository();
-                Lst = customerRepository.GetList(null).Where(x => x.職能 == "業務" && x.狀況 == "正常").ToList();
+                Lst = customerRepository.GetList((H員工清冊)null).Where(x => x.職能 == "業務" && x.狀況 == "正常").ToList();
             }
             catch (Exception ex)
             {
@@ -270,7 +270,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 CommonRepository<C成交潛力值> repository = new CommonRepository<C成交潛力值>();
-                Lst = repository.GetList(null);
+                Lst = repository.GetList((C成交潛力值)null);
             }
             catch (Exception ex)
             {
@@ -285,7 +285,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 CommonRepository<C客戶動態> repository = new CommonRepository<C客戶動態>();
-                Lst = repository.GetList(null);
+                Lst = repository.GetList((C客戶動態)null);
             }
             catch (Exception ex)
             {
@@ -300,7 +300,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 CommonRepository<C轉介代理> repository = new CommonRepository<C轉介代理>();
-                Lst = repository.GetList(null);
+                Lst = repository.GetList((C轉介代理)null);
             }
             catch (Exception ex)
             {
@@ -553,7 +553,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 CommonRepository<A機台類型> commonRepository = new CommonRepository<A機台類型>();
-                list = commonRepository.GetList(null);
+                list = commonRepository.GetList((A機台類型)null);
             }
             catch (Exception ex)
             {
@@ -568,7 +568,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 CommonRepository<F幣別> commonRepository = new CommonRepository<F幣別>();
-                list = commonRepository.GetList(null);
+                list = commonRepository.GetList((F幣別)null);
             }
             catch (Exception ex)
             {
@@ -583,7 +583,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 CommonRepository<F匯率> commonRepository = new CommonRepository<F匯率>();
-                list.Add(commonRepository.GetList(null).Where(x => x.CURRENCY == currency).OrderByDescending(x => x.日期).FirstOrDefault());
+                list.Add(commonRepository.GetList((F匯率)null).Where(x => x.CURRENCY == currency).OrderByDescending(x => x.日期).FirstOrDefault());
             }
             catch (Exception ex)
             {
@@ -880,7 +880,8 @@ namespace MES.MiddleWare.Modules
                 CustomerQuotationRepository quotationRepository = new CustomerQuotationRepository();
                 CustomerRepository customerRepository = new CustomerRepository();
                 HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
-                list = custOrderRepository.GetList(null, "TOP 1000");
+                //list = custOrderRepository.GetList(null, "TOP 1000");
+                list = custOrderRepository.GetList(typeof(C訂單).Name, " a ", " AND (SELECT COUNT(0) FROM C出貨單明細 WHERE ORDNO = a.單號 ) = 0");
                 foreach(var order in list)
                 {
                     C客戶設定 cust = new C客戶設定();
@@ -1155,7 +1156,7 @@ namespace MES.MiddleWare.Modules
                 ShipOrderDetailRepository shipOrderDetailRepository = new ShipOrderDetailRepository();
                 CustomerMiddle customerMiddle = new CustomerMiddle();
                 HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
-                list = shipOrderRepository.GetList(null).ToList();
+                list = shipOrderRepository.GetList((C出貨單)null).ToList();
                 foreach(var item in list)
                 {
                     C出貨單明細 obj = new C出貨單明細();
@@ -1851,7 +1852,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 HumanResourceRepository customerRepository = new HumanResourceRepository();
-                Lst = customerRepository.GetList(null).Where(x => (x.職能 == "設計" || x.職能 == "組測" || x.職能 == "程控") && x.狀況 == "正常").ToList();
+                Lst = customerRepository.GetList((H員工清冊)null).Where(x => (x.職能 == "設計" || x.職能 == "組測" || x.職能 == "程控") && x.狀況 == "正常").ToList();
             }
             catch (Exception ex)
             {
@@ -1866,7 +1867,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 RepairFormRepository repairFormRepository = new RepairFormRepository();
-                list = repairFormRepository.GetList(null).ToList();
+                list = repairFormRepository.GetList((維修服務單)null).ToList();
             }
             catch (Exception ex)
             {

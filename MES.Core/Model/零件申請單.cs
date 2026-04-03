@@ -22,28 +22,29 @@ namespace MES.Core.Model
             this.機台名稱 = form.機台名稱;
         }
         [Key]
-        public string 單號 { get; set; }
-        public string 申請日期 { get; set; }
-        public string 申請人 { get; set; }
-        public string 客戶簡稱 { get; set; }
-        public string 專案序號 { get; set; }
-        public string 機台型號 { get; set; }
-        public string 機台類型 { get; set; }
-        public string 機台名稱 { get; set; }
-        public string 交貨日期 { get; set; }
-        public string 保固效期 { get; set; }
-        public string 收費機制 { get; set; }
-        public string 運送方式 { get; set; }
-        public string 建檔 { get; set; }
-        public string 修改 { get; set; }
-        public string 核准 { get; set; }
-        public string 建檔日 { get; set; }
-        public string 修改日 { get; set; }
-        public string 核准日 { get; set; }
-        public string 主旨 { get; set; }
-        public string 申請用途 { get; set; }
-        public string 客戶編號 { get; set; }
-        public List<零件申請明細> detailList = new List<零件申請明細>();
-        public List<零件申請BRG> detailBRGList = new List<零件申請BRG>();
+        public string? 單號 { get; set; }
+        public string? 申請日期 { get; set; }
+        public string? 申請人 { get; set; }
+        public string? 客戶簡稱 { get; set; }
+        public string? 專案序號 { get; set; }
+        public string? 機台型號 { get; set; }
+        public string? 機台類型 { get; set; }
+        public string? 機台名稱 { get; set; }
+        public string? 交貨日期 { get; set; }
+        public string? 保固效期 { get; set; }
+        public string? 收費機制 { get; set; }
+        public string? 運送方式 { get; set; }
+        public string? 建檔 { get; set; }
+        public string? 修改 { get; set; }
+        public string? 核准 { get; set; }
+        public string? 建檔日 { get; set; }
+        public string? 修改日 { get; set; }
+        public string? 核准日 { get; set; }
+        public string? 主旨 { get; set; }
+        public string? 申請用途 { get; set; }
+        public string? 客戶編號 { get; set; }
+        public string? 訂單編號 { get; set; }
+        public List<零件申請明細>? detailList { get; set; } = new List<零件申請明細>();
+        public List<零件申請BRG>? detailBRGList { get; set; } = new List<零件申請BRG>();
     }
 }
