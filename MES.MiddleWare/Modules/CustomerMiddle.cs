@@ -882,6 +882,7 @@ namespace MES.MiddleWare.Modules
                 HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
                 //list = custOrderRepository.GetList(null, "TOP 1000");
                 list = custOrderRepository.GetList(typeof(C訂單).Name, " a ", " AND (SELECT COUNT(0) FROM C出貨單明細 WHERE ORDNO = a.單號 ) = 0");
+                
                 foreach(var order in list)
                 {
                     C客戶設定 cust = new C客戶設定();

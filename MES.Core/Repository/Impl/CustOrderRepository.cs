@@ -195,7 +195,19 @@ namespace MES.Core.Repository.Impl
         public override int Update(C訂單 t)
         {
             int retCount = 0;
+            if (t.建檔日 == "Invalid Date")
+            {
+                t.建檔日 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
 
+            if (t.修改日 == "Invalid Date")
+            {
+                t.修改日 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            if (t.核准日 == "Invalid Date")
+            {
+                t.核准日 = null;
+            }
             string sql = $@"UPDATE dbo.C訂單 SET
                                         日期        =@日期          ,
                                         客戶編號    =@客戶編號        ,

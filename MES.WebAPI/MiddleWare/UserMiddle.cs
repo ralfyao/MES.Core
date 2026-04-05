@@ -185,7 +185,7 @@ namespace MES.WebAPI.MiddleWare
                 {
                     conn.Open();
                     string strSQL = $@"UPDATE C訂單 SET 核准='{((bool)valid ? account : "")}', 核准日={((bool)valid ? "GETDATE()" : "NULL")}
-                                        WHERE 單號='{formNo}'";
+                                       , 結案={((bool)valid?"1":"0")} WHERE 單號='{formNo}'";
                     execCnt += conn.Execute(strSQL);
                 }
             }
