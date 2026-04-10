@@ -38,5 +38,6 @@ namespace MES.Core.Model
         public string? 核准{ get; set; }
         public string? 核准日{ get; set; }
         public List<B廠商供料>? supplyList { get; set; }
+        public List<B廠商聯絡名冊> contactList { get; set; }
     }
 }

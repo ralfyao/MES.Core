@@ -19,21 +19,27 @@ namespace MES.WebAPI.MiddleWare
             {
                 SupplierRepository supplierMiddle = new SupplierRepository();
                 SupplierDetailRepository supplierDetailRepository = new Core.Repository.Impl.SupplierDetailRepository();
+                SupplierContactDataRepository supplierContactDataRepository = new SupplierContactDataRepository();
                 list = supplierMiddle.GetList((B廠商設定)null);
-                if (!string.IsNullOrEmpty(supplierNo))
+                if (!string.IsNullOrEmpty(supplierNo) && supplierNo != "undefined")
                 {
                     list = list.Where(x => x.廠商編號 == supplierNo).ToList();
                 }
-                if (!string.IsNullOrEmpty(supplierName))
+                if (!string.IsNullOrEmpty(supplierName) && supplierName != "undefined")
                 {
                     list = list.Where(x => x.廠商名稱.IndexOf(supplierName) != -1).ToList();
                 }
-                // 詢價清單
                 foreach(var  item in list)
                 {
+                    // 詢價清單
                     B廠商供料 aItem = new B廠商供料();
                     aItem.廠商編號 = item.廠商編號;
                     item.supplyList = supplierDetailRepository.GetListBy(aItem, "廠商編號");
+
+                    //聯絡人清單
+                    B廠商聯絡名冊 bItem = new B廠商聯絡名冊();
+                    bItem.客廠編號 = item.廠商編號;
+                    item.contactList = supplierContactDataRepository.GetListBy(bItem, "客廠編號");
                 }
             }
             catch (Exception)
