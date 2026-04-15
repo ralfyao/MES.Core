@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace MES.Core.Model
 {
     public class B採購單
     {
+        [Key]
         public string 單號 { get; set; }
         public string 日期 { get; set; }
         public string 廠商編號 { get; set; }
