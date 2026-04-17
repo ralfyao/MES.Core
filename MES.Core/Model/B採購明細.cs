@@ -25,6 +25,7 @@ namespace MES.Core.Model
         public string? 備註 { get; set; }
         public string? 請購序號 { get; set; }
         public string? 專案序號 { get; set; }
+        public double? 採購數量 { get; set; }
         public double? 收貨數量 { get; set; }
         public double? 合格數量 { get; set; }
         public double? 特採數量 { get; set; }

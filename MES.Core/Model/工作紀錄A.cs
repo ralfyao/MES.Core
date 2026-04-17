@@ -18,10 +18,10 @@ namespace MES.Core.Model
         public string? 模組編碼     { get; set; }
         public string? 模組名稱     { get; set; }
         public string? 任務分類     { get; set; }
-        public string? 成效點數     { get; set; }
+        public float? 成效點數     { get; set; }
         public string? 工作項目     { get; set; }
         public string? 組裝零件     { get; set; }
-        public string? 進度         { get; set; }
+        public float? 進度         { get; set; }
         public string? 本日工時     { get; set; }
         public string? 特別註記     { get; set; }
         public string? 單價         { get; set; }

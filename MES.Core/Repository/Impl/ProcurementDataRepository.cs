@@ -77,13 +77,6 @@ namespace MES.Core.Repository.Impl
                                                               備註,
                                                               請購序號,
                                                               專案序號,
-                                                              收貨數量,
-                                                              合格數量,
-                                                              特採數量,
-                                                              退回數量,
-                                                              實際單價,
-                                                              折讓金額,
-                                                              付款金額,
                                                               結案,
                                                               代工類別,
                                                               正公差,
@@ -106,13 +99,6 @@ namespace MES.Core.Repository.Impl
                                                               @備註,
                                                               @請購序號,
                                                               @專案序號,
-                                                              @收貨數量,
-                                                              @合格數量,
-                                                              @特採數量,
-                                                              @退回數量,
-                                                              @實際單價,
-                                                              @折讓金額,
-                                                              @付款金額,
                                                               @結案,
                                                               @代工類別,
                                                               @正公差,
@@ -147,12 +133,30 @@ namespace MES.Core.Repository.Impl
             }
             return execCnt;
         }
+        public void setIdColumn(string v)
+        {
+            this.theId = v;
+        }
 
         public override int Update(B採購單 t)
         {
             int execCnt = 0;
             try
             {
+                // 規避掉一些奇奇怪怪的資料.......
+                if (t.建檔日 == "Invalid Date")
+                {
+                    t.建檔日 = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                if (t.核准日 == "Invalid Date")
+                {
+                    t.核准日 = null;
+                }
+
+                if (t.交貨日期 == "Invalid Date")
+                {
+                    t.交貨日期 = null;
+                }
                 using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();
@@ -165,6 +169,11 @@ namespace MES.Core.Repository.Impl
                         foreach (var item in t.procurementList)
                         {
                             item.單號 = t.單號;
+                            // 規避掉一些奇奇怪怪的資料.......
+                            if (item.交貨日期 == "Invalid Date")
+                            {
+                                item.交貨日期 = null;
+                            }
                             dynamicParameters = new DynamicParameters(item);
                             execCnt += conn.Execute(SQL_INSERT_B採購單明細, dynamicParameters, tran);
                         }

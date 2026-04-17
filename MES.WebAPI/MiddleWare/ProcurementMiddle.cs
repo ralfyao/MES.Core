@@ -69,21 +69,55 @@ namespace MES.WebAPI.MiddleWare
             return list;
         }
 
-        public List<B採購單> getPurchaseOrderList()
+        public List<B採購單> getPurchaseOrderList(string purchaseOrderNo)
         {
             List<B採購單> list = new List<B採購單>();
+            List<B採購單> tmplist = new List<B採購單>();
             ProcurementDataRepository procurementDataRepository= new ProcurementDataRepository();
             ProcurementDetailDataRepository procurementDetailDataRepository = new Core.Repository.Impl.ProcurementDetailDataRepository();
+            InboundItemsAcceptDetailRepository inboundItemsAcceptDetailRepository = new InboundItemsAcceptDetailRepository();
+            List<string> queryInboundItemCriterial = new List<string>();
+            queryInboundItemCriterial.Add("採購單號");
+            queryInboundItemCriterial.Add("品項編號");
             procurementDetailDataRepository.setIdColumn("單號");
+            procurementDataRepository.setIdColumn("單號");
             try
             {
-                list = procurementDataRepository.GetList(null, "").Where(x=>x.結案 == false).OrderBy(x=>x.日期).ToList();
+                if (!string.IsNullOrEmpty(purchaseOrderNo))
+                {
+                    B採購單 obj = new B採購單();
+                    obj.單號 = purchaseOrderNo;
+                    list = procurementDataRepository.GetList(obj, "").Where(x => x.結案 == false).OrderBy(x => x.日期).ToList();
+                }
+                else
+                {
+                    list = procurementDataRepository.GetList(null, "").Where(x => x.結案 == false).OrderBy(x => x.日期).ToList();
+                }
                 foreach (var item in list)
                 {
                     B採購明細 b = new B採購明細();
                     b.單號 = item.單號;
-                    item.procurementList = procurementDetailDataRepository.GetList(b);
+                    item.procurementList = procurementDetailDataRepository.GetList(b).Where(x => x.結案 == false).ToList();
+                    if (item.procurementList.Count() > 0) 
+                    {
+                        foreach(var  item2 in item.procurementList)
+                        {
+                            B進退貨驗收明細 b1 = new B進退貨驗收明細();
+                            b1.採購單號 = item.單號;
+                            b1.品項編號 = item2.品項編號;
+                            List<B進退貨驗收明細> inboundList = inboundItemsAcceptDetailRepository.GetListBy(b1, queryInboundItemCriterial);
+                            foreach(var item3 in inboundList)
+                            {
+                                item2.收貨數量 = item3.收貨數量;
+                                item2.合格數量 = item3.合格數量;
+                                item2.特採數量 = item3.特採數量;
+                                item2.退回數量 = item3.退回數量;
+                            }
+                        }
+                        tmplist.Add(item);
+                    }
                 }
+                list = tmplist;
             }
             catch (Exception)
             {
@@ -124,7 +158,32 @@ namespace MES.WebAPI.MiddleWare
             using(var conn = new SqlConnection(IRepository<string>.ConnStr))
             {
                 conn.Open();
-                conn.Execute($@"UPDATE B採購單 SET 結案=1 WHERE 單號='{purchaseOrderNo}' ");
+                conn.Execute($@"UPDATE B採購單 SET 結案=1 WHERE 單號='{purchaseOrderNo}';
+                                UPDATE B採購明細 SET 結案=1 WHERE 單號='{purchaseOrderNo}'");
+            }
+        }
+
+        public void voidPurchaseOrderItem(string itemId)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                conn.Execute($@"DECLARE @iCount INTEGER;
+                                UPDATE B採購明細 SET 結案=1 WHERE 識別='{itemId}'; 
+                                SELECT @iCount = COUNT(0) FROM B採購明細 WHERE 單號=(SELECT 單號 FROM B採購明細 WHERE 識別='{itemId}') AND (結案=0 OR 結案 IS NULL);
+                                IF (@iCount = 0)
+                                BEGIN
+                                    UPDATE B採購單 SET 結案=1 WHERE 單號=(SELECT 單號 FROM B採購明細 WHERE 識別='{itemId}');
+                                END;");
+            }
+        }
+
+        public void evaluatePurchaseOrder(string formNo, bool validate, string user)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                conn.Execute($@"UPDATE B採購單 SET 核准={(validate? $@"'{user}'" : "''")}, 核准日={(validate?"GETDATE()":"NULL")} WHERE 單號='{formNo}';");
             }
         }
     }

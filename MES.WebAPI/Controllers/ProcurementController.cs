@@ -26,13 +26,13 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
         [Route("api/AllPurchasesList"), HttpGet]
-        public CommonRep<B採購單> AllPurchasesList()
+        public CommonRep<B採購單> AllPurchasesList(string purchaseOrderNo = "")
         {
             CommonRep<B採購單> commonRep = new CommonRep<B採購單>();
             ProcurementMiddle procurement = new ProcurementMiddle();
             try
             {
-                commonRep.resultList = procurement.getPurchaseOrderList();
+                commonRep.resultList = procurement.getPurchaseOrderList(purchaseOrderNo);
             }
             catch (Exception ex)
             {
@@ -114,6 +114,38 @@ namespace MES.WebAPI.Controllers
             try
             {
                 procurementMiddle.voidPurchaseOrder(purchaseOrderNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/VoidPurchaseOrderItem"), HttpGet]
+        public CommonRep<string> VoidPurchaseOrderItem(string itemId)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProcurementMiddle procurementMiddle = new ProcurementMiddle();
+            try
+            {
+                procurementMiddle.voidPurchaseOrderItem(itemId);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/EvaluatePurchaseOrder"), HttpGet]
+        public CommonRep<string> EvaluatePurchaseOrder(string formNo, bool validate, string user)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProcurementMiddle procurementMiddle = new ProcurementMiddle();
+            try
+            {
+                procurementMiddle.evaluatePurchaseOrder(formNo, validate, user);
             }
             catch (Exception ex)
             {
