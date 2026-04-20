@@ -164,7 +164,7 @@ namespace MES.WebAPI.Controllers
             ProcurementMiddle procurementMiddle = new ProcurementMiddle();
             try
             {
-                commonRep.resultList = procurementMiddle.getAllPurchaseRequestList(reqNo);
+                commonRep.resultList = procurementMiddle.getAllPurchaseRequestList(reqNo).OrderByDescending(x => x.日期).ToList();
             }
             catch (Exception ex)
             {
