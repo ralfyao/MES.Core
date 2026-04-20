@@ -103,6 +103,11 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
+        public List<PrivilegeMenu> GetList(PrivilegeMenu t, string topn = "", string orderBy = "")
+        {
+            throw new NotImplementedException();
+        }
+
         public List<PrivilegeMenu> GetListBy(PrivilegeMenu t, string propName, string fields = "")
         {
             List<PrivilegeMenu> list = new List<PrivilegeMenu>();

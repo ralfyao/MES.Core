@@ -285,5 +285,10 @@ namespace MES.Core.Repository.Impl
             }
             return list;
         }
+
+        public List<MenuSub> GetList(MenuSub t, string topn = "", string orderBy = "")
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,6 +1,6 @@
 using MES.Core;
 using MES.Core.Repository.Impl;
-using MES.MiddleWare;
+//using MES.MiddleWare;
 
 namespace TestProject2
 {
@@ -16,7 +16,7 @@ namespace TestProject2
         {
             string connStr = Constant.CONNECTION_STRING;
             AuthenticateRepository repository = new AuthenticateRepository();
-            var list = repository.GetList(null);
+            var list = repository.GetList(null, "", "");
             Assert.NotZero(list.Count());
         }
 

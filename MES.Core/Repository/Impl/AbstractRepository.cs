@@ -49,7 +49,7 @@ namespace MES.Core.Repository.Impl
             return delCnt;
         }
 
-        public List<T> GetList(T t, string topn = "TOP 1000")
+        public List<T> GetList(T t, string topn = "TOP 1000", string orderBy = "")
         {
             List<T> prodList = new List<T>();
             try

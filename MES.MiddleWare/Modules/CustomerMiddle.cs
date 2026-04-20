@@ -29,7 +29,7 @@ namespace MES.MiddleWare.Modules
             try
             {
                 CustomerRepository customerRepository = new CustomerRepository();
-                Lst = customerRepository.GetList(null, "TOP 1000").OrderBy(x=>x.正航編號).ToList();
+                Lst = customerRepository.GetList(null, "TOP 1000", "").OrderBy(x=>x.正航編號).ToList();
                 foreach(var cust in  Lst)
                 {
                     var industry = customerRepository.getIndustryCode(cust.INDUSTRYCODE).FirstOrDefault();
@@ -196,7 +196,7 @@ namespace MES.MiddleWare.Modules
                 RFQRepository customerRepository = new RFQRepository();
                 //CommonRepository<H員工清冊> commonRepository = new CommonRepository<H員工清冊>();
                 //List<H員工清冊> employees = commonRepository.GetList(null);
-                Lst = customerRepository.GetList((C客戶詢問函)null);
+                Lst = customerRepository.GetList((C客戶詢問函)null, "TOP 1000", " ORDER BY RFQDATE DESC ");
                 Lst.ForEach((x) =>
                 {
                     x.RFQDATE = Utility.ConvertDate(x.RFQDATE);
@@ -881,7 +881,7 @@ namespace MES.MiddleWare.Modules
                 CustomerRepository customerRepository = new CustomerRepository();
                 HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
                 //list = custOrderRepository.GetList(null, "TOP 1000");
-                list = custOrderRepository.GetList(typeof(C訂單).Name, " a ", " AND (SELECT COUNT(0) FROM C出貨單明細 WHERE ORDNO = a.單號 ) = 0");
+                list = custOrderRepository.GetList(typeof(C訂單).Name, " a ", " AND (SELECT COUNT(0) FROM C出貨單明細 WHERE ORDNO = a.單號 ) = 0", "");
                 
                 foreach(var order in list)
                 {
@@ -2068,7 +2068,7 @@ namespace MES.MiddleWare.Modules
             List<C客戶詢問函> list = new List<C客戶詢問函>();
             RFQRepository rFQRepository = new RFQRepository();
             CustomerRepository customerRepository = new CustomerRepository();
-            list = rFQRepository.GetList(null, "");
+            list = rFQRepository.GetList(null, "", "");
             try
             {
                 if (!string.IsNullOrEmpty(param.startDate)) 
@@ -2213,7 +2213,7 @@ namespace MES.MiddleWare.Modules
                 CustomerQuotationRepository quotationRepository = new CustomerQuotationRepository();
                 CustomerRepository customerRepository = new CustomerRepository();
                 HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
-                list = custOrderRepository.GetList(null, "").Where(x=>x.單號 == orderNo).ToList();
+                list = custOrderRepository.GetList(null, "", " ORDER BY 單號 DESC").Where(x=>x.單號 == orderNo).ToList();
                 foreach (var order in list)
                 {
                     C客戶設定 cust = new C客戶設定();

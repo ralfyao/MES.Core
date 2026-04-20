@@ -57,7 +57,7 @@ namespace MES.WebAPI.MiddleWare
             {
                 SupplierRepository supplierMiddle = new SupplierRepository();
                 SupplierDetailRepository supplierDetailRepository = new Core.Repository.Impl.SupplierDetailRepository();
-                list = supplierMiddle.GetList(null, "");
+                list = supplierMiddle.GetList(null, "", "");
                 if (!string.IsNullOrEmpty(supplierNo))
                 {
                     list = list.Where(x => x.廠商編號 == supplierNo).ToList();

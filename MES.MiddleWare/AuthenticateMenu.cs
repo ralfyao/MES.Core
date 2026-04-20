@@ -120,7 +120,7 @@ namespace MES.MiddleWare
             {
                 MenuRepository menuRepository = new MenuRepository();
                 MenuSubRepository menuSubRepository = new MenuSubRepository();
-                menus = menuRepository.GetList(new Menu());
+                menus = menuRepository.GetList(new Menu(), "", "");
                 foreach(var menu in menus)
                 {
                     MenuSub sub = new MenuSub();

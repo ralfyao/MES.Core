@@ -74,6 +74,11 @@ namespace MES.Core.Repository.Impl
             return list;
         }
 
+        public List<AuthenticatePrivilege> GetList(AuthenticatePrivilege t, string topn = "", string orderBy = "")
+        {
+            throw new NotImplementedException();
+        }
+
         public List<AuthenticatePrivilege> GetListBy(AuthenticatePrivilege t, string propName)
         {
             List<AuthenticatePrivilege> list = new List<AuthenticatePrivilege>();

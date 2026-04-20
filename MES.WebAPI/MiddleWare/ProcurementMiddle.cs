@@ -87,11 +87,11 @@ namespace MES.WebAPI.MiddleWare
                 {
                     B採購單 obj = new B採購單();
                     obj.單號 = purchaseOrderNo;
-                    list = procurementDataRepository.GetList(obj, "").Where(x => x.結案 == false).OrderBy(x => x.日期).ToList();
+                    list = procurementDataRepository.GetList(obj, "", "").Where(x => x.結案 == false).OrderBy(x => x.日期).ToList();
                 }
                 else
                 {
-                    list = procurementDataRepository.GetList(null, "").Where(x => x.結案 == false).OrderBy(x => x.日期).ToList();
+                    list = procurementDataRepository.GetList(null, "", "").Where(x => x.結案 == false).OrderBy(x => x.日期).ToList();
                 }
                 foreach (var item in list)
                 {
@@ -197,7 +197,7 @@ namespace MES.WebAPI.MiddleWare
             {
                 if (string.IsNullOrEmpty(reqNo))
                 {
-                    list.AddRange(repo.GetList(null, ""));
+                    list.AddRange(repo.GetList(null, "", ""));
                 }
                 else
                 {
@@ -257,7 +257,7 @@ namespace MES.WebAPI.MiddleWare
             CostUnitRepository costUnitRepository = new CostUnitRepository();
             try
             {
-                list = costUnitRepository.GetList(null, "");
+                list = costUnitRepository.GetList(null, "", "");
             }
             catch (Exception)
             {

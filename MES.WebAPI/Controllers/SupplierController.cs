@@ -235,7 +235,7 @@ namespace MES.WebAPI.Controllers
             try
             {
                 ItemRepository itemRepo = new ItemRepository();
-                commonRep.resultList = itemRepo.GetList(null, "");
+                commonRep.resultList = itemRepo.GetList(null, "", "");
             }
             catch (Exception ex)
             {

@@ -39,7 +39,7 @@ namespace MES.MiddleWare
             {
                 ProductSpecRepository productSpecRepository = new ProductSpecRepository();
                 
-                return productSpecRepository.GetList(null);
+                return productSpecRepository.GetList(null, "", "");
             }
             catch (Exception ex)
             {

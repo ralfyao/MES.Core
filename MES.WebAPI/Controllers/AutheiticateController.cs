@@ -33,7 +33,7 @@ namespace MES.WebAPI.Controllers
             {
                 Authenticate authenticate = new Authenticate();
                 authenticate.Account = user.username;
-                var result = repository.GetList(authenticate);
+                var result = repository.GetList(authenticate, "", "");
                 if (result.Count > 0)
                 {
                     foreach(var item in result)
@@ -87,7 +87,7 @@ namespace MES.WebAPI.Controllers
             {
                 Authenticate authenticate = new Authenticate();
                 authenticate.Account = user.username;
-                var result = repository.GetList(authenticate);
+                var result = repository.GetList(authenticate, "", "");
                 if (result.Count > 0)
                 {
                     rep.WorkStatus = WorkStatus.OK.ToString();
@@ -140,7 +140,7 @@ namespace MES.WebAPI.Controllers
             CommonRep<Authenticate> rep = new CommonRep<Authenticate>();
             try
             {
-                List<Authenticate> userList = new AuthenticateRepository().GetList(null);
+                List<Authenticate> userList = new AuthenticateRepository().GetList(null, "", "");
                 rep.resultList = userList; 
             }
             catch (Exception ex)
