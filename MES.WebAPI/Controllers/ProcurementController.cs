@@ -9,6 +9,7 @@ namespace MES.WebAPI.Controllers
     [ApiController]
     public class ProcurementController : ControllerBase
     {
+        #region 採購單
         [Route("api/GetPONo"), HttpGet]
         public CommonRep<string> GetPoNo()
         {
@@ -154,5 +155,72 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        #endregion
+        #region 請購單
+        [Route("api/AllPurchaseRequestList"), HttpGet]
+        public CommonRep<B請購需求> AllPurchaseRequestList(string reqNo = null)
+        {
+            CommonRep<B請購需求> commonRep = new CommonRep<B請購需求>();
+            ProcurementMiddle procurementMiddle = new ProcurementMiddle();
+            try
+            {
+                commonRep.resultList = procurementMiddle.getAllPurchaseRequestList(reqNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/AllDepartmentList"), HttpGet]
+        public CommonRep<A成本單位> AllDepartmentList()
+        {
+            CommonRep<A成本單位> commonRep = new CommonRep<A成本單位>();
+            ProcurementMiddle procurementMiddle = new ProcurementMiddle();
+            try
+            {
+                commonRep.resultList = procurementMiddle.getAllDepartmentList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/SavePurchaseRequest"), HttpPost]
+        public CommonRep<string> SavePurchaseRequest([FromBody] B請購需求 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProcurementMiddle procurementMiddle = new ProcurementMiddle();
+            try
+            {
+                procurementMiddle.savePurchaseRequest(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeletePurchaseRequest"), HttpGet]
+        public CommonRep<string> DeletePurchaseRequest(string formSerial)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProcurementMiddle procurementMiddle = new ProcurementMiddle();
+            try
+            {
+                procurementMiddle.deletePurchaseRequest(formSerial);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        #endregion
     }
 }

@@ -186,5 +186,113 @@ namespace MES.WebAPI.MiddleWare
                 conn.Execute($@"UPDATE B採購單 SET 核准={(validate? $@"'{user}'" : "''")}, 核准日={(validate?"GETDATE()":"NULL")} WHERE 單號='{formNo}';");
             }
         }
+
+        public List<B請購需求> getAllPurchaseRequestList(string reqNo)
+        {
+            List<B請購需求> list = new List<B請購需求>();
+            PurchaseRequestRepository repo = new PurchaseRequestRepository();
+            ItemRepository itemRepository = new ItemRepository();
+            SupplierRepository supplierRepository = new SupplierRepository();
+            try
+            {
+                if (string.IsNullOrEmpty(reqNo))
+                {
+                    list.AddRange(repo.GetList(null, ""));
+                }
+                else
+                {
+                    B請購需求 parm = new B請購需求();
+                    parm.請購序號 = int.Parse(reqNo);
+                    var tmpList = repo.GetListBy(parm, "請購序號");
+                    if (tmpList != null && tmpList.Count() > 0)
+                    {
+                        list.AddRange(tmpList);
+                    }
+                }
+                list.ForEach(x =>
+                {
+                    A材料 part = new A材料();
+                    part.產品編號 = x.品項編號;
+                    part = itemRepository.GetListBy(part, "產品編號").FirstOrDefault();
+                    if (part != null)
+                    {
+                        if (x.請購類別 == "客戶訂購" || x.請購類別 == "專案增購")
+                        {
+                            x.單位 = part.採購單位;
+                        }
+                        else if (x.請購類別 == "安全庫存" || x.請購類別 == "機台零件")
+                        {
+                            x.單位 = part.庫存單位;
+                        }
+                        else if (x.請購類別 == "售後維修")
+                        {
+                            x.單位 = part.銷售單位;
+                        }
+                        else
+                        {
+                            x.單位 = part.庫存單位;
+                        }
+                    }
+
+                    B廠商設定 b = new B廠商設定();
+                    b.廠商編號 = x.指定供應廠商;
+                    b = supplierRepository.GetListBy(b, "廠商編號").FirstOrDefault();
+                    if (b != null)
+                    {
+                        x.廠商簡稱 = b.廠商簡稱;
+                    }
+                });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        public List<A成本單位> getAllDepartmentList()
+        {
+            List<A成本單位> list = new List<A成本單位>();
+            CostUnitRepository costUnitRepository = new CostUnitRepository();
+            try
+            {
+                list = costUnitRepository.GetList(null, "");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        public void savePurchaseRequest(B請購需求 form)
+        {
+            PurchaseRequestRepository repo = new PurchaseRequestRepository();
+            try
+            {
+                repo.SavePurchaseRequest(form);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        internal void deletePurchaseRequest(string formSerial)
+        {
+            PurchaseRequestRepository repo = new PurchaseRequestRepository();
+            try
+            {
+                repo.DeletePurchaseRequest(formSerial);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

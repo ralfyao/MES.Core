@@ -17,6 +17,10 @@ namespace MES.Core.Repository.Impl
     public abstract class AbstractRepository<T> : IRepository<T>
     {
         private static ILog logger = LogManager.GetLogger(typeof(AbstractRepository<T>));
+        protected void setIdColumn(string theId)
+        {
+            this.theId = theId;
+        }
         protected string theId;
         public SqlConnection getConnection()
         {
