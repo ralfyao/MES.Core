@@ -238,7 +238,7 @@ namespace MES.WebAPI.MiddleWare
                                           ,樣品
 	                                      ,b.廠商編號
 	                                      ,c.廠商簡稱
-                                          ,'' 預交日期
+                                          ,b.交貨日期 預交日期
                                       FROM B採購明細 a
                                       LEFT OUTER JOIN B採購單 b ON a.單號=b.單號
                                       LEFT OUTER JOIN dbo.B廠商設定 AS c ON b.廠商編號=c.廠商編號
