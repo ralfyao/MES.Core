@@ -224,5 +224,37 @@ namespace MES.WebAPI.MiddleWare
                 throw;
             }
         }
+
+        public List<B進退貨驗收明細> queryAvailableProcItem()
+        {
+            List<B進退貨驗收明細> list = new List<B進退貨驗收明細>();
+            try
+            {
+                string strSQL = $@"SELECT a.識別 識別碼
+                                          ,品項編號
+                                          ,品名規格
+                                          ,a.單號
+                                          ,數量 採購數量
+                                          ,樣品
+	                                      ,b.廠商編號
+	                                      ,c.廠商簡稱
+                                          ,'' 預交日期
+                                      FROM B採購明細 a
+                                      LEFT OUTER JOIN B採購單 b ON a.單號=b.單號
+                                      LEFT OUTER JOIN dbo.B廠商設定 AS c ON b.廠商編號=c.廠商編號
+                                     where a.結案=0";
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<B進退貨驗收明細>(strSQL).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
     }
 }

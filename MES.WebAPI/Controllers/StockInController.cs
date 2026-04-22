@@ -126,5 +126,21 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/QueryAvailableProcItem"), HttpGet]
+        public CommonRep<B進退貨驗收明細> AvailableProcItems()
+        {
+            CommonRep<B進退貨驗收明細> commonRep = new CommonRep<B進退貨驗收明細>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                commonRep.resultList = stockInMiddle.queryAvailableProcItem();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
     }
 }
