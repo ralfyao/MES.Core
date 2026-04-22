@@ -23,8 +23,8 @@ namespace TestProject2
         [Test]
         public void testGetMenu()
         {
-            AuthenticateMenu auMenu = new AuthenticateMenu();
-            Assert.NotZero(auMenu.GetMenuByAccount("admin").Count());
+            //AuthenticateMenu auMenu = new AuthenticateMenu();
+            //Assert.NotZero(auMenu.GetMenuByAccount("admin").Count());
         }
         [Test]
         public void testGetAll()

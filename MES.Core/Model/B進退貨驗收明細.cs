@@ -11,22 +11,25 @@ namespace MES.Core.Model
     {
         [Key]
         public int 識別碼 { get; set; }
-        public string 單號 { get; set; }
-        public string 廠商編號 { get; set; }
-        public string 品項編號 { get; set; }
-        public string 品名規格 { get; set; }
-        public string 批號 { get; set; }
-        public float 收貨數量 { get; set; }
-        public float 合格數量 { get; set; }
-        public float 特採數量 { get; set; }
-        public float 退回數量 { get; set; }
-        public float 實際單價 { get; set; }
-        public float 折讓金額 { get; set; }
-        public float 付款金額 { get; set; }
-        public bool 樣品 { get; set; }
-        public string 採購單號 { get; set; }
-        public string 退貨單號 { get; set; }
-        public string 包裝單號 { get; set; }
-        public bool 勾選 { get; set; }
+        public string? 單號 { get; set; }
+        public string? 廠商編號 { get; set; }
+        public string? 廠商簡稱 { get; set; }
+        public string? 品項編號 { get; set; }
+        public string? 品名規格 { get; set; }
+        public string? 單位 { get; set; }
+        public string? 批號 { get; set; }
+        public float? 採購數量 { get; set; }
+        public float? 收貨數量 { get; set; }
+        public float? 合格數量 { get; set; }
+        public float? 特採數量 { get; set; }
+        public float? 退回數量 { get; set; }
+        public float? 實際單價 { get; set; }
+        public float? 折讓金額 { get; set; }
+        public float? 付款金額 { get; set; }
+        public bool? 樣品 { get; set; }
+        public string? 採購單號 { get; set; }
+        public string? 退貨單號 { get; set; }
+        public string? 包裝單號 { get; set; }
+        public bool? 勾選 { get; set; }
     }
 }

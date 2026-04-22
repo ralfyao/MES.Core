@@ -1,4 +1,5 @@
 ﻿using MES.Core.Model;
+using MES.Core.Repository.Impl;
 using MES.WebAPI.MiddleWare;
 using MES.WebAPI.Models;
 using Microsoft.AspNetCore.Http;
@@ -49,6 +50,38 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.result = hRMiddle.getJournalByNo(journalNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/AllWorkers"), HttpGet]
+        public CommonRep<H員工清冊> AllWorkers()
+        {
+            CommonRep<H員工清冊> commonRep = new CommonRep<H員工清冊>();
+            HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
+            try
+            {
+                commonRep.resultList = humanResourceRepository.GetList(null, "", "");
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetWorkerByNumber"), HttpGet]
+        public CommonRep<H員工清冊> GetWorkerByNumber(string workerNumber)
+        {
+            CommonRep<H員工清冊> commonRep = new CommonRep<H員工清冊>();
+            HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
+            try
+            {
+                commonRep.result = humanResourceRepository.GetListBy(new H員工清冊() { 工號 = workerNumber }, "工號").FirstOrDefault();
             }
             catch (Exception ex)
             {

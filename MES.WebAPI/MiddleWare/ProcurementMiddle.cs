@@ -127,6 +127,25 @@ namespace MES.WebAPI.MiddleWare
             return list;
         }
 
+        public List<B採購明細> getPurchaseDetailList(string purchaseOrderNo)
+        {
+            List<B採購明細> list = new List<B採購明細>();
+            ProcurementDetailDataRepository procurementDetailDataRepository = new Core.Repository.Impl.ProcurementDetailDataRepository();
+            procurementDetailDataRepository.setIdColumn("單號");
+            try
+            {
+                B採購明細 b = new B採購明細();
+                b.單號 = purchaseOrderNo;
+                list = procurementDetailDataRepository.GetList(b).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
         public int updatePurchaseOrder(B採購單 form)
         {
             int execCnt = 0;
