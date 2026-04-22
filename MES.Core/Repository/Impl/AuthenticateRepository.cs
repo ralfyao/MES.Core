@@ -78,7 +78,7 @@ namespace MES.Core.Repository.Impl
 
         public List<Authenticate> GetList(Authenticate t, string topn = "", string orderBy = "")
         {
-            throw new NotImplementedException();
+            return GetList(t, "");
         }
 
         public List<Authenticate> GetListBy(Authenticate t, string propName)
