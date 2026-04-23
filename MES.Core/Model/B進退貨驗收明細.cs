@@ -30,6 +30,7 @@ namespace MES.Core.Model
         public string? 採購單號 { get; set; }
         public string? 退貨單號 { get; set; }
         public string? 包裝單號 { get; set; }
+        public string? 預交日期 { get; set; }
         public bool? 勾選 { get; set; }
     }
 }
