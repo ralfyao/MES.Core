@@ -68,7 +68,7 @@ namespace MES.Core.Repository.Impl
 
         public List<ProductSpec> GetList(ProductSpec t, string topn = "", string orderBy = "")
         {
-            throw new NotImplementedException();
+            return GetList(t, topn);
         }
 
         public List<ProductSpec> GetListBy(ProductSpec t, string propName)

@@ -228,22 +228,7 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
-        [Route("api/ItemList")]
-        public CommonRep<A材料> ItemList() 
-        {
-            CommonRep<A材料> commonRep = new CommonRep<A材料>();
-            try
-            {
-                ItemRepository itemRepo = new ItemRepository();
-                commonRep.resultList = itemRepo.GetList(null, "", "");
-            }
-            catch (Exception ex)
-            {
-                commonRep.ErrorMessage = ex.Message;
-                commonRep.WorkStatus = WorkStatus.Fail.ToString();
-            }
-            return commonRep;
-        }
+        
         [Route("api/AddSupplierQuotation"), HttpPost]
         public CommonRep<B廠商供料> AddSupplierQuotation([FromBody] B廠商供料 form)
         {

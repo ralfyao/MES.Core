@@ -76,7 +76,38 @@ namespace MES.Core.Repository.Impl
 
         public List<AuthenticatePrivilege> GetList(AuthenticatePrivilege t, string topn = "", string orderBy = "")
         {
-            throw new NotImplementedException();
+            List<AuthenticatePrivilege> list = new List<AuthenticatePrivilege>();
+            try
+            {
+                string sql = $@"SELECT {topn} * FROM AuthenticatePrivilege WHERE 1=1";
+                if (t != null)
+                {
+                    sql += " AND ID like @id+'%'";
+                }
+                sql += orderBy;
+                using (var conn = new SqlConnection(IRepository<AuthenticatePrivilege>.ConnStr))
+                {
+                    conn.Open();
+                    if (t != null)
+                    {
+                        var result = conn.Query<AuthenticatePrivilege>(sql, new
+                        {
+                            id = t.ID
+                        });
+                        list = result.ToList();
+                    }
+                    else
+                    {
+                        var result = conn.Query<AuthenticatePrivilege>(sql, null);
+                        list = result.ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+            }
+            return list;
         }
 
         public List<AuthenticatePrivilege> GetListBy(AuthenticatePrivilege t, string propName)
