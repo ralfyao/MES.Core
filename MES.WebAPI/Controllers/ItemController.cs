@@ -42,5 +42,53 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/SaveUpdateItem"), HttpPost]
+        public CommonRep<string> SaveUpdateItem([FromBody]A材料 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ItemMiddle itemMiddle = new ItemMiddle();
+            try
+            {
+                itemMiddle.saveUpdateItem(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ToggleDisableItem"), HttpGet]
+        public CommonRep<String> ToggleDisableItem(string itemNo)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ItemMiddle itemMiddle = new ItemMiddle();
+            try
+            {
+                itemMiddle.toggleDisableItem(itemNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteItem"), HttpGet]
+        public CommonRep<string> DeleteItem(string itemNo)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ItemMiddle itemMiddle = new ItemMiddle();
+            try
+            {
+                itemMiddle.deleteItem(itemNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
     }
 }
