@@ -142,5 +142,21 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/QueryAllIncomeCertReg"), HttpGet]
+        public CommonRep<F付款> QueryAllIncomeCertReg()
+        {
+            CommonRep<F付款> commonRep = new CommonRep<F付款>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                commonRep.resultList = stockInMiddle.getAllIncomeCertReg();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
     }
 }

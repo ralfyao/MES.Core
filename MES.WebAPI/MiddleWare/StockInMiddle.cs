@@ -256,5 +256,47 @@ namespace MES.WebAPI.MiddleWare
             }
             return list;
         }
+
+        public List<F付款> getAllIncomeCertReg()
+        {
+            List<F付款> list = new List<F付款>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<F付款>("SELECT * FROM F付款").ToList();
+                    foreach(var item in list)
+                    {
+                        item.detailList = getIncomeCertRegDetailList(item.單號);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        private List<F付款明細> getIncomeCertRegDetailList(string? 單號)
+        {
+            List<F付款明細> list = new List<F付款明細>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<F付款明細>($"SELECT * FROM F付款明細 WHERE 單號='{單號}'").ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
     }
 }
