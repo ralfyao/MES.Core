@@ -53,15 +53,18 @@ namespace DigiERP.UserControl
         {
             var customerMaintainControl = (from c in panel1.Controls.Cast<Control>() where c.GetType() == typeof(CustomerMaintainControl) select c).FirstOrDefault();
             var dataGridView = (from c in panel1.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
-            if (customerMaintainControl != null)
+            if (customerMaintainControl == null)
             {
-                var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode"  select c).FirstOrDefault();
-                if (lblMode != null)
-                {
-                    lblMode.Text = "新增";
-                }
-                customerMaintainControl.Visible = true;
+                customerMaintainControl = new CustomerMaintainControl();
+                customerMaintainControl.Dock = DockStyle.Fill;
+                panel1.Controls.Add(customerMaintainControl);
             }
+            var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
+            if (lblMode != null)
+            {
+                lblMode.Text = "新增";
+            }
+            customerMaintainControl.Visible = true;
             if (dataGridView != null)
             {
                 dataGridView.Visible = false;

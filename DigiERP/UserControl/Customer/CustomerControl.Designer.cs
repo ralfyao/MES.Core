@@ -34,11 +34,9 @@ namespace DigiERP.UserControl
             label1 = new Label();
             pictureBox1 = new PictureBox();
             dataGridView1 = new DataGridView();
-            customerMaintainControl = new CustomerMaintainControl();
-            button1 = new Button();
-            panel1 = new Panel();
             COMPANY = new DataGridViewTextBoxColumn();
             CONTACTPERSON = new DataGridViewTextBoxColumn();
+            欄位2 = new DataGridViewTextBoxColumn();
             正航編號 = new DataGridViewTextBoxColumn();
             COUNTRY = new DataGridViewTextBoxColumn();
             INDUSTRY = new DataGridViewTextBoxColumn();
@@ -48,6 +46,8 @@ namespace DigiERP.UserControl
             MA = new DataGridViewTextBoxColumn();
             MEMO = new DataGridViewTextBoxColumn();
             CREDATE = new DataGridViewTextBoxColumn();
+            button1 = new Button();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
@@ -57,18 +57,20 @@ namespace DigiERP.UserControl
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label1.Location = new Point(136, 40);
+            label1.Location = new Point(87, 26);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(127, 36);
+            label1.Size = new Size(86, 24);
             label1.TabIndex = 1;
             label1.Text = "客戶維護";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.Customer;
-            pictureBox1.Location = new Point(32, 24);
+            pictureBox1.Location = new Point(20, 16);
+            pictureBox1.Margin = new Padding(2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(96, 80);
+            pictureBox1.Size = new Size(61, 52);
             pictureBox1.TabIndex = 2;
             pictureBox1.TabStop = false;
             // 
@@ -77,43 +79,14 @@ namespace DigiERP.UserControl
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { COMPANY, CONTACTPERSON, 正航編號, COUNTRY, INDUSTRY, 中名稱分類, 英文, MACHINEISSUE, MA, MEMO, CREDATE });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { COMPANY, CONTACTPERSON, 欄位2, 正航編號, COUNTRY, INDUSTRY, 中名稱分類, 英文, MACHINEISSUE, MA, MEMO, CREDATE });
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(1881, 795);
+            dataGridView1.Size = new Size(1197, 520);
             dataGridView1.TabIndex = 3;
-            // 
-            // customerMaintainControl
-            // 
-            customerMaintainControl.Dock = DockStyle.Fill;
-            customerMaintainControl.Location = new Point(0, 0);
-            customerMaintainControl.Name = "customerMaintainControl";
-            customerMaintainControl.Size = new Size(1881, 795);
-            customerMaintainControl.TabIndex = 4;
-            customerMaintainControl.Visible = false;
-            // 
-            // button1
-            // 
-            button1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button1.Location = new Point(304, 32);
-            button1.Name = "button1";
-            button1.Size = new Size(152, 48);
-            button1.TabIndex = 4;
-            button1.Text = "新增客戶";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(dataGridView1);
-            panel1.Controls.Add(customerMaintainControl);
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 112);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1881, 795);
-            panel1.TabIndex = 5;
             // 
             // COMPANY
             // 
@@ -130,6 +103,14 @@ namespace DigiERP.UserControl
             CONTACTPERSON.Name = "CONTACTPERSON";
             CONTACTPERSON.ReadOnly = true;
             CONTACTPERSON.Width = 150;
+            // 
+            // 欄位2
+            // 
+            欄位2.HeaderText = "客戶簡稱";
+            欄位2.MinimumWidth = 8;
+            欄位2.Name = "欄位2";
+            欄位2.ReadOnly = true;
+            欄位2.Width = 150;
             // 
             // 正航編號
             // 
@@ -173,7 +154,7 @@ namespace DigiERP.UserControl
             // 
             // MACHINEISSUE
             // 
-            MACHINEISSUE.HeaderText = "管理分類";
+            MACHINEISSUE.HeaderText = "機台類別";
             MACHINEISSUE.MinimumWidth = 8;
             MACHINEISSUE.Name = "MACHINEISSUE";
             MACHINEISSUE.ReadOnly = true;
@@ -181,7 +162,7 @@ namespace DigiERP.UserControl
             // 
             // MA
             // 
-            MA.HeaderText = "電郵";
+            MA.HeaderText = "客戶型態";
             MA.MinimumWidth = 8;
             MA.Name = "MA";
             MA.ReadOnly = true;
@@ -189,7 +170,7 @@ namespace DigiERP.UserControl
             // 
             // MEMO
             // 
-            MEMO.HeaderText = "啟用日期";
+            MEMO.HeaderText = "備註";
             MEMO.MinimumWidth = 8;
             MEMO.Name = "MEMO";
             MEMO.ReadOnly = true;
@@ -197,23 +178,46 @@ namespace DigiERP.UserControl
             // 
             // CREDATE
             // 
-            CREDATE.HeaderText = "停用日期";
+            CREDATE.HeaderText = "啟用日期";
             CREDATE.MinimumWidth = 8;
             CREDATE.Name = "CREDATE";
             CREDATE.ReadOnly = true;
             CREDATE.Width = 150;
             // 
+            // button1
+            // 
+            button1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            button1.Location = new Point(193, 21);
+            button1.Margin = new Padding(2);
+            button1.Name = "button1";
+            button1.Size = new Size(97, 31);
+            button1.TabIndex = 4;
+            button1.Text = "新增客戶";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(dataGridView1);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 72);
+            panel1.Margin = new Padding(2);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1197, 520);
+            panel1.TabIndex = 5;
+            // 
             // CustomerControl
             // 
-            AutoScaleDimensions = new SizeF(11F, 23F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             Controls.Add(panel1);
             Controls.Add(button1);
             Controls.Add(pictureBox1);
             Controls.Add(label1);
+            Margin = new Padding(2);
             Name = "CustomerControl";
-            Size = new Size(1881, 907);
+            Size = new Size(1197, 592);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel1.ResumeLayout(false);

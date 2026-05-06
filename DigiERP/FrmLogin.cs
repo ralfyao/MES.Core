@@ -13,6 +13,7 @@ namespace DigiERP
         {
             InitializeComponent();
             XmlConfigurator.Configure(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + @"\log4net.config"));
+            this.AcceptButton = button1;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

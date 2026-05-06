@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             cboIndustry = new ComboBox();
-            label1 = new Label();
+            lblIndustryCodeDesc = new Label();
             SuspendLayout();
             // 
             // cboIndustry
@@ -41,25 +41,26 @@
             cboIndustry.Size = new Size(182, 44);
             cboIndustry.TabIndex = 0;
             cboIndustry.Click += cboIndustry_Click;
+            cboIndustry.Leave += cboIndustry_Leave;
             // 
-            // label1
+            // lblIndustryCodeDesc
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label1.Location = new Point(208, 8);
-            label1.Name = "label1";
-            label1.Size = new Size(290, 36);
-            label1.TabIndex = 1;
-            label1.Text = "lblIndustryCodeDesc";
+            lblIndustryCodeDesc.AutoSize = true;
+            lblIndustryCodeDesc.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblIndustryCodeDesc.Location = new Point(208, 8);
+            lblIndustryCodeDesc.Name = "lblIndustryCodeDesc";
+            lblIndustryCodeDesc.Size = new Size(120, 36);
+            lblIndustryCodeDesc.TabIndex = 1;
+            lblIndustryCodeDesc.Text = "               ";
             // 
             // IndustryCodeSelect
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(label1);
+            Controls.Add(lblIndustryCodeDesc);
             Controls.Add(cboIndustry);
             Name = "IndustryCodeSelect";
-            Size = new Size(798, 67);
+            Size = new Size(861, 67);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -67,6 +68,6 @@
         #endregion
 
         private ComboBox cboIndustry;
-        private Label label1;
+        private Label lblIndustryCodeDesc;
     }
 }
