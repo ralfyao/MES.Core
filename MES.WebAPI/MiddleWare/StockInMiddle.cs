@@ -298,5 +298,130 @@ namespace MES.WebAPI.MiddleWare
             }
             return list;
         }
+
+        public string getIncomeCertRegNo()
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    int formCnt = conn.Query<int>($@"SELECT COUNT(0) FROM dbo.F付款 
+                                                      WHERE 單號 LIKE 'AP{DateTime.Now.ToString("yyyyMM")}%'").FirstOrDefault();
+                    return $@"AP{DateTime.Now.ToString("yyyyMM")}{(++formCnt).ToString("000")}";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return "";
+        }
+
+        public void saveUpdateIncomeRegForm(F付款 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using(var tran = conn.BeginTransaction())
+                    {
+                        string sql = $@"INSERT INTO dbo.F付款
+                                        (
+                                            日期,
+                                            單號,
+                                            廠商編號,
+                                            幣別,
+                                            匯率,
+                                            請款人員,
+                                            付款日期,
+                                            類別,
+                                            付現金額,
+                                            銀轉金額,
+                                            匯費,
+                                            銀存編碼,
+                                            付票金額,
+                                            票據號碼,
+                                            付款總額,
+                                            MACHINENO,
+                                            發票號碼,
+                                            備註,
+                                            建檔,
+                                            建檔日,
+                                            修改,
+                                            修改日,
+                                            核准,
+                                            核准日,
+                                            傳票,
+                                            結案
+                                        )
+                                        VALUES
+                                        (   @日期,-- 日期 - smalldatetime
+                                            @單號,-- 單號 - nvarchar(20)
+                                            @廠商編號,-- 廠商編號 - nvarchar(20)
+                                            @幣別,-- 幣別 - nvarchar(10)
+                                            @匯率,-- 匯率 - numeric(10, 2)
+                                            @請款人員,-- 請款人員 - nvarchar(20)
+                                            @付款日期,-- 付款日期 - smalldatetime
+                                            @類別,-- 類別 - nvarchar(20)
+                                            @付現金額,-- 付現金額 - numeric(18, 2)
+                                            @銀轉金額,-- 銀轉金額 - numeric(18, 2)
+                                            @匯費,-- 匯費 - numeric(18, 2)
+                                            @銀存編碼,-- 銀存編碼 - varchar(30)
+                                            @付票金額,-- 付票金額 - numeric(18, 2)
+                                            @票據號碼,-- 票據號碼 - varchar(50)
+                                            @付款總額,-- 付款總額 - numeric(18, 2)
+                                            @MACHINENO,-- MACHINENO - nvarchar(50)
+                                            @發票號碼,-- 發票號碼 - varchar(20)
+                                            @備註,-- 備註 - nvarchar(max)
+                                            @建檔,-- 建檔 - nvarchar(20)
+                                            @建檔日,-- 建檔日 - smalldatetime
+                                            @修改,-- 修改 - nvarchar(20)
+                                            @修改日,-- 修改日 - smalldatetime
+                                            @核准,-- 核准 - nvarchar(20)
+                                            @核准日,-- 核准日 - smalldatetime
+                                            @傳票,-- 傳票 - nvarchar(30)
+                                            @結案-- 結案 - nchar(10)
+                                            )";
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        conn.Execute(sql, tran);
+                        foreach(var item in form.detailList)
+                        {
+                            if (string.IsNullOrEmpty(item.單號))
+                                item.單號 = form.單號;
+                            sql = $@"INSERT INTO dbo.F付款明細
+                                    (
+                                        單號,
+                                        帳款來源,
+                                        沖帳碼,
+                                        原幣收帳金額,
+                                        台幣換算金額,
+                                        說明,
+                                        專案序號
+                                    )
+                                    VALUES
+                                    (   @單號,-- 單號 - varchar(50)
+                                        @帳款來源,-- 帳款來源 - nchar(30)
+                                        @沖帳碼,-- 沖帳碼 - nvarchar(50)
+                                        @原幣收帳金額,-- 原幣收帳金額 - numeric(18, 0)
+                                        @台幣換算金額,-- 台幣換算金額 - numeric(18, 0)
+                                        @說明,-- 說明 - nvarchar(50)
+                                        @專案序號-- 專案序號 - nvarchar(20)
+                                        )";
+                            dynamicParameters = new DynamicParameters(item);
+                            conn.Execute(sql, tran);
+                        }
+                        tran.Commit();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

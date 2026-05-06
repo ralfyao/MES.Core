@@ -38,7 +38,6 @@ namespace MES.WebAPI.Controllers
                 {
                     foreach(var item in result)
                     {
-
                         if (item.Password == user.password)
                         {
                             if (!(bool)item.IsActivate)
@@ -46,9 +45,18 @@ namespace MES.WebAPI.Controllers
                                 rep.WorkStatus = WorkStatus.NG.ToString();
                                 rep.ErrorMessage = "帳號已停用";
                                 return rep;
-                            } 
+                            }
                             else
                             {
+                                rep.result = new User
+                                {
+                                    username = item.AccountName,
+                                    password = item.Password,
+                                    empNo = item.員工編號,
+                                    isEmail = item.IsEmail,
+                                    isActivate = item.IsActivate,
+                                    position = item.職務,
+                                };
                                 rep.WorkStatus = WorkStatus.OK.ToString();
                                 rep.ErrorMessage = string.Empty;
                                 return rep;

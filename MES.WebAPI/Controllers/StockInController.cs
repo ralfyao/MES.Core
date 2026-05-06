@@ -158,5 +158,37 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/IncomeCertRegNo"), HttpGet]
+        public CommonRep<string> GetIncomeCertRegNo()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                commonRep.result = stockInMiddle.getIncomeCertRegNo();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/SaveUpdateIncomeRegNo"), HttpPost]
+        public CommonRep<string> SaveUpdateIncomeRegNo([FromBody] F付款 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                stockInMiddle.saveUpdateIncomeRegForm(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
     }
 }

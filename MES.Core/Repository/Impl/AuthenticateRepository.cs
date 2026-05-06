@@ -45,7 +45,7 @@ namespace MES.Core.Repository.Impl
             List <Authenticate> authList = new List<Authenticate>();
             try
             {
-                using (var conn = new SqlConnection(IRepository<Authenticate>.ConnStr))
+                using (var conn = new SqlConnection(string.IsNullOrEmpty(IRepository<Authenticate>.ConnStr)?Constant.CONNECTION_STRING: IRepository<Authenticate>.ConnStr))
                 {
                     conn.Open();
                     string sql = $@"SELECT  {topn}  Account
