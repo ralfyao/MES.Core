@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.Json;
+using DigiERP.Models;
+using System.Diagnostics.Metrics;
 
 namespace DigiERP.UserControl
 {
@@ -15,6 +18,18 @@ namespace DigiERP.UserControl
         public CustomerMaintainControl()
         {
             InitializeComponent();
+            coutrySelect1.inflateDropDownList();
+            initMaList();
+        }
+
+        private void initMaList()
+        {
+            List<TextValue> maList = new List<TextValue>();
+            string json = File.ReadAllText(@".\cAgent.json");
+            maList = JsonSerializer.Deserialize<List<TextValue>>(json);
+            cboIndustrry.DataSource = maList;
+            cboIndustrry.DisplayMember = "Text";
+            cboIndustrry.ValueMember = "Value";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -25,6 +40,7 @@ namespace DigiERP.UserControl
             {
                 dataGridView.Visible = true;
             }
+            coutrySelect1.SetCountryCode(string.Empty);
         }
     }
 }

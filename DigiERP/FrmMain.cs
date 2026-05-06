@@ -21,6 +21,7 @@ namespace DigiERP
             {
                 lblUser.Text = _user.empNo;
                 lblUserName.Text = _user.username;
+                lblLoginTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
         }
         public FrmMain()
@@ -52,15 +53,15 @@ namespace DigiERP
 
         private void FrmMain_Resize(object sender, EventArgs e)
         {
-            int baseWidth = 800;
-            int baseHeight = 450;
-            float scaleX = (float)this.ClientSize.Width / baseWidth;
-            float scaleY = (float)this.ClientSize.Height / baseHeight;
+            //int baseWidth = 800;
+            //int baseHeight = 450;
+            //float scaleX = (float)this.ClientSize.Width / baseWidth;
+            //float scaleY = (float)this.ClientSize.Height / baseHeight;
 
-            panel1.Left = (int)(panel1.Left * scaleX);
-            panel1.Top = (int)(panel1.Top * scaleY);
-            panel1.Width = (int)(panel1.Width * scaleX);
-            panel1.Height = (int)(panel1.Height * scaleY);
+            //panel1.Left = (int)(panel1.Left * scaleX);
+            //panel1.Top = (int)(panel1.Top * scaleY);
+            //panel1.Width = (int)(panel1.Width * scaleX);
+            //panel1.Height = (int)(panel1.Height * scaleY);
         }
 
         private void panel1_MouseLeave(object sender, EventArgs e)
@@ -72,6 +73,17 @@ namespace DigiERP
         {
             FrmCust frmCust = new FrmCust();
             frmCust.ShowDialog();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
+            this.Close();
+        }
+
+        private void panelSettings_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
