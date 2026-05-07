@@ -187,8 +187,8 @@ namespace DigiERP
 
             Control ctrl = key switch
             {
-                "Customer" => new CustomerControl(),
-                "Order" => new OrderControl(),
+                "Customer" => new CustomerControl() { Width = tab.Width},
+                "Order" => new OrderControl() { Width = tab.Width },
                 _ => null
             };
 

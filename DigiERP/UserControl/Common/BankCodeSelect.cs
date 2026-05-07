@@ -13,7 +13,7 @@ namespace DigiERP.UserControl.Common
 {
     public partial class BankCodeSelect : System.Windows.Forms.UserControl
     {
-        private FormIndustryCodeSelect popup { get; set; }
+        private FormBankCodeSelect popup { get; set; }
         public BankCodeSelect()
         {
             InitializeComponent();
@@ -21,7 +21,7 @@ namespace DigiERP.UserControl.Common
 
         private void cboIndustry_Click(object sender, EventArgs e)
         {
-            popup = new FormIndustryCodeSelect();
+            popup = new FormBankCodeSelect();
             //{
                 popup.FormBorderStyle = FormBorderStyle.None;
                 popup.StartPosition = FormStartPosition.Manual;

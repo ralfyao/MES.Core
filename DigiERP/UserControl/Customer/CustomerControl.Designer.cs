@@ -33,11 +33,6 @@ namespace DigiERP.UserControl
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomerControl));
             dataGridView1 = new DataGridView();
-            panel1 = new Panel();
-            label1 = new Label();
-            pictureBox1 = new PictureBox();
-            button1 = new Button();
-            panel2 = new Panel();
             COMPANY = new DataGridViewTextBoxColumn();
             CONTACTPERSON = new DataGridViewTextBoxColumn();
             正航編號 = new DataGridViewTextBoxColumn();
@@ -49,6 +44,11 @@ namespace DigiERP.UserControl
             MA = new DataGridViewTextBoxColumn();
             MEMO = new DataGridViewTextBoxColumn();
             CREDATE = new DataGridViewTextBoxColumn();
+            panel1 = new Panel();
+            label1 = new Label();
+            pictureBox1 = new PictureBox();
+            button1 = new Button();
+            panel2 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -61,68 +61,13 @@ namespace DigiERP.UserControl
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { COMPANY, CONTACTPERSON, 正航編號, COUNTRY, INDUSTRY, 中名稱分類, 英文, MACHINEISSUE, MA, MEMO, CREDATE });
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Dock = DockStyle.Bottom;
+            dataGridView1.Location = new Point(0, -72);
             dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(1197, 846);
+            dataGridView1.Size = new Size(1197, 974);
             dataGridView1.TabIndex = 3;
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(dataGridView1);
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 56);
-            panel1.Margin = new Padding(2);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1197, 846);
-            panel1.TabIndex = 5;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label1.Location = new Point(80, 16);
-            label1.Margin = new Padding(2, 0, 2, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(86, 24);
-            label1.TabIndex = 5;
-            label1.Text = "客戶維護";
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(16, 8);
-            pictureBox1.Margin = new Padding(2);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(48, 40);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 6;
-            pictureBox1.TabStop = false;
-            // 
-            // button1
-            // 
-            button1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button1.Location = new Point(208, 8);
-            button1.Margin = new Padding(2);
-            button1.Name = "button1";
-            button1.Size = new Size(97, 39);
-            button1.TabIndex = 7;
-            button1.Text = "新增客戶";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // panel2
-            // 
-            panel2.Controls.Add(button1);
-            panel2.Controls.Add(pictureBox1);
-            panel2.Controls.Add(label1);
-            panel2.Dock = DockStyle.Top;
-            panel2.Location = new Point(0, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1197, 56);
-            panel2.TabIndex = 6;
             // 
             // COMPANY
             // 
@@ -212,6 +157,61 @@ namespace DigiERP.UserControl
             CREDATE.ReadOnly = true;
             CREDATE.Width = 150;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(dataGridView1);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(2);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1197, 902);
+            panel1.TabIndex = 5;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label1.Location = new Point(80, 16);
+            label1.Margin = new Padding(2, 0, 2, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(86, 24);
+            label1.TabIndex = 5;
+            label1.Text = "客戶維護";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(16, 8);
+            pictureBox1.Margin = new Padding(2);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(48, 40);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 6;
+            pictureBox1.TabStop = false;
+            // 
+            // button1
+            // 
+            button1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            button1.Location = new Point(208, 8);
+            button1.Margin = new Padding(2);
+            button1.Name = "button1";
+            button1.Size = new Size(97, 39);
+            button1.TabIndex = 7;
+            button1.Text = "新增客戶";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(button1);
+            panel2.Controls.Add(pictureBox1);
+            panel2.Controls.Add(label1);
+            panel2.Dock = DockStyle.Top;
+            panel2.Location = new Point(0, 0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1197, 56);
+            panel2.TabIndex = 6;
+            // 
             // CustomerControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -249,5 +249,6 @@ namespace DigiERP.UserControl
         private DataGridViewTextBoxColumn MA;
         private DataGridViewTextBoxColumn MEMO;
         private DataGridViewTextBoxColumn CREDATE;
+        private Panel panel3;
     }
 }

@@ -89,10 +89,10 @@
             label28 = new Label();
             label29 = new Label();
             dgvContactList = new DataGridView();
-            dgvCustIntView = new DataGridView();
             Contact = new DataGridViewTextBoxColumn();
             Position = new DataGridViewTextBoxColumn();
             email = new DataGridViewTextBoxColumn();
+            dgvCustIntView = new DataGridView();
             洽談日期 = new DataGridViewTextBoxColumn();
             工號 = new DataGridViewTextBoxColumn();
             業務人員 = new DataGridViewTextBoxColumn();
@@ -107,7 +107,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Lime;
             label1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label1.Location = new Point(46, 5);
+            label1.Location = new Point(49, 48);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
             label1.Size = new Size(48, 24);
@@ -119,7 +119,7 @@
             lblMode.AutoSize = true;
             lblMode.BackColor = Color.Lime;
             lblMode.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            lblMode.Location = new Point(5, 5);
+            lblMode.Location = new Point(8, 48);
             lblMode.Margin = new Padding(2, 0, 2, 0);
             lblMode.Name = "lblMode";
             lblMode.Size = new Size(85, 24);
@@ -128,20 +128,21 @@
             // 
             // button1
             // 
-            button1.Location = new Point(1044, 0);
-            button1.Margin = new Padding(2, 2, 2, 2);
+            button1.BackColor = Color.Red;
+            button1.Location = new Point(1048, 48);
+            button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(20, 22);
             button1.TabIndex = 2;
             button1.Text = "X";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
             // label20
             // 
             label20.AutoSize = true;
             label20.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label20.Location = new Point(8, 443);
+            label20.Location = new Point(11, 486);
             label20.Margin = new Padding(2, 0, 2, 0);
             label20.Name = "label20";
             label20.Size = new Size(86, 24);
@@ -151,8 +152,8 @@
             // txtMachineIssue
             // 
             txtMachineIssue.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtMachineIssue.Location = new Point(89, 443);
-            txtMachineIssue.Margin = new Padding(2, 2, 2, 2);
+            txtMachineIssue.Location = new Point(92, 486);
+            txtMachineIssue.Margin = new Padding(2);
             txtMachineIssue.Name = "txtMachineIssue";
             txtMachineIssue.Size = new Size(455, 31);
             txtMachineIssue.TabIndex = 121;
@@ -161,7 +162,7 @@
             // 
             label19.AutoSize = true;
             label19.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label19.Location = new Point(8, 407);
+            label19.Location = new Point(11, 450);
             label19.Margin = new Padding(2, 0, 2, 0);
             label19.Name = "label19";
             label19.Size = new Size(86, 24);
@@ -172,8 +173,8 @@
             // 
             btnIndustryCodeManage.BackColor = Color.Brown;
             btnIndustryCodeManage.ForeColor = SystemColors.ButtonFace;
-            btnIndustryCodeManage.Location = new Point(456, 407);
-            btnIndustryCodeManage.Margin = new Padding(2, 2, 2, 2);
+            btnIndustryCodeManage.Location = new Point(459, 450);
+            btnIndustryCodeManage.Margin = new Padding(2);
             btnIndustryCodeManage.Name = "btnIndustryCodeManage";
             btnIndustryCodeManage.Size = new Size(87, 31);
             btnIndustryCodeManage.TabIndex = 119;
@@ -182,8 +183,8 @@
             // 
             // industryCodeSelect1
             // 
-            industryCodeSelect1.Location = new Point(88, 400);
-            industryCodeSelect1.Margin = new Padding(1, 1, 1, 1);
+            industryCodeSelect1.Location = new Point(91, 443);
+            industryCodeSelect1.Margin = new Padding(1);
             industryCodeSelect1.Name = "industryCodeSelect1";
             industryCodeSelect1.Size = new Size(367, 37);
             industryCodeSelect1.TabIndex = 118;
@@ -191,8 +192,8 @@
             // txtColumn1
             // 
             txtColumn1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtColumn1.Location = new Point(375, 370);
-            txtColumn1.Margin = new Padding(2, 2, 2, 2);
+            txtColumn1.Location = new Point(378, 413);
+            txtColumn1.Margin = new Padding(2);
             txtColumn1.Name = "txtColumn1";
             txtColumn1.Size = new Size(175, 31);
             txtColumn1.TabIndex = 117;
@@ -201,7 +202,7 @@
             // 
             label18.AutoSize = true;
             label18.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label18.Location = new Point(293, 370);
+            label18.Location = new Point(296, 413);
             label18.Margin = new Padding(2, 0, 2, 0);
             label18.Name = "label18";
             label18.Size = new Size(86, 24);
@@ -213,8 +214,8 @@
             cboIndustrry.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboIndustrry.FormattingEnabled = true;
             cboIndustrry.Items.AddRange(new object[] { "Manufacturer", "Trader", "Agent" });
-            cboIndustrry.Location = new Point(89, 370);
-            cboIndustrry.Margin = new Padding(2, 2, 2, 2);
+            cboIndustrry.Location = new Point(92, 413);
+            cboIndustrry.Margin = new Padding(2);
             cboIndustrry.Name = "cboIndustrry";
             cboIndustrry.Size = new Size(200, 32);
             cboIndustrry.TabIndex = 115;
@@ -223,7 +224,7 @@
             // 
             label17.AutoSize = true;
             label17.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label17.Location = new Point(8, 370);
+            label17.Location = new Point(11, 413);
             label17.Margin = new Padding(2, 0, 2, 0);
             label17.Name = "label17";
             label17.Size = new Size(86, 24);
@@ -235,8 +236,8 @@
             cboSource.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboSource.FormattingEnabled = true;
             cboSource.Items.AddRange(new object[] { "社群軟體", "非代理/朋友", "搜尋引擎", "公司官網詢問函", "代理轉介", "展覽認識", "自主開發" });
-            cboSource.Location = new Point(375, 109);
-            cboSource.Margin = new Padding(2, 2, 2, 2);
+            cboSource.Location = new Point(378, 152);
+            cboSource.Margin = new Padding(2);
             cboSource.Name = "cboSource";
             cboSource.Size = new Size(169, 32);
             cboSource.TabIndex = 113;
@@ -246,8 +247,8 @@
             cboMa.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboMa.FormattingEnabled = true;
             cboMa.Items.AddRange(new object[] { "Manufacturer", "Trader", "Agent" });
-            cboMa.Location = new Point(375, 334);
-            cboMa.Margin = new Padding(2, 2, 2, 2);
+            cboMa.Location = new Point(378, 377);
+            cboMa.Margin = new Padding(2);
             cboMa.Name = "cboMa";
             cboMa.Size = new Size(169, 32);
             cboMa.TabIndex = 112;
@@ -256,7 +257,7 @@
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label15.Location = new Point(293, 297);
+            label15.Location = new Point(296, 340);
             label15.Margin = new Padding(2, 0, 2, 0);
             label15.Name = "label15";
             label15.Size = new Size(86, 24);
@@ -266,8 +267,8 @@
             // txtEmail
             // 
             txtEmail.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtEmail.Location = new Point(89, 333);
-            txtEmail.Margin = new Padding(2, 2, 2, 2);
+            txtEmail.Location = new Point(92, 376);
+            txtEmail.Margin = new Padding(2);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(200, 31);
             txtEmail.TabIndex = 110;
@@ -276,7 +277,7 @@
             // 
             label16.AutoSize = true;
             label16.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label16.Location = new Point(44, 338);
+            label16.Location = new Point(47, 381);
             label16.Margin = new Padding(2, 0, 2, 0);
             label16.Name = "label16";
             label16.Size = new Size(48, 24);
@@ -286,8 +287,8 @@
             // txtFax
             // 
             txtFax.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtFax.Location = new Point(375, 296);
-            txtFax.Margin = new Padding(2, 2, 2, 2);
+            txtFax.Location = new Point(378, 339);
+            txtFax.Margin = new Padding(2);
             txtFax.Name = "txtFax";
             txtFax.Size = new Size(175, 31);
             txtFax.TabIndex = 108;
@@ -296,7 +297,7 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label13.Location = new Point(324, 260);
+            label13.Location = new Point(327, 303);
             label13.Margin = new Padding(2, 0, 2, 0);
             label13.Name = "label13";
             label13.Size = new Size(48, 24);
@@ -306,8 +307,8 @@
             // txtWebsite
             // 
             txtWebsite.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtWebsite.Location = new Point(89, 296);
-            txtWebsite.Margin = new Padding(2, 2, 2, 2);
+            txtWebsite.Location = new Point(92, 339);
+            txtWebsite.Margin = new Padding(2);
             txtWebsite.Name = "txtWebsite";
             txtWebsite.Size = new Size(200, 31);
             txtWebsite.TabIndex = 106;
@@ -316,7 +317,7 @@
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label14.Location = new Point(44, 302);
+            label14.Location = new Point(47, 345);
             label14.Margin = new Padding(2, 0, 2, 0);
             label14.Name = "label14";
             label14.Size = new Size(48, 24);
@@ -326,8 +327,8 @@
             // txtZipcode
             // 
             txtZipcode.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtZipcode.Location = new Point(375, 259);
-            txtZipcode.Margin = new Padding(2, 2, 2, 2);
+            txtZipcode.Location = new Point(378, 302);
+            txtZipcode.Margin = new Padding(2);
             txtZipcode.Name = "txtZipcode";
             txtZipcode.Size = new Size(175, 31);
             txtZipcode.TabIndex = 104;
@@ -336,7 +337,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label11.Location = new Point(324, 223);
+            label11.Location = new Point(327, 266);
             label11.Margin = new Padding(2, 0, 2, 0);
             label11.Name = "label11";
             label11.Size = new Size(48, 24);
@@ -346,8 +347,8 @@
             // txtTel
             // 
             txtTel.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtTel.Location = new Point(89, 259);
-            txtTel.Margin = new Padding(2, 2, 2, 2);
+            txtTel.Location = new Point(92, 302);
+            txtTel.Margin = new Padding(2);
             txtTel.Name = "txtTel";
             txtTel.Size = new Size(200, 31);
             txtTel.TabIndex = 102;
@@ -356,7 +357,7 @@
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label12.Location = new Point(44, 265);
+            label12.Location = new Point(47, 308);
             label12.Margin = new Padding(2, 0, 2, 0);
             label12.Name = "label12";
             label12.Size = new Size(48, 24);
@@ -366,8 +367,8 @@
             // txtDAddress
             // 
             txtDAddress.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtDAddress.Location = new Point(89, 220);
-            txtDAddress.Margin = new Padding(2, 2, 2, 2);
+            txtDAddress.Location = new Point(92, 263);
+            txtDAddress.Margin = new Padding(2);
             txtDAddress.Name = "txtDAddress";
             txtDAddress.Size = new Size(465, 31);
             txtDAddress.TabIndex = 100;
@@ -376,7 +377,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label10.Location = new Point(8, 223);
+            label10.Location = new Point(11, 266);
             label10.Margin = new Padding(2, 0, 2, 0);
             label10.Name = "label10";
             label10.Size = new Size(86, 24);
@@ -386,8 +387,8 @@
             // txtAddress
             // 
             txtAddress.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtAddress.Location = new Point(89, 182);
-            txtAddress.Margin = new Padding(2, 2, 2, 2);
+            txtAddress.Location = new Point(92, 225);
+            txtAddress.Margin = new Padding(2);
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(465, 31);
             txtAddress.TabIndex = 98;
@@ -396,7 +397,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label9.Location = new Point(8, 187);
+            label9.Location = new Point(11, 230);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
             label9.Size = new Size(86, 24);
@@ -406,8 +407,8 @@
             // txtPosition
             // 
             txtPosition.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtPosition.Location = new Point(375, 146);
-            txtPosition.Margin = new Padding(2, 2, 2, 2);
+            txtPosition.Location = new Point(378, 189);
+            txtPosition.Margin = new Padding(2);
             txtPosition.Name = "txtPosition";
             txtPosition.Size = new Size(175, 31);
             txtPosition.TabIndex = 96;
@@ -416,7 +417,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label8.Location = new Point(319, 151);
+            label8.Location = new Point(322, 194);
             label8.Margin = new Padding(2, 0, 2, 0);
             label8.Name = "label8";
             label8.Size = new Size(48, 24);
@@ -426,8 +427,8 @@
             // txtContactPersion
             // 
             txtContactPersion.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtContactPersion.Location = new Point(84, 146);
-            txtContactPersion.Margin = new Padding(2, 2, 2, 2);
+            txtContactPersion.Location = new Point(87, 189);
+            txtContactPersion.Margin = new Padding(2);
             txtContactPersion.Name = "txtContactPersion";
             txtContactPersion.Size = new Size(200, 31);
             txtContactPersion.TabIndex = 94;
@@ -436,7 +437,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label7.Location = new Point(18, 151);
+            label7.Location = new Point(21, 194);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
             label7.Size = new Size(67, 24);
@@ -447,7 +448,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label6.Location = new Point(293, 109);
+            label6.Location = new Point(296, 152);
             label6.Margin = new Padding(2, 0, 2, 0);
             label6.Name = "label6";
             label6.Size = new Size(86, 24);
@@ -456,7 +457,7 @@
             // 
             // coutrySelect1
             // 
-            coutrySelect1.Location = new Point(79, 104);
+            coutrySelect1.Location = new Point(82, 147);
             coutrySelect1.Margin = new Padding(2, 2, 2, 2);
             coutrySelect1.Name = "coutrySelect1";
             coutrySelect1.Size = new Size(214, 37);
@@ -466,7 +467,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label5.Location = new Point(39, 115);
+            label5.Location = new Point(42, 158);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
             label5.Size = new Size(48, 24);
@@ -477,8 +478,8 @@
             // 
             btnGenCustNumber.BackColor = Color.IndianRed;
             btnGenCustNumber.ForeColor = SystemColors.Control;
-            btnGenCustNumber.Location = new Point(487, 73);
-            btnGenCustNumber.Margin = new Padding(2, 2, 2, 2);
+            btnGenCustNumber.Location = new Point(490, 116);
+            btnGenCustNumber.Margin = new Padding(2);
             btnGenCustNumber.Name = "btnGenCustNumber";
             btnGenCustNumber.Size = new Size(71, 31);
             btnGenCustNumber.TabIndex = 89;
@@ -488,8 +489,8 @@
             // txtCustNumber
             // 
             txtCustNumber.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtCustNumber.Location = new Point(375, 73);
-            txtCustNumber.Margin = new Padding(2, 2, 2, 2);
+            txtCustNumber.Location = new Point(378, 116);
+            txtCustNumber.Margin = new Padding(2);
             txtCustNumber.Name = "txtCustNumber";
             txtCustNumber.ReadOnly = true;
             txtCustNumber.Size = new Size(108, 31);
@@ -499,7 +500,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label4.Location = new Point(293, 73);
+            label4.Location = new Point(296, 116);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
             label4.Size = new Size(86, 24);
@@ -510,8 +511,8 @@
             // 
             btnCompanyChange.BackColor = SystemColors.AppWorkspace;
             btnCompanyChange.ForeColor = SystemColors.ControlLight;
-            btnCompanyChange.Location = new Point(201, 73);
-            btnCompanyChange.Margin = new Padding(2, 2, 2, 2);
+            btnCompanyChange.Location = new Point(204, 116);
+            btnCompanyChange.Margin = new Padding(2);
             btnCompanyChange.Name = "btnCompanyChange";
             btnCompanyChange.Size = new Size(87, 31);
             btnCompanyChange.TabIndex = 86;
@@ -521,8 +522,8 @@
             // txtCustAlias
             // 
             txtCustAlias.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtCustAlias.Location = new Point(84, 73);
-            txtCustAlias.Margin = new Padding(2, 2, 2, 2);
+            txtCustAlias.Location = new Point(87, 116);
+            txtCustAlias.Margin = new Padding(2);
             txtCustAlias.Name = "txtCustAlias";
             txtCustAlias.Size = new Size(108, 31);
             txtCustAlias.TabIndex = 85;
@@ -531,7 +532,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label3.Location = new Point(8, 73);
+            label3.Location = new Point(11, 116);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
             label3.Size = new Size(86, 24);
@@ -541,8 +542,8 @@
             // txtCustomerCompany
             // 
             txtCustomerCompany.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtCustomerCompany.Location = new Point(89, 34);
-            txtCustomerCompany.Margin = new Padding(2, 2, 2, 2);
+            txtCustomerCompany.Location = new Point(92, 77);
+            txtCustomerCompany.Margin = new Padding(2);
             txtCustomerCompany.Name = "txtCustomerCompany";
             txtCustomerCompany.Size = new Size(465, 31);
             txtCustomerCompany.TabIndex = 83;
@@ -551,7 +552,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label2.Location = new Point(8, 40);
+            label2.Location = new Point(11, 83);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
             label2.Size = new Size(86, 24);
@@ -562,7 +563,7 @@
             // 
             label21.AutoSize = true;
             label21.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label21.Location = new Point(8, 480);
+            label21.Location = new Point(11, 523);
             label21.Margin = new Padding(2, 0, 2, 0);
             label21.Name = "label21";
             label21.Size = new Size(86, 24);
@@ -571,8 +572,8 @@
             // 
             // bankCodeSelect1
             // 
-            bankCodeSelect1.Location = new Point(88, 472);
-            bankCodeSelect1.Margin = new Padding(2, 2, 2, 2);
+            bankCodeSelect1.Location = new Point(91, 515);
+            bankCodeSelect1.Margin = new Padding(2);
             bankCodeSelect1.Name = "bankCodeSelect1";
             bankCodeSelect1.Size = new Size(144, 44);
             bankCodeSelect1.TabIndex = 124;
@@ -582,7 +583,7 @@
             btnInactivate.BackColor = Color.Tomato;
             btnInactivate.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             btnInactivate.ForeColor = SystemColors.InactiveBorder;
-            btnInactivate.Location = new Point(240, 480);
+            btnInactivate.Location = new Point(243, 523);
             btnInactivate.Name = "btnInactivate";
             btnInactivate.Size = new Size(88, 32);
             btnInactivate.TabIndex = 125;
@@ -594,7 +595,7 @@
             btnActivate.BackColor = Color.DodgerBlue;
             btnActivate.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             btnActivate.ForeColor = SystemColors.InactiveBorder;
-            btnActivate.Location = new Point(352, 480);
+            btnActivate.Location = new Point(355, 523);
             btnActivate.Name = "btnActivate";
             btnActivate.Size = new Size(104, 32);
             btnActivate.TabIndex = 126;
@@ -605,7 +606,7 @@
             // 
             label22.AutoSize = true;
             label22.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label22.Location = new Point(8, 520);
+            label22.Location = new Point(11, 563);
             label22.Margin = new Padding(2, 0, 2, 0);
             label22.Name = "label22";
             label22.Size = new Size(86, 24);
@@ -616,7 +617,7 @@
             // 
             dtEnableDate.Enabled = false;
             dtEnableDate.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            dtEnableDate.Location = new Point(96, 512);
+            dtEnableDate.Location = new Point(99, 555);
             dtEnableDate.Name = "dtEnableDate";
             dtEnableDate.Size = new Size(168, 32);
             dtEnableDate.TabIndex = 128;
@@ -626,7 +627,7 @@
             // 
             label23.AutoSize = true;
             label23.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label23.Location = new Point(272, 512);
+            label23.Location = new Point(275, 555);
             label23.Margin = new Padding(2, 0, 2, 0);
             label23.Name = "label23";
             label23.Size = new Size(86, 24);
@@ -637,7 +638,7 @@
             // 
             dtDisableDate.Enabled = false;
             dtDisableDate.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            dtDisableDate.Location = new Point(360, 512);
+            dtDisableDate.Location = new Point(363, 555);
             dtDisableDate.Name = "dtDisableDate";
             dtDisableDate.Size = new Size(168, 32);
             dtDisableDate.TabIndex = 130;
@@ -647,7 +648,7 @@
             // 
             label24.AutoSize = true;
             label24.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label24.Location = new Point(40, 552);
+            label24.Location = new Point(43, 595);
             label24.Margin = new Padding(2, 0, 2, 0);
             label24.Name = "label24";
             label24.Size = new Size(48, 24);
@@ -657,7 +658,7 @@
             // textBox1
             // 
             textBox1.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            textBox1.Location = new Point(96, 552);
+            textBox1.Location = new Point(99, 595);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(440, 56);
@@ -667,7 +668,7 @@
             // 
             label25.AutoSize = true;
             label25.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label25.Location = new Point(312, 616);
+            label25.Location = new Point(312, 672);
             label25.Margin = new Padding(2, 0, 2, 0);
             label25.Name = "label25";
             label25.Size = new Size(48, 24);
@@ -678,7 +679,7 @@
             // 
             label26.AutoSize = true;
             label26.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label26.Location = new Point(32, 616);
+            label26.Location = new Point(35, 673);
             label26.Margin = new Padding(2, 0, 2, 0);
             label26.Name = "label26";
             label26.Size = new Size(48, 24);
@@ -689,7 +690,7 @@
             // 
             lblModifyUser.AutoSize = true;
             lblModifyUser.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            lblModifyUser.Location = new Point(88, 616);
+            lblModifyUser.Location = new Point(91, 672);
             lblModifyUser.Margin = new Padding(2, 0, 2, 0);
             lblModifyUser.Name = "lblModifyUser";
             lblModifyUser.Size = new Size(136, 24);
@@ -700,7 +701,7 @@
             // 
             label27.AutoSize = true;
             label27.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label27.Location = new Point(192, 616);
+            label27.Location = new Point(184, 672);
             label27.Margin = new Padding(2, 0, 2, 0);
             label27.Name = "label27";
             label27.Size = new Size(121, 24);
@@ -711,7 +712,7 @@
             // 
             label28.AutoSize = true;
             label28.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label28.Location = new Point(360, 616);
+            label28.Location = new Point(368, 672);
             label28.Margin = new Padding(2, 0, 2, 0);
             label28.Name = "label28";
             label28.Size = new Size(132, 24);
@@ -722,7 +723,7 @@
             // 
             label29.AutoSize = true;
             label29.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label29.Location = new Point(432, 616);
+            label29.Location = new Point(432, 672);
             label29.Margin = new Padding(2, 0, 2, 0);
             label29.Name = "label29";
             label29.Size = new Size(133, 24);
@@ -737,23 +738,10 @@
             dgvContactList.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvContactList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvContactList.Columns.AddRange(new DataGridViewColumn[] { Contact, Position, email });
-            dgvContactList.Location = new Point(568, 32);
+            dgvContactList.Location = new Point(571, 75);
             dgvContactList.Name = "dgvContactList";
-            dgvContactList.Size = new Size(488, 248);
+            dgvContactList.Size = new Size(501, 248);
             dgvContactList.TabIndex = 141;
-            // 
-            // dgvCustIntView
-            // 
-            dgvCustIntView.AllowUserToAddRows = false;
-            dgvCustIntView.AllowUserToDeleteRows = false;
-            dgvCustIntView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgvCustIntView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dgvCustIntView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCustIntView.Columns.AddRange(new DataGridViewColumn[] { 洽談日期, 工號, 業務人員, 轉詢問函, 內容簡述 });
-            dgvCustIntView.Location = new Point(568, 304);
-            dgvCustIntView.Name = "dgvCustIntView";
-            dgvCustIntView.Size = new Size(488, 328);
-            dgvCustIntView.TabIndex = 142;
             // 
             // Contact
             // 
@@ -775,6 +763,19 @@
             email.Name = "email";
             email.ReadOnly = true;
             email.Width = 68;
+            // 
+            // dgvCustIntView
+            // 
+            dgvCustIntView.AllowUserToAddRows = false;
+            dgvCustIntView.AllowUserToDeleteRows = false;
+            dgvCustIntView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvCustIntView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvCustIntView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCustIntView.Columns.AddRange(new DataGridViewColumn[] { 洽談日期, 工號, 業務人員, 轉詢問函, 內容簡述 });
+            dgvCustIntView.Location = new Point(571, 347);
+            dgvCustIntView.Name = "dgvCustIntView";
+            dgvCustIntView.Size = new Size(501, 328);
+            dgvCustIntView.TabIndex = 142;
             // 
             // 洽談日期
             // 
@@ -877,9 +878,9 @@
             Controls.Add(button1);
             Controls.Add(lblMode);
             Controls.Add(label1);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "CustomerMaintainControl";
-            Size = new Size(1066, 670);
+            Size = new Size(1085, 739);
             ((System.ComponentModel.ISupportInitialize)dgvContactList).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCustIntView).EndInit();
             ResumeLayout(false);

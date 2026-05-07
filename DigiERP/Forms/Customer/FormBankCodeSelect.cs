@@ -40,5 +40,18 @@ namespace DigiERP.Forms.Customer
                 }
             }
         }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var row = dataGridView1.Rows[e.RowIndex];
+
+            SelectedCode = row.Cells[0].Value?.ToString();
+            SelectedName = row.Cells[1].Value?.ToString();
+
+            this.DialogResult = DialogResult.OK; // 👈 關鍵
+            this.Close();
+        }
     }
 }

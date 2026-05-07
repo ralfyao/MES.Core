@@ -47,6 +47,7 @@ namespace DigiERP.UserControl
                     dataGridView1.Rows.Add(row);
                 }
             }
+            dataGridView1.Width = this.Width;
         }
 
         private void button1_Click(object sender, EventArgs e)
