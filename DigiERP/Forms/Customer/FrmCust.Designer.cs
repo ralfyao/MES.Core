@@ -122,14 +122,18 @@ namespace DigiERP
             }
             else
             {
-                // 👉 收合
-                splitContainer.SplitterDistance -= 20;
-
-                if (splitContainer.SplitterDistance <= 0)
+                try
                 {
-                    animationTimer.Stop();
-                    splitContainer.Panel1Collapsed = true;
+                    // 👉 收合
+                    splitContainer.SplitterDistance -= 20;
+
+                    if (splitContainer.SplitterDistance <= 0)
+                    {
+                        animationTimer.Stop();
+                        splitContainer.Panel1Collapsed = true;
+                    }
                 }
+                catch { }
             }
         }
 
