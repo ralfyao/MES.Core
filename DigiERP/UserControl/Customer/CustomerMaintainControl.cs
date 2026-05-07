@@ -27,6 +27,7 @@ namespace DigiERP.UserControl
             coutrySelect1.inflateDropDownList();
             initMaList();
             initForm();
+            btnSubmit.Text = lblMode.Text;
         }
 
 
@@ -36,6 +37,7 @@ namespace DigiERP.UserControl
             if (form == null)
                 return;
             // 填充form資料到control
+            btnSubmit.Text = lblMode.Text;
             txtIdentity.Text = form.識別 == null ? "0" : form.識別.ToString();
             txtCustomerCompany.Text = form.COMPANY;
             txtCustAlias.Text = form.欄位2;

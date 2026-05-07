@@ -133,6 +133,7 @@ namespace DigiERP.UserControl
             // button1
             // 
             button1.BackColor = Color.Red;
+            button1.ForeColor = SystemColors.ButtonHighlight;
             button1.Location = new Point(1048, 48);
             button1.Margin = new Padding(2);
             button1.Name = "button1";
