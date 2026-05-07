@@ -13,6 +13,8 @@ using System.Diagnostics.Metrics;
 using MES.Core.Model;
 using DigiERP.Common;
 using Newtonsoft.Json;
+using MES.WebAPI.Controllers;
+using MES.WebAPI.Models;
 
 namespace DigiERP.UserControl
 {
@@ -168,7 +170,45 @@ namespace DigiERP.UserControl
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            GetUserInput();
+            C客戶設定 form = GetUserInput();
+            CustomerController customerController = new CustomerController();
+            CommonRep<C客戶設定> response = null;
+            if (lblMode.Text == "新增")
+            {
+                response = customerController.SaveCustomer(form);
+                if (response.ErrorMessage == "")
+                {
+                    MessageBox.Show("新增成功");
+                    this.Visible = false;
+                    var dataGridView = (from c in Parent.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+                    if (dataGridView != null)
+                    {
+                        dataGridView.Visible = true;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("新增失敗:" + response.ErrorMessage);
+                }
+            }
+            else
+            {
+                response = customerController.UpdateCustomer(form);
+                if (response.ErrorMessage == "")
+                {
+                    MessageBox.Show("更新成功");
+                    this.Visible = false;
+                    var dataGridView = (from c in Parent.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+                    if (dataGridView != null)
+                    {
+                        dataGridView.Visible = true;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("更新失敗:" + response.ErrorMessage);
+                }
+            }
         }
     }
 }

@@ -37,7 +37,7 @@ namespace DigiERP.UserControl
             txtMachineIssue = new CommonTextBox();
             label19 = new Label();
             btnIndustryCodeManage = new Button();
-            industryCodeSelect1 = new Common.IndustryCodeSelect();
+            industryCodeSelect1 = new DigiERP.UserControl.Common.IndustryCodeSelect();
             txtColumn1 = new CommonTextBox();
             label18 = new Label();
             cboIndustrry = new CommonComboBox();
@@ -64,7 +64,7 @@ namespace DigiERP.UserControl
             txtContactPersion = new CommonTextBox();
             label7 = new Label();
             label6 = new Label();
-            coutrySelect1 = new Common.CoutrySelect();
+            coutrySelect1 = new DigiERP.UserControl.Common.CoutrySelect();
             label5 = new Label();
             btnGenCustNumber = new Button();
             txtCustNumber = new CommonTextBox();
@@ -75,7 +75,7 @@ namespace DigiERP.UserControl
             txtCustomerCompany = new CommonTextBox();
             label2 = new Label();
             label21 = new Label();
-            bankCodeSelect1 = new Common.BankCodeSelect();
+            bankCodeSelect1 = new DigiERP.UserControl.Common.BankCodeSelect();
             btnInactivate = new Button();
             btnActivate = new Button();
             label22 = new Label();
@@ -677,7 +677,7 @@ namespace DigiERP.UserControl
             // 
             label25.AutoSize = true;
             label25.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label25.Location = new Point(416, 680);
+            label25.Location = new Point(483, 680);
             label25.Margin = new Padding(2, 0, 2, 0);
             label25.Name = "label25";
             label25.Size = new Size(48, 24);
@@ -721,7 +721,7 @@ namespace DigiERP.UserControl
             // 
             lblCreator.AutoSize = true;
             lblCreator.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            lblCreator.Location = new Point(480, 680);
+            lblCreator.Location = new Point(542, 680);
             lblCreator.Margin = new Padding(2, 0, 2, 0);
             lblCreator.Name = "lblCreator";
             lblCreator.Size = new Size(132, 24);
@@ -733,7 +733,7 @@ namespace DigiERP.UserControl
             // 
             lblCreateDate.AutoSize = true;
             lblCreateDate.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            lblCreateDate.Location = new Point(624, 680);
+            lblCreateDate.Location = new Point(678, 680);
             lblCreateDate.Margin = new Padding(2, 0, 2, 0);
             lblCreateDate.Name = "lblCreateDate";
             lblCreateDate.Size = new Size(133, 24);
