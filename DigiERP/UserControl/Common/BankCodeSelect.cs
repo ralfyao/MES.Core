@@ -23,39 +23,39 @@ namespace DigiERP.UserControl.Common
         {
             popup = new FormBankCodeSelect();
             //{
-                popup.FormBorderStyle = FormBorderStyle.None;
-                popup.StartPosition = FormStartPosition.Manual;
+            popup.FormBorderStyle = FormBorderStyle.None;
+            popup.StartPosition = FormStartPosition.Manual;
 
-                // 定位在 ComboBox 下方
-                var location = cboIndustry.PointToScreen(Point.Empty);
-                popup.Location = new Point(location.X, location.Y - popup.Height);
+            // 定位在 ComboBox 下方
+            var location = cboIndustry.PointToScreen(Point.Empty);
+            popup.Location = new Point(location.X, location.Y - popup.Height);
 
-                // 建立 DataGridView
-                //var grid = new DataGridView();
-                //grid.Dock = DockStyle.Fill;
-                //grid.ReadOnly = true;
-                //grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            // 建立 DataGridView
+            //var grid = new DataGridView();
+            //grid.Dock = DockStyle.Fill;
+            //grid.ReadOnly = true;
+            //grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                //grid.DataSource = new List<dynamic>(); // 你的資料
+            //grid.DataSource = new List<dynamic>(); // 你的資料
 
-                //// 點選事件
-                //grid.CellClick += (s, ev) =>
-                //{
-                //    var row = grid.Rows[ev.RowIndex];
-                //    cboIndustry.Text = row.Cells["國別"].Value.ToString();
-                //    cboIndustry.Tag = row.Cells["CODE"].Value; // 存值
+            //// 點選事件
+            //grid.CellClick += (s, ev) =>
+            //{
+            //    var row = grid.Rows[ev.RowIndex];
+            //    cboIndustry.Text = row.Cells["國別"].Value.ToString();
+            //    cboIndustry.Tag = row.Cells["CODE"].Value; // 存值
 
-                //    popup.Close();
-                //};
+            //    popup.Close();
+            //};
 
-                //popup.Controls.Add(grid);
-                popup.Size = new Size(popup.Width, 600);
-                if (popup.ShowDialog() == DialogResult.OK)
-                {
-                    cboIndustry.SelectedValue = popup.SelectedCode;
-                    cboIndustry.SelectedText = popup.SelectedCode;
-                    //lblIndustryCodeDesc.Text = popup.SelectedName; // 存值（推薦）
-                }
+            //popup.Controls.Add(grid);
+            popup.Size = new Size(popup.Width, 600);
+            if (popup.ShowDialog() == DialogResult.OK)
+            {
+                cboIndustry.SelectedValue = popup.SelectedCode;
+                cboIndustry.SelectedText = popup.SelectedCode;
+                //lblIndustryCodeDesc.Text = popup.SelectedName; // 存值（推薦）
+            }
             //}
         }
 
@@ -66,6 +66,32 @@ namespace DigiERP.UserControl.Common
                 popup.Dispose();
                 popup.Close();
             }
+        }
+
+        internal void SetBankCode(string? cREDIBILITY)
+        {
+            //cboIndustry.SelectedValue = cREDIBILITY;
+            if (cboIndustry.DataSource == null)
+            {
+                return;
+            }
+            foreach (var aItem in cboIndustry.DataSource as IEnumerable<dynamic>)
+            {
+                if (aItem.銀行編碼 == cREDIBILITY)
+                {
+                    cboIndustry.SelectedItem = aItem;
+                }
+            }
+        }
+
+        private void cboIndustry_Enter(object sender, EventArgs e)
+        {
+            cboIndustry_Click(sender, e);
+        }
+
+        internal string? GetBankCode()
+        {
+            return cboIndustry.SelectedValue?.ToString();
         }
     }
 }

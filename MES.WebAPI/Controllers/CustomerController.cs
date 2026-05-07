@@ -298,7 +298,7 @@ namespace MES.WebAPI.Controllers
             try
             {
                 CustomerMiddle custMiddle = new CustomerMiddle();
-                commonRep.result = custMiddle.getCustomer(cust.識別);
+                commonRep.result = custMiddle.getCustomerList().Where(x => x.識別 == cust.識別).ToList().FirstOrDefault() ;
             }
             catch (Exception ex)
             {

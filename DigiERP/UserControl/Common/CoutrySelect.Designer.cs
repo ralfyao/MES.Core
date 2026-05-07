@@ -1,4 +1,6 @@
-﻿namespace DigiERP.UserControl.Common
+﻿using DigiERP.Common;
+
+namespace DigiERP.UserControl.Common
 {
     partial class CoutrySelect : System.Windows.Forms.UserControl
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            cboCountryList = new ComboBox();
+            cboCountryList = new CommonComboBox();
             lblCountryName = new Label();
             SuspendLayout();
             // 
@@ -67,7 +69,7 @@
 
         #endregion
 
-        private ComboBox cboCountryList;
+        private CommonComboBox cboCountryList;
         private Label lblCountryName;
     }
 }

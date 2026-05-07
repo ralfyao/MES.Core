@@ -1,7 +1,9 @@
 ﻿
+using DigiERP.Common;
+
 namespace DigiERP.UserControl
 {
-    partial class CustomerControl :System.Windows.Forms.UserControl
+    partial class CustomerControl : CommonUserControl
     {
         /// <summary> 
         /// 設計工具所需的變數。
@@ -44,6 +46,7 @@ namespace DigiERP.UserControl
             MA = new DataGridViewTextBoxColumn();
             MEMO = new DataGridViewTextBoxColumn();
             CREDATE = new DataGridViewTextBoxColumn();
+            識別 = new DataGridViewTextBoxColumn();
             panel1 = new Panel();
             label1 = new Label();
             pictureBox1 = new PictureBox();
@@ -60,14 +63,14 @@ namespace DigiERP.UserControl
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { COMPANY, CONTACTPERSON, 正航編號, COUNTRY, INDUSTRY, 中名稱分類, 英文, MACHINEISSUE, MA, MEMO, CREDATE });
-            dataGridView1.Dock = DockStyle.Bottom;
-            dataGridView1.Location = new Point(0, -72);
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { COMPANY, CONTACTPERSON, 正航編號, COUNTRY, INDUSTRY, 中名稱分類, 英文, MACHINEISSUE, MA, MEMO, CREDATE, 識別 });
+            dataGridView1.Location = new Point(0, 56);
             dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.Size = new Size(1197, 974);
             dataGridView1.TabIndex = 3;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // COMPANY
             // 
@@ -157,10 +160,16 @@ namespace DigiERP.UserControl
             CREDATE.ReadOnly = true;
             CREDATE.Width = 150;
             // 
+            // 識別
+            // 
+            識別.HeaderText = "識別";
+            識別.Name = "識別";
+            識別.Visible = false;
+            // 
             // panel1
             // 
             panel1.Controls.Add(dataGridView1);
-            panel1.Dock = DockStyle.Fill;
+            panel1.Dock = DockStyle.Bottom;
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
@@ -203,6 +212,7 @@ namespace DigiERP.UserControl
             // 
             // panel2
             // 
+            panel2.AutoScroll = true;
             panel2.Controls.Add(button1);
             panel2.Controls.Add(pictureBox1);
             panel2.Controls.Add(label1);
@@ -238,6 +248,7 @@ namespace DigiERP.UserControl
         private PictureBox pictureBox1;
         private Button button1;
         private Panel panel2;
+        private Panel panel3;
         private DataGridViewTextBoxColumn COMPANY;
         private DataGridViewTextBoxColumn CONTACTPERSON;
         private DataGridViewTextBoxColumn 正航編號;
@@ -249,6 +260,6 @@ namespace DigiERP.UserControl
         private DataGridViewTextBoxColumn MA;
         private DataGridViewTextBoxColumn MEMO;
         private DataGridViewTextBoxColumn CREDATE;
-        private Panel panel3;
+        private DataGridViewTextBoxColumn 識別;
     }
 }

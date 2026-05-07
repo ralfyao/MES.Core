@@ -20,7 +20,13 @@ namespace DigiERP.UserControl.Common
         public void SetCountryCode(string countryCode)
         {
             _countryCode = countryCode;
-            cboCountryList.SelectedValue = countryCode;
+            foreach( var aItem in cboCountryList.DataSource as IEnumerable<dynamic>)
+            {
+                if (aItem.國別 == countryCode || aItem.CODE == countryCode)
+                {
+                    cboCountryList.SelectedItem = aItem;
+                }
+            }
         }
         public string GetCountryCode()
         {
@@ -58,8 +64,11 @@ namespace DigiERP.UserControl.Common
 
         private void cboCountryList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            dynamic item = cboCountryList.SelectedItem;
-            lblCountryName.Text = item.CODE;
+            dynamic item = cboCountryList.SelectedValue;
+            if (item != null && !string.IsNullOrEmpty(item.ToString()) )
+            {
+                lblCountryName.Text = item.ToString();
+            }
         }
     }
 }

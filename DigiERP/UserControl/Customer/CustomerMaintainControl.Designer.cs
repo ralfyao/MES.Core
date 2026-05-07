@@ -1,6 +1,8 @@
-﻿namespace DigiERP.UserControl
+﻿using DigiERP.Common;
+
+namespace DigiERP.UserControl
 {
-    partial class CustomerMaintainControl : System.Windows.Forms.UserControl
+    partial class CustomerMaintainControl : CommonUserControl
     {
         /// <summary> 
         /// 設計工具所需的變數。
@@ -32,45 +34,45 @@
             lblMode = new Label();
             button1 = new Button();
             label20 = new Label();
-            txtMachineIssue = new TextBox();
+            txtMachineIssue = new CommonTextBox();
             label19 = new Label();
             btnIndustryCodeManage = new Button();
             industryCodeSelect1 = new Common.IndustryCodeSelect();
-            txtColumn1 = new TextBox();
+            txtColumn1 = new CommonTextBox();
             label18 = new Label();
-            cboIndustrry = new ComboBox();
+            cboIndustrry = new CommonComboBox();
             label17 = new Label();
-            cboSource = new ComboBox();
-            cboMa = new ComboBox();
+            cboSource = new CommonComboBox();
+            cboMa = new CommonComboBox();
             label15 = new Label();
-            txtEmail = new TextBox();
+            txtEmail = new CommonTextBox();
             label16 = new Label();
-            txtFax = new TextBox();
+            txtFax = new CommonTextBox();
             label13 = new Label();
-            txtWebsite = new TextBox();
+            txtWebsite = new CommonTextBox();
             label14 = new Label();
-            txtZipcode = new TextBox();
+            txtZipcode = new CommonTextBox();
             label11 = new Label();
-            txtTel = new TextBox();
+            txtTel = new CommonTextBox();
             label12 = new Label();
-            txtDAddress = new TextBox();
+            txtDAddress = new CommonTextBox();
             label10 = new Label();
-            txtAddress = new TextBox();
+            txtAddress = new CommonTextBox();
             label9 = new Label();
-            txtPosition = new TextBox();
+            txtPosition = new CommonTextBox();
             label8 = new Label();
-            txtContactPersion = new TextBox();
+            txtContactPersion = new CommonTextBox();
             label7 = new Label();
             label6 = new Label();
             coutrySelect1 = new Common.CoutrySelect();
             label5 = new Label();
             btnGenCustNumber = new Button();
-            txtCustNumber = new TextBox();
+            txtCustNumber = new CommonTextBox();
             label4 = new Label();
             btnCompanyChange = new Button();
-            txtCustAlias = new TextBox();
+            txtCustAlias = new CommonTextBox();
             label3 = new Label();
-            txtCustomerCompany = new TextBox();
+            txtCustomerCompany = new CommonTextBox();
             label2 = new Label();
             label21 = new Label();
             bankCodeSelect1 = new Common.BankCodeSelect();
@@ -81,13 +83,13 @@
             label23 = new Label();
             dtDisableDate = new DateTimePicker();
             label24 = new Label();
-            textBox1 = new TextBox();
+            txtMemo = new CommonTextBox();
             label25 = new Label();
             label26 = new Label();
             lblModifyUser = new Label();
-            label27 = new Label();
-            label28 = new Label();
-            label29 = new Label();
+            lblModifyDate = new Label();
+            lblCreator = new Label();
+            lblCreateDate = new Label();
             dgvContactList = new DataGridView();
             Contact = new DataGridViewTextBoxColumn();
             Position = new DataGridViewTextBoxColumn();
@@ -98,6 +100,8 @@
             業務人員 = new DataGridViewTextBoxColumn();
             轉詢問函 = new DataGridViewTextBoxColumn();
             內容簡述 = new DataGridViewTextBoxColumn();
+            btnSubmit = new Button();
+            txtIdentity = new CommonTextBox();
             ((System.ComponentModel.ISupportInitialize)dgvContactList).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCustIntView).BeginInit();
             SuspendLayout();
@@ -156,7 +160,7 @@
             txtMachineIssue.Margin = new Padding(2);
             txtMachineIssue.Name = "txtMachineIssue";
             txtMachineIssue.Size = new Size(455, 31);
-            txtMachineIssue.TabIndex = 121;
+            txtMachineIssue.TabIndex = 19;
             // 
             // label19
             // 
@@ -187,7 +191,7 @@
             industryCodeSelect1.Margin = new Padding(1);
             industryCodeSelect1.Name = "industryCodeSelect1";
             industryCodeSelect1.Size = new Size(367, 37);
-            industryCodeSelect1.TabIndex = 118;
+            industryCodeSelect1.TabIndex = 18;
             // 
             // txtColumn1
             // 
@@ -196,7 +200,7 @@
             txtColumn1.Margin = new Padding(2);
             txtColumn1.Name = "txtColumn1";
             txtColumn1.Size = new Size(175, 31);
-            txtColumn1.TabIndex = 117;
+            txtColumn1.TabIndex = 17;
             // 
             // label18
             // 
@@ -211,6 +215,7 @@
             // 
             // cboIndustrry
             // 
+            cboIndustrry.DropDownStyle = ComboBoxStyle.DropDownList;
             cboIndustrry.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboIndustrry.FormattingEnabled = true;
             cboIndustrry.Items.AddRange(new object[] { "Manufacturer", "Trader", "Agent" });
@@ -218,7 +223,7 @@
             cboIndustrry.Margin = new Padding(2);
             cboIndustrry.Name = "cboIndustrry";
             cboIndustrry.Size = new Size(200, 32);
-            cboIndustrry.TabIndex = 115;
+            cboIndustrry.TabIndex = 16;
             // 
             // label17
             // 
@@ -233,31 +238,33 @@
             // 
             // cboSource
             // 
+            cboSource.DropDownStyle = ComboBoxStyle.DropDownList;
             cboSource.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboSource.FormattingEnabled = true;
-            cboSource.Items.AddRange(new object[] { "社群軟體", "非代理/朋友", "搜尋引擎", "公司官網詢問函", "代理轉介", "展覽認識", "自主開發" });
+            cboSource.Items.AddRange(new object[] { "", "社群軟體", "非代理/朋友", "搜尋引擎", "公司官網詢問函", "代理轉介", "展覽認識", "自主開發" });
             cboSource.Location = new Point(378, 152);
             cboSource.Margin = new Padding(2);
             cboSource.Name = "cboSource";
             cboSource.Size = new Size(169, 32);
-            cboSource.TabIndex = 113;
+            cboSource.TabIndex = 5;
             // 
             // cboMa
             // 
+            cboMa.DropDownStyle = ComboBoxStyle.DropDownList;
             cboMa.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboMa.FormattingEnabled = true;
-            cboMa.Items.AddRange(new object[] { "Manufacturer", "Trader", "Agent" });
+            cboMa.Items.AddRange(new object[] { "", "Manufacturer", "Trader", "Agent" });
             cboMa.Location = new Point(378, 377);
             cboMa.Margin = new Padding(2);
             cboMa.Name = "cboMa";
             cboMa.Size = new Size(169, 32);
-            cboMa.TabIndex = 112;
+            cboMa.TabIndex = 15;
             // 
             // label15
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label15.Location = new Point(296, 340);
+            label15.Location = new Point(288, 381);
             label15.Margin = new Padding(2, 0, 2, 0);
             label15.Name = "label15";
             label15.Size = new Size(86, 24);
@@ -271,7 +278,7 @@
             txtEmail.Margin = new Padding(2);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(200, 31);
-            txtEmail.TabIndex = 110;
+            txtEmail.TabIndex = 14;
             // 
             // label16
             // 
@@ -291,13 +298,13 @@
             txtFax.Margin = new Padding(2);
             txtFax.Name = "txtFax";
             txtFax.Size = new Size(175, 31);
-            txtFax.TabIndex = 108;
+            txtFax.TabIndex = 13;
             // 
             // label13
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label13.Location = new Point(327, 303);
+            label13.Location = new Point(328, 344);
             label13.Margin = new Padding(2, 0, 2, 0);
             label13.Name = "label13";
             label13.Size = new Size(48, 24);
@@ -311,7 +318,7 @@
             txtWebsite.Margin = new Padding(2);
             txtWebsite.Name = "txtWebsite";
             txtWebsite.Size = new Size(200, 31);
-            txtWebsite.TabIndex = 106;
+            txtWebsite.TabIndex = 12;
             // 
             // label14
             // 
@@ -331,13 +338,13 @@
             txtZipcode.Margin = new Padding(2);
             txtZipcode.Name = "txtZipcode";
             txtZipcode.Size = new Size(175, 31);
-            txtZipcode.TabIndex = 104;
+            txtZipcode.TabIndex = 11;
             // 
             // label11
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label11.Location = new Point(327, 266);
+            label11.Location = new Point(328, 304);
             label11.Margin = new Padding(2, 0, 2, 0);
             label11.Name = "label11";
             label11.Size = new Size(48, 24);
@@ -351,7 +358,7 @@
             txtTel.Margin = new Padding(2);
             txtTel.Name = "txtTel";
             txtTel.Size = new Size(200, 31);
-            txtTel.TabIndex = 102;
+            txtTel.TabIndex = 10;
             // 
             // label12
             // 
@@ -371,7 +378,7 @@
             txtDAddress.Margin = new Padding(2);
             txtDAddress.Name = "txtDAddress";
             txtDAddress.Size = new Size(465, 31);
-            txtDAddress.TabIndex = 100;
+            txtDAddress.TabIndex = 9;
             // 
             // label10
             // 
@@ -391,7 +398,7 @@
             txtAddress.Margin = new Padding(2);
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(465, 31);
-            txtAddress.TabIndex = 98;
+            txtAddress.TabIndex = 8;
             // 
             // label9
             // 
@@ -411,7 +418,7 @@
             txtPosition.Margin = new Padding(2);
             txtPosition.Name = "txtPosition";
             txtPosition.Size = new Size(175, 31);
-            txtPosition.TabIndex = 96;
+            txtPosition.TabIndex = 7;
             // 
             // label8
             // 
@@ -431,7 +438,7 @@
             txtContactPersion.Margin = new Padding(2);
             txtContactPersion.Name = "txtContactPersion";
             txtContactPersion.Size = new Size(200, 31);
-            txtContactPersion.TabIndex = 94;
+            txtContactPersion.TabIndex = 6;
             // 
             // label7
             // 
@@ -461,7 +468,7 @@
             coutrySelect1.Margin = new Padding(2, 2, 2, 2);
             coutrySelect1.Name = "coutrySelect1";
             coutrySelect1.Size = new Size(214, 37);
-            coutrySelect1.TabIndex = 91;
+            coutrySelect1.TabIndex = 4;
             // 
             // label5
             // 
@@ -494,7 +501,7 @@
             txtCustNumber.Name = "txtCustNumber";
             txtCustNumber.ReadOnly = true;
             txtCustNumber.Size = new Size(108, 31);
-            txtCustNumber.TabIndex = 88;
+            txtCustNumber.TabIndex = 3;
             // 
             // label4
             // 
@@ -526,7 +533,7 @@
             txtCustAlias.Margin = new Padding(2);
             txtCustAlias.Name = "txtCustAlias";
             txtCustAlias.Size = new Size(108, 31);
-            txtCustAlias.TabIndex = 85;
+            txtCustAlias.TabIndex = 2;
             // 
             // label3
             // 
@@ -546,7 +553,9 @@
             txtCustomerCompany.Margin = new Padding(2);
             txtCustomerCompany.Name = "txtCustomerCompany";
             txtCustomerCompany.Size = new Size(465, 31);
-            txtCustomerCompany.TabIndex = 83;
+            txtCustomerCompany.TabIndex = 1;
+            txtCustomerCompany.Enter += txtCustomerCompany_Enter;
+            txtCustomerCompany.Leave += txtCustomerCompany_Leave;
             // 
             // label2
             // 
@@ -576,7 +585,7 @@
             bankCodeSelect1.Margin = new Padding(2);
             bankCodeSelect1.Name = "bankCodeSelect1";
             bankCodeSelect1.Size = new Size(144, 44);
-            bankCodeSelect1.TabIndex = 124;
+            bankCodeSelect1.TabIndex = 20;
             // 
             // btnInactivate
             // 
@@ -655,20 +664,20 @@
             label24.TabIndex = 131;
             label24.Text = "備註";
             // 
-            // textBox1
+            // txtMemo
             // 
-            textBox1.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            textBox1.Location = new Point(99, 595);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(440, 56);
-            textBox1.TabIndex = 132;
+            txtMemo.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            txtMemo.Location = new Point(99, 595);
+            txtMemo.Multiline = true;
+            txtMemo.Name = "txtMemo";
+            txtMemo.Size = new Size(440, 56);
+            txtMemo.TabIndex = 21;
             // 
             // label25
             // 
             label25.AutoSize = true;
             label25.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label25.Location = new Point(312, 672);
+            label25.Location = new Point(416, 680);
             label25.Margin = new Padding(2, 0, 2, 0);
             label25.Name = "label25";
             label25.Size = new Size(48, 24);
@@ -679,7 +688,7 @@
             // 
             label26.AutoSize = true;
             label26.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label26.Location = new Point(35, 673);
+            label26.Location = new Point(32, 680);
             label26.Margin = new Padding(2, 0, 2, 0);
             label26.Name = "label26";
             label26.Size = new Size(48, 24);
@@ -690,45 +699,46 @@
             // 
             lblModifyUser.AutoSize = true;
             lblModifyUser.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            lblModifyUser.Location = new Point(91, 672);
+            lblModifyUser.Location = new Point(104, 680);
             lblModifyUser.Margin = new Padding(2, 0, 2, 0);
             lblModifyUser.Name = "lblModifyUser";
             lblModifyUser.Size = new Size(136, 24);
             lblModifyUser.TabIndex = 137;
             lblModifyUser.Text = "lblModifyUser";
             // 
-            // label27
+            // lblModifyDate
             // 
-            label27.AutoSize = true;
-            label27.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label27.Location = new Point(184, 672);
-            label27.Margin = new Padding(2, 0, 2, 0);
-            label27.Name = "label27";
-            label27.Size = new Size(121, 24);
-            label27.TabIndex = 138;
-            label27.Text = "lblModiDate";
+            lblModifyDate.AutoSize = true;
+            lblModifyDate.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblModifyDate.Location = new Point(248, 680);
+            lblModifyDate.Margin = new Padding(2, 0, 2, 0);
+            lblModifyDate.Name = "lblModifyDate";
+            lblModifyDate.Size = new Size(121, 24);
+            lblModifyDate.TabIndex = 138;
+            lblModifyDate.Text = "lblModiDate";
             // 
-            // label28
+            // lblCreator
             // 
-            label28.AutoSize = true;
-            label28.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label28.Location = new Point(368, 672);
-            label28.Margin = new Padding(2, 0, 2, 0);
-            label28.Name = "label28";
-            label28.Size = new Size(132, 24);
-            label28.TabIndex = 139;
-            label28.Text = "lblCreateUser";
+            lblCreator.AutoSize = true;
+            lblCreator.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblCreator.Location = new Point(480, 680);
+            lblCreator.Margin = new Padding(2, 0, 2, 0);
+            lblCreator.Name = "lblCreator";
+            lblCreator.Size = new Size(132, 24);
+            lblCreator.TabIndex = 139;
+            lblCreator.Text = "lblCreateUser";
+            lblCreator.Click += lblCreator_Click;
             // 
-            // label29
+            // lblCreateDate
             // 
-            label29.AutoSize = true;
-            label29.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label29.Location = new Point(432, 672);
-            label29.Margin = new Padding(2, 0, 2, 0);
-            label29.Name = "label29";
-            label29.Size = new Size(133, 24);
-            label29.TabIndex = 140;
-            label29.Text = "lblCreateDate";
+            lblCreateDate.AutoSize = true;
+            lblCreateDate.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblCreateDate.Location = new Point(624, 680);
+            lblCreateDate.Margin = new Padding(2, 0, 2, 0);
+            lblCreateDate.Name = "lblCreateDate";
+            lblCreateDate.Size = new Size(133, 24);
+            lblCreateDate.TabIndex = 140;
+            lblCreateDate.Text = "lblCreateDate";
             // 
             // dgvContactList
             // 
@@ -812,19 +822,42 @@
             內容簡述.ReadOnly = true;
             內容簡述.Width = 80;
             // 
+            // btnSubmit
+            // 
+            btnSubmit.Location = new Point(968, 48);
+            btnSubmit.Name = "btnSubmit";
+            btnSubmit.Size = new Size(75, 23);
+            btnSubmit.TabIndex = 143;
+            btnSubmit.Text = "送出";
+            btnSubmit.UseVisualStyleBackColor = true;
+            btnSubmit.Click += btnSubmit_Click;
+            // 
+            // txtIdentity
+            // 
+            txtIdentity.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            txtIdentity.Location = new Point(112, 40);
+            txtIdentity.Margin = new Padding(2);
+            txtIdentity.Name = "txtIdentity";
+            txtIdentity.Size = new Size(175, 31);
+            txtIdentity.TabIndex = 144;
+            txtIdentity.Text = "0";
+            txtIdentity.Visible = false;
+            // 
             // CustomerMaintainControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(txtIdentity);
+            Controls.Add(btnSubmit);
             Controls.Add(dgvCustIntView);
             Controls.Add(dgvContactList);
-            Controls.Add(label29);
-            Controls.Add(label28);
-            Controls.Add(label27);
+            Controls.Add(lblCreateDate);
+            Controls.Add(lblCreator);
+            Controls.Add(lblModifyDate);
             Controls.Add(lblModifyUser);
             Controls.Add(label25);
             Controls.Add(label26);
-            Controls.Add(textBox1);
+            Controls.Add(txtMemo);
             Controls.Add(label24);
             Controls.Add(dtDisableDate);
             Controls.Add(label23);
@@ -893,45 +926,45 @@
         private Label lblMode;
         private Button button1;
         private Label label20;
-        private TextBox txtMachineIssue;
+        private CommonTextBox txtMachineIssue;
         private Label label19;
         private Button btnIndustryCodeManage;
         private Common.IndustryCodeSelect industryCodeSelect1;
-        private TextBox txtColumn1;
+        private CommonTextBox txtColumn1;
         private Label label18;
-        private ComboBox cboIndustrry;
+        private CommonComboBox cboIndustrry;
         private Label label17;
-        private ComboBox cboSource;
-        private ComboBox cboMa;
+        private CommonComboBox cboSource;
+        private CommonComboBox cboMa;
         private Label label15;
-        private TextBox txtEmail;
+        private CommonTextBox txtEmail;
         private Label label16;
-        private TextBox txtFax;
+        private CommonTextBox txtFax;
         private Label label13;
-        private TextBox txtWebsite;
+        private CommonTextBox txtWebsite;
         private Label label14;
-        private TextBox txtZipcode;
+        private CommonTextBox txtZipcode;
         private Label label11;
-        private TextBox txtTel;
+        private CommonTextBox txtTel;
         private Label label12;
-        private TextBox txtDAddress;
+        private CommonTextBox txtDAddress;
         private Label label10;
-        private TextBox txtAddress;
+        private CommonTextBox txtAddress;
         private Label label9;
-        private TextBox txtPosition;
+        private CommonTextBox txtPosition;
         private Label label8;
-        private TextBox txtContactPersion;
+        private CommonTextBox txtContactPersion;
         private Label label7;
         private Label label6;
         private Common.CoutrySelect coutrySelect1;
         private Label label5;
         private Button btnGenCustNumber;
-        private TextBox txtCustNumber;
+        private CommonTextBox txtCustNumber;
         private Label label4;
         private Button btnCompanyChange;
-        private TextBox txtCustAlias;
+        private CommonTextBox txtCustAlias;
         private Label label3;
-        private TextBox txtCustomerCompany;
+        private CommonTextBox txtCustomerCompany;
         private Label label2;
         private Label label21;
         private Common.BankCodeSelect bankCodeSelect1;
@@ -942,13 +975,13 @@
         private Label label23;
         private DateTimePicker dtDisableDate;
         private Label label24;
-        private TextBox textBox1;
+        private CommonTextBox txtMemo;
         private Label label25;
         private Label label26;
         private Label lblModifyUser;
-        private Label label27;
-        private Label label28;
-        private Label label29;
+        private Label lblModifyDate;
+        private Label lblCreator;
+        private Label lblCreateDate;
         private DataGridView dgvContactList;
         private DataGridView dgvCustIntView;
         private DataGridViewTextBoxColumn Contact;
@@ -959,5 +992,7 @@
         private DataGridViewTextBoxColumn 業務人員;
         private DataGridViewTextBoxColumn 轉詢問函;
         private DataGridViewTextBoxColumn 內容簡述;
+        private Button btnSubmit;
+        private CommonTextBox txtIdentity;
     }
 }

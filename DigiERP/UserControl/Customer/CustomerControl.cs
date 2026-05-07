@@ -1,7 +1,9 @@
-﻿using DigiERP.Forms.Customer;
+﻿using DigiERP.Common;
+using DigiERP.Forms.Customer;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
+using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +16,7 @@ using System.Windows.Forms;
 
 namespace DigiERP.UserControl
 {
-    public partial class CustomerControl : System.Windows.Forms.UserControl
+    public partial class CustomerControl : CommonUserControl
     {
         public CustomerControl()
         {
@@ -44,6 +46,7 @@ namespace DigiERP.UserControl
                     row.Cells[index++].Value = cust.EMAIL;
                     row.Cells[index++].Value = cust.CREDATE;
                     row.Cells[index++].Value = cust.MODIFYDATE;
+                    row.Cells[index++].Value = cust.識別;
                     dataGridView1.Rows.Add(row);
                 }
             }
@@ -65,6 +68,8 @@ namespace DigiERP.UserControl
             {
                 lblMode.Text = "新增";
             }
+            ((CustomerMaintainControl)customerMaintainControl).form = new C客戶設定();
+            ((CustomerMaintainControl)customerMaintainControl).initForm();
             customerMaintainControl.Visible = true;
             if (dataGridView != null)
             {
@@ -73,5 +78,48 @@ namespace DigiERP.UserControl
             //frmCustomerMaintain frm = new frmCustomerMaintain();
             //frm.Show();
         }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 避免點到標題列
+            if (e.RowIndex < 0)
+                return;
+
+            var dataGridView = (DataGridView)(from c in panel1.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+            if (dataGridView != null)
+            {
+                var row1 = dataGridView.Rows[e.RowIndex];
+
+                C客戶設定 data = new C客戶設定();
+                int index = row1.Cells.Count - 1;
+                data.識別 = int.Parse(row1.Cells[index].Value.ToString());
+                data = new CustomerController().GetCustomer(data).result;
+
+                var customerMaintainControl = (CustomerMaintainControl)(from c in panel1.Controls.Cast<Control>() where c.GetType() == typeof(CustomerMaintainControl) select c).FirstOrDefault();
+                if (customerMaintainControl == null)
+                {
+                    customerMaintainControl = new CustomerMaintainControl();
+                    customerMaintainControl.Dock = DockStyle.Fill;
+                    panel1.Controls.Add(customerMaintainControl);
+                }
+                var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
+                if (lblMode != null)
+                {
+                    lblMode.Text = "修改";
+                }
+                ((CustomerMaintainControl)customerMaintainControl).form = data;
+                ((CustomerMaintainControl)customerMaintainControl).initForm();
+                customerMaintainControl.Visible = true;
+                if (dataGridView != null)
+                {
+                    dataGridView.Visible = false;
+                }
+            }
+        }
+
+        //private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        //{
+
+        //}
     }
 }

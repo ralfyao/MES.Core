@@ -1,4 +1,6 @@
-﻿namespace DigiERP.UserControl.Common
+﻿using DigiERP.Common;
+
+namespace DigiERP.UserControl.Common
 {
     partial class BankCodeSelect : System.Windows.Forms.UserControl
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            cboIndustry = new ComboBox();
+            cboIndustry = new CommonComboBox();
             lblIndustryCodeDesc = new Label();
             SuspendLayout();
             // 
@@ -37,11 +39,12 @@
             cboIndustry.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboIndustry.FormattingEnabled = true;
             cboIndustry.Location = new Point(10, 5);
-            cboIndustry.Margin = new Padding(2, 2, 2, 2);
+            cboIndustry.Margin = new Padding(2);
             cboIndustry.Name = "cboIndustry";
             cboIndustry.Size = new Size(117, 32);
             cboIndustry.TabIndex = 0;
             cboIndustry.Click += cboIndustry_Click;
+            cboIndustry.Enter += cboIndustry_Enter;
             cboIndustry.Leave += cboIndustry_Leave;
             // 
             // lblIndustryCodeDesc
@@ -61,7 +64,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(lblIndustryCodeDesc);
             Controls.Add(cboIndustry);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "BankCodeSelect";
             Size = new Size(234, 44);
             ResumeLayout(false);
@@ -70,7 +73,7 @@
 
         #endregion
 
-        private ComboBox cboIndustry;
+        private CommonComboBox cboIndustry;
         private Label lblIndustryCodeDesc;
     }
 }
