@@ -21,8 +21,8 @@ namespace DigiERP.UserControl.Common
 
         private void cboIndustry_Click(object sender, EventArgs e)
         {
-            using (var popup = new FormIndustryCodeSelect())
-            {
+            popup = new FormIndustryCodeSelect();
+            //{
                 popup.FormBorderStyle = FormBorderStyle.None;
                 popup.StartPosition = FormStartPosition.Manual;
 
@@ -56,7 +56,7 @@ namespace DigiERP.UserControl.Common
                     cboIndustry.SelectedText = popup.SelectedCode;
                     lblIndustryCodeDesc.Text = popup.SelectedName; // 存值（推薦）
                 }
-            }
+            //}
         }
 
         private void cboIndustry_Leave(object sender, EventArgs e)
