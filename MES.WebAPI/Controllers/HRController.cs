@@ -90,5 +90,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+
+        [Route("api/GetPositionList"), HttpGet]
+        public CommonRep<H職務工作分類> getPositionList(string position)
+        {
+            CommonRep<H職務工作分類> commonRep = new CommonRep<H職務工作分類>();
+            HumanResourcePositionRepository humanResourceRepository = new HumanResourcePositionRepository();
+            try
+            {
+                commonRep.resultList = humanResourceRepository.GetListBy(new H職務工作分類() { 職務 = position }, "工號");
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
     }
 }

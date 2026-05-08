@@ -361,5 +361,13 @@ namespace DigiERP.UserControl
             frmCustEqpList.initCustInfo();
             frmCustEqpList.ShowDialog();
         }
+
+        private void btnRecordWrite_Click(object sender, EventArgs e)
+        {
+            FrmRfqWorkRecord frmRfqWorkRecord = new FrmRfqWorkRecord();
+            frmRfqWorkRecord.SetCustomer(form);
+            frmRfqWorkRecord.initCustInfo();
+            frmRfqWorkRecord.ShowDialog();
+        }
     }
 }

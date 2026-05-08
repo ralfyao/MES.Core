@@ -930,6 +930,7 @@ namespace DigiERP.UserControl
             btnRecordWrite.TabIndex = 150;
             btnRecordWrite.Text = "撰寫時錄";
             btnRecordWrite.UseVisualStyleBackColor = false;
+            btnRecordWrite.Click += btnRecordWrite_Click;
             // 
             // CustomerMaintainControl
             // 

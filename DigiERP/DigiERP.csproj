@@ -25,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Forms\Customer\FormPositionSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\Customer\FrmCustRfqtList.cs">
       <SubType>Form</SubType>
     </Compile>
