@@ -98,7 +98,7 @@ namespace MES.WebAPI.Controllers
             HumanResourcePositionRepository humanResourceRepository = new HumanResourcePositionRepository();
             try
             {
-                commonRep.resultList = humanResourceRepository.GetListBy(new H職務工作分類() { 職務 = position }, "工號");
+                commonRep.resultList = humanResourceRepository.GetListBy(new H職務工作分類() { 職務 = position }, "職務");
             }
             catch (Exception ex)
             {
