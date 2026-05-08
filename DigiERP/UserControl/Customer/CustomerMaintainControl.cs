@@ -87,7 +87,7 @@ namespace DigiERP.UserControl
             {
                 btnQuotationHistory.Visible = true;
                 btnShippingRecord.Visible = true;
-                btnQuotationHistory.Visible = true;
+                btnInquiryHistory.Visible = true;
                 btnRecordWrite.Visible = true;
                 btnRepairHistory.Visible = true;
                 btnDelete.Visible = true;
@@ -96,7 +96,7 @@ namespace DigiERP.UserControl
             {
                 btnQuotationHistory.Visible = false;
                 btnShippingRecord.Visible = false;
-                btnQuotationHistory.Visible = false;
+                btnInquiryHistory.Visible = false;
                 btnRecordWrite.Visible = false;
                 btnRepairHistory.Visible = false;
                 btnDelete.Visible = false;
