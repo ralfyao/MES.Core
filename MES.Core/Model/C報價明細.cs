@@ -11,6 +11,7 @@ namespace MES.Core.Model
         public int 識別碼       {get;set;}
         public string? QUONO        {get;set;}
         public string? RFQNO { get; set; }
+        public string? QUODATE { get; set; }
         public string? CONDATE { get; set; }
         public string? 產品編號     {get;set;}
         public string? 品名規格     {get;set;}

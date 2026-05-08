@@ -1276,11 +1276,11 @@ namespace MES.MiddleWare.Modules
             List<C報價明細> list = new List<C報價明細>();
             try
             {
-                string sql = $@"SELECT c.*, b.CONDATE, b.RFQNO 
+                string sql = $@"SELECT c.*, b.CONDATE, b.RFQNO, b.QUODATE
                                   FROM dbo.C客戶詢問函 AS a
                                   LEFT OUTER JOIN C報價單 b ON a.RFQNO=b.RFQNO
                                   LEFT OUTER JOIN dbo.C報價明細 AS c ON b.QUONO=c.QUONO
-                                 WHERE a.COMPANYID={custid}";
+                                 WHERE a.COMPANY='{custid}'";
                 using(var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();
@@ -1302,7 +1302,7 @@ namespace MES.MiddleWare.Modules
                 using(var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();
-                    list = conn.Query<C客戶詢問函>($@"SELECT * FROM C客戶詢問函 WHERE COMPANYID='{custid}'").ToList();
+                    list = conn.Query<C客戶詢問函>($@"SELECT * FROM C客戶詢問函 WHERE COMPANY='{custid}'").ToList();
                 }
             }
             catch (Exception ex)
@@ -2265,6 +2265,58 @@ namespace MES.MiddleWare.Modules
                 throw;
             }
             return list;
+        }
+
+        public List<C機台客服> getEqpCustServiceList(string custNo)
+        {
+            List<C機台客服> eqpServiceList = new List<C機台客服>();
+            try
+            {
+                string strSQL = $@"SELECT * FROM C機台客服 WHERE 1=1";
+                if (!string.IsNullOrEmpty(custNo))
+                {
+                    strSQL += $@" AND 客戶簡稱='{custNo}'";
+                }
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    eqpServiceList = conn.Query<C機台客服> (strSQL).ToList();
+                    foreach(var eqpServ in eqpServiceList)
+                    {
+                        eqpServ.detailList = getEqpCustServiceDetail(eqpServ.單號);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return eqpServiceList;
+        }
+
+        private List<C機台客服明細> getEqpCustServiceDetail(string? 單號)
+        {
+            List<C機台客服明細> eqpServiceList = new List<C機台客服明細>();
+            try
+            {
+                string strSQL = $@"SELECT * FROM C機台客服明細 WHERE 1=1";
+                if (!string.IsNullOrEmpty(單號))
+                {
+                    strSQL += $@" AND 單號='{單號}'";
+                }
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    eqpServiceList = conn.Query<C機台客服明細>(strSQL).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return eqpServiceList;
         }
     }
     public class QueryCustListByConditionReq

@@ -2069,6 +2069,24 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
         #endregion
+        #region 機台客服
+        [Route("api/GetEqpCustServiceList"), HttpGet]
+        public CommonRep<C機台客服> GetEqpCustServiceList(string? custNo = "")
+        {
+            CommonRep<C機台客服> commonRep = new CommonRep<C機台客服>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getEqpCustServiceList(custNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        #endregion
     }
-    
+
 }

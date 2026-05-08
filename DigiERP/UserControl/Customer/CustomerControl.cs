@@ -22,6 +22,10 @@ namespace DigiERP.UserControl
         {
             InitializeComponent();
             initGridView();
+            panel1.AutoScroll = true;
+            panel1.Dock = DockStyle.Fill;
+            panel2.AutoScroll = true;
+            //panel3.AutoScroll = true;
         }
 
         private void initGridView()

@@ -15,6 +15,7 @@ using DigiERP.Common;
 using Newtonsoft.Json;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
+using DigiERP.Forms.Customer;
 
 namespace DigiERP.UserControl
 {
@@ -42,6 +43,10 @@ namespace DigiERP.UserControl
             txtCustomerCompany.Text = form.COMPANY;
             txtCustAlias.Text = form.欄位2;
             txtCustNumber.Text = form.正航編號;
+            if (!string.IsNullOrEmpty(txtCustNumber.Text))
+            {
+                btnGenCustNumber.Visible = false;
+            }
             coutrySelect1.SetCountryCode(form.COUNTRY);
             cboSource.SelectedValue = form.SOURCE;
             txtContactPersion.Text = form.CONTACTPERSON;
@@ -60,9 +65,17 @@ namespace DigiERP.UserControl
             bankCodeSelect1.SetBankCode(form.CREDIBILITY);
             if (!string.IsNullOrEmpty(form.啟用日))
                 dtEnableDate.Value = DateTime.Parse(form.啟用日);
-
             if (!string.IsNullOrEmpty(form.停用日))
+            {
                 dtDisableDate.Value = DateTime.Parse(form.停用日);
+                btnActivate.Visible = true;
+                btnInactivate.Visible = false;
+            }
+            else
+            {
+                btnActivate.Visible = false;
+                btnInactivate.Visible = true;
+            }
             txtMemo.Text = form.MEMO;
             lblModifyUser.Text = form.修改;
             lblModifyDate.Text = form.修改日;
@@ -70,6 +83,24 @@ namespace DigiERP.UserControl
             lblCreateDate.Text = form.建檔日;
             initDgvContactList(form.contactLists);
             initContactDetail(form.contactDetails);
+            if (lblMode.Text == "修改")
+            {
+                btnQuotationHistory.Visible = true;
+                btnShippingRecord.Visible = true;
+                btnQuotationHistory.Visible = true;
+                btnRecordWrite.Visible = true;
+                btnRepairHistory.Visible = true;
+                btnDelete.Visible = true;
+            }
+            else
+            {
+                btnQuotationHistory.Visible = false;
+                btnShippingRecord.Visible = false;
+                btnQuotationHistory.Visible = false;
+                btnRecordWrite.Visible = false;
+                btnRepairHistory.Visible = false;
+                btnDelete.Visible = false;
+            }
         }
 
         private C客戶設定 GetUserInput()
@@ -95,7 +126,7 @@ namespace DigiERP.UserControl
             form.INDUSTRYCODE = industryCodeSelect1.GetIndustryCode();
             form.MACHINEISSUE = txtMachineIssue.Text;
             form.CREDIBILITY = bankCodeSelect1.GetBankCode();
-            
+
             return form;
         }
 
@@ -211,6 +242,124 @@ namespace DigiERP.UserControl
                     MessageBox.Show("更新失敗:" + response.ErrorMessage);
                 }
             }
+        }
+
+        private void btnGenCustNumber_Click(object sender, EventArgs e)
+        {
+            CustomerController customerController = new CustomerController();
+            if (string.IsNullOrEmpty(coutrySelect1.GetCountryCode()))
+            {
+                MessageBox.Show("國別不可為空!");
+                return;
+            }
+            string custNo = customerController.CustNo(coutrySelect1.GetCountryCode()).result;
+            txtCustNumber.Text = custNo;
+        }
+
+        private void btnCompanyChange_Click(object sender, EventArgs e)
+        {
+            using (FrmChangeCustName frmChangeCustName = new FrmChangeCustName())
+            {
+                frmChangeCustName.SetOriginalName(txtCustomerCompany.Text);
+                frmChangeCustName.ShowDialog();
+                txtCustomerCompany.Text = frmChangeCustName.GetChangedName();
+                frmChangeCustName.Dispose();
+                frmChangeCustName.Close();
+            }
+        }
+
+        private void btnInactivate_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確認要停用?", "確認", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                CustomerController customerController = new CustomerController();
+                CommonRep<C客戶設定> commonRep = customerController.UpdateCustomerExpiry(new C客戶設定() { 識別 = int.Parse(txtIdentity.Text), 停用日 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") });
+                if (string.IsNullOrEmpty(commonRep.ErrorMessage))
+                {
+                    MessageBox.Show("停用成功");
+                    dtDisableDate.Value = DateTime.Now;
+                    btnActivate.Visible = true;
+                    btnInactivate.Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show(commonRep.ErrorMessage);
+                }
+            }
+        }
+
+        private void btnActivate_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確認要取消停用?", "確認", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                CustomerController customerController = new CustomerController();
+                CommonRep<C客戶設定> commonRep = customerController.UpdateCustomerExpiry(new C客戶設定() { 識別 = int.Parse(txtIdentity.Text), 停用日 = "" });
+                if (string.IsNullOrEmpty(commonRep.ErrorMessage))
+                {
+                    MessageBox.Show("取消停用成功");
+                    dtDisableDate.Value = DateTime.Parse("1900-01-01");
+                    btnActivate.Visible = false;
+                    btnInactivate.Visible = true;
+                }
+                else
+                {
+                    MessageBox.Show(commonRep.ErrorMessage);
+                }
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確認刪除?", "確認", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                CustomerController customerController = new CustomerController();
+                CommonRep<C客戶設定> commonRep = customerController.DeleteCustomer(new C客戶設定() { 識別 = int.Parse(txtIdentity.Text) });
+                if (string.IsNullOrEmpty(commonRep.ErrorMessage))
+                {
+                    MessageBox.Show("刪除成功!");
+                }
+                else
+                {
+                    MessageBox.Show(commonRep.ErrorMessage);
+                }
+                button1_Click(sender, e);
+            }
+        }
+
+        private void btnShippingRecord_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRepairHistory_Click(object sender, EventArgs e)
+        {
+            FrmCustEqpList frmCustEqpList = new FrmCustEqpList();
+            frmCustEqpList.SetCustNo(txtCustNumber.Text);
+            frmCustEqpList.SetCustAlias(txtCustAlias.Text);
+            frmCustEqpList.SetCustName(txtCustomerCompany.Text);
+            frmCustEqpList.initCustInfo();
+            frmCustEqpList.ShowDialog();
+        }
+
+
+        private void btnQuotationHistory_Click_1(object sender, EventArgs e)
+        {
+            FrmCustQuotList frmCustEqpList = new FrmCustQuotList();
+            frmCustEqpList.SetCustNo(txtCustNumber.Text);
+            frmCustEqpList.SetCustAlias(txtCustAlias.Text);
+            frmCustEqpList.SetCustName(txtCustomerCompany.Text);
+            frmCustEqpList.initCustInfo();
+            frmCustEqpList.ShowDialog();
+        }
+
+        private void btnInquiryHistory_Click(object sender, EventArgs e)
+        {
+            FrmCustRfqtList frmCustEqpList = new FrmCustRfqtList();
+            frmCustEqpList.SetCustNo(txtCustNumber.Text);
+            frmCustEqpList.SetCustAlias(txtCustAlias.Text);
+            frmCustEqpList.SetCustName(txtCustomerCompany.Text);
+            frmCustEqpList.initCustInfo();
+            frmCustEqpList.ShowDialog();
         }
     }
 }

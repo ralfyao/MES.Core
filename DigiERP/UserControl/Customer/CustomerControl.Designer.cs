@@ -70,7 +70,7 @@ namespace DigiERP.UserControl
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.Size = new Size(1197, 974);
             dataGridView1.TabIndex = 3;
-            dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.CellDoubleClick += dataGridView1_CellClick;
             // 
             // COMPANY
             // 
