@@ -39,17 +39,31 @@
             label7 = new Label();
             cboPosition = new ComboBox();
             label2 = new Label();
-            numericUpDown1 = new NumericUpDown();
+            successPropability = new NumericUpDown();
             txtModuleCode = new TextBox();
             label4 = new Label();
             txtModuleName = new TextBox();
             label8 = new Label();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            label9 = new Label();
+            cboMissionCiass = new ComboBox();
+            label10 = new Label();
+            label11 = new Label();
+            points = new NumericUpDown();
+            txtInterviewPoints = new TextBox();
+            label12 = new Label();
+            txtComments = new TextBox();
+            label13 = new Label();
+            label14 = new Label();
+            dtRevisit = new DateTimePicker();
+            btnSubmit = new Button();
+            ((System.ComponentModel.ISupportInitialize)successPropability).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)points).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = SystemColors.ActiveCaption;
             label1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             label1.ForeColor = SystemColors.ActiveCaptionText;
             label1.Location = new Point(8, 8);
@@ -83,6 +97,7 @@
             // label3
             // 
             label3.AutoSize = true;
+            label3.BackColor = SystemColors.ActiveCaption;
             label3.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             label3.ForeColor = SystemColors.ActiveCaptionText;
             label3.Location = new Point(248, 8);
@@ -105,6 +120,7 @@
             // label5
             // 
             label5.AutoSize = true;
+            label5.BackColor = SystemColors.ActiveCaption;
             label5.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             label5.ForeColor = SystemColors.ActiveCaptionText;
             label5.Location = new Point(552, 8);
@@ -163,13 +179,13 @@
             label2.TabIndex = 10;
             label2.Text = "要望機率";
             // 
-            // numericUpDown1
+            // successPropability
             // 
-            numericUpDown1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            numericUpDown1.Location = new Point(600, 60);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(88, 31);
-            numericUpDown1.TabIndex = 11;
+            successPropability.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            successPropability.Location = new Point(600, 60);
+            successPropability.Name = "successPropability";
+            successPropability.Size = new Size(88, 31);
+            successPropability.TabIndex = 11;
             // 
             // txtModuleCode
             // 
@@ -209,17 +225,149 @@
             label8.TabIndex = 14;
             label8.Text = "程序來源";
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label9.ForeColor = SystemColors.ActiveCaptionText;
+            label9.Location = new Point(31, 163);
+            label9.Name = "label9";
+            label9.Size = new Size(86, 24);
+            label9.TabIndex = 16;
+            label9.Text = "任務分類";
+            // 
+            // cboMissionCiass
+            // 
+            cboMissionCiass.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboMissionCiass.Font = new Font("Microsoft JhengHei UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cboMissionCiass.FormattingEnabled = true;
+            cboMissionCiass.Location = new Point(128, 161);
+            cboMissionCiass.Name = "cboMissionCiass";
+            cboMissionCiass.Size = new Size(365, 31);
+            cboMissionCiass.TabIndex = 17;
+            cboMissionCiass.Click += cboMissionCiass_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label10.ForeColor = SystemColors.ActiveCaptionText;
+            label10.Location = new Point(504, 163);
+            label10.Name = "label10";
+            label10.Size = new Size(86, 24);
+            label10.TabIndex = 18;
+            label10.Text = "成效點數";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label11.ForeColor = SystemColors.ActiveCaptionText;
+            label11.Location = new Point(694, 64);
+            label11.Name = "label11";
+            label11.Size = new Size(27, 24);
+            label11.TabIndex = 19;
+            label11.Text = "%";
+            // 
+            // points
+            // 
+            points.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            points.Location = new Point(596, 161);
+            points.Name = "points";
+            points.Size = new Size(88, 31);
+            points.TabIndex = 20;
+            // 
+            // txtInterviewPoints
+            // 
+            txtInterviewPoints.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            txtInterviewPoints.Location = new Point(128, 214);
+            txtInterviewPoints.Name = "txtInterviewPoints";
+            txtInterviewPoints.Size = new Size(556, 31);
+            txtInterviewPoints.TabIndex = 22;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label12.ForeColor = SystemColors.ActiveCaptionText;
+            label12.Location = new Point(31, 214);
+            label12.Name = "label12";
+            label12.Size = new Size(86, 24);
+            label12.TabIndex = 21;
+            label12.Text = "訪談重點";
+            // 
+            // txtComments
+            // 
+            txtComments.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            txtComments.Location = new Point(128, 264);
+            txtComments.Multiline = true;
+            txtComments.Name = "txtComments";
+            txtComments.Size = new Size(556, 133);
+            txtComments.TabIndex = 24;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label13.ForeColor = SystemColors.ActiveCaptionText;
+            label13.Location = new Point(31, 264);
+            label13.Name = "label13";
+            label13.Size = new Size(86, 24);
+            label13.TabIndex = 23;
+            label13.Text = "內容簡述";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label14.ForeColor = SystemColors.ActiveCaptionText;
+            label14.Location = new Point(31, 412);
+            label14.Name = "label14";
+            label14.Size = new Size(105, 24);
+            label14.TabIndex = 25;
+            label14.Text = "預計再訪日";
+            // 
+            // dtRevisit
+            // 
+            dtRevisit.CalendarFont = new Font("Microsoft New Tai Lue", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtRevisit.Location = new Point(142, 412);
+            dtRevisit.Name = "dtRevisit";
+            dtRevisit.Size = new Size(128, 23);
+            dtRevisit.TabIndex = 26;
+            // 
+            // btnSubmit
+            // 
+            btnSubmit.Location = new Point(586, 422);
+            btnSubmit.Name = "btnSubmit";
+            btnSubmit.Size = new Size(75, 23);
+            btnSubmit.TabIndex = 27;
+            btnSubmit.Text = "送出";
+            btnSubmit.UseVisualStyleBackColor = true;
+            btnSubmit.Click += btnSubmit_Click;
+            // 
             // FrmRfqWorkRecord
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGreen;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(748, 473);
+            Controls.Add(btnSubmit);
+            Controls.Add(dtRevisit);
+            Controls.Add(label14);
+            Controls.Add(txtComments);
+            Controls.Add(label13);
+            Controls.Add(txtInterviewPoints);
+            Controls.Add(label12);
+            Controls.Add(points);
+            Controls.Add(label11);
+            Controls.Add(label10);
+            Controls.Add(cboMissionCiass);
+            Controls.Add(label9);
             Controls.Add(txtModuleName);
             Controls.Add(label8);
             Controls.Add(txtModuleCode);
             Controls.Add(label4);
-            Controls.Add(numericUpDown1);
+            Controls.Add(successPropability);
             Controls.Add(label2);
             Controls.Add(cboPosition);
             Controls.Add(label7);
@@ -233,7 +381,8 @@
             Controls.Add(label1);
             Name = "FrmRfqWorkRecord";
             Text = "FrmRfqWorkRecord";
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)successPropability).EndInit();
+            ((System.ComponentModel.ISupportInitialize)points).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -251,10 +400,22 @@
         private Label label7;
         private ComboBox cboPosition;
         private Label label2;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown successPropability;
         private TextBox txtModuleCode;
         private Label label4;
         private TextBox txtModuleName;
         private Label label8;
+        private Label label9;
+        private ComboBox cboMissionCiass;
+        private Label label10;
+        private Label label11;
+        private NumericUpDown points;
+        private TextBox txtInterviewPoints;
+        private Label label12;
+        private TextBox txtComments;
+        private Label label13;
+        private Label label14;
+        private DateTimePicker dtRevisit;
+        private Button btnSubmit;
     }
 }

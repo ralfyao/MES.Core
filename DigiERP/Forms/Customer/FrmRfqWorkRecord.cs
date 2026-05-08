@@ -45,5 +45,30 @@ namespace DigiERP.Forms.Customer
 
             //throw new NotImplementedException();
         }
+        FormPositionSelect popup;
+        private void cboMissionCiass_Click(object sender, EventArgs e)
+        {
+            popup = new FormPositionSelect();
+            //{
+            popup.FormBorderStyle = FormBorderStyle.None;
+            popup.StartPosition = FormStartPosition.Manual;
+
+            // 定位在 ComboBox 下方
+            var location = cboMissionCiass.PointToScreen(Point.Empty);
+            popup.Location = new Point(location.X, location.Y - popup.Height);
+            popup.Size = new Size(popup.Width, 600);
+            if (popup.ShowDialog() == DialogResult.OK)
+            {
+                //if (cboMissionCiass.DataSource == null || cboMissionCiass.DataSource)
+                //{
+                cboMissionCiass.DataSource = new List<string>() { popup.SelectedCode };
+                //}
+            }
+        }
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            A工作紀錄
+        }
     }
 }

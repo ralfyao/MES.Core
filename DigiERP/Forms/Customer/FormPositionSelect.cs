@@ -26,7 +26,7 @@ namespace DigiERP.Forms.Customer
 
         private void init()
         {
-            CommonRep<H職務工作分類> commonRep = new HRController().getPositionList(Position);
+            CommonRep<H職務工作分類> commonRep = new HRController().getPositionList("業務");
             foreach (var item in commonRep.resultList)
             {
                 if (item != null)
@@ -36,6 +36,7 @@ namespace DigiERP.Forms.Customer
                     row.CreateCells(dataGridView1);
                     row.Cells[index++].Value = item.代碼;//銀存編碼
                     row.Cells[index++].Value = item.分類;//銀行名稱
+                    row.Cells[index++].Value = item.說明;//銀行名稱
                     row.Cells[index++].Value = item.職務;
                     dataGridView1.Rows.Add(row);
                 }
