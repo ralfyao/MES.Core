@@ -68,7 +68,7 @@ namespace DigiERP.Forms.Customer
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            A工作紀錄
+            //A工作紀錄
         }
     }
 }
