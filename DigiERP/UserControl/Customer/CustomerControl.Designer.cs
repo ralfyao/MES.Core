@@ -66,7 +66,8 @@ namespace DigiERP.UserControl
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { COMPANY, CONTACTPERSON, 正航編號, COUNTRY, INDUSTRY, 中名稱分類, 英文, MACHINEISSUE, MA, MEMO, CREDATE, 識別 });
-            dataGridView1.Location = new Point(2, 57);
+            dataGridView1.Dock = DockStyle.Bottom;
+            dataGridView1.Location = new Point(0, 13);
             dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -79,7 +80,7 @@ namespace DigiERP.UserControl
             dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.DefaultCellStyle.Font = new Font("新細明體", 14.1428576F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            dataGridView1.Size = new Size(979, 471);
+            dataGridView1.Size = new Size(1020, 600);
             dataGridView1.TabIndex = 3;
             dataGridView1.CellDoubleClick += dataGridView1_CellClick;
             // 
@@ -180,10 +181,11 @@ namespace DigiERP.UserControl
             // panel1
             // 
             panel1.Controls.Add(dataGridView1);
-            panel1.Location = new Point(2, 144);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 72);
             panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1003, 530);
+            panel1.Size = new Size(1020, 613);
             panel1.TabIndex = 5;
             // 
             // label1
@@ -226,9 +228,10 @@ namespace DigiERP.UserControl
             panel2.Controls.Add(button1);
             panel2.Controls.Add(pictureBox1);
             panel2.Controls.Add(label1);
+            panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1005, 48);
+            panel2.Size = new Size(1020, 48);
             panel2.TabIndex = 6;
             // 
             // CustomerControl
