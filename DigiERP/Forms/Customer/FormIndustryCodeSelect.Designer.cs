@@ -45,19 +45,20 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { industryCode, industryCodeName, englishDesc, Others });
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(779, 450);
+            dataGridView1.Size = new Size(637, 372);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // industryCode
             // 
-            industryCode.HeaderText = "中分類碼";
+            industryCode.HeaderText = "中分類";
             industryCode.MinimumWidth = 8;
             industryCode.Name = "industryCode";
             industryCode.ReadOnly = true;
-            industryCode.Width = 118;
+            industryCode.Width = 83;
             // 
             // industryCodeName
             // 
@@ -65,7 +66,7 @@
             industryCodeName.MinimumWidth = 8;
             industryCodeName.Name = "industryCodeName";
             industryCodeName.ReadOnly = true;
-            industryCodeName.Width = 136;
+            industryCodeName.Width = 113;
             // 
             // englishDesc
             // 
@@ -73,7 +74,7 @@
             englishDesc.MinimumWidth = 8;
             englishDesc.Name = "englishDesc";
             englishDesc.ReadOnly = true;
-            englishDesc.Width = 82;
+            englishDesc.Width = 68;
             // 
             // Others
             // 
@@ -81,16 +82,17 @@
             Others.MinimumWidth = 8;
             Others.Name = "Others";
             Others.ReadOnly = true;
-            Others.Width = 82;
+            Others.Width = 68;
             // 
             // FormIndustryCodeSelect
             // 
-            AutoScaleDimensions = new SizeF(11F, 23F);
+            AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(779, 450);
+            ClientSize = new Size(637, 372);
             ControlBox = false;
             Controls.Add(dataGridView1);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(2);
             Name = "FormIndustryCodeSelect";
             Text = "FormIndustryCodeSelect";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

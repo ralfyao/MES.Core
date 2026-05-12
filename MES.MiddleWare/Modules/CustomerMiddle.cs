@@ -2318,6 +2318,20 @@ namespace MES.MiddleWare.Modules
             }
             return eqpServiceList;
         }
+
+        public void addIndustryCode(C產業代碼 add)
+        {
+            try
+            {
+                IndustryCodeRepository industryCodeRepository = new IndustryCodeRepository();
+                industryCodeRepository.Insert(add);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
     public class QueryCustListByConditionReq
     {

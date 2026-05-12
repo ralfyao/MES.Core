@@ -91,6 +91,9 @@ namespace DigiERP.UserControl
                 btnRecordWrite.Visible = true;
                 btnRepairHistory.Visible = true;
                 btnDelete.Visible = true;
+                button2.Visible = true;
+                // 預設為disable，直到按下【修改】按鈕後才變成可編輯
+                disableAllControls(true);
             }
             else
             {
@@ -100,7 +103,40 @@ namespace DigiERP.UserControl
                 btnRecordWrite.Visible = false;
                 btnRepairHistory.Visible = false;
                 btnDelete.Visible = false;
+                button2.Visible = false;
+                disableAllControls(false);
             }
+        }
+
+        private void disableAllControls(bool isDisable)
+        {
+            btnSubmit.Enabled = !isDisable;
+            btnCompanyChange.Enabled = !isDisable;
+            txtIdentity.Enabled = !isDisable;
+            txtCustomerCompany.Enabled = !isDisable;
+            btnIndustryCodeManage.Enabled = !isDisable;
+            txtCustAlias.Enabled = !isDisable;
+            txtCustNumber.Enabled = !isDisable;
+            btnGenCustNumber.Enabled = !isDisable;
+            txtPosition.Enabled = !isDisable;
+            txtMemo.Enabled = !isDisable;
+            coutrySelect1.Enabled = !isDisable;
+            cboSource.Enabled = !isDisable;
+            txtContactPersion.Enabled = !isDisable;
+            txtAddress.Enabled = !isDisable;
+            txtDAddress.Enabled = !isDisable;
+            txtWebsite.Enabled = !isDisable;
+            txtTel.Enabled = !isDisable;
+            txtZipcode.Enabled = !isDisable;
+            txtEmail.Enabled = !isDisable;
+            cboMa.Enabled = !isDisable;
+            txtColumn1.Enabled = !isDisable;
+            cboIndustrry.Enabled = !isDisable;
+            industryCodeSelect1.Enabled = !isDisable;
+            txtMachineIssue.Enabled = !isDisable;
+            bankCodeSelect1.Enabled = !isDisable;
+            btnActivate.Enabled = !isDisable;
+            btnInactivate.Enabled = !isDisable;
         }
 
         private C客戶設定 GetUserInput()
@@ -158,8 +194,6 @@ namespace DigiERP.UserControl
                 row.Cells[index++].Value = contact.姓名;//客戶名稱
                 row.Cells[index++].Value = contact.職稱;//客戶名稱
                 row.Cells[index++].Value = contact.EMAIL;//客戶名稱
-                //row.Cells[index++].Value = contact.電話;//客戶名稱
-                //row.Cells[index++].Value = contact.分機;//客戶名稱
                 dgvContactList.Rows.Add(row);
             }
         }
@@ -368,6 +402,17 @@ namespace DigiERP.UserControl
             frmRfqWorkRecord.SetCustomer(form);
             frmRfqWorkRecord.initCustInfo();
             frmRfqWorkRecord.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            disableAllControls(false);
+        }
+
+        private void btnIndustryCodeManage_Click(object sender, EventArgs e)
+        {
+            FrmIndustryManage frmIndustryManage = new FrmIndustryManage();
+            frmIndustryManage.ShowDialog();
         }
     }
 }

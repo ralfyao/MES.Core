@@ -53,6 +53,10 @@ namespace DigiERP.UserControl
             pictureBox1 = new PictureBox();
             button1 = new Button();
             panel2 = new Panel();
+            cboCountry = new ComboBox();
+            label3 = new Label();
+            txtCustQueryFIeld = new TextBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -66,7 +70,7 @@ namespace DigiERP.UserControl
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { COMPANY, CONTACTPERSON, 正航編號, COUNTRY, INDUSTRY, 中名稱分類, 英文, MACHINEISSUE, MA, MEMO, CREDATE, 識別 });
             dataGridView1.Dock = DockStyle.Bottom;
-            dataGridView1.Location = new Point(0, 16);
+            dataGridView1.Location = new Point(0, 48);
             dataGridView1.Name = "dataGridView1";
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
@@ -78,7 +82,7 @@ namespace DigiERP.UserControl
             dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.DefaultCellStyle.Font = new Font("新細明體", 14.1428576F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            dataGridView1.Size = new Size(1311, 760);
+            dataGridView1.Size = new Size(1311, 820);
             dataGridView1.TabIndex = 3;
             dataGridView1.CellDoubleClick += dataGridView1_CellClick;
             // 
@@ -181,10 +185,10 @@ namespace DigiERP.UserControl
             // panel1
             // 
             panel1.Controls.Add(dataGridView1);
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 92);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1311, 776);
+            panel1.Size = new Size(1311, 868);
             panel1.TabIndex = 5;
             // 
             // label1
@@ -221,15 +225,57 @@ namespace DigiERP.UserControl
             // panel2
             // 
             panel2.AutoScroll = true;
+            panel2.Controls.Add(cboCountry);
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(txtCustQueryFIeld);
+            panel2.Controls.Add(label2);
             panel2.Controls.Add(button1);
             panel2.Controls.Add(pictureBox1);
             panel2.Controls.Add(label1);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.Size = new Size(1311, 61);
             panel2.TabIndex = 6;
+            // 
+            // cboCountry
+            // 
+            cboCountry.FormattingEnabled = true;
+            cboCountry.Location = new Point(816, 16);
+            cboCountry.Name = "cboCountry";
+            cboCountry.Size = new Size(151, 27);
+            cboCountry.TabIndex = 11;
+            cboCountry.SelectedIndexChanged += cboCountry_SelectedIndexChanged;
+            cboCountry.Leave += cboCountry_SelectedIndexChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label3.Location = new Point(696, 16);
+            label3.Name = "label3";
+            label3.Size = new Size(109, 30);
+            label3.TabIndex = 10;
+            label3.Text = "國別查詢";
+            // 
+            // txtCustQueryFIeld
+            // 
+            txtCustQueryFIeld.Location = new Point(528, 17);
+            txtCustQueryFIeld.Name = "txtCustQueryFIeld";
+            txtCustQueryFIeld.Size = new Size(144, 27);
+            txtCustQueryFIeld.TabIndex = 9;
+            txtCustQueryFIeld.Leave += txtCustQueryFIeld_Leave;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label2.Location = new Point(408, 16);
+            label2.Name = "label2";
+            label2.Size = new Size(109, 30);
+            label2.TabIndex = 8;
+            label2.Text = "客戶查詢";
             // 
             // CustomerControl
             // 
@@ -269,5 +315,9 @@ namespace DigiERP.UserControl
         private DataGridViewTextBoxColumn MEMO;
         private DataGridViewTextBoxColumn CREDATE;
         private DataGridViewTextBoxColumn 識別;
+        private TextBox txtCustQueryFIeld;
+        private Label label2;
+        private ComboBox cboCountry;
+        private Label label3;
     }
 }

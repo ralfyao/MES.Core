@@ -2086,6 +2086,23 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+
+        [Route("api/GetEqpCustServiceList"), HttpPost]
+        public CommonRep<string> saveIndustryCode([FromBody] C產業代碼 add)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                customerMiddle.addIndustryCode(add);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         #endregion
     }
 

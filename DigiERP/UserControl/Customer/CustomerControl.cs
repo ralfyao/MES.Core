@@ -22,10 +22,34 @@ namespace DigiERP.UserControl
         {
             InitializeComponent();
             initGridView();
+            initCountrySelect();
             panel1.AutoScroll = true;
             panel1.Dock = DockStyle.Fill;
             panel2.AutoScroll = true;
             //panel3.AutoScroll = true;
+        }
+
+        private void initCountrySelect()
+        {
+            CustomerController customerController = new CustomerController();
+            CommonRep<C客戶國別> commonRep = customerController.getCountryList();
+            var list = new List<object>();
+            list.Add(new
+            {
+                國別 = string.Empty,
+                CODE = string.Empty,
+            });
+            foreach (var country in commonRep.resultList)
+            {
+                list.Add(new
+                {
+                    國別 = country.國別,
+                    CODE = country.CODE,
+                });
+            }
+            cboCountry.DataSource = list;
+            cboCountry.DisplayMember = "國別";
+            cboCountry.ValueMember = "CODE";
         }
 
         private void initGridView()
@@ -121,9 +145,56 @@ namespace DigiERP.UserControl
             }
         }
 
-        //private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        //{
+        private void txtCustQueryFIeld_Leave(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells[0].Value?.ToString().IndexOf(txtCustQueryFIeld.Text.Trim()) != -1)
+                {
+                    row.Visible = true;
+                }
+                else
+                {
+                    row.Visible = false;
+                }
+            }
+        }
 
-        //}
+        private void cboCountry_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                dynamic selected = cboCountry.SelectedItem;
+                if (selected != null && !string.IsNullOrEmpty(selected.國別))
+                {
+                    if (row.Cells[3].Value?.ToString().Trim().IndexOf(selected.國別) != -1)
+                    {
+                        row.Visible = true;
+                    }
+                    else
+                    {
+                        row.Visible = false;
+                    }
+                }
+                else
+                {
+                    row.Visible = true;
+                }
+                //{
+
+                    //}
+                    //foreach (var aItem in cboCountry.DataSource as IEnumerable<dynamic>)
+                    //{
+                    //    if (row.Cells[3].Value?.ToString().Trim().IndexOf(aItem.國別.Trim()) != -1)
+                    //    {
+                    //        row.Visible = true;
+                    //    }
+                    //    else
+                    //    {
+                    //        row.Visible = false;
+                    //    }
+                    //}
+            }
+        }
     }
 }
