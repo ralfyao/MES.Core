@@ -846,6 +846,7 @@ namespace MES.WebAPI.Controllers
             CustomerMiddle customMiddle = new CustomerMiddle();
             try
             {
+                form.預計再訪 = DateTime.Parse(form.預計再訪).ToString("yyyy-MM-dd");
                 int execCnt = customMiddle.addRfqTrackingRecord(form);
                 if (execCnt == 0)
                 {

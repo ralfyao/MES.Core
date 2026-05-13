@@ -51,6 +51,7 @@ namespace MES.WebAPI.Controllers
                                 rep.result = new User
                                 {
                                     username = item.AccountName,
+                                    name = item.Account,
                                     password = item.Password,
                                     empNo = item.員工編號,
                                     isEmail = item.IsEmail,

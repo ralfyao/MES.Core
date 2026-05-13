@@ -1,4 +1,6 @@
-﻿namespace DigiERP.Forms.Customer
+﻿using DigiERP.Common;
+
+namespace DigiERP.Forms.Customer
 {
     partial class FrmRfqWorkRecord
     {
@@ -35,23 +37,23 @@
             lblName = new Label();
             label5 = new Label();
             label6 = new Label();
-            txtProjSerial = new TextBox();
+            txtProjSerial = new CommonTextBox();
             label7 = new Label();
-            cboPosition = new ComboBox();
+            cboPosition = new CommonComboBox();
             label2 = new Label();
             successPropability = new NumericUpDown();
-            txtModuleCode = new TextBox();
+            txtModuleCode = new CommonTextBox();
             label4 = new Label();
-            txtModuleName = new TextBox();
+            txtModuleName = new CommonTextBox();
             label8 = new Label();
             label9 = new Label();
-            cboMissionCiass = new ComboBox();
+            cboMissionCiass = new CommonComboBox();
             label10 = new Label();
             label11 = new Label();
             points = new NumericUpDown();
-            txtInterviewPoints = new TextBox();
+            txtInterviewPoints = new CommonTextBox();
             label12 = new Label();
-            txtComments = new TextBox();
+            txtComments = new CommonTextBox();
             label13 = new Label();
             label14 = new Label();
             dtRevisit = new DateTimePicker();
@@ -396,23 +398,23 @@
         private Label lblName;
         private Label label5;
         private Label label6;
-        private TextBox txtProjSerial;
+        private CommonTextBox txtProjSerial;
         private Label label7;
-        private ComboBox cboPosition;
+        private CommonComboBox cboPosition;
         private Label label2;
         private NumericUpDown successPropability;
-        private TextBox txtModuleCode;
+        private CommonTextBox txtModuleCode;
         private Label label4;
-        private TextBox txtModuleName;
+        private CommonTextBox txtModuleName;
         private Label label8;
         private Label label9;
-        private ComboBox cboMissionCiass;
+        private CommonComboBox cboMissionCiass;
         private Label label10;
         private Label label11;
         private NumericUpDown points;
-        private TextBox txtInterviewPoints;
+        private CommonTextBox txtInterviewPoints;
         private Label label12;
-        private TextBox txtComments;
+        private CommonTextBox txtComments;
         private Label label13;
         private Label label14;
         private DateTimePicker dtRevisit;

@@ -1,4 +1,5 @@
-﻿using MES.WebAPI.Models;
+﻿using DigiERP.Forms.Settings;
+using MES.WebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -84,6 +85,13 @@ namespace DigiERP
         private void panelSettings_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnPassworkChange_Click(object sender, EventArgs e)
+        {
+            FrmPasswordSetting frmPasswordSetting = new FrmPasswordSetting();
+            frmPasswordSetting.SetAccount(_user.name);
+            frmPasswordSetting.ShowDialog();
         }
     }
 }

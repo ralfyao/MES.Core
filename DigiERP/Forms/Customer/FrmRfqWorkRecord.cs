@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace DigiERP.Forms.Customer
 {
-    public partial class FrmRfqWorkRecord : Form
+    public partial class FrmRfqWorkRecord : CommonForm
     {
         private C客戶設定 _customer { get; set; }
         public void SetCustomer(C客戶設定 cust)
@@ -42,7 +42,8 @@ namespace DigiERP.Forms.Customer
         public void initCustInfo()
         {
             txtProjSerial.Text = _customer.欄位2;
-
+            txtModuleCode.Text = _customer.正航編號;
+            txtModuleName.Text = _customer.COMPANY;
             //throw new NotImplementedException();
         }
         FormPositionSelect popup;
@@ -69,6 +70,36 @@ namespace DigiERP.Forms.Customer
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             //A工作紀錄
+            try
+            {
+                工作紀錄A a = new 工作紀錄A();
+                a.日誌單號 = lblWorkerNumber.Text + "-" + DateTime.Now.ToString("yyyyMMdd");
+                a.工作日期 = lblDate.Text;
+                a.員工編號 = lblWorkerNumber.Text;
+                a.專案序號 = txtProjSerial.Text;
+                a.進度 = float.Parse(successPropability.Value.ToString());
+                a.模組編碼 = txtModuleCode.Text;
+                a.模組名稱 = txtModuleName.Text;
+                a.任務分類 = cboMissionCiass.SelectedValue.ToString();
+                a.成效點數 = float.Parse(points.Value.ToString());
+                a.工作簡述 = txtComments.Text;
+                a.預計再訪 = dtRevisit.Value.ToString();
+                CustomerController customerController = new CustomerController();
+                CommonRep<string> rep = customerController.AddRfqTrackingRecord(a);
+                if (!string.IsNullOrEmpty(rep.ErrorMessage))
+                {
+                    MessageBox.Show(rep.ErrorMessage);
+                    Dispose();
+                    Close(); return;
+                }
+                MessageBox.Show("執行成功");
+                Dispose();
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

@@ -139,7 +139,7 @@ namespace MES.Core.Repository.Impl
                                ,@員工編號
                             )";
                     DynamicParameters dynamicParameters = new DynamicParameters(t);
-                    conn.Execute(strSQL, dynamicParameters);
+                    retCode += conn.Execute(strSQL, dynamicParameters);
                 }
             }
             catch (Exception ex)
@@ -181,7 +181,7 @@ namespace MES.Core.Repository.Impl
                                             AGENT=@AGENT
                                        WHERE RFQNO=@RFQNO";
                     DynamicParameters dynamicParameters = new DynamicParameters(t);
-                    conn.Execute(strSQL, dynamicParameters);
+                    retCode += conn.Execute(strSQL, dynamicParameters);
                 }
             }
             catch (Exception ex)
