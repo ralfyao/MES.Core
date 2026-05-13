@@ -23,13 +23,17 @@ namespace MES.MiddleWare.Modules
         public static object customerLock { get; set; } = new object();
         public static object carLock { get; set; } = new object();
         public static object repairLock = new object();
-        public List<C客戶設定> getCustomerList()
+        public List<C客戶設定> getCustomerList(string cond = "")
         {
             List<C客戶設定> Lst = new List<C客戶設定>();
             try
             {
                 CustomerRepository customerRepository = new CustomerRepository();
                 Lst = customerRepository.GetList(null, "TOP 1000", "").OrderBy(x=>x.正航編號).ToList();
+                if (!string.IsNullOrEmpty(cond))
+                {
+                    Lst = Lst.Where(x => x.COMPANY.ToUpper().IndexOf(cond) != -1).ToList();
+                }
                 foreach(var cust in  Lst)
                 {
                     var industry = customerRepository.getIndustryCode(cust.INDUSTRYCODE).FirstOrDefault();

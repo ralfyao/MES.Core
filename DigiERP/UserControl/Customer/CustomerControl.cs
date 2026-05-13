@@ -151,17 +151,45 @@ namespace DigiERP.UserControl
 
         private void txtCustQueryFIeld_Leave(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            dataGridView1.Rows.Clear();
+            CustomerController customerController = new CustomerController();
+            CommonRep<C客戶設定> custList = customerController.getCustomerList(txtCustQueryFIeld.Text.Trim().ToUpper());
+            foreach (var cust in custList.resultList)
             {
-                if (row.Cells[0].Value?.ToString().IndexOf(txtCustQueryFIeld.Text.Trim()) != -1)
+                if (cust != null)
                 {
-                    row.Visible = true;
-                }
-                else
-                {
-                    row.Visible = false;
+                    int index = 0;
+                    DataGridViewRow row = new DataGridViewRow();
+                    row.CreateCells(dataGridView1);
+                    row.Cells[index++].Value = cust.COMPANY;//客戶名稱
+                    index++;
+                    row.Cells[index++].Value = cust.CONTACTPERSON;//主要聯絡人
+                    row.Cells[index++].Value = cust.正航編號;
+                    row.Cells[index++].Value = cust.COUNTRY;
+                    row.Cells[index++].Value = cust.INDUSTRY;
+                    row.Cells[index++].Value = cust.INDUSTRYCODE_C;
+                    row.Cells[index++].Value = cust.INDUSTRYCODE_E;
+                    row.Cells[index++].Value = cust.MA;
+                    row.Cells[index++].Value = cust.EMAIL;
+                    row.Cells[index++].Value = cust.CREDATE;
+                    row.Cells[index++].Value = cust.MODIFYDATE;
+                    row.Cells[index++].Value = cust.識別;
+                    dataGridView1.Rows.Add(row);
                 }
             }
+            //dataGridView1.Rows.Cast<DataGridViewRow>().
+            //var cond = txtCustQueryFIeld.Text.Trim().ToUpper();
+            //foreach (DataGridViewRow row in dataGridView1.Rows)
+            //{
+            //    if (row.Cells[0].Value?.ToString().ToUpper().IndexOf(cond) != -1)
+            //    {
+            //        row.Visible = true;
+            //    }
+            //    else
+            //    {
+            //        row.Visible = false;
+            //    }
+            //}
         }
 
         private void cboCountry_SelectedIndexChanged(object sender, EventArgs e)

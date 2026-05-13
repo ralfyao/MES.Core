@@ -67,13 +67,13 @@ namespace MES.WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("api/GetCustList"), HttpGet]
-        public CommonRep<C客戶設定> getCustomerList()
+        public CommonRep<C客戶設定> getCustomerList(string cond = "")
         {
             CommonRep<C客戶設定> commonRep = new CommonRep<C客戶設定>();
             CustomerMiddle custMiddle = new CustomerMiddle();
             try
             {
-                commonRep.resultList = custMiddle.getCustomerList();
+                commonRep.resultList = custMiddle.getCustomerList(cond);
             }
             catch (Exception ex)
             {
