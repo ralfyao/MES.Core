@@ -1,4 +1,5 @@
 ﻿using DigiERP.UserControl;
+using DigiERP.UserControl.Customer.RFQ;
 using System.Windows.Forms;
 
 namespace DigiERP
@@ -289,8 +290,9 @@ namespace DigiERP
             {
                 "Customer" => new CustomerControl() { Width = tab.Width},
                 "Order" => new OrderControl() { Width = tab.Width },
+                "RFQ" => new RFQControl() {  Width = tab.Width },
                 _ => null
-            };
+            };;
 
             if (ctrl != null)
             {

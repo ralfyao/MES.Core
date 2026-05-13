@@ -54,6 +54,8 @@ namespace DigiERP.UserControl
             pictureBox1 = new PictureBox();
             button1 = new Button();
             panel2 = new Panel();
+            button2 = new Button();
+            btnCancelCheck = new Button();
             cboCountry = new ComboBox();
             label3 = new Label();
             txtCustQueryFIeld = new TextBox();
@@ -84,10 +86,12 @@ namespace DigiERP.UserControl
             dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.DefaultCellStyle.Font = new Font("新細明體", 14.1428576F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            dataGridView1.Size = new Size(1305, 859);
+            dataGridView1.Size = new Size(1769, 859);
             dataGridView1.TabIndex = 3;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellClick;
+            dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
+            dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
             // 
             // COMPANY
             // 
@@ -197,9 +201,9 @@ namespace DigiERP.UserControl
             panel1.Controls.Add(dataGridView1);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1305, 978);
+            panel1.Size = new Size(1769, 978);
             panel1.TabIndex = 5;
             // 
             // label1
@@ -217,7 +221,7 @@ namespace DigiERP.UserControl
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(27, 13);
-            pictureBox1.Margin = new Padding(4, 4, 4, 4);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(80, 65);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -228,7 +232,7 @@ namespace DigiERP.UserControl
             // 
             button1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             button1.Location = new Point(343, 13);
-            button1.Margin = new Padding(4, 4, 4, 4);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
             button1.Size = new Size(161, 62);
             button1.TabIndex = 7;
@@ -239,6 +243,8 @@ namespace DigiERP.UserControl
             // panel2
             // 
             panel2.AutoScroll = true;
+            panel2.Controls.Add(button2);
+            panel2.Controls.Add(btnCancelCheck);
             panel2.Controls.Add(cboCountry);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(txtCustQueryFIeld);
@@ -248,16 +254,38 @@ namespace DigiERP.UserControl
             panel2.Controls.Add(label1);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
-            panel2.Margin = new Padding(5, 5, 5, 5);
+            panel2.Margin = new Padding(5);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1305, 77);
+            panel2.Size = new Size(1769, 77);
             panel2.TabIndex = 6;
+            // 
+            // button2
+            // 
+            button2.Font = new Font("Microsoft JhengHei UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            button2.Location = new Point(1416, 16);
+            button2.Name = "button2";
+            button2.Size = new Size(168, 40);
+            button2.TabIndex = 13;
+            button2.Text = "匯出勾選資料";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // btnCancelCheck
+            // 
+            btnCancelCheck.Font = new Font("Microsoft JhengHei UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            btnCancelCheck.Location = new Point(1272, 16);
+            btnCancelCheck.Name = "btnCancelCheck";
+            btnCancelCheck.Size = new Size(128, 40);
+            btnCancelCheck.TabIndex = 12;
+            btnCancelCheck.Text = "取消勾選";
+            btnCancelCheck.UseVisualStyleBackColor = true;
+            btnCancelCheck.Click += btnCancelCheck_Click;
             // 
             // cboCountry
             // 
             cboCountry.FormattingEnabled = true;
             cboCountry.Location = new Point(1049, 20);
-            cboCountry.Margin = new Padding(4, 4, 4, 4);
+            cboCountry.Margin = new Padding(4);
             cboCountry.Name = "cboCountry";
             cboCountry.Size = new Size(193, 27);
             cboCountry.TabIndex = 11;
@@ -278,7 +306,7 @@ namespace DigiERP.UserControl
             // txtCustQueryFIeld
             // 
             txtCustQueryFIeld.Location = new Point(679, 22);
-            txtCustQueryFIeld.Margin = new Padding(4, 4, 4, 4);
+            txtCustQueryFIeld.Margin = new Padding(4);
             txtCustQueryFIeld.Name = "txtCustQueryFIeld";
             txtCustQueryFIeld.Size = new Size(184, 27);
             txtCustQueryFIeld.TabIndex = 9;
@@ -303,7 +331,7 @@ namespace DigiERP.UserControl
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "CustomerControl";
-            Size = new Size(1305, 978);
+            Size = new Size(1769, 978);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -338,5 +366,7 @@ namespace DigiERP.UserControl
         private DataGridViewTextBoxColumn MEMO;
         private DataGridViewTextBoxColumn CREDATE;
         private DataGridViewTextBoxColumn 識別;
+        private Button btnCancelCheck;
+        private Button button2;
     }
 }
