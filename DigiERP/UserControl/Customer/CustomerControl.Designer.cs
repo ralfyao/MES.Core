@@ -36,7 +36,17 @@ namespace DigiERP.UserControl
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomerControl));
             dataGridView1 = new DataGridView();
+            panel1 = new Panel();
+            label1 = new Label();
+            pictureBox1 = new PictureBox();
+            button1 = new Button();
+            panel2 = new Panel();
+            cboCountry = new ComboBox();
+            label3 = new Label();
+            txtCustQueryFIeld = new TextBox();
+            label2 = new Label();
             COMPANY = new DataGridViewTextBoxColumn();
+            chk = new DataGridViewCheckBoxColumn();
             CONTACTPERSON = new DataGridViewTextBoxColumn();
             正航編號 = new DataGridViewTextBoxColumn();
             COUNTRY = new DataGridViewTextBoxColumn();
@@ -48,15 +58,6 @@ namespace DigiERP.UserControl
             MEMO = new DataGridViewTextBoxColumn();
             CREDATE = new DataGridViewTextBoxColumn();
             識別 = new DataGridViewTextBoxColumn();
-            panel1 = new Panel();
-            label1 = new Label();
-            pictureBox1 = new PictureBox();
-            button1 = new Button();
-            panel2 = new Panel();
-            cboCountry = new ComboBox();
-            label3 = new Label();
-            txtCustQueryFIeld = new TextBox();
-            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -68,7 +69,7 @@ namespace DigiERP.UserControl
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { COMPANY, CONTACTPERSON, 正航編號, COUNTRY, INDUSTRY, 中名稱分類, 英文, MACHINEISSUE, MA, MEMO, CREDATE, 識別 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { COMPANY, chk, CONTACTPERSON, 正航編號, COUNTRY, INDUSTRY, 中名稱分類, 英文, MACHINEISSUE, MA, MEMO, CREDATE, 識別 });
             dataGridView1.Dock = DockStyle.Bottom;
             dataGridView1.Location = new Point(0, 48);
             dataGridView1.Name = "dataGridView1";
@@ -85,102 +86,6 @@ namespace DigiERP.UserControl
             dataGridView1.Size = new Size(1311, 820);
             dataGridView1.TabIndex = 3;
             dataGridView1.CellDoubleClick += dataGridView1_CellClick;
-            // 
-            // COMPANY
-            // 
-            COMPANY.HeaderText = "客戶名稱";
-            COMPANY.MinimumWidth = 8;
-            COMPANY.Name = "COMPANY";
-            COMPANY.ReadOnly = true;
-            COMPANY.Width = 80;
-            // 
-            // CONTACTPERSON
-            // 
-            CONTACTPERSON.HeaderText = "主要聯絡人";
-            CONTACTPERSON.MinimumWidth = 8;
-            CONTACTPERSON.Name = "CONTACTPERSON";
-            CONTACTPERSON.ReadOnly = true;
-            CONTACTPERSON.Width = 92;
-            // 
-            // 正航編號
-            // 
-            正航編號.HeaderText = "客戶編號";
-            正航編號.MinimumWidth = 8;
-            正航編號.Name = "正航編號";
-            正航編號.ReadOnly = true;
-            正航編號.Width = 80;
-            // 
-            // COUNTRY
-            // 
-            COUNTRY.HeaderText = "國別區域";
-            COUNTRY.MinimumWidth = 8;
-            COUNTRY.Name = "COUNTRY";
-            COUNTRY.ReadOnly = true;
-            COUNTRY.Width = 80;
-            // 
-            // INDUSTRY
-            // 
-            INDUSTRY.HeaderText = "業別";
-            INDUSTRY.MinimumWidth = 8;
-            INDUSTRY.Name = "INDUSTRY";
-            INDUSTRY.ReadOnly = true;
-            INDUSTRY.Width = 56;
-            // 
-            // 中名稱分類
-            // 
-            中名稱分類.HeaderText = "所屬業別";
-            中名稱分類.MinimumWidth = 8;
-            中名稱分類.Name = "中名稱分類";
-            中名稱分類.ReadOnly = true;
-            中名稱分類.Width = 80;
-            // 
-            // 英文
-            // 
-            英文.HeaderText = "所屬業別(英文)";
-            英文.MinimumWidth = 8;
-            英文.Name = "英文";
-            英文.ReadOnly = true;
-            英文.Width = 112;
-            // 
-            // MACHINEISSUE
-            // 
-            MACHINEISSUE.HeaderText = "管理分類";
-            MACHINEISSUE.MinimumWidth = 8;
-            MACHINEISSUE.Name = "MACHINEISSUE";
-            MACHINEISSUE.ReadOnly = true;
-            MACHINEISSUE.Width = 80;
-            // 
-            // MA
-            // 
-            MA.HeaderText = "電郵";
-            MA.MinimumWidth = 8;
-            MA.Name = "MA";
-            MA.ReadOnly = true;
-            MA.Width = 56;
-            // 
-            // MEMO
-            // 
-            MEMO.HeaderText = "啟用日期";
-            MEMO.MinimumWidth = 8;
-            MEMO.Name = "MEMO";
-            MEMO.ReadOnly = true;
-            MEMO.Width = 80;
-            // 
-            // CREDATE
-            // 
-            CREDATE.HeaderText = "停用日期";
-            CREDATE.MinimumWidth = 8;
-            CREDATE.Name = "CREDATE";
-            CREDATE.ReadOnly = true;
-            CREDATE.Width = 80;
-            // 
-            // 識別
-            // 
-            識別.HeaderText = "識別";
-            識別.MinimumWidth = 6;
-            識別.Name = "識別";
-            識別.Visible = false;
-            識別.Width = 125;
             // 
             // panel1
             // 
@@ -277,6 +182,109 @@ namespace DigiERP.UserControl
             label2.TabIndex = 8;
             label2.Text = "客戶查詢";
             // 
+            // COMPANY
+            // 
+            COMPANY.HeaderText = "客戶名稱";
+            COMPANY.MinimumWidth = 8;
+            COMPANY.Name = "COMPANY";
+            COMPANY.ReadOnly = true;
+            COMPANY.Width = 80;
+            // 
+            // chk
+            // 
+            chk.HeaderText = "勾選";
+            chk.MinimumWidth = 6;
+            chk.Name = "chk";
+            chk.Width = 125;
+            // 
+            // CONTACTPERSON
+            // 
+            CONTACTPERSON.HeaderText = "主要聯絡人";
+            CONTACTPERSON.MinimumWidth = 8;
+            CONTACTPERSON.Name = "CONTACTPERSON";
+            CONTACTPERSON.ReadOnly = true;
+            CONTACTPERSON.Width = 92;
+            // 
+            // 正航編號
+            // 
+            正航編號.HeaderText = "客戶編號";
+            正航編號.MinimumWidth = 8;
+            正航編號.Name = "正航編號";
+            正航編號.ReadOnly = true;
+            正航編號.Width = 80;
+            // 
+            // COUNTRY
+            // 
+            COUNTRY.HeaderText = "國別區域";
+            COUNTRY.MinimumWidth = 8;
+            COUNTRY.Name = "COUNTRY";
+            COUNTRY.ReadOnly = true;
+            COUNTRY.Width = 80;
+            // 
+            // INDUSTRY
+            // 
+            INDUSTRY.HeaderText = "業別";
+            INDUSTRY.MinimumWidth = 8;
+            INDUSTRY.Name = "INDUSTRY";
+            INDUSTRY.ReadOnly = true;
+            INDUSTRY.Width = 56;
+            // 
+            // 中名稱分類
+            // 
+            中名稱分類.HeaderText = "所屬業別";
+            中名稱分類.MinimumWidth = 8;
+            中名稱分類.Name = "中名稱分類";
+            中名稱分類.ReadOnly = true;
+            中名稱分類.Width = 80;
+            // 
+            // 英文
+            // 
+            英文.HeaderText = "所屬業別(英文)";
+            英文.MinimumWidth = 8;
+            英文.Name = "英文";
+            英文.ReadOnly = true;
+            英文.Width = 112;
+            // 
+            // MACHINEISSUE
+            // 
+            MACHINEISSUE.HeaderText = "管理分類";
+            MACHINEISSUE.MinimumWidth = 8;
+            MACHINEISSUE.Name = "MACHINEISSUE";
+            MACHINEISSUE.ReadOnly = true;
+            MACHINEISSUE.Width = 80;
+            // 
+            // MA
+            // 
+            MA.HeaderText = "電郵";
+            MA.MinimumWidth = 8;
+            MA.Name = "MA";
+            MA.ReadOnly = true;
+            MA.Width = 56;
+            // 
+            // MEMO
+            // 
+            MEMO.HeaderText = "啟用日期";
+            MEMO.MinimumWidth = 8;
+            MEMO.Name = "MEMO";
+            MEMO.ReadOnly = true;
+            MEMO.Width = 80;
+            // 
+            // CREDATE
+            // 
+            CREDATE.HeaderText = "停用日期";
+            CREDATE.MinimumWidth = 8;
+            CREDATE.Name = "CREDATE";
+            CREDATE.ReadOnly = true;
+            CREDATE.Width = 80;
+            // 
+            // 識別
+            // 
+            識別.HeaderText = "識別";
+            識別.MinimumWidth = 6;
+            識別.Name = "識別";
+            識別.Visible = false;
+            識別.Width = 125;
+            // 
             // CustomerControl
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
@@ -303,7 +311,12 @@ namespace DigiERP.UserControl
         private Button button1;
         private Panel panel2;
         private Panel panel3;
+        private TextBox txtCustQueryFIeld;
+        private Label label2;
+        private ComboBox cboCountry;
+        private Label label3;
         private DataGridViewTextBoxColumn COMPANY;
+        private DataGridViewCheckBoxColumn chk;
         private DataGridViewTextBoxColumn CONTACTPERSON;
         private DataGridViewTextBoxColumn 正航編號;
         private DataGridViewTextBoxColumn COUNTRY;
@@ -315,9 +328,5 @@ namespace DigiERP.UserControl
         private DataGridViewTextBoxColumn MEMO;
         private DataGridViewTextBoxColumn CREDATE;
         private DataGridViewTextBoxColumn 識別;
-        private TextBox txtCustQueryFIeld;
-        private Label label2;
-        private ComboBox cboCountry;
-        private Label label3;
     }
 }

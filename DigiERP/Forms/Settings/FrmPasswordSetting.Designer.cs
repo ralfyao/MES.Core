@@ -121,13 +121,13 @@
             txtNewPasswordConfirm.Name = "txtNewPasswordConfirm";
             txtNewPasswordConfirm.PasswordChar = '●';
             txtNewPasswordConfirm.Size = new Size(125, 27);
-            txtNewPasswordConfirm.TabIndex = 7;
+            txtNewPasswordConfirm.TabIndex = 5;
             // 
             // FrmPasswordSetting
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(288, 312);
+            ClientSize = new Size(290, 320);
             Controls.Add(label4);
             Controls.Add(txtNewPasswordConfirm);
             Controls.Add(btnSubmit);

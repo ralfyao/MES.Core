@@ -64,6 +64,7 @@ namespace DigiERP.UserControl
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dataGridView1);
                     row.Cells[index++].Value = cust.COMPANY;//客戶名稱
+                    index++;
                     row.Cells[index++].Value = cust.CONTACTPERSON;//主要聯絡人
                     row.Cells[index++].Value = cust.正航編號;
                     row.Cells[index++].Value = cust.COUNTRY;

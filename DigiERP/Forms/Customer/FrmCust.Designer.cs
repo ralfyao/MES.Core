@@ -42,53 +42,101 @@ namespace DigiERP
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.Text = "CRM客戶關係";
-            this.Width = 1200;
-            this.Height = 700;
-            this.WindowState = FormWindowState.Maximized;
-
-            // Sidebar (always visible)
+            components = new System.ComponentModel.Container();
+            TreeNode treeNode1 = new TreeNode("客戶維護");
+            TreeNode treeNode2 = new TreeNode("詢問函件");
+            TreeNode treeNode3 = new TreeNode("客戶訴願");
+            TreeNode treeNode4 = new TreeNode("機台客服");
             sidebar = new Panel();
-            sidebar.Width = 25;
-            sidebar.Dock = DockStyle.Left;
+            splitContainer = new SplitContainer();
+            treeView = new TreeView();
+            tabControl = new TabControl();
+            animationTimer = new System.Windows.Forms.Timer(components);
+            ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
+            splitContainer.Panel1.SuspendLayout();
+            splitContainer.Panel2.SuspendLayout();
+            splitContainer.SuspendLayout();
+            SuspendLayout();
+            // 
+            // sidebar
+            // 
             sidebar.BackColor = Color.DarkGray;
             sidebar.Cursor = Cursors.Hand;
+            sidebar.Dock = DockStyle.Left;
+            sidebar.Location = new Point(0, 0);
+            sidebar.Name = "sidebar";
+            sidebar.Size = new Size(25, 669);
+            sidebar.TabIndex = 1;
             sidebar.Click += ToggleDrawer;
-
-            // SplitContainer
-            splitContainer = new SplitContainer();
+            // 
+            // splitContainer
+            // 
             splitContainer.Dock = DockStyle.Fill;
-            splitContainer.SplitterDistance = targetWidth;
-
-            // TreeView
-            treeView = new TreeView();
+            splitContainer.Location = new Point(25, 0);
+            splitContainer.Name = "splitContainer";
+            // 
+            // splitContainer.Panel1
+            // 
+            splitContainer.Panel1.Controls.Add(treeView);
+            // 
+            // splitContainer.Panel2
+            // 
+            splitContainer.Panel2.Controls.Add(tabControl);
+            splitContainer.Size = new Size(1161, 669);
+            splitContainer.SplitterDistance = 387;
+            splitContainer.TabIndex = 0;
+            // 
+            // treeView
+            // 
             treeView.Dock = DockStyle.Fill;
-            treeView.AfterSelect += TreeView_AfterSelect;
             treeView.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-
-            treeView.Nodes.Add(new TreeNode("客戶管理") { Name = "Customer" });
-            treeView.Nodes.Add(new TreeNode("訂單管理") { Name = "Order" });
-
-            // TabControl
-            tabControl = new TabControl();
+            treeView.Location = new Point(0, 0);
+            treeView.Name = "treeView";
+            treeNode1.Name = "Customer";
+            treeNode1.Text = "客戶維護";
+            treeNode2.Name = "RFQ";
+            treeNode2.Text = "詢問函件";
+            treeNode3.Name = "CAR";
+            treeNode3.Text = "客戶訴願";
+            treeNode4.Name = "CustService";
+            treeNode4.Text = "機台客服";
+            treeView.Nodes.AddRange(new TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4 });
+            treeView.Size = new Size(387, 669);
+            treeView.TabIndex = 0;
+            treeView.AfterSelect += TreeView_AfterSelect;
+            // 
+            // tabControl
+            // 
             tabControl.Dock = DockStyle.Fill;
             tabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControl.Location = new Point(0, 0);
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new Size(770, 669);
+            tabControl.TabIndex = 0;
             tabControl.DrawItem += TabControl_DrawItem;
             tabControl.MouseDown += TabControl_MouseDown;
-
-            // Animation Timer
-            animationTimer = new System.Windows.Forms.Timer();
+            // 
+            // animationTimer
+            // 
             animationTimer.Interval = 10;
             animationTimer.Tick += Timer_Tick;
-
-            splitContainer.Panel1.Controls.Add(treeView);
-            splitContainer.Panel2.Controls.Add(tabControl);
-
-            this.Controls.Add(splitContainer);
-            this.Controls.Add(sidebar);
+            // 
+            // FrmCust
+            // 
+            ClientSize = new Size(1186, 669);
+            Controls.Add(splitContainer);
+            Controls.Add(sidebar);
+            Name = "FrmCust";
+            Text = "CRM客戶關係";
+            WindowState = FormWindowState.Maximized;
+            splitContainer.Panel1.ResumeLayout(false);
+            splitContainer.Panel2.ResumeLayout(false);
             ToggleDrawer(null, null);
             ToggleDrawer(null, null);
+            ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
+            splitContainer.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         //private void InitializeComponent()
