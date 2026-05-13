@@ -2072,6 +2072,7 @@ namespace MES.MiddleWare.Modules
             List<C客戶詢問函> list = new List<C客戶詢問函>();
             RFQRepository rFQRepository = new RFQRepository();
             CustomerRepository customerRepository = new CustomerRepository();
+            HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
             list = rFQRepository.GetList(null, "", "");
             try
             {
@@ -2108,6 +2109,11 @@ namespace MES.MiddleWare.Modules
                         list = (from l in list where l.COUNTRY == (country.國別) select l)?.ToList();
                     }
                 }
+                foreach (var item in list)
+                {
+                    item.業務人員 = humanResourceRepository.GetListBy(new H員工清冊() { 卡號 = item.SALES }, "卡號").FirstOrDefault()?.姓名;
+                    //    item.預計再訪日 = get最近一筆預計再訪日(item.COMPANY);
+                }
             }
             catch (Exception ex)
             {
@@ -2116,6 +2122,21 @@ namespace MES.MiddleWare.Modules
             }
             return list;
         }
+
+        //private string? get最近一筆預計再訪日(string? cOMPANY)
+        //{
+        //    string 預計再訪日 = string.Empty;
+        //    try
+        //    {
+
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //    return 預計再訪日;
+        //}
 
         public List<string> getRfqJobClassification(string topn = "TOP 1000")
         {

@@ -32,5 +32,6 @@ namespace MES.Core.Model
         public string? RANKING { get; set; }
         public string? AGENT { get; set; }
         public string? 業務人員 { get; set; }
+        public string? 預計再訪日 { get; set; }
     }
 }

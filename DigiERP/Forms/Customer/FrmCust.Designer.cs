@@ -1,6 +1,7 @@
 ﻿using DigiERP.UserControl;
 using DigiERP.UserControl.Customer.RFQ;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DigiERP
 {
@@ -11,7 +12,7 @@ namespace DigiERP
         /// </summary>
         private System.ComponentModel.IContainer components = null;
         private SplitContainer splitContainer;
-        private TreeView treeView;
+        private System.Windows.Forms.TreeView treeView;
         private TabControl tabControl;
         private Panel sidebar;
         private System.Windows.Forms.Timer animationTimer;
@@ -50,7 +51,7 @@ namespace DigiERP
             TreeNode treeNode4 = new TreeNode("機台客服");
             sidebar = new Panel();
             splitContainer = new SplitContainer();
-            treeView = new TreeView();
+            treeView = new System.Windows.Forms.TreeView();
             tabControl = new TabControl();
             animationTimer = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
@@ -104,6 +105,7 @@ namespace DigiERP
             treeView.Nodes.AddRange(new TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4 });
             treeView.Size = new Size(387, 669);
             treeView.TabIndex = 0;
+            //treeView.SelectedNode = null;
             treeView.AfterSelect += TreeView_AfterSelect;
             // 
             // tabControl
@@ -120,7 +122,7 @@ namespace DigiERP
             // 
             // animationTimer
             // 
-            animationTimer.Interval = 10;
+            animationTimer.Interval = 5;
             animationTimer.Tick += Timer_Tick;
             // 
             // FrmCust
@@ -270,41 +272,7 @@ namespace DigiERP
             }
         }
 
-        private void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            string key = e.Node.Name;
-
-            foreach (TabPage page in tabControl.TabPages)
-            {
-                if (page.Name == key)
-                {
-                    tabControl.SelectedTab = page;
-                    return;
-                }
-            }
-
-            TabPage tab = new TabPage(e.Node.Text);
-            tab.Name = key;
-
-            Control ctrl = key switch
-            {
-                "Customer" => new CustomerControl() { Width = tab.Width},
-                "Order" => new OrderControl() { Width = tab.Width },
-                "RFQ" => new RFQControl() {  Width = tab.Width },
-                _ => null
-            };;
-
-            if (ctrl != null)
-            {
-                ctrl.Dock = DockStyle.Fill;
-                tab.Controls.Add(ctrl);
-            }
-
-            tabControl.TabPages.Add(tab);
-            tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new Size(120, 30);
-        }
+        
 
         private void TabControl_DrawItem(object sender, DrawItemEventArgs e)
         {

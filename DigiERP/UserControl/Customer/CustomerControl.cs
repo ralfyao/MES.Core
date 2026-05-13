@@ -1,5 +1,6 @@
 ﻿using DigiERP.Common;
 using DigiERP.Forms.Customer;
+using DigiERP.Util;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
@@ -32,25 +33,7 @@ namespace DigiERP.UserControl
 
         private void initCountrySelect()
         {
-            CustomerController customerController = new CustomerController();
-            CommonRep<C客戶國別> commonRep = customerController.getCountryList();
-            var list = new List<object>();
-            list.Add(new
-            {
-                國別 = string.Empty,
-                CODE = string.Empty,
-            });
-            foreach (var country in commonRep.resultList)
-            {
-                list.Add(new
-                {
-                    國別 = country.國別,
-                    CODE = country.CODE,
-                });
-            }
-            cboCountry.DataSource = list;
-            cboCountry.DisplayMember = "國別";
-            cboCountry.ValueMember = "CODE";
+            ControlUtil.initCountrySelect(cboCountry);
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

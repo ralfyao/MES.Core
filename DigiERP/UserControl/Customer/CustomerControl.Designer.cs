@@ -70,7 +70,7 @@ namespace DigiERP.UserControl
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { COMPANY, chk, CONTACTPERSON, 正航編號, COUNTRY, INDUSTRY, 中名稱分類, 英文, MACHINEISSUE, MA, MEMO, CREDATE, 識別 });
             dataGridView1.Dock = DockStyle.Bottom;
@@ -99,14 +99,12 @@ namespace DigiERP.UserControl
             COMPANY.MinimumWidth = 8;
             COMPANY.Name = "COMPANY";
             COMPANY.ReadOnly = true;
-            COMPANY.Width = 98;
             // 
             // chk
             // 
             chk.HeaderText = "勾選";
             chk.MinimumWidth = 6;
             chk.Name = "chk";
-            chk.Width = 45;
             // 
             // CONTACTPERSON
             // 
@@ -114,7 +112,6 @@ namespace DigiERP.UserControl
             CONTACTPERSON.MinimumWidth = 8;
             CONTACTPERSON.Name = "CONTACTPERSON";
             CONTACTPERSON.ReadOnly = true;
-            CONTACTPERSON.Width = 113;
             // 
             // 正航編號
             // 
@@ -122,7 +119,6 @@ namespace DigiERP.UserControl
             正航編號.MinimumWidth = 8;
             正航編號.Name = "正航編號";
             正航編號.ReadOnly = true;
-            正航編號.Width = 98;
             // 
             // COUNTRY
             // 
@@ -130,7 +126,6 @@ namespace DigiERP.UserControl
             COUNTRY.MinimumWidth = 8;
             COUNTRY.Name = "COUNTRY";
             COUNTRY.ReadOnly = true;
-            COUNTRY.Width = 98;
             // 
             // INDUSTRY
             // 
@@ -138,7 +133,6 @@ namespace DigiERP.UserControl
             INDUSTRY.MinimumWidth = 8;
             INDUSTRY.Name = "INDUSTRY";
             INDUSTRY.ReadOnly = true;
-            INDUSTRY.Width = 68;
             // 
             // 中名稱分類
             // 
@@ -146,7 +140,6 @@ namespace DigiERP.UserControl
             中名稱分類.MinimumWidth = 8;
             中名稱分類.Name = "中名稱分類";
             中名稱分類.ReadOnly = true;
-            中名稱分類.Width = 98;
             // 
             // 英文
             // 
@@ -154,7 +147,6 @@ namespace DigiERP.UserControl
             英文.MinimumWidth = 8;
             英文.Name = "英文";
             英文.ReadOnly = true;
-            英文.Width = 138;
             // 
             // MACHINEISSUE
             // 
@@ -162,7 +154,6 @@ namespace DigiERP.UserControl
             MACHINEISSUE.MinimumWidth = 8;
             MACHINEISSUE.Name = "MACHINEISSUE";
             MACHINEISSUE.ReadOnly = true;
-            MACHINEISSUE.Width = 98;
             // 
             // MA
             // 
@@ -170,7 +161,6 @@ namespace DigiERP.UserControl
             MA.MinimumWidth = 8;
             MA.Name = "MA";
             MA.ReadOnly = true;
-            MA.Width = 68;
             // 
             // MEMO
             // 
@@ -178,7 +168,6 @@ namespace DigiERP.UserControl
             MEMO.MinimumWidth = 8;
             MEMO.Name = "MEMO";
             MEMO.ReadOnly = true;
-            MEMO.Width = 98;
             // 
             // CREDATE
             // 
@@ -186,7 +175,6 @@ namespace DigiERP.UserControl
             CREDATE.MinimumWidth = 8;
             CREDATE.Name = "CREDATE";
             CREDATE.ReadOnly = true;
-            CREDATE.Width = 98;
             // 
             // 識別
             // 
@@ -194,7 +182,6 @@ namespace DigiERP.UserControl
             識別.MinimumWidth = 6;
             識別.Name = "識別";
             識別.Visible = false;
-            識別.Width = 125;
             // 
             // panel1
             // 
