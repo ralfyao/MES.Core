@@ -51,7 +51,10 @@ namespace DigiERP.UserControl
             cboCountry.DisplayMember = "國別";
             cboCountry.ValueMember = "CODE";
         }
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
+        }
         private void initGridView()
         {
             CustomerController customerController = new CustomerController();
