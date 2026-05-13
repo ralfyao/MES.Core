@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            cboCountry = new ComboBox();
+            label3 = new Label();
             txtCustomerQuery = new DigiERP.Common.CommonTextBox();
             label2 = new Label();
             label1 = new Label();
@@ -45,8 +47,6 @@
             成交機率 = new DataGridViewTextBoxColumn();
             預計再訪日 = new DataGridViewTextBoxColumn();
             業務人員 = new DataGridViewTextBoxColumn();
-            cboCountry = new ComboBox();
-            label3 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
@@ -63,15 +63,36 @@
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(2, 2, 2, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1252, 88);
+            panel1.Size = new Size(974, 69);
             panel1.TabIndex = 0;
+            // 
+            // cboCountry
+            // 
+            cboCountry.FormattingEnabled = true;
+            cboCountry.Location = new Point(616, 19);
+            cboCountry.Name = "cboCountry";
+            cboCountry.Size = new Size(151, 23);
+            cboCountry.TabIndex = 13;
+            cboCountry.SelectedIndexChanged += cboCountry_SelectedIndexChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label3.Location = new Point(496, 19);
+            label3.Name = "label3";
+            label3.Size = new Size(86, 24);
+            label3.TabIndex = 12;
+            label3.Text = "國別查詢";
             // 
             // txtCustomerQuery
             // 
-            txtCustomerQuery.Location = new Point(496, 30);
+            txtCustomerQuery.Location = new Point(386, 24);
+            txtCustomerQuery.Margin = new Padding(2, 2, 2, 2);
             txtCustomerQuery.Name = "txtCustomerQuery";
-            txtCustomerQuery.Size = new Size(125, 27);
+            txtCustomerQuery.Size = new Size(98, 23);
             txtCustomerQuery.TabIndex = 3;
             txtCustomerQuery.Leave += txtCustomerQuery_Leave;
             // 
@@ -79,9 +100,10 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label2.Location = new Point(384, 29);
+            label2.Location = new Point(299, 23);
+            label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(105, 29);
+            label2.Size = new Size(86, 24);
             label2.TabIndex = 2;
             label2.Text = "客戶查詢";
             // 
@@ -89,18 +111,20 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label1.Location = new Point(88, 24);
+            label1.Location = new Point(68, 19);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(287, 38);
+            label1.Size = new Size(229, 30);
             label1.TabIndex = 1;
             label1.Text = "詢問函聯絡追蹤管理";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.Require;
-            pictureBox1.Location = new Point(16, 16);
+            pictureBox1.Location = new Point(12, 13);
+            pictureBox1.Margin = new Padding(2, 2, 2, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(64, 62);
+            pictureBox1.Size = new Size(50, 49);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -109,9 +133,10 @@
             // 
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 88);
+            panel2.Location = new Point(0, 69);
+            panel2.Margin = new Padding(2, 2, 2, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1252, 520);
+            panel2.Size = new Size(974, 411);
             panel2.TabIndex = 1;
             // 
             // dataGridView1
@@ -123,9 +148,10 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { 詢問單號, 詢問單日期, 客戶名稱, 聯絡人, 國別, 詢單業別, 追蹤狀況, 成交機率, 預計再訪日, 業務人員 });
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Margin = new Padding(2, 2, 2, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1252, 520);
+            dataGridView1.Size = new Size(974, 411);
             dataGridView1.TabIndex = 0;
             // 
             // 詢問單號
@@ -198,35 +224,16 @@
             業務人員.Name = "業務人員";
             業務人員.ReadOnly = true;
             // 
-            // cboCountry
-            // 
-            cboCountry.FormattingEnabled = true;
-            cboCountry.Location = new Point(792, 24);
-            cboCountry.Margin = new Padding(4);
-            cboCountry.Name = "cboCountry";
-            cboCountry.Size = new Size(193, 27);
-            cboCountry.TabIndex = 13;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label3.Location = new Point(638, 24);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(109, 30);
-            label3.TabIndex = 12;
-            label3.Text = "國別查詢";
-            // 
             // RFQControl
             // 
-            AutoScaleDimensions = new SizeF(9F, 19F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Wheat;
             Controls.Add(panel2);
             Controls.Add(panel1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "RFQControl";
-            Size = new Size(1252, 608);
+            Size = new Size(974, 480);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

@@ -37,7 +37,7 @@ namespace DigiERP.UserControl.Customer.RFQ
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
             //throw new NotImplementedException();
         }
 
@@ -80,6 +80,34 @@ namespace DigiERP.UserControl.Customer.RFQ
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void cboCountry_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dynamic selected = cboCountry.SelectedItem;
+            if (string.IsNullOrEmpty(selected.國別))
+            {
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Visible = true;
+                }
+                return;
+            }
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (selected != null && !string.IsNullOrEmpty(selected.國別))
+                {
+                    if (!string.IsNullOrEmpty(row.Cells[4].Value?.ToString().Trim()) 
+                        && row.Cells[4].Value?.ToString().Trim().IndexOf(selected.國別) != -1)
+                    {
+                        row.Visible = true;
+                    }
+                    else
+                    {
+                        row.Visible = false;
+                    }
+                }
             }
         }
     }
