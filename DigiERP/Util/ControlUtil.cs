@@ -1,4 +1,6 @@
-﻿using MES.Core.Model;
+﻿using DigiERP.Common;
+using DigiERP.UserControl.Common;
+using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
 using System;
@@ -11,6 +13,10 @@ namespace DigiERP.Util
 {
     public class ControlUtil
     {
+        /// <summary>
+        /// 填充國別下拉選單的資料
+        /// </summary>
+        /// <param name="cboCountry"></param>
         public static void initCountrySelect(ComboBox cboCountry)
         {
             CustomerController customerController = new CustomerController();
@@ -32,6 +38,27 @@ namespace DigiERP.Util
             cboCountry.DataSource = list;
             cboCountry.DisplayMember = "國別";
             cboCountry.ValueMember = "CODE";
+        }
+
+        public static void initAgentList(ComboBox cboAgentList)
+        {
+            List<C轉介代理> agentList = new CustomerController().GetGetAgentOptionList().resultList;
+            cboAgentList.DataSource = agentList;
+            cboAgentList.ValueMember = "AGENT";
+            cboAgentList.DisplayMember = "AGENT";
+        }
+
+        internal static void initIndustryCodeList(IndustryCodeSelect industryCodeSelect1)
+        {
+            List<C產業代碼> industryCodeList = new CustomerController().getIndustryCodeLis().resultList;
+            industryCodeSelect1.SetDataSource(industryCodeList);
+            //throw new NotImplementedException();
+        }
+
+        internal static void initStatusSelect(RFQStatusSelect cboStatusSelect)
+        {
+            List<C客戶動態> cs = new CustomerController().GetCustStatusList().resultList;
+            cboStatusSelect.SetDataSource(cs);
         }
     }
 }

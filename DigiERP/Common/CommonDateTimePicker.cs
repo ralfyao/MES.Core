@@ -1,5 +1,4 @@
-﻿using MES.Core.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DigiERP.Common
 {
-    public class CommonComboBox : ComboBox
+    public class CommonDateTimePicker : DateTimePicker
     {
         private Color backColor;
         protected override void OnEnter(EventArgs e)

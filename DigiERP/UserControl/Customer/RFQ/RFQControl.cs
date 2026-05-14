@@ -1,4 +1,5 @@
-﻿using DigiERP.Util;
+﻿using DigiERP.Forms.Customer;
+using DigiERP.Util;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
@@ -37,7 +38,7 @@ namespace DigiERP.UserControl.Customer.RFQ
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
             //throw new NotImplementedException();
         }
 
@@ -73,13 +74,142 @@ namespace DigiERP.UserControl.Customer.RFQ
                 }
                 else
                 {
-                    CommonRep<C客戶詢問函> commonRep = customerController.QuerySalesRecordList(new MES.MiddleWare.Modules.QuerySalesRecordListParam() { custName = txtCustomerQuery.Text.Trim() });
-                    inflateGrdiView(commonRep);
+                    queryRFQList();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 避免點到標題列
+            if (e.RowIndex < 0)
+                return;
+
+            var dataGridView = (DataGridView)(from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+            if (dataGridView != null)
+            {
+                var row1 = dataGridView.Rows[e.RowIndex];
+
+                C客戶詢問函 data = new C客戶詢問函();
+                //int index = row1.Cells.Count - 1;
+                data.RFQNO = row1.Cells[0].Value.ToString();
+                data = new CustomerController().GetRfq(data.RFQNO).result;
+
+                var customerMaintainControl = (RFQMaintainControl)(from c in panel1.Controls.Cast<Control>() where c.GetType() == typeof(RFQMaintainControl) select c).FirstOrDefault();
+                if (customerMaintainControl == null)
+                {
+                    customerMaintainControl = new RFQMaintainControl();
+                    customerMaintainControl.Dock = DockStyle.Fill;
+                    panel2.Controls.Add(customerMaintainControl);
+                }
+                var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
+                if (lblMode != null)
+                {
+                    lblMode.Text = "修改";
+                }
+                ((RFQMaintainControl)customerMaintainControl).form = data;
+                ((RFQMaintainControl)customerMaintainControl).initForm();
+                customerMaintainControl.Visible = true;
+                if (dataGridView != null)
+                {
+                    dataGridView.Visible = false;
+                }
+            }
+        }
+        FormIndustryCodeSelect popup;
+        private void cboIndustry_Enter(object sender, EventArgs e)
+        {
+            popup = new FormIndustryCodeSelect();
+            //{
+            popup.FormBorderStyle = FormBorderStyle.None;
+            popup.StartPosition = FormStartPosition.Manual;
+
+            // 定位在 ComboBox 下方
+            var location = cboIndustry.PointToScreen(Point.Empty);
+            popup.Location = new Point(location.X, location.Y - popup.Height);
+            popup.Size = new Size(popup.Width, 600);
+            if (popup.ShowDialog() == DialogResult.OK)
+            {
+                cboIndustry.SelectedValue = popup.SelectedCode;
+                cboIndustry.SelectedText = popup.SelectedCode;
+            }
+            //}
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtCustomerQuery.Text = string.Empty;
+            cboCountry.SelectedItem = new { CODE = "", 國別 = "" };
+            cboIndustry.Text = "";
+            queryRFQList();
+        }
+
+        public void queryRFQList(bool overOneYear = false)
+        {
+            CommonRep<C客戶詢問函> commonRep = customerController.QuerySalesRecordList(new MES.MiddleWare.Modules.QuerySalesRecordListParam()
+            {
+                custName = txtCustomerQuery.Text.Trim(),
+                country = ((dynamic)cboCountry.SelectedItem).CODE,
+                industrycode = cboIndustry.Text,
+            });
+            if (overOneYear)
+            {
+                commonRep.resultList = commonRep.resultList.Where(x => new TimeSpan(DateTime.Parse(x.RFQDATE).Ticks - DateTime.Now.Ticks).Days < -365).ToList();
+            }
+            inflateGrdiView(commonRep);
+        }
+
+        private void cboCountry_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            queryRFQList();
+        }
+
+        private void cboIndustry_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            queryRFQList();
+        }
+
+        private void cboIndustry_Leave(object sender, EventArgs e)
+        {
+            popup.Dispose();
+            popup.Close();
+        }
+
+        private void cboIndustry_TextChanged(object sender, EventArgs e)
+        {
+            queryRFQList();
+        }
+
+        private void btnOverOneYear_Click(object sender, EventArgs e)
+        {
+            queryRFQList(true);
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            var customerMaintainControl = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(RFQMaintainControl) select c).FirstOrDefault();
+            var dataGridView = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+            if (customerMaintainControl == null)
+            {
+                customerMaintainControl = new RFQMaintainControl();
+                customerMaintainControl.Dock = DockStyle.Fill;
+                panel2.Controls.Add(customerMaintainControl);
+            }
+            var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
+            if (lblMode != null)
+            {
+                lblMode.Text = "新增";
+            }
+            ((RFQMaintainControl)customerMaintainControl).form = new C客戶詢問函();
+            ((RFQMaintainControl)customerMaintainControl).initForm();
+            customerMaintainControl.Visible = true;
+            if (dataGridView != null)
+            {
+                dataGridView.Visible = false;
             }
         }
     }

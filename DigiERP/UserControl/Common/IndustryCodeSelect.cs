@@ -1,4 +1,6 @@
 ﻿using DigiERP.Forms.Customer;
+using DigiERP.Util;
+using MES.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +21,11 @@ namespace DigiERP.UserControl.Common
             InitializeComponent();
         }
 
+        public void SetDataSource(List<C產業代碼> datasource)
+        {
+            this.cboIndustry.DataSource = datasource;
+        }
+
         private void cboIndustry_Click(object sender, EventArgs e)
         {
             popup = new FormIndustryCodeSelect();
@@ -30,30 +37,10 @@ namespace DigiERP.UserControl.Common
             var location = cboIndustry.PointToScreen(Point.Empty);
             popup.Location = new Point(location.X, location.Y - popup.Height);
 
-            // 建立 DataGridView
-            //var grid = new DataGridView();
-            //grid.Dock = DockStyle.Fill;
-            //grid.ReadOnly = true;
-            //grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            //grid.DataSource = new List<dynamic>(); // 你的資料
-
-            //// 點選事件
-            //grid.CellClick += (s, ev) =>
-            //{
-            //    var row = grid.Rows[ev.RowIndex];
-            //    cboIndustry.Text = row.Cells["國別"].Value.ToString();
-            //    cboIndustry.Tag = row.Cells["CODE"].Value; // 存值
-
-            //    popup.Close();
-            //};
-
-            //popup.Controls.Add(grid);
             popup.Size = new Size(popup.Width, 600);
             if (popup.ShowDialog() == DialogResult.OK)
             {
-                cboIndustry.SelectedValue = popup.SelectedCode;
-                cboIndustry.SelectedText = popup.SelectedCode;
+                cboIndustry.Text = popup.SelectedCode;
                 lblIndustryCodeDesc.Text = popup.SelectedName; // 存值（推薦）
             }
             //}
@@ -72,13 +59,27 @@ namespace DigiERP.UserControl.Common
         {
             //cboIndustry.SelectedValue = industry;
             if (cboIndustry.DataSource == null)
-                return;
+            {
+                ControlUtil.initIndustryCodeList(this);
+            }
+                //return;
+            cboIndustry.ValueMember = "中分類碼";
             foreach (var aItem in cboIndustry.DataSource as IEnumerable<dynamic>)
             {
-                if (aItem.中分類碼 == industry)
+                if (aItem.中分類碼?.Trim() == industry?.Trim())
                 {
-                    cboIndustry.SelectedItem = aItem;
+                    cboIndustry.SelectedValue = aItem.中分類碼;
+                    lblIndustryCodeDesc.Text = aItem.中分類名稱;
                 }
+            }
+        }
+
+        public void SetText(string text)
+        {
+            cboIndustry.Text = text;
+            if (string.IsNullOrEmpty(text))
+            {
+                lblIndustryCodeDesc.Text = text;
             }
         }
 

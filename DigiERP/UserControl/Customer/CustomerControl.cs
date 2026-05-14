@@ -151,7 +151,7 @@ namespace DigiERP.UserControl
                 dynamic selected = cboCountry.SelectedItem;
                 if (selected != null && !string.IsNullOrEmpty(selected.國別))
                 {
-                    if (row.Cells[3].Value?.ToString().Trim().IndexOf(selected.國別) != -1)
+                    if (row.Cells[4].Value?.ToString().Trim().IndexOf(selected.國別) != -1)
                     {
                         row.Visible = true;
                     }
@@ -217,7 +217,11 @@ namespace DigiERP.UserControl
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
-
+        /// <summary>
+        /// 匯出excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             if (checkedIndexes.Count == 0)

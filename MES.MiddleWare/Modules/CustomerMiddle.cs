@@ -2103,7 +2103,7 @@ namespace MES.MiddleWare.Modules
 
                 if (!string.IsNullOrEmpty(param.country))
                 {
-                    C客戶國別 country = (from l in customerRepository.GetCountryList() where l.CODE.Trim() == param.country select l).ToList().FirstOrDefault();
+                    C客戶國別 country = (from l in customerRepository.GetCountryList() where l.CODE.Trim() == param.country.Trim() select l).ToList().FirstOrDefault();
                     if (country != null)
                     {
                         list = (from l in list where l.COUNTRY == (country.國別) select l)?.ToList();
