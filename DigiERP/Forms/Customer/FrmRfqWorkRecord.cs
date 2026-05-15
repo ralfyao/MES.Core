@@ -100,7 +100,7 @@ namespace DigiERP.Forms.Customer
                 a.進度 = float.Parse(successPropability.Value.ToString());
                 a.模組編碼 = txtModuleCode.Text;
                 a.模組名稱 = txtModuleName.Text;
-                a.任務分類 = cboMissionCiass.SelectedValue.ToString();
+                a.任務分類 = cboMissionCiass.SelectedValue?.ToString();
                 a.成效點數 = float.Parse(points.Value.ToString());
                 a.工作簡述 = txtComments.Text;
                 a.預計再訪 = dtRevisit.Value.ToString();
