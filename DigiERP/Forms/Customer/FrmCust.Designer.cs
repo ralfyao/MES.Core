@@ -47,8 +47,9 @@ namespace DigiERP
             components = new System.ComponentModel.Container();
             TreeNode treeNode1 = new TreeNode("客戶維護");
             TreeNode treeNode2 = new TreeNode("詢問函件");
-            TreeNode treeNode3 = new TreeNode("客戶訴願");
-            TreeNode treeNode4 = new TreeNode("機台客服");
+            TreeNode treeNode3 = new TreeNode("產品報價");
+            TreeNode treeNode4 = new TreeNode("客戶訴願");
+            TreeNode treeNode5 = new TreeNode("機台客服");
             sidebar = new Panel();
             splitContainer = new SplitContainer();
             treeView = new System.Windows.Forms.TreeView();
@@ -98,14 +99,15 @@ namespace DigiERP
             treeNode1.Text = "客戶維護";
             treeNode2.Name = "RFQ";
             treeNode2.Text = "詢問函件";
-            treeNode3.Name = "CAR";
-            treeNode3.Text = "客戶訴願";
-            treeNode4.Name = "CustService";
-            treeNode4.Text = "機台客服";
-            treeView.Nodes.AddRange(new TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4 });
+            treeNode3.Name = "Quotation";
+            treeNode3.Text = "產品報價";
+            treeNode4.Name = "CAR";
+            treeNode4.Text = "客戶訴願";
+            treeNode5.Name = "CustService";
+            treeNode5.Text = "機台客服";
+            treeView.Nodes.AddRange(new TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4, treeNode5 });
             treeView.Size = new Size(387, 669);
             treeView.TabIndex = 0;
-            //treeView.SelectedNode = null;
             treeView.AfterSelect += TreeView_AfterSelect;
             // 
             // tabControl
