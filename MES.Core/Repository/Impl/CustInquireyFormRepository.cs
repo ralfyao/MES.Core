@@ -14,14 +14,14 @@ namespace MES.Core.Repository.Impl
     {
         public override int Insert(C客戶詢問函 t)
         {
-            try
-            {
-                t.RFQDATE = DateTime.ParseExact(t.RFQDATE.Replace("/", "-"), "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
-            }
-            catch
-            {
-                t.RFQDATE = DateTime.ParseExact(t.RFQDATE.Replace("/", "-"), "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd");
-            }
+            //try
+            //{
+            //    t.RFQDATE = DateTime.ParseExact(t.RFQDATE.Replace("/", "-"), "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+            //}
+            //catch
+            //{
+            //    t.RFQDATE = DateTime.ParseExact(t.RFQDATE.Replace("/", "-"), "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd");
+            //}
             int retCode = 0;
             string sql = $@"INSERT INTO dbo.C客戶詢問函
                                 (

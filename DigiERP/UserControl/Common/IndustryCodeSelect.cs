@@ -40,6 +40,7 @@ namespace DigiERP.UserControl.Common
             popup.Size = new Size(popup.Width, 600);
             if (popup.ShowDialog() == DialogResult.OK)
             {
+                
                 cboIndustry.Text = popup.SelectedCode;
                 lblIndustryCodeDesc.Text = popup.SelectedName; // 存值（推薦）
             }
@@ -90,7 +91,7 @@ namespace DigiERP.UserControl.Common
 
         internal string? GetIndustryCode()
         {
-            return cboIndustry.SelectedValue?.ToString();
+            return cboIndustry.Text?.ToString();
         }
     }
 }

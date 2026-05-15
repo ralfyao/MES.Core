@@ -1,8 +1,10 @@
 ﻿using DigiERP.Common;
+using DigiERP.Forms.Customer;
 using DigiERP.UserControl.Common;
 using DigiERP.Util;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
+using MES.WebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,7 +29,7 @@ namespace DigiERP.UserControl.Customer.RFQ
 
         public C客戶詢問函 form { get; set; }
         public List<C報價單> quotationList { get; set; }
-        public List<C報價明細> quotationDetail {  get; set; }
+        public List<C報價明細> quotationDetail { get; set; }
 
         private C客戶設定 _cust { get; set; }
         CustomerController customerController = new CustomerController();
@@ -99,6 +101,7 @@ namespace DigiERP.UserControl.Customer.RFQ
 
         public void GetUserInput()
         {
+            form.COMPANY = txtCompany.Text;
             form.RFQDATE = dtRfqDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
             form.RFQNO = txtRFQNO.Text;
             form.COMMISSION = txtCompany.Text;
@@ -106,6 +109,7 @@ namespace DigiERP.UserControl.Customer.RFQ
             form.CONTACT = txtContact.Text;
             form.POSITION = txtPosition.Text;
             form.COUNTRY = txtCountry.Text;
+            form.MA = txtMa.Text;
             form.TEL = txtTel.Text;
             form.EMAIL = txtEmail.Text;
             form.ENDUSER = txtEndUser.Text;
@@ -114,7 +118,7 @@ namespace DigiERP.UserControl.Customer.RFQ
             form.SOURCE = txtSource.Text;
             form.RANKING = cboSuccessRate.Text;
             form.MACHINE = txtMachine.Text;
-            form.STATUS = cboSuccessRate.Text;
+            form.STATUS = rfqStatusSelect1.GetStatusCode();
             form.DESCRIPTION = txtComment.Text;
         }
 
@@ -176,12 +180,81 @@ namespace DigiERP.UserControl.Customer.RFQ
         {
             txtCountry.Text = _cust?.COUNTRY;
             txtMa.Text = _cust?.MA;
-            txtSource.Text = _cust.SOURCE;
+            txtSource.Text = _cust?.SOURCE;
         }
 
         private void btnModify_Click(object sender, EventArgs e)
         {
             disableControls(false);
+            btnSubmit.Text = "確認修改";
+        }
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            if (customerController == null)
+            {
+                customerController = new CustomerController();
+            }
+            if (MessageBox.Show($"確認{lblMode.Text}?", "確認", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                GetUserInput();
+                CommonRep<C客戶詢問函> commonRep = null;
+                if (lblMode.Text == "新增")
+                    commonRep = customerController.SaveRfq(form);
+                if (lblMode.Text == "修改")
+                    commonRep = customerController.UpdateRfq(form);
+                if (!string.IsNullOrEmpty(commonRep.ErrorMessage))
+                {
+                    MessageBox.Show(commonRep.ErrorMessage);
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("執行成功");
+                    var dataGridView = (from c in Parent.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+                    if (dataGridView != null)
+                    {
+                        dataGridView.Visible = true;
+                    }
+                    //this.Dispose();
+                    this.Visible = false;
+                    return;
+                }
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確認刪除?", "確認", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                var commonRep = customerController.DeleteRfq(form.RFQNO);
+                if (!string.IsNullOrEmpty(commonRep.ErrorMessage))
+                {
+                    MessageBox.Show(commonRep.ErrorMessage);
+                }
+                else
+                {
+                    MessageBox.Show("執行成功");
+                    var dataGridView = (from c in Parent.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+                    if (dataGridView != null)
+                    {
+                        dataGridView.Visible = true;
+                    }
+                    //this.Dispose();
+                    this.Visible = false;
+                    return;
+                }
+            }
+        }
+
+        private void btnWorkRecord_Click(object sender, EventArgs e)
+        {
+            FrmRfqWorkRecord frmRfqWorkRecord = new FrmRfqWorkRecord();
+            frmRfqWorkRecord.SetPosition("業務");
+            frmRfqWorkRecord.SetProjSerial(txtRFQNO.Text);
+            frmRfqWorkRecord.SetModuleCode(txtAlias.Text);
+            frmRfqWorkRecord.SetModuleName(txtCompany.Text);
+            frmRfqWorkRecord.ShowDialog();
         }
     }
 }

@@ -20,6 +20,11 @@ namespace DigiERP.UserControl.Common
             lblStatusText.Text = string.Empty;
         }
 
+        internal string? GetStatusCode()
+        {
+            return cboStatusSelect.Text;
+        }
+
         internal void SetDataSource(List<C客戶動態> cs)
         {
             cboStatusSelect.DataSource = cs;

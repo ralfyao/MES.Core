@@ -196,6 +196,7 @@ namespace DigiERP.UserControl.Customer.RFQ
             btnSubmit.TabIndex = 160;
             btnSubmit.Text = "送出";
             btnSubmit.UseVisualStyleBackColor = false;
+            btnSubmit.Click += btnSubmit_Click;
             // 
             // txtCompany
             // 
@@ -517,6 +518,7 @@ namespace DigiERP.UserControl.Customer.RFQ
             btnDelete.TabIndex = 196;
             btnDelete.Text = "刪除";
             btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
             // label21
             // 
@@ -673,6 +675,7 @@ namespace DigiERP.UserControl.Customer.RFQ
             btnWorkRecord.TabIndex = 203;
             btnWorkRecord.Text = "撰寫詢問追蹤函紀錄";
             btnWorkRecord.UseVisualStyleBackColor = false;
+            btnWorkRecord.Click += btnWorkRecord_Click;
             // 
             // btnQuotation
             // 

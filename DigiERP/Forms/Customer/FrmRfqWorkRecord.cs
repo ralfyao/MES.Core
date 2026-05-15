@@ -36,7 +36,27 @@ namespace DigiERP.Forms.Customer
             CommonRep<A成本單位> commonRep = procurementController.AllDepartmentList();
             List<string> positionList = (from c in commonRep.resultList select c.職務).ToList();
             cboPosition.DataSource = positionList;
-            cboPosition.SelectedItem = "業務";
+        }
+
+        public void SetProjSerial(string projSerial)
+        {
+            txtProjSerial.Text = projSerial;
+        }
+
+        public void SetModuleCode(string moduleCode)
+        {
+            txtModuleCode.Text = moduleCode;
+        }
+
+        public void SetModuleName(string moduleName)
+        {
+            txtModuleName.Text = moduleName;
+        }
+
+
+        public void SetPosition(string position)
+        {
+            cboPosition.SelectedItem = position;
         }
 
         public void initCustInfo()

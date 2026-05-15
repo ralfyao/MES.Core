@@ -482,12 +482,18 @@ namespace MES.MiddleWare.Modules
             {
                 try
                 {
-                    var date = DateTime.ParseExact(
-                                    custInqForm.RFQDATE,
-                                    "yyyy/MM/dd",
-                                    CultureInfo.InvariantCulture
-                                );
-                    custInqForm.RFQDATE = date.ToString("dd/MM/yyyy");
+                    var date = DateTime.TryParseExact(
+                                custInqForm.RFQDATE,
+                                "yyyy-MM-dd HH:mm:ss",
+                                CultureInfo.InvariantCulture,
+                                DateTimeStyles.None,
+                                out DateTime dt);
+                                //DateTime.ParseExact(
+                                //    custInqForm.RFQDATE,
+                                //    "yyyy/MM/dd",
+                                //    CultureInfo.InvariantCulture
+                                //);
+                    custInqForm.RFQDATE = dt.ToString("yyyy-MM-dd");
                 } catch
                 {
                     var date = DateTime.ParseExact(
