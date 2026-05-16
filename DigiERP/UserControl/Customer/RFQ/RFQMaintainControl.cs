@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -95,7 +96,51 @@ namespace DigiERP.UserControl.Customer.RFQ
                 btnQuotation.Visible = true;
                 btnDelete.Visible = true;
                 disableControls(true);
+                initQuotationGridView();
+                initWorkRecordGridView();
             }
+            //throw new NotImplementedException();
+        }
+
+        private void initWorkRecordGridView()
+        {
+            CommonRep<C詢問函聯絡紀錄> commonRep = customerController.GetSalesWorkRecordList(txtRFQNO.Text);
+            dgvWorkRecord.Rows.Clear();
+            int index = 0;
+            foreach (var item in commonRep.resultList)
+            {
+                index = 0;
+                DataGridViewRow row = new DataGridViewRow();
+                row.CreateCells(dgvWorkRecord);
+                row.Cells[index++].Value = item.RFQDATE;
+                row.Cells[index++].Value = item.DESCRIPTION;
+                row.Cells[index++].Value = item.RECALL;
+                row.Cells[index++].Value = item.SALES;
+                row.Cells[index++].Value = item.姓名;
+                dgvWorkRecord.Rows.Add(row);
+            }
+        }
+
+        private void initQuotationGridView()
+        {
+            CommonRep<C報價單> commonRep = customerController.GetQuotationList(txtRFQNO.Text);
+            if (!string.IsNullOrEmpty(commonRep.ErrorMessage))
+            {
+                MessageBox.Show(commonRep.ErrorMessage);
+                return;
+            }
+            dgvQuotation.Rows.Clear();
+            int index = 0;
+            foreach (var item in commonRep.resultList)
+            {
+                index = 0;
+                DataGridViewRow row = new DataGridViewRow();
+                row.CreateCells(dgvQuotation);
+                row.Cells[index++].Value = item.QUONO;
+                row.Cells[index++].Value = item.QUODATE;
+                dgvQuotation.Rows.Add(row);
+            }
+            // TO-DO init grid view
             //throw new NotImplementedException();
         }
 
@@ -255,6 +300,33 @@ namespace DigiERP.UserControl.Customer.RFQ
             frmRfqWorkRecord.SetModuleCode(txtAlias.Text);
             frmRfqWorkRecord.SetModuleName(txtCompany.Text);
             frmRfqWorkRecord.ShowDialog();
+        }
+
+        private void dgvQuotation_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string quono = dgvQuotation.Rows[e.RowIndex].Cells[0].Value.ToString();
+            CommonRep<C報價單> commonRep1 = customerController.GetQuotation(quono);
+            if (!string.IsNullOrEmpty(commonRep1.ErrorMessage))
+            {
+                MessageBox.Show(commonRep1.ErrorMessage);
+                return;
+            }
+            List<C報價明細> commonRep = commonRep1.result.quotationDetailFormList;
+            int index = 0;
+            dgvQuotationDetail.Rows.Clear();
+            foreach(var item in commonRep)
+            {
+                index = 0;
+                DataGridViewRow row = new DataGridViewRow();
+                row.CreateCells(dgvQuotationDetail);
+                row.Cells[index++].Value = item.QUONO;
+                row.Cells[index++].Value = item.產品編號;
+                row.Cells[index++].Value = item.品名規格;
+                row.Cells[index++].Value = item.數量;
+                row.Cells[index++].Value = item.單價;
+                row.Cells[index++].Value = item.單價 * item.數量;
+                dgvQuotationDetail.Rows.Add(row);
+            }
         }
     }
 }

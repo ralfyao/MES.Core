@@ -465,6 +465,17 @@ namespace MES.MiddleWare.Modules
                                           FROM [C詢問函聯絡紀錄] a
                                           LEFT OUTER JOIN H員工清冊 b ON a.SALES=b.工號  and 職能='業務'
                                           where　1=1 AND RFQNO = '{rfqNo}'";
+                    //string strSQL = $@"SELECT b.姓名, 
+                    //                          SERNO		,
+                    //                          RFQNO		,
+                    //                          RFQDATE		,
+                    //                          DESCRIPTION	,
+                    //                          BSNSTYPE	,
+                    //                          SALES		,
+                    //                          RECALL
+                    //                      FROM [C詢問函聯絡紀錄] a
+                    //                      LEFT OUTER JOIN H員工清冊 b ON a.SALES=b.工號  and 職能='業務'
+                    //                      where　1=1 AND RFQNO = '{rfqNo}'";
                     ls = conn.Query<C詢問函聯絡紀錄>(strSQL).ToList();
                 }
             }
