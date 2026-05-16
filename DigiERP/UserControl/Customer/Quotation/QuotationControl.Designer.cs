@@ -45,6 +45,13 @@
             日期 = new DataGridViewTextBoxColumn();
             客戶 = new DataGridViewTextBoxColumn();
             聯絡人 = new DataGridViewTextBoxColumn();
+            機台類別 = new DataGridViewTextBoxColumn();
+            明細查詢 = new DataGridViewImageColumn();
+            報價總額 = new DataGridViewTextBoxColumn();
+            業代 = new DataGridViewTextBoxColumn();
+            業務人員 = new DataGridViewTextBoxColumn();
+            來源單據 = new DataGridViewTextBoxColumn();
+            報價有效日期 = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
@@ -168,12 +175,13 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { 單號, 日期, 客戶, 聯絡人 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { 單號, 日期, 客戶, 聯絡人, 機台類別, 明細查詢, 報價總額, 業代, 業務人員, 來源單據, 報價有效日期 });
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(1482, 694);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // 單號
             // 
@@ -198,6 +206,49 @@
             聯絡人.HeaderText = "聯絡人";
             聯絡人.Name = "聯絡人";
             聯絡人.ReadOnly = true;
+            // 
+            // 機台類別
+            // 
+            機台類別.HeaderText = "機台類別";
+            機台類別.Name = "機台類別";
+            機台類別.ReadOnly = true;
+            // 
+            // 明細查詢
+            // 
+            明細查詢.HeaderText = "明細查詢";
+            明細查詢.Image = (Image)resources.GetObject("明細查詢.Image");
+            明細查詢.Name = "明細查詢";
+            明細查詢.ReadOnly = true;
+            // 
+            // 報價總額
+            // 
+            報價總額.HeaderText = "報價總額";
+            報價總額.Name = "報價總額";
+            報價總額.ReadOnly = true;
+            // 
+            // 業代
+            // 
+            業代.HeaderText = "業代";
+            業代.Name = "業代";
+            業代.ReadOnly = true;
+            // 
+            // 業務人員
+            // 
+            業務人員.HeaderText = "業務人員";
+            業務人員.Name = "業務人員";
+            業務人員.ReadOnly = true;
+            // 
+            // 來源單據
+            // 
+            來源單據.HeaderText = "來源單據";
+            來源單據.Name = "來源單據";
+            來源單據.ReadOnly = true;
+            // 
+            // 報價有效日期
+            // 
+            報價有效日期.HeaderText = "報價有效日期";
+            報價有效日期.Name = "報價有效日期";
+            報價有效日期.ReadOnly = true;
             // 
             // QuotationControl
             // 
@@ -233,5 +284,12 @@
         private DataGridViewTextBoxColumn 日期;
         private DataGridViewTextBoxColumn 客戶;
         private DataGridViewTextBoxColumn 聯絡人;
+        private DataGridViewTextBoxColumn 機台類別;
+        private DataGridViewImageColumn 明細查詢;
+        private DataGridViewTextBoxColumn 報價總額;
+        private DataGridViewTextBoxColumn 業代;
+        private DataGridViewTextBoxColumn 業務人員;
+        private DataGridViewTextBoxColumn 來源單據;
+        private DataGridViewTextBoxColumn 報價有效日期;
     }
 }

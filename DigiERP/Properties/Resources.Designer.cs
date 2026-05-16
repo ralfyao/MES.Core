@@ -123,6 +123,16 @@ namespace DigiERP.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
+        internal static System.Drawing.Bitmap ChatGPT_Image_2026年5月16日_下午04_04_19 {
+            get {
+                object obj = ResourceManager.GetObject("ChatGPT Image 2026年5月16日 下午04_04_19", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
         internal static System.Drawing.Bitmap custom_04 {
             get {
                 object obj = ResourceManager.GetObject("custom_04", resourceCulture);
@@ -226,6 +236,16 @@ namespace DigiERP.Properties {
         internal static System.Drawing.Bitmap Require {
             get {
                 object obj = ResourceManager.GetObject("Require", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap search_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24 {
+            get {
+                object obj = ResourceManager.GetObject("search_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

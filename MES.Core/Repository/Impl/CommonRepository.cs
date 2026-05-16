@@ -19,7 +19,8 @@ namespace MES.Core.Repository.Impl
                 using(var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();
-                    string strSQL = $@"SELECT {topn} a.*, c.COMPANY, c.CONTACTPERSON CONTACT, d.姓名 業務人員 
+                    string strSQL = $@"
+SELECT {topn} a.*, c.COMPANY, c.CONTACTPERSON CONTACT, d.姓名 業務人員, b.SALES,( SELECT TOP 1 RECALL FROM C詢問函聯絡紀錄 WHERE RFQNO=b.RFQNO ORDER BY RFQDATE DESC) RECALL  
                                     FROM C報價單 a 
                                     LEFT OUTER JOIN C客戶詢問函 b ON a.RFQNO=b.RFQNO
                                     LEFT OUTER JOIN C客戶設定 c ON b.COMPANY=c.COMPANY
