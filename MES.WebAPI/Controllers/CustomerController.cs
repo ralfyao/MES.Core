@@ -889,7 +889,7 @@ namespace MES.WebAPI.Controllers
         /// <param name="rfqNo"></param>
         /// <returns></returns>
         [Route("api/GetQuotationList"), HttpGet]
-        public CommonRep<C報價單> GetQuotationList(string? rfqNo)
+        public CommonRep<C報價單> GetQuotationList(string? rfqNo = "")
         {
             CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
             try

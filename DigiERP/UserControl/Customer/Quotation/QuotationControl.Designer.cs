@@ -52,6 +52,7 @@
             業務人員 = new DataGridViewTextBoxColumn();
             來源單據 = new DataGridViewTextBoxColumn();
             報價有效日期 = new DataGridViewTextBoxColumn();
+            button2 = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
@@ -61,6 +62,7 @@
             // panel1
             // 
             panel1.BackColor = Color.PaleTurquoise;
+            panel1.Controls.Add(button2);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(txtItemName);
             panel1.Controls.Add(label4);
@@ -73,13 +75,13 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1482, 96);
+            panel1.Size = new Size(1564, 96);
             panel1.TabIndex = 0;
             // 
             // button1
             // 
             button1.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button1.Location = new Point(1312, 16);
+            button1.Location = new Point(1400, 16);
             button1.Name = "button1";
             button1.Size = new Size(104, 40);
             button1.TabIndex = 8;
@@ -93,6 +95,7 @@
             txtItemName.Name = "txtItemName";
             txtItemName.Size = new Size(328, 32);
             txtItemName.TabIndex = 7;
+            txtItemName.Leave += txtItemName_Leave;
             // 
             // label4
             // 
@@ -111,6 +114,7 @@
             txtCompany.Name = "txtCompany";
             txtCompany.Size = new Size(328, 32);
             txtCompany.TabIndex = 5;
+            txtCompany.Leave += txtCompany_Leave;
             // 
             // label3
             // 
@@ -129,6 +133,7 @@
             txtQUONO.Name = "txtQUONO";
             txtQUONO.Size = new Size(128, 32);
             txtQUONO.TabIndex = 3;
+            txtQUONO.Leave += txtQUONO_Leave_1;
             // 
             // label2
             // 
@@ -166,7 +171,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 96);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1482, 694);
+            panel2.Size = new Size(1564, 694);
             panel2.TabIndex = 1;
             // 
             // dataGridView1
@@ -179,9 +184,12 @@
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1482, 694);
+            dataGridView1.Size = new Size(1564, 694);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellClick += dataGridView1_CellClick_1;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.CellMouseEnter += dataGridView1_CellMouseEnter;
+            dataGridView1.CellMouseLeave += dataGridView1_CellMouseLeave;
             // 
             // 單號
             // 
@@ -250,6 +258,17 @@
             報價有效日期.Name = "報價有效日期";
             報價有效日期.ReadOnly = true;
             // 
+            // button2
+            // 
+            button2.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            button2.Location = new Point(1288, 16);
+            button2.Name = "button2";
+            button2.Size = new Size(104, 40);
+            button2.TabIndex = 9;
+            button2.Text = "查詢";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // QuotationControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -257,7 +276,7 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "QuotationControl";
-            Size = new Size(1482, 790);
+            Size = new Size(1564, 790);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -291,5 +310,6 @@
         private DataGridViewTextBoxColumn 業務人員;
         private DataGridViewTextBoxColumn 來源單據;
         private DataGridViewTextBoxColumn 報價有效日期;
+        private Button button2;
     }
 }
