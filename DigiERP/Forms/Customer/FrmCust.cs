@@ -51,7 +51,7 @@ namespace DigiERP
                 ctrl.Dock = DockStyle.Fill;
                 tab.Controls.Add(ctrl);
             }
-
+            tab.AutoScroll = true;
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
             tabControl.SizeMode = TabSizeMode.Fixed;

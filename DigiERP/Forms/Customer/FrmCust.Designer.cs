@@ -84,6 +84,7 @@ namespace DigiERP
             // 
             // splitContainer.Panel2
             // 
+            splitContainer.Panel2.AutoScroll = true;
             splitContainer.Panel2.Controls.Add(tabControl);
             splitContainer.Size = new Size(1161, 669);
             splitContainer.SplitterDistance = 387;

@@ -52,7 +52,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             label9 = new Label();
             txtCompany = new DigiERP.Common.CommonTextBox();
             label10 = new Label();
-            currencySelect1 = new Common.Customer.CurrencySelect();
+            currencySelect1 = new DigiERP.UserControl.Common.Customer.CurrencySelect();
             label11 = new Label();
             label12 = new Label();
             exRate = new DigiERP.Common.CommonNumericUpDown();
@@ -136,7 +136,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             // 
             button1.BackColor = Color.Red;
             button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(1512, 8);
+            button1.Location = new Point(1468, 13);
             button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(20, 22);
@@ -507,7 +507,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             txtXomment.Location = new Point(96, 288);
             txtXomment.Multiline = true;
             txtXomment.Name = "txtXomment";
-            txtXomment.Size = new Size(1312, 104);
+            txtXomment.Size = new Size(1251, 104);
             txtXomment.TabIndex = 199;
             // 
             // dataGridView1
@@ -519,7 +519,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { 產品編號, 品名規格, 數量, 單位, 單價, 金額, 描述 });
             dataGridView1.Location = new Point(96, 448);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1416, 288);
+            dataGridView1.Size = new Size(1320, 288);
             dataGridView1.TabIndex = 200;
             // 
             // 產品編號
@@ -566,7 +566,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             // 
             // btnAddDetail
             // 
-            btnAddDetail.Location = new Point(1432, 416);
+            btnAddDetail.Location = new Point(97, 408);
             btnAddDetail.Name = "btnAddDetail";
             btnAddDetail.Size = new Size(75, 23);
             btnAddDetail.TabIndex = 201;
@@ -578,7 +578,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             // 
             label21.AutoSize = true;
             label21.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label21.Location = new Point(1248, 744);
+            label21.Location = new Point(1153, 739);
             label21.Name = "label21";
             label21.Size = new Size(86, 24);
             label21.TabIndex = 202;
@@ -588,7 +588,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             // 
             lblSummary.AutoSize = true;
             lblSummary.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            lblSummary.Location = new Point(1400, 744);
+            lblSummary.Location = new Point(1305, 739);
             lblSummary.Name = "lblSummary";
             lblSummary.Size = new Size(118, 24);
             lblSummary.TabIndex = 203;
@@ -777,7 +777,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             Controls.Add(label1);
             Controls.Add(priceCond);
             Name = "QuotationMaintain";
-            Size = new Size(1534, 829);
+            Size = new Size(1500, 829);
             ((System.ComponentModel.ISupportInitialize)exRate).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);

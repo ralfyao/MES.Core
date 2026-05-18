@@ -81,7 +81,7 @@
             // button2
             // 
             button2.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button2.Location = new Point(1288, 16);
+            button2.Location = new Point(630, 53);
             button2.Name = "button2";
             button2.Size = new Size(104, 40);
             button2.TabIndex = 9;
@@ -92,7 +92,7 @@
             // button1
             // 
             button1.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button1.Location = new Point(1400, 16);
+            button1.Location = new Point(742, 53);
             button1.Name = "button1";
             button1.Size = new Size(104, 40);
             button1.TabIndex = 8;
@@ -103,7 +103,7 @@
             // txtItemName
             // 
             txtItemName.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtItemName.Location = new Point(952, 21);
+            txtItemName.Location = new Point(503, 16);
             txtItemName.Name = "txtItemName";
             txtItemName.Size = new Size(328, 32);
             txtItemName.TabIndex = 7;
@@ -113,7 +113,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label4.Location = new Point(864, 24);
+            label4.Location = new Point(415, 19);
             label4.Name = "label4";
             label4.Size = new Size(86, 24);
             label4.TabIndex = 6;
@@ -122,7 +122,7 @@
             // txtCompany
             // 
             txtCompany.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtCompany.Location = new Point(528, 19);
+            txtCompany.Location = new Point(296, 55);
             txtCompany.Name = "txtCompany";
             txtCompany.Size = new Size(328, 32);
             txtCompany.TabIndex = 5;
@@ -132,7 +132,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label3.Location = new Point(440, 24);
+            label3.Location = new Point(208, 60);
             label3.Name = "label3";
             label3.Size = new Size(86, 24);
             label3.TabIndex = 4;
@@ -143,7 +143,7 @@
             txtQUONO.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             txtQUONO.Location = new Point(296, 19);
             txtQUONO.Name = "txtQUONO";
-            txtQUONO.Size = new Size(128, 32);
+            txtQUONO.Size = new Size(102, 32);
             txtQUONO.TabIndex = 3;
             txtQUONO.Leave += txtQUONO_Leave_1;
             // 
@@ -275,6 +275,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "QuotationControl";
