@@ -1,4 +1,5 @@
 ﻿using DigiERP.Forms.Customer.Quotation;
+using DigiERP.UserControl.Customer.RFQ;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
@@ -156,6 +157,68 @@ namespace DigiERP.UserControl.Customer.Quotation
         private void button2_Click(object sender, EventArgs e)
         {
             txtQUONO_Leave(sender, e);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var customerMaintainControl = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(QuotationMaintain) select c).FirstOrDefault();
+            var dataGridView = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+            if (customerMaintainControl == null)
+            {
+                customerMaintainControl = new QuotationMaintain();
+                customerMaintainControl.Dock = DockStyle.Fill;
+                panel2.Controls.Add(customerMaintainControl);
+            }
+            var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
+            if (lblMode != null)
+            {
+                lblMode.Text = "新增";
+            }
+            ((QuotationMaintain)customerMaintainControl).form = new C報價單();
+            ((QuotationMaintain)customerMaintainControl).initForm();
+            customerMaintainControl.Visible = true;
+            if (dataGridView != null)
+            {
+                dataGridView.Visible = false;
+            }
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 避免點到標題列
+            if (e.RowIndex < 0)
+                return;
+
+            var dataGridView = (DataGridView)(from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+            if (dataGridView != null)
+            {
+                var row1 = dataGridView.Rows[e.RowIndex];
+
+                C報價單 data = new C報價單();
+                int index = row1.Cells.Count - 1;
+                data.QUONO = row1.Cells[0].Value?.ToString();
+                data = new CustomerController().GetQuotation(data.QUONO).result;
+
+                var customerMaintainControl = (QuotationMaintain)(from c in panel1.Controls.Cast<Control>() where c.GetType() == typeof(QuotationMaintain) select c).FirstOrDefault();
+                if (customerMaintainControl == null)
+                {
+                    customerMaintainControl = new QuotationMaintain();
+                    customerMaintainControl.Dock = DockStyle.Fill;
+                    panel2.Controls.Add(customerMaintainControl);
+                }
+                var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
+                if (lblMode != null)
+                {
+                    lblMode.Text = "修改";
+                }
+                ((QuotationMaintain)customerMaintainControl).form = data;
+                ((QuotationMaintain)customerMaintainControl).initForm();
+                customerMaintainControl.Visible = true;
+                if (dataGridView != null)
+                {
+                    dataGridView.Visible = false;
+                }
+            }
         }
     }
 }

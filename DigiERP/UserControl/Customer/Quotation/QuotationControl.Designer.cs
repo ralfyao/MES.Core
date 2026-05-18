@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QuotationControl));
             panel1 = new Panel();
+            button2 = new Button();
             button1 = new Button();
             txtItemName = new TextBox();
             label4 = new Label();
@@ -52,7 +53,6 @@
             業務人員 = new DataGridViewTextBoxColumn();
             來源單據 = new DataGridViewTextBoxColumn();
             報價有效日期 = new DataGridViewTextBoxColumn();
-            button2 = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
@@ -78,6 +78,17 @@
             panel1.Size = new Size(1564, 96);
             panel1.TabIndex = 0;
             // 
+            // button2
+            // 
+            button2.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            button2.Location = new Point(1288, 16);
+            button2.Name = "button2";
+            button2.Size = new Size(104, 40);
+            button2.TabIndex = 9;
+            button2.Text = "查詢";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // button1
             // 
             button1.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
@@ -87,6 +98,7 @@
             button1.TabIndex = 8;
             button1.Text = "新增";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // txtItemName
             // 
@@ -188,6 +200,7 @@
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick_1;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             dataGridView1.CellMouseEnter += dataGridView1_CellMouseEnter;
             dataGridView1.CellMouseLeave += dataGridView1_CellMouseLeave;
             // 
@@ -257,17 +270,6 @@
             報價有效日期.HeaderText = "報價有效日期";
             報價有效日期.Name = "報價有效日期";
             報價有效日期.ReadOnly = true;
-            // 
-            // button2
-            // 
-            button2.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button2.Location = new Point(1288, 16);
-            button2.Name = "button2";
-            button2.Size = new Size(104, 40);
-            button2.TabIndex = 9;
-            button2.Text = "查詢";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
             // 
             // QuotationControl
             // 

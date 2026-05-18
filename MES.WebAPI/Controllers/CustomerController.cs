@@ -1031,10 +1031,13 @@ namespace MES.WebAPI.Controllers
             try
             {
                 CustomerMiddle customerMiddle = new CustomerMiddle();
-                string[] typeArr = condition.Split(',');
-                foreach(var type in typeArr)
+                string[] typeArr = condition?.Split(',');
+                if (typeArr != null)
                 {
-                    commonRep.resultList.AddRange(customerMiddle.getTxCondition(type));
+                    foreach (var type in typeArr)
+                    {
+                        commonRep.resultList.AddRange(customerMiddle.getTxCondition(type));
+                    }
                 }
             }
             catch (Exception ex)

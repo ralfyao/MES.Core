@@ -711,9 +711,9 @@ namespace MES.MiddleWare.Modules
             {
                 conn.Open();
                 retObj = conn.Query<C報價單>($"SELECT * FROM C報價單 WHERE QUONO='{quo.QUONO}'").FirstOrDefault();
-                retObj.CONDATE = !string.IsNullOrEmpty(retObj.CONDATE) ? DateTime.ParseExact(retObj.CONDATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
-                retObj.QUODATE = !string.IsNullOrEmpty(retObj.QUODATE) ? DateTime.ParseExact(retObj.QUODATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
-                retObj.SHIPDATE = !string.IsNullOrEmpty(retObj.SHIPDATE) ? DateTime.ParseExact(retObj.SHIPDATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
+                retObj.CONDATE = !string.IsNullOrEmpty(retObj?.CONDATE) ? DateTime.ParseExact(retObj.CONDATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
+                retObj.QUODATE = !string.IsNullOrEmpty(retObj?.QUODATE) ? DateTime.ParseExact(retObj.QUODATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
+                retObj.SHIPDATE = !string.IsNullOrEmpty(retObj?.SHIPDATE) ? DateTime.ParseExact(retObj.SHIPDATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
                 retObj.quotationDetailFormList = conn.Query<C報價明細>($"SELECT * FROM C報價明細 WHERE QUONO='{quo.QUONO}'").ToList();
             }
             return retObj;
