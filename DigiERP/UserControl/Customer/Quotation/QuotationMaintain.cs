@@ -95,7 +95,15 @@ namespace DigiERP.UserControl.Customer.Quotation
                 dataGridView1.Rows.Clear();
                 foreach(var item in form.quotationDetailFormList)
                 {
-
+                    DataGridViewRow row = new DataGridViewRow();
+                    row.CreateCells(dataGridView1);
+                    row.Cells[index++].Value = item.產品編號;
+                    row.Cells[index++].Value = item.品名規格;
+                    row.Cells[index++].Value = item.數量;
+                    row.Cells[index++].Value = item.單位;
+                    row.Cells[index++].Value = item.單價;
+                    row.Cells[index++].Value = item.金額;
+                    row.Cells[index++].Value = item.描述;
                 }
             }
             else

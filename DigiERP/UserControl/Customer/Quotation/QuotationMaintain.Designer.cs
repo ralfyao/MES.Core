@@ -81,6 +81,20 @@ namespace DigiERP.UserControl.Customer.Quotation
             金額 = new DataGridViewTextBoxColumn();
             描述 = new DataGridViewTextBoxColumn();
             btnAddDetail = new Button();
+            label21 = new Label();
+            lblSummary = new Label();
+            label22 = new Label();
+            label23 = new Label();
+            label24 = new Label();
+            label25 = new Label();
+            label26 = new Label();
+            label27 = new Label();
+            lblCreator = new Label();
+            lblCreateDate = new Label();
+            lblModifyDate = new Label();
+            lblModifier = new Label();
+            lblApprover = new Label();
+            lblApproveDate = new Label();
             ((System.ComponentModel.ISupportInitialize)exRate).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -559,11 +573,165 @@ namespace DigiERP.UserControl.Customer.Quotation
             btnAddDetail.Text = "新增細項";
             btnAddDetail.UseVisualStyleBackColor = true;
             // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label21.Location = new Point(1248, 744);
+            label21.Name = "label21";
+            label21.Size = new Size(86, 24);
+            label21.TabIndex = 202;
+            label21.Text = "金額總計";
+            // 
+            // lblSummary
+            // 
+            lblSummary.AutoSize = true;
+            lblSummary.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblSummary.Location = new Point(1400, 744);
+            lblSummary.Name = "lblSummary";
+            lblSummary.Size = new Size(118, 24);
+            lblSummary.TabIndex = 203;
+            lblSummary.Text = "lblSummary";
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label22.Location = new Point(96, 768);
+            label22.Name = "label22";
+            label22.Size = new Size(48, 24);
+            label22.TabIndex = 204;
+            label22.Text = "建檔";
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label23.Location = new Point(264, 768);
+            label23.Name = "label23";
+            label23.Size = new Size(67, 24);
+            label23.TabIndex = 205;
+            label23.Text = "建檔日";
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label24.Location = new Point(624, 768);
+            label24.Name = "label24";
+            label24.Size = new Size(67, 24);
+            label24.TabIndex = 207;
+            label24.Text = "修改日";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label25.Location = new Point(488, 768);
+            label25.Name = "label25";
+            label25.Size = new Size(48, 24);
+            label25.TabIndex = 206;
+            label25.Text = "修改";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label26.Location = new Point(1016, 768);
+            label26.Name = "label26";
+            label26.Size = new Size(67, 24);
+            label26.TabIndex = 209;
+            label26.Text = "核准日";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label27.Location = new Point(832, 768);
+            label27.Name = "label27";
+            label27.Size = new Size(48, 24);
+            label27.TabIndex = 208;
+            label27.Text = "核准";
+            // 
+            // lblCreator
+            // 
+            lblCreator.AutoSize = true;
+            lblCreator.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblCreator.Location = new Point(152, 768);
+            lblCreator.Name = "lblCreator";
+            lblCreator.Size = new Size(99, 24);
+            lblCreator.TabIndex = 210;
+            lblCreator.Text = "lblCreator";
+            // 
+            // lblCreateDate
+            // 
+            lblCreateDate.AutoSize = true;
+            lblCreateDate.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblCreateDate.Location = new Point(344, 768);
+            lblCreateDate.Name = "lblCreateDate";
+            lblCreateDate.Size = new Size(133, 24);
+            lblCreateDate.TabIndex = 211;
+            lblCreateDate.Text = "lblCreateDate";
+            // 
+            // lblModifyDate
+            // 
+            lblModifyDate.AutoSize = true;
+            lblModifyDate.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblModifyDate.Location = new Point(688, 768);
+            lblModifyDate.Name = "lblModifyDate";
+            lblModifyDate.Size = new Size(137, 24);
+            lblModifyDate.TabIndex = 212;
+            lblModifyDate.Text = "lblModifyDate";
+            // 
+            // lblModifier
+            // 
+            lblModifier.AutoSize = true;
+            lblModifier.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblModifier.Location = new Point(536, 768);
+            lblModifier.Name = "lblModifier";
+            lblModifier.Size = new Size(108, 24);
+            lblModifier.TabIndex = 213;
+            lblModifier.Text = "lblModifier";
+            // 
+            // lblApprover
+            // 
+            lblApprover.AutoSize = true;
+            lblApprover.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblApprover.Location = new Point(896, 768);
+            lblApprover.Name = "lblApprover";
+            lblApprover.Size = new Size(116, 24);
+            lblApprover.TabIndex = 215;
+            lblApprover.Text = "lblApprover";
+            // 
+            // lblApproveDate
+            // 
+            lblApproveDate.AutoSize = true;
+            lblApproveDate.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lblApproveDate.Location = new Point(1088, 768);
+            lblApproveDate.Name = "lblApproveDate";
+            lblApproveDate.Size = new Size(151, 24);
+            lblApproveDate.TabIndex = 214;
+            lblApproveDate.Text = "lblApproveDate";
+            // 
             // QuotationMaintain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.PaleTurquoise;
+            Controls.Add(lblApprover);
+            Controls.Add(lblApproveDate);
+            Controls.Add(lblModifier);
+            Controls.Add(lblModifyDate);
+            Controls.Add(lblCreateDate);
+            Controls.Add(lblCreator);
+            Controls.Add(label26);
+            Controls.Add(label27);
+            Controls.Add(label24);
+            Controls.Add(label25);
+            Controls.Add(label23);
+            Controls.Add(label22);
+            Controls.Add(lblSummary);
+            Controls.Add(label21);
             Controls.Add(btnAddDetail);
             Controls.Add(dataGridView1);
             Controls.Add(txtXomment);
@@ -608,7 +776,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             Controls.Add(label1);
             Controls.Add(priceCond);
             Name = "QuotationMaintain";
-            Size = new Size(1534, 791);
+            Size = new Size(1534, 829);
             ((System.ComponentModel.ISupportInitialize)exRate).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
@@ -667,5 +835,19 @@ namespace DigiERP.UserControl.Customer.Quotation
         private DataGridViewTextBoxColumn 金額;
         private DataGridViewTextBoxColumn 描述;
         private Button btnAddDetail;
+        private Label label21;
+        private Label lblSummary;
+        private Label label22;
+        private Label label23;
+        private Label label24;
+        private Label label25;
+        private Label label26;
+        private Label label27;
+        private Label lblCreator;
+        private Label lblCreateDate;
+        private Label lblModifyDate;
+        private Label lblModifier;
+        private Label lblApprover;
+        private Label lblApproveDate;
     }
 }
