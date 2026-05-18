@@ -20,7 +20,7 @@ namespace DigiERP.UserControl.Common
         {
             InitializeComponent();
             initPriceCondList();
-            this.TabStop = true;
+            TabStop = true;
         }
         public CommonComboBox InnerComboBox
         {

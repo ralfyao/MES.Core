@@ -1,4 +1,5 @@
 ﻿using DigiERP.Common;
+using DigiERP.Forms.Customer.Quotation;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
@@ -33,7 +34,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             payMethod.InnerComboBox.TabIndex = 200;
         }
         private CustomerController _customerController;
-        private C客戶設定 _customer; 
+        private C客戶設定 _customer;
         private void CurrencySelect1_CurrencyChanged(object sender, EventArgs e)
         {
             CommonRep<F匯率> commonRep = _customerController.GetExRateList(currencySelect1.GetCurrency());
@@ -43,7 +44,7 @@ namespace DigiERP.UserControl.Customer.Quotation
                 return;
             }
             if (commonRep.resultList.Count() > 0)
-                exRate.Value =decimal.Parse(commonRep.resultList[0]?.匯率 == null ? "0" : commonRep.resultList[0]?.匯率);
+                exRate.Value = decimal.Parse(commonRep.resultList[0]?.匯率 == null ? "0" : commonRep.resultList[0]?.匯率);
             else
                 exRate.Value = 0;
             //txtCurrency.Text = currencySelect1.GetCurrency();
@@ -68,11 +69,11 @@ namespace DigiERP.UserControl.Customer.Quotation
                     _customer = commonRep.result;
                 }
                 dtQUODATE.Value = !string.IsNullOrEmpty(form.QUODATE) ? DateTime.Parse(form.QUODATE) : DateTime.Parse("1900-01-01");
-                txtQUONO.Text           = form.QUONO;
-                txtCustNo.Text          = _customer?.正航編號;
-                txtCustAlias.Text       = _customer?.欄位2;
-                dtAvailableDate.Value   = !string.IsNullOrEmpty(form.CONDATE) ? DateTime.Parse(form.CONDATE) : DateTime.Parse("1900-01-01");
-                txtCompany.Text         = _customer?.COMPANY;
+                txtQUONO.Text = form.QUONO;
+                txtCustNo.Text = _customer?.正航編號;
+                txtCustAlias.Text = _customer?.欄位2;
+                dtAvailableDate.Value = !string.IsNullOrEmpty(form.CONDATE) ? DateTime.Parse(form.CONDATE) : DateTime.Parse("1900-01-01");
+                txtCompany.Text = _customer?.COMPANY;
                 // 幣別
                 currencySelect1.SetCurrency(form.CURRENCY);
                 // 匯率
@@ -93,7 +94,7 @@ namespace DigiERP.UserControl.Customer.Quotation
                 txtXomment.Text = form.Remark;
                 int index = 0;
                 dataGridView1.Rows.Clear();
-                foreach(var item in form.quotationDetailFormList)
+                foreach (var item in form.quotationDetailFormList)
                 {
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dataGridView1);
@@ -109,11 +110,11 @@ namespace DigiERP.UserControl.Customer.Quotation
             else
             {
                 dtQUODATE.Value = DateTime.Parse("1900-01-01");
-                txtQUONO.Text               = string.Empty;
-                txtCustNo.Text              = string.Empty;
-                txtCustAlias.Text           = string.Empty;
-                dtAvailableDate.Value       = DateTime.Parse("1900-01-01");
-                txtCompany.Text             = string.Empty;
+                txtQUONO.Text = string.Empty;
+                txtCustNo.Text = string.Empty;
+                txtCustAlias.Text = string.Empty;
+                dtAvailableDate.Value = DateTime.Parse("1900-01-01");
+                txtCompany.Text = string.Empty;
                 // 幣別
                 currencySelect1.SetCurrency(string.Empty);
                 // 匯率
@@ -178,13 +179,15 @@ namespace DigiERP.UserControl.Customer.Quotation
 
         private void SetExRate(string currency)
         {
+            if (_customerController == null)
+                _customerController = new CustomerController();
             CommonRep<F匯率> commonRepExRate = _customerController.GetExRateList(currency);
             if (!string.IsNullOrEmpty(commonRepExRate.ErrorMessage))
             {
                 MessageBox.Show(commonRepExRate.ErrorMessage);
                 return;
             }
-            exRate.Value = decimal.Parse(commonRepExRate.resultList[0]?.匯率 == null ? "0" : commonRepExRate.resultList[0]?.匯率) ;
+            exRate.Value = decimal.Parse(commonRepExRate.resultList[0]?.匯率 == null ? "0" : commonRepExRate.resultList[0]?.匯率);
         }
 
         private void commonTextBox2_TextChanged(object sender, EventArgs e)
@@ -199,6 +202,27 @@ namespace DigiERP.UserControl.Customer.Quotation
             if (dataGridView != null)
             {
                 dataGridView.Visible = true;
+            }
+        }
+
+        private void btnAddDetail_Click(object sender, EventArgs e)
+        {
+            FrmAddQuotation frm = new FrmAddQuotation();
+            frm.QUONO = txtQUONO.Text;
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                C報價明細 data = frm.GetData();
+                DataGridViewRow row = new DataGridViewRow();
+                row.CreateCells(dataGridView1);
+                int index = 0;
+                row.Cells[index++].Value = data.產品編號;
+                row.Cells[index++].Value = data.品名規格;
+                row.Cells[index++].Value = data.數量;
+                row.Cells[index++].Value = data.單位;
+                row.Cells[index++].Value = data.單價;
+                row.Cells[index++].Value = data.金額;
+                row.Cells[index++].Value = data.描述;
+                dataGridView1.Rows.Add(row);
             }
         }
     }

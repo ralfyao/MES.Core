@@ -572,6 +572,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             btnAddDetail.TabIndex = 201;
             btnAddDetail.Text = "新增細項";
             btnAddDetail.UseVisualStyleBackColor = true;
+            btnAddDetail.Click += btnAddDetail_Click;
             // 
             // label21
             // 
