@@ -103,6 +103,14 @@ namespace DigiERP.UserControl.Customer.Quotation
             txtId = new TextBox();
             btnSubmit = new Button();
             btnModify = new Button();
+            btnTransferToCustOrder = new Button();
+            btnQueryTransferedOrder = new Button();
+            btnDelete = new Button();
+            btnCopy = new Button();
+            btnActrivate = new Button();
+            btnDeactivate = new Button();
+            btnPrintC = new Button();
+            btnPrintE = new Button();
             ((System.ComponentModel.ISupportInitialize)exRate).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -807,11 +815,108 @@ namespace DigiERP.UserControl.Customer.Quotation
             btnModify.UseVisualStyleBackColor = false;
             btnModify.Click += btnModify_Click;
             // 
+            // btnTransferToCustOrder
+            // 
+            btnTransferToCustOrder.BackColor = Color.FromArgb(0, 0, 192);
+            btnTransferToCustOrder.ForeColor = SystemColors.ButtonHighlight;
+            btnTransferToCustOrder.Location = new Point(520, 8);
+            btnTransferToCustOrder.Name = "btnTransferToCustOrder";
+            btnTransferToCustOrder.Size = new Size(75, 23);
+            btnTransferToCustOrder.TabIndex = 224;
+            btnTransferToCustOrder.Text = "轉開訂單";
+            btnTransferToCustOrder.UseVisualStyleBackColor = false;
+            btnTransferToCustOrder.Click += btnTransferToCustOrder_Click;
+            // 
+            // btnQueryTransferedOrder
+            // 
+            btnQueryTransferedOrder.BackColor = Color.Green;
+            btnQueryTransferedOrder.ForeColor = SystemColors.ButtonHighlight;
+            btnQueryTransferedOrder.Location = new Point(608, 8);
+            btnQueryTransferedOrder.Name = "btnQueryTransferedOrder";
+            btnQueryTransferedOrder.Size = new Size(104, 23);
+            btnQueryTransferedOrder.TabIndex = 225;
+            btnQueryTransferedOrder.Text = "查詢已轉訂單";
+            btnQueryTransferedOrder.UseVisualStyleBackColor = false;
+            // 
+            // btnDelete
+            // 
+            btnDelete.BackColor = Color.Maroon;
+            btnDelete.ForeColor = SystemColors.ButtonHighlight;
+            btnDelete.Location = new Point(720, 8);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(88, 23);
+            btnDelete.TabIndex = 226;
+            btnDelete.Text = "刪除記錄";
+            btnDelete.UseVisualStyleBackColor = false;
+            // 
+            // btnCopy
+            // 
+            btnCopy.BackColor = Color.Silver;
+            btnCopy.ForeColor = SystemColors.ActiveCaptionText;
+            btnCopy.Location = new Point(816, 8);
+            btnCopy.Name = "btnCopy";
+            btnCopy.Size = new Size(64, 23);
+            btnCopy.TabIndex = 227;
+            btnCopy.Text = "複製";
+            btnCopy.UseVisualStyleBackColor = false;
+            // 
+            // btnActrivate
+            // 
+            btnActrivate.BackColor = Color.Silver;
+            btnActrivate.ForeColor = SystemColors.ActiveCaptionText;
+            btnActrivate.Location = new Point(888, 8);
+            btnActrivate.Name = "btnActrivate";
+            btnActrivate.Size = new Size(64, 23);
+            btnActrivate.TabIndex = 228;
+            btnActrivate.Text = "生效";
+            btnActrivate.UseVisualStyleBackColor = false;
+            // 
+            // btnDeactivate
+            // 
+            btnDeactivate.BackColor = Color.Silver;
+            btnDeactivate.ForeColor = SystemColors.ActiveCaptionText;
+            btnDeactivate.Location = new Point(960, 8);
+            btnDeactivate.Name = "btnDeactivate";
+            btnDeactivate.Size = new Size(88, 23);
+            btnDeactivate.TabIndex = 229;
+            btnDeactivate.Text = "取消生效";
+            btnDeactivate.UseVisualStyleBackColor = false;
+            // 
+            // btnPrintC
+            // 
+            btnPrintC.BackColor = Color.Silver;
+            btnPrintC.ForeColor = SystemColors.ActiveCaptionText;
+            btnPrintC.Location = new Point(1056, 8);
+            btnPrintC.Name = "btnPrintC";
+            btnPrintC.Size = new Size(64, 23);
+            btnPrintC.TabIndex = 230;
+            btnPrintC.Text = "列印";
+            btnPrintC.UseVisualStyleBackColor = false;
+            // 
+            // btnPrintE
+            // 
+            btnPrintE.BackColor = Color.Silver;
+            btnPrintE.ForeColor = SystemColors.ActiveCaptionText;
+            btnPrintE.Location = new Point(1128, 8);
+            btnPrintE.Name = "btnPrintE";
+            btnPrintE.Size = new Size(80, 23);
+            btnPrintE.TabIndex = 231;
+            btnPrintE.Text = "列印(英)";
+            btnPrintE.UseVisualStyleBackColor = false;
+            // 
             // QuotationMaintain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.PaleTurquoise;
+            Controls.Add(btnPrintE);
+            Controls.Add(btnPrintC);
+            Controls.Add(btnDeactivate);
+            Controls.Add(btnActrivate);
+            Controls.Add(btnCopy);
+            Controls.Add(btnDelete);
+            Controls.Add(btnQueryTransferedOrder);
+            Controls.Add(btnTransferToCustOrder);
             Controls.Add(btnModify);
             Controls.Add(btnSubmit);
             Controls.Add(txtId);
@@ -959,5 +1064,13 @@ namespace DigiERP.UserControl.Customer.Quotation
         private TextBox txtId;
         private Button btnSubmit;
         private Button btnModify;
+        private Button btnTransferToCustOrder;
+        private Button btnQueryTransferedOrder;
+        private Button btnDelete;
+        private Button btnCopy;
+        private Button btnActrivate;
+        private Button btnDeactivate;
+        private Button btnPrintC;
+        private Button btnPrintE;
     }
 }

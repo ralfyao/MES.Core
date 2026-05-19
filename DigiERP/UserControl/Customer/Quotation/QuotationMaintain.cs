@@ -40,11 +40,8 @@ namespace DigiERP.UserControl.Customer.Quotation
             priceCond.Enabled = !isDisable;
             lblMode.Enabled = !isDisable;
             label1.Enabled = !isDisable;
-            //button1.Enabled = !isDisable;
-            //dtQUODATE.Enabled = !isDisable;
             label2.Enabled = !isDisable;
             label3.Enabled = !isDisable;
-            //txtQUONO.Enabled = !isDisable;
             label4.Enabled = !isDisable;
             dtAvailableDate.Enabled = !isDisable;
             currencySelect1.Enabled = !isDisable;
@@ -59,7 +56,6 @@ namespace DigiERP.UserControl.Customer.Quotation
             label9.Enabled = !isDisable;
             txtCompany.Enabled = !isDisable;
             label10.Enabled = !isDisable;
-            //currencySelect.Enabled = !isDisable;
             label11.Enabled = !isDisable;
             label12.Enabled = !isDisable;
             exRate.Enabled = !isDisable;
@@ -99,9 +95,16 @@ namespace DigiERP.UserControl.Customer.Quotation
             label29.Enabled = !isDisable;
             lblQuotationSummary.Enabled = !isDisable;
             lblNTD.Enabled = !isDisable;
-            //btnDialog.Enabled = !isDisable;
             txtId.Enabled = !isDisable;
             btnSubmit.Enabled = !isDisable;
+            btnTransferToCustOrder.Enabled = !isDisable;
+            btnQueryTransferedOrder.Enabled = !isDisable;
+            btnDelete.Enabled = !isDisable;
+            btnCopy.Enabled = !isDisable;
+            btnActrivate.Enabled = !isDisable;
+            btnDeactivate.Enabled = !isDisable;
+            btnPrintC.Enabled = !isDisable;
+            btnPrintE.Enabled = !isDisable;
         }
         private CustomerController _customerController;
         private C客戶設定 _customer;
@@ -167,7 +170,7 @@ namespace DigiERP.UserControl.Customer.Quotation
                 txtRFQNO.Text = form.RFQNO;
                 txtCustAlias.Text = _customer?.欄位2;
                 dtAvailableDate.Value = !string.IsNullOrEmpty(form.CONDATE) ? DateTime.Parse(form.CONDATE) : DateTime.Parse("1900-01-01");
-                txtCompany.Text = string.IsNullOrEmpty( _customer?.COMPANY) ? rfq?.COMPANY : _customer?.COMPANY;
+                txtCompany.Text = string.IsNullOrEmpty(_customer?.COMPANY) ? rfq?.COMPANY : _customer?.COMPANY;
                 // 幣別
                 currencySelect1.SetCurrency(form.CURRENCY);
                 // 匯率
@@ -378,7 +381,37 @@ namespace DigiERP.UserControl.Customer.Quotation
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             GetData();
+            Submit();
+        }
 
+        private void Submit()
+        {
+            if (string.IsNullOrEmpty(txtRFQNO.Text))
+            {
+                MessageBox.Show("客戶詢問單號不可為空!");
+                return;
+            }
+            if (MessageBox.Show("確定" + lblMode.Text + "?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                CommonRep<C報價單> execResult = null;
+                if (lblMode.Text == "修改")
+                {
+                    execResult = _customerController.UpdateQuotation(form);
+                }
+                else if (lblMode.Text == "新增")
+                {
+                    execResult = _customerController.SaveQuotation(form);
+                }
+                if (string.IsNullOrEmpty(execResult.ErrorMessage))
+                {
+                    MessageBox.Show("執行" + lblMode.Text + "成功");
+                    button1_Click(null, null);
+                }
+                else
+                {
+                    MessageBox.Show(execResult.ErrorMessage);
+                }
+            }
         }
 
         private void GetData()
@@ -397,7 +430,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             form.付款方式 = payMethod.GetPriceCond();
             form.交貨日期 = ETDRequest.GetPriceCond();
             form.Remark = txtXomment.Text;
-            form.稅率 = !string.IsNullOrEmpty(cboTaxRate.Text.Trim()) ? double.Parse( cboTaxRate.Text.Replace("%", "")) /100.0 : 0;
+            form.稅率 = !string.IsNullOrEmpty(cboTaxRate.Text.Trim()) ? double.Parse(cboTaxRate.Text.Replace("%", "")) / 100.0 : 0;
             if (lblMode.Text == "建檔")
             {
                 form.建檔 = AppSession.User.username;
@@ -409,20 +442,6 @@ namespace DigiERP.UserControl.Customer.Quotation
                 form.修改日 = DateTime.Now.ToString("yyyy-MM-dd");
             }
             form.quotationDetailFormList = summaryDetailGrid();
-            CommonRep<C報價單> execResult = null;
-            if (lblMode.Text == "修改")
-            {
-                execResult = _customerController.UpdateQuotation(form);
-            }
-            else if (lblMode.Text == "新增")
-            {
-                execResult = _customerController.SaveQuotation(form);
-            }
-            if (string.IsNullOrEmpty(execResult.ErrorMessage))
-            {
-                MessageBox.Show("執行"+lblMode.Text+"成功");
-                button1_Click(null, null);
-            }
         }
 
         private List<C報價明細>? summaryDetailGrid()
@@ -430,14 +449,14 @@ namespace DigiERP.UserControl.Customer.Quotation
             List<C報價明細> list = new List<C報價明細>();
             try
             {
-                foreach(DataGridViewRow row in dataGridView1.Rows)
+                foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     int idex = 0;
                     C報價明細 data = new C報價明細();
                     data.QUONO = txtQUONO.Text;
                     data.產品編號 = row.Cells[idex++].Value.ToString();
                     data.品名規格 = row.Cells[idex++].Value.ToString();
-                    data.數量 = decimal.Parse( row.Cells[idex++].Value.ToString());
+                    data.數量 = decimal.Parse(row.Cells[idex++].Value.ToString());
                     data.單位 = row.Cells[idex++].Value.ToString();
                     data.單價 = decimal.Parse(row.Cells[idex++].Value.ToString());
                     data.金額 = data.數量 * data.單價;
@@ -456,6 +475,16 @@ namespace DigiERP.UserControl.Customer.Quotation
         private void btnModify_Click(object sender, EventArgs e)
         {
             disableControls(false);
+        }
+
+        private void btnTransferToCustOrder_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtCustNo.Text))
+            {
+                MessageBox.Show("沒有客戶帳號，不允許送出報價單!");
+                return;
+            }
+
         }
     }
 }
