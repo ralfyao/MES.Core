@@ -24,7 +24,7 @@ SELECT {topn} a.*, c.COMPANY, c.CONTACTPERSON CONTACT, d.姓名 業務人員, b.
                                     FROM C報價單 a 
                                     LEFT OUTER JOIN C客戶詢問函 b ON a.RFQNO=b.RFQNO
                                     LEFT OUTER JOIN C客戶設定 c ON b.COMPANY=c.COMPANY
-                                    LEFT OUTER JOIN H員工清冊 d ON a.DADDRESS=d.工號";
+                                    LEFT OUTER JOIN H員工清冊 d ON a.DADDRESS=d.工號 WHERE a.RFQNO IS NOT NULL AND a.RFQNO != ''";
                     list = conn.Query<C報價單>(strSQL).ToList();
                     list.ForEach((x) =>
                     {

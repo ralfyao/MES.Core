@@ -11,13 +11,20 @@ namespace MES.WebAPI.Controllers
     public class ItemController : ControllerBase
     {
         [Route("api/ItemList")]
-        public CommonRep<A材料> ItemList()
+        public CommonRep<A材料> ItemList(string itemNo = "")
         {
             CommonRep<A材料> commonRep = new CommonRep<A材料>();
             try
             {
                 ItemRepository itemRepo = new ItemRepository();
-                commonRep.resultList = itemRepo.GetList(null, "", "");
+                if (string.IsNullOrEmpty(itemNo))
+                {
+                    commonRep.resultList = itemRepo.GetList(null, "", "");
+                }
+                else
+                {
+                    commonRep.resultList = itemRepo.GetListBy(new A材料() { 產品編號 = itemNo }, "產品編號");
+                }
             }
             catch (Exception ex)
             {

@@ -30,7 +30,6 @@
         {
             label1 = new Label();
             txtProductId = new Common.CommonTextBox();
-            button1 = new Button();
             txtProductName = new Common.CommonTextBox();
             label2 = new Label();
             label3 = new Label();
@@ -53,7 +52,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label1.Location = new Point(24, 22);
+            label1.Location = new Point(24, 40);
             label1.Name = "label1";
             label1.Size = new Size(86, 24);
             label1.TabIndex = 0;
@@ -62,26 +61,17 @@
             // txtProductId
             // 
             txtProductId.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtProductId.Location = new Point(120, 16);
+            txtProductId.Location = new Point(120, 34);
             txtProductId.Name = "txtProductId";
             txtProductId.Size = new Size(264, 32);
             txtProductId.TabIndex = 1;
-            // 
-            // button1
-            // 
-            button1.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button1.Location = new Point(392, 14);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 32);
-            button1.TabIndex = 2;
-            button1.Text = "查詢";
-            button1.UseVisualStyleBackColor = true;
+            txtProductId.Leave += txtProductId_Leave;
             // 
             // txtProductName
             // 
             txtProductName.Enabled = false;
             txtProductName.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtProductName.Location = new Point(120, 66);
+            txtProductName.Location = new Point(120, 82);
             txtProductName.Name = "txtProductName";
             txtProductName.Size = new Size(264, 32);
             txtProductName.TabIndex = 4;
@@ -90,7 +80,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label2.Location = new Point(24, 72);
+            label2.Location = new Point(24, 88);
             label2.Name = "label2";
             label2.Size = new Size(86, 24);
             label2.TabIndex = 3;
@@ -100,7 +90,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label3.Location = new Point(24, 125);
+            label3.Location = new Point(24, 136);
             label3.Name = "label3";
             label3.Size = new Size(48, 24);
             label3.TabIndex = 5;
@@ -109,16 +99,18 @@
             // numQuantity
             // 
             numQuantity.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            numQuantity.Location = new Point(120, 120);
+            numQuantity.Location = new Point(120, 131);
+            numQuantity.Maximum = new decimal(new int[] { 1316134911, 2328, 0, 0 });
             numQuantity.Name = "numQuantity";
             numQuantity.Size = new Size(120, 32);
             numQuantity.TabIndex = 6;
+            numQuantity.Leave += numQuantity_Leave;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label4.Location = new Point(24, 216);
+            label4.Location = new Point(24, 232);
             label4.Name = "label4";
             label4.Size = new Size(48, 24);
             label4.TabIndex = 7;
@@ -127,16 +119,18 @@
             // numUnitPrice
             // 
             numUnitPrice.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            numUnitPrice.Location = new Point(120, 212);
+            numUnitPrice.Location = new Point(120, 228);
+            numUnitPrice.Maximum = new decimal(new int[] { 1316134911, 2328, 0, 0 });
             numUnitPrice.Name = "numUnitPrice";
             numUnitPrice.Size = new Size(120, 32);
             numUnitPrice.TabIndex = 8;
+            numUnitPrice.Leave += numUnitPrice_Leave;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label5.Location = new Point(24, 272);
+            label5.Location = new Point(24, 280);
             label5.Name = "label5";
             label5.Size = new Size(48, 24);
             label5.TabIndex = 9;
@@ -146,16 +140,16 @@
             // 
             numAmount.Enabled = false;
             numAmount.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            numAmount.Location = new Point(120, 267);
+            numAmount.Location = new Point(120, 275);
+            numAmount.Maximum = new decimal(new int[] { 1316134911, 2328, 0, 0 });
             numAmount.Name = "numAmount";
             numAmount.Size = new Size(120, 32);
             numAmount.TabIndex = 10;
             // 
             // txtUnit
             // 
-            txtUnit.Enabled = false;
             txtUnit.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtUnit.Location = new Point(120, 166);
+            txtUnit.Location = new Point(120, 179);
             txtUnit.Name = "txtUnit";
             txtUnit.Size = new Size(120, 32);
             txtUnit.TabIndex = 12;
@@ -164,7 +158,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label6.Location = new Point(24, 171);
+            label6.Location = new Point(24, 184);
             label6.Name = "label6";
             label6.Size = new Size(48, 24);
             label6.TabIndex = 11;
@@ -172,9 +166,8 @@
             // 
             // txtDescription
             // 
-            txtDescription.Enabled = false;
             txtDescription.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtDescription.Location = new Point(120, 314);
+            txtDescription.Location = new Point(120, 322);
             txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
             txtDescription.Size = new Size(264, 118);
@@ -184,7 +177,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label7.Location = new Point(24, 320);
+            label7.Location = new Point(24, 328);
             label7.Name = "label7";
             label7.Size = new Size(48, 24);
             label7.TabIndex = 13;
@@ -205,7 +198,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(475, 491);
+            ClientSize = new Size(404, 491);
             Controls.Add(button2);
             Controls.Add(txtDescription);
             Controls.Add(label7);
@@ -219,7 +212,6 @@
             Controls.Add(label3);
             Controls.Add(txtProductName);
             Controls.Add(label2);
-            Controls.Add(button1);
             Controls.Add(txtProductId);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
@@ -236,7 +228,6 @@
 
         private Label label1;
         private Common.CommonTextBox txtProductId;
-        private Button button1;
         private Common.CommonTextBox txtProductName;
         private Label label2;
         private Label label3;

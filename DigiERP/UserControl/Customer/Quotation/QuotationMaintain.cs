@@ -1,5 +1,7 @@
 ﻿using DigiERP.Common;
 using DigiERP.Forms.Customer.Quotation;
+using DigiERP.Models;
+using DigiERP.UserControl.Common.Customer;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
@@ -33,6 +35,74 @@ namespace DigiERP.UserControl.Customer.Quotation
             shipMethod.InnerComboBox.TabIndex = 197;
             payMethod.InnerComboBox.TabIndex = 200;
         }
+        public void disableControls(bool isDisable)
+        {
+            priceCond.Enabled = !isDisable;
+            lblMode.Enabled = !isDisable;
+            label1.Enabled = !isDisable;
+            //button1.Enabled = !isDisable;
+            //dtQUODATE.Enabled = !isDisable;
+            label2.Enabled = !isDisable;
+            label3.Enabled = !isDisable;
+            //txtQUONO.Enabled = !isDisable;
+            label4.Enabled = !isDisable;
+            dtAvailableDate.Enabled = !isDisable;
+            currencySelect1.Enabled = !isDisable;
+            label5.Enabled = !isDisable;
+            txtRFQNO.Enabled = !isDisable;
+            label6.Enabled = !isDisable;
+            salesSelect1.Enabled = !isDisable;
+            txtCustNo.Enabled = !isDisable;
+            label7.Enabled = !isDisable;
+            txtCustAlias.Enabled = !isDisable;
+            label8.Enabled = !isDisable;
+            label9.Enabled = !isDisable;
+            txtCompany.Enabled = !isDisable;
+            label10.Enabled = !isDisable;
+            //currencySelect.Enabled = !isDisable;
+            label11.Enabled = !isDisable;
+            label12.Enabled = !isDisable;
+            exRate.Enabled = !isDisable;
+            cboContactList.Enabled = !isDisable;
+            label13.Enabled = !isDisable;
+            cboMType.Enabled = !isDisable;
+            txtAddress.Enabled = !isDisable;
+            label14.Enabled = !isDisable;
+            label15.Enabled = !isDisable;
+            cboTaxRate.Enabled = !isDisable;
+            label16.Enabled = !isDisable;
+            label17.Enabled = !isDisable;
+            ETDRequest.Enabled = !isDisable;
+            label18.Enabled = !isDisable;
+            shipMethod.Enabled = !isDisable;
+            label19.Enabled = !isDisable;
+            payMethod.Enabled = !isDisable;
+            label20.Enabled = !isDisable;
+            txtXomment.Enabled = !isDisable;
+            dataGridView1.Enabled = !isDisable;
+            btnAddDetail.Enabled = !isDisable;
+            label21.Enabled = !isDisable;
+            lblSummary.Enabled = !isDisable;
+            label22.Enabled = !isDisable;
+            label23.Enabled = !isDisable;
+            label24.Enabled = !isDisable;
+            label25.Enabled = !isDisable;
+            label26.Enabled = !isDisable;
+            label27.Enabled = !isDisable;
+            lblCreator.Enabled = !isDisable;
+            lblCreateDate.Enabled = !isDisable;
+            lblModifyDate.Enabled = !isDisable;
+            lblModifier.Enabled = !isDisable;
+            lblApprover.Enabled = !isDisable;
+            lblApproveDate.Enabled = !isDisable;
+            label28.Enabled = !isDisable;
+            label29.Enabled = !isDisable;
+            lblQuotationSummary.Enabled = !isDisable;
+            lblNTD.Enabled = !isDisable;
+            //btnDialog.Enabled = !isDisable;
+            txtId.Enabled = !isDisable;
+            btnSubmit.Enabled = !isDisable;
+        }
         private CustomerController _customerController;
         private C客戶設定 _customer;
         private void CurrencySelect1_CurrencyChanged(object sender, EventArgs e)
@@ -49,6 +119,7 @@ namespace DigiERP.UserControl.Customer.Quotation
                 exRate.Value = 0;
             //txtCurrency.Text = currencySelect1.GetCurrency();
         }
+        private C客戶詢問函 rfq;
         public void initForm()
         {
             currencySelect1.initCurrencyList();
@@ -58,7 +129,24 @@ namespace DigiERP.UserControl.Customer.Quotation
             payMethod.txType = "P,Y";
             if (lblMode.Text == "修改")
             {
-                CommonRep<C客戶設定> commonRep = _customerController.GetCustomer(new C客戶設定() { COMPANY = form.COMPANY });
+                txtId.Text = form.IDNO;
+                CommonRep<C報價單> quotationRep = _customerController.GetQuotation(form.QUONO);
+                if (!string.IsNullOrEmpty(quotationRep.ErrorMessage))
+                {
+                    MessageBox.Show(quotationRep.ErrorMessage);
+                    return;
+                }
+                form = quotationRep.result;
+                // 客戶資訊在詢問函內
+                CommonRep<C客戶詢問函> rfqRep = _customerController.GetRfq(form.RFQNO);
+                if (!string.IsNullOrEmpty(rfqRep.ErrorMessage))
+                {
+                    MessageBox.Show(rfqRep.ErrorMessage);
+                    return;
+                }
+                rfq = rfqRep.result;
+
+                CommonRep<C客戶設定> commonRep = _customerController.getCustomerList(rfq?.COMPANY);//.GetCustomer(new C客戶設定() { COMPANY = rfq?.COMPANY });
                 if (!string.IsNullOrEmpty(commonRep.ErrorMessage))
                 {
                     MessageBox.Show(commonRep.ErrorMessage);
@@ -66,14 +154,20 @@ namespace DigiERP.UserControl.Customer.Quotation
                 }
                 else
                 {
-                    _customer = commonRep.result;
+                    if (commonRep.resultList.Count() > 0)
+                        _customer = commonRep.resultList[0];
+                    else
+                    {
+                        //commonRep = _customerController.getCustomerList(rfq?.Cust);
+                    }
                 }
                 dtQUODATE.Value = !string.IsNullOrEmpty(form.QUODATE) ? DateTime.Parse(form.QUODATE) : DateTime.Parse("1900-01-01");
                 txtQUONO.Text = form.QUONO;
                 txtCustNo.Text = _customer?.正航編號;
+                txtRFQNO.Text = form.RFQNO;
                 txtCustAlias.Text = _customer?.欄位2;
                 dtAvailableDate.Value = !string.IsNullOrEmpty(form.CONDATE) ? DateTime.Parse(form.CONDATE) : DateTime.Parse("1900-01-01");
-                txtCompany.Text = _customer?.COMPANY;
+                txtCompany.Text = string.IsNullOrEmpty( _customer?.COMPANY) ? rfq?.COMPANY : _customer?.COMPANY;
                 // 幣別
                 currencySelect1.SetCurrency(form.CURRENCY);
                 // 匯率
@@ -96,6 +190,7 @@ namespace DigiERP.UserControl.Customer.Quotation
                 dataGridView1.Rows.Clear();
                 foreach (var item in form.quotationDetailFormList)
                 {
+                    index = 0;
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dataGridView1);
                     row.Cells[index++].Value = item.產品編號;
@@ -105,12 +200,24 @@ namespace DigiERP.UserControl.Customer.Quotation
                     row.Cells[index++].Value = item.單價;
                     row.Cells[index++].Value = item.金額;
                     row.Cells[index++].Value = item.描述;
+                    dataGridView1.Rows.Add(row);
                 }
+                disableControls(true);
+                btnDialog.Visible = true;
             }
             else
             {
                 dtQUODATE.Value = DateTime.Parse("1900-01-01");
-                txtQUONO.Text = string.Empty;
+                if (_customerController == null)
+                    _customerController = new CustomerController();
+                CommonRep<string> commonRepQuono = _customerController.GetQuono();
+                if (!string.IsNullOrEmpty(commonRepQuono.ErrorMessage))
+                {
+                    MessageBox.Show(commonRepQuono.ErrorMessage);
+                    Dispose();
+                    return;
+                }
+                txtQUONO.Text = commonRepQuono.result;
                 txtCustNo.Text = string.Empty;
                 txtCustAlias.Text = string.Empty;
                 dtAvailableDate.Value = DateTime.Parse("1900-01-01");
@@ -133,7 +240,31 @@ namespace DigiERP.UserControl.Customer.Quotation
                 payMethod.SetPriceCond(string.Empty);
                 // 備註
                 txtXomment.Text = string.Empty;
+                btnDialog.Visible = false;
+                disableControls(false);
             }
+            lblCreator.Text = form?.建檔;
+            lblCreateDate.Text = form?.建檔日;
+            lblModifier.Text = form?.修改;
+            lblModifyDate.Text = form?.修改日;
+            lblApprover.Text = form?.核准;
+            lblApproveDate.Text = form?.核准日;
+            lblSummary.Text = summaryGridView();
+        }
+
+        private string summaryGridView()
+        {
+            float summary = 0f;
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                try
+                {
+                    summary += float.Parse((row.Cells[5].Value != null ? row.Cells[5].Value.ToString() : "0"));
+                }
+                catch { }
+            }
+            return summary.ToString();
+            //throw new NotImplementedException();
         }
 
         private void SetMType(string? mTYPE)
@@ -209,7 +340,8 @@ namespace DigiERP.UserControl.Customer.Quotation
         {
             FrmAddQuotation frm = new FrmAddQuotation();
             frm.QUONO = txtQUONO.Text;
-            if (frm.ShowDialog() == DialogResult.OK)
+            var result = frm.ShowDialog();
+            if (result == DialogResult.OK)
             {
                 C報價明細 data = frm.GetData();
                 DataGridViewRow row = new DataGridViewRow();
@@ -224,6 +356,106 @@ namespace DigiERP.UserControl.Customer.Quotation
                 row.Cells[index++].Value = data.描述;
                 dataGridView1.Rows.Add(row);
             }
+        }
+
+        private void lblSummary_TextChanged(object sender, EventArgs e)
+        {
+            lblQuotationSummary.Text = lblSummary.Text.Trim();
+            lblNTD.Text = (decimal.Parse(lblSummary.Text.Trim()) * exRate.Value).ToString();
+        }
+
+        private void btnDialog_Click(object sender, EventArgs e)
+        {
+            FrmDialog frm = new FrmDialog();
+            frm.QUONO = txtQUONO.Text;
+            frm.CustNo = txtCustNo.Text;
+            frm.COMPANY = txtCompany.Text;
+            frm.IDNO = txtId.Text;
+            frm.initData();
+            frm.ShowDialog();
+        }
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            GetData();
+
+        }
+
+        private void GetData()
+        {
+            form.IDNO = txtId.Text;
+            form.QUONO = txtQUONO.Text.Trim();
+            form.QUODATE = dtQUODATE.Value.ToString("yyyy-MM-dd");
+            form.MTYPE = cboMType.Text;
+            form.CURRENCY = currencySelect1.GetCurrency();
+            form.AMOUNT = decimal.Parse(lblQuotationSummary.Text);
+            form.RFQNO = txtRFQNO.Text;
+            form.CONDATE = dtAvailableDate.Value.ToString("yyyy-MM-dd");
+            form.ADDRESS = txtAddress.Text;
+            form.價格條件 = priceCond.GetPriceCond();
+            form.交貨方式 = shipMethod.GetPriceCond();
+            form.付款方式 = payMethod.GetPriceCond();
+            form.交貨日期 = ETDRequest.GetPriceCond();
+            form.Remark = txtXomment.Text;
+            form.稅率 = !string.IsNullOrEmpty(cboTaxRate.Text.Trim()) ? double.Parse( cboTaxRate.Text.Replace("%", "")) /100.0 : 0;
+            if (lblMode.Text == "建檔")
+            {
+                form.建檔 = AppSession.User.username;
+                form.建檔日 = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            if (lblMode.Text == "修改")
+            {
+                form.修改 = AppSession.User.username;
+                form.修改日 = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            form.quotationDetailFormList = summaryDetailGrid();
+            CommonRep<C報價單> execResult = null;
+            if (lblMode.Text == "修改")
+            {
+                execResult = _customerController.UpdateQuotation(form);
+            }
+            else if (lblMode.Text == "新增")
+            {
+                execResult = _customerController.SaveQuotation(form);
+            }
+            if (string.IsNullOrEmpty(execResult.ErrorMessage))
+            {
+                MessageBox.Show("執行"+lblMode.Text+"成功");
+                button1_Click(null, null);
+            }
+        }
+
+        private List<C報價明細>? summaryDetailGrid()
+        {
+            List<C報價明細> list = new List<C報價明細>();
+            try
+            {
+                foreach(DataGridViewRow row in dataGridView1.Rows)
+                {
+                    int idex = 0;
+                    C報價明細 data = new C報價明細();
+                    data.QUONO = txtQUONO.Text;
+                    data.產品編號 = row.Cells[idex++].Value.ToString();
+                    data.品名規格 = row.Cells[idex++].Value.ToString();
+                    data.數量 = decimal.Parse( row.Cells[idex++].Value.ToString());
+                    data.單位 = row.Cells[idex++].Value.ToString();
+                    data.單價 = decimal.Parse(row.Cells[idex++].Value.ToString());
+                    data.金額 = data.數量 * data.單價;
+                    data.描述 = row.Cells[idex++].Value.ToString();
+                    list.Add(data);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+            disableControls(false);
         }
     }
 }

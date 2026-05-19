@@ -18,10 +18,32 @@ namespace DigiERP.UserControl.Customer.Quotation
 {
     public partial class QuotationControl : System.Windows.Forms.UserControl
     {
+        private float zoom = 1.0f;
+        private Size originalSize;
         public QuotationControl()
         {
             InitializeComponent();
             initGridView(null);
+            originalSize = panel2.Size;
+            panel2.MouseWheel += Panel2_MouseWheel;
+            panel2.Focus();
+        }
+
+        private void Panel2_MouseWheel(object? sender, MouseEventArgs e)
+        {
+            if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (e.Delta > 0)
+                    zoom += 0.1f;
+                else
+                    zoom -= 0.1f;
+
+                zoom = Math.Max(0.5f, Math.Min(3.0f, zoom));
+
+                panel2.Size = new Size(
+                    (int)(originalSize.Width * zoom),
+                    (int)(originalSize.Height * zoom));
+            }
         }
 
         private CustomerController customerController;
@@ -163,12 +185,12 @@ namespace DigiERP.UserControl.Customer.Quotation
         {
             var customerMaintainControl = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(QuotationMaintain) select c).FirstOrDefault();
             var dataGridView = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
-            if (customerMaintainControl == null)
-            {
+            //if (customerMaintainControl == null)
+            //{
                 customerMaintainControl = new QuotationMaintain();
                 customerMaintainControl.Dock = DockStyle.Fill;
                 panel2.Controls.Add(customerMaintainControl);
-            }
+            //}
             var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
             if (lblMode != null)
             {
