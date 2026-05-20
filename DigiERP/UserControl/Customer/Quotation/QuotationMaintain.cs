@@ -29,7 +29,6 @@ namespace DigiERP.UserControl.Customer.Quotation
             initForm();
             init();
         }
-
         private void init()
         {
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
@@ -42,7 +41,6 @@ namespace DigiERP.UserControl.Customer.Quotation
             shipMethod.InnerComboBox.TabIndex = 197;
             payMethod.InnerComboBox.TabIndex = 200;
         }
-
         public QuotationMaintain()
         {
             InitializeComponent();
@@ -235,6 +233,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             }
             else
             {
+                // 新增報價單，預設日期為當日
                 dtQUODATE.Value = DateTime.Now;
                 if (_customerController == null)
                     _customerController = new CustomerController();
@@ -303,7 +302,6 @@ namespace DigiERP.UserControl.Customer.Quotation
             lblApproveDate.Text = form?.核准日;
             lblSummary.Text = summaryGridView();
         }
-
         private void initCustFromRfq(string? rFQNO)
         {
             // 客戶資訊在詢問函內
@@ -331,7 +329,6 @@ namespace DigiERP.UserControl.Customer.Quotation
                 }
             }
         }
-
         private string summaryGridView()
         {
             float summary = 0f;
@@ -346,7 +343,6 @@ namespace DigiERP.UserControl.Customer.Quotation
             return summary.ToString();
             //throw new NotImplementedException();
         }
-
         private void SetMType(string? mTYPE)
         {
             CommonRep<A機台類型> commonRep = _customerController.GetEqpType();
@@ -367,7 +363,6 @@ namespace DigiERP.UserControl.Customer.Quotation
                 }
             }
         }
-
         private void SetContacct(string? contact)
         {
             CommonRep<C客戶連絡人清單> commonRepContactList = _customerController.GetContactList(contact);
@@ -387,7 +382,6 @@ namespace DigiERP.UserControl.Customer.Quotation
                 }
             }
         }
-
         private void SetExRate(string currency)
         {
             if (_customerController == null)
@@ -400,12 +394,15 @@ namespace DigiERP.UserControl.Customer.Quotation
             }
             exRate.Value = decimal.Parse(commonRepExRate.resultList[0]?.匯率 == null ? "0" : commonRepExRate.resultList[0]?.匯率);
         }
-
         private void commonTextBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
-
+        /// <summary>
+        /// 處理按下新增鍵
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             this.Visible = false;
@@ -415,7 +412,11 @@ namespace DigiERP.UserControl.Customer.Quotation
                 dataGridView.Visible = true;
             }
         }
-
+        /// <summary>
+        /// 新增報價單細項
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddDetail_Click(object sender, EventArgs e)
         {
             FrmAddQuotation frm = new FrmAddQuotation();
@@ -440,13 +441,21 @@ namespace DigiERP.UserControl.Customer.Quotation
             lblSummary_TextChanged(sender, e);
             //summaryDetailGrid();
         }
-
+        /// <summary>
+        /// 處理加總欄位數字變動，連帶的一些欄位也跟著變
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lblSummary_TextChanged(object sender, EventArgs e)
         {
             lblQuotationSummary.Text = lblSummary.Text.Trim();
             lblNTD.Text = (decimal.Parse(lblSummary.Text.Trim()) * exRate.Value).ToString();
         }
-
+        /// <summary>
+        /// 按下撰文對話鍵
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDialog_Click(object sender, EventArgs e)
         {
             FrmDialog frm = new FrmDialog();
@@ -457,13 +466,16 @@ namespace DigiERP.UserControl.Customer.Quotation
             frm.initData();
             frm.ShowDialog();
         }
-
+        /// <summary>
+        /// 資料送出新增或修改
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             GetData();
             Submit();
         }
-
         private void Submit()
         {
             if (string.IsNullOrEmpty(txtRFQNO.Text))
@@ -493,7 +505,9 @@ namespace DigiERP.UserControl.Customer.Quotation
                 }
             }
         }
-
+        /// <summary>
+        /// 送出前收集使用者輸入的資料，或者之前由資料庫帶出的資料
+        /// </summary>
         private void GetData()
         {
             form.IDNO = txtId.Text;
@@ -523,7 +537,10 @@ namespace DigiERP.UserControl.Customer.Quotation
             }
             form.quotationDetailFormList = summaryDetailGrid();
         }
-
+        /// <summary>
+        /// 送出報價單新增/修改前，收集細項資料
+        /// </summary>
+        /// <returns></returns>
         private List<C報價明細>? summaryDetailGrid()
         {
             List<C報價明細> list = new List<C報價明細>();
@@ -551,12 +568,20 @@ namespace DigiERP.UserControl.Customer.Quotation
             }
             return list;
         }
-
+        /// <summary>
+        /// 處理按下修改鍵
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnModify_Click(object sender, EventArgs e)
         {
             disableControls(false);
         }
-
+        /// <summary>
+        /// 處理按下轉訂單鍵
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnTransferToCustOrder_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtCustNo.Text))
@@ -584,7 +609,11 @@ namespace DigiERP.UserControl.Customer.Quotation
                 }
             }
         }
-
+        /// <summary>
+        /// 處理按下刪除鍵
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("確認刪除?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -634,7 +663,9 @@ namespace DigiERP.UserControl.Customer.Quotation
         {
             toggleValidateForm();
         }
-
+        /// <summary>
+        /// 處理生效/取消生效報價單
+        /// </summary>
         private void toggleValidateForm()
         {
             if (_customerController == null)
