@@ -141,8 +141,6 @@ namespace DigiERP
             WindowState = FormWindowState.Maximized;
             splitContainer.Panel1.ResumeLayout(false);
             splitContainer.Panel2.ResumeLayout(false);
-            ToggleDrawer(null, null);
-            ToggleDrawer(null, null);
             ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
             splitContainer.ResumeLayout(false);
             ResumeLayout(false);

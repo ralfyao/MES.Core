@@ -12,7 +12,8 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using DigiERP.UserControl.Customer.Quotation;
 using MES.Core.Model;
-using DigiERP.UserControl.Customer.SalesOrder;
+using DigiERP.UserControl.SalesOrder;
+using DigiERP.UserControl.Customer;
 
 namespace DigiERP
 {
@@ -22,6 +23,8 @@ namespace DigiERP
         {
             InitializeComponent();
             treeView.SelectedNode = null;
+            ToggleDrawer(null, null);
+            ToggleDrawer(null, null);
         }
         public void OpenNewAddQuotationForm(C報價單 quono)
         {
@@ -71,10 +74,10 @@ namespace DigiERP
             Control ctrl = key switch
             {
                 "Customer" => new CustomerControl() { Width = tab.Width },
-                "Order" => new OrderControl() { Width = tab.Width },
+                //"Order" => new OrderControl() { Width = tab.Width },
                 "RFQ" => new RFQControl() { Width = tab.Width },
                 "Quotation" => new QuotationControl() {  Width = tab.Width },
-                "SalesOrder" => new SalesOrderControl() {  Width = tab.Width },
+                "SalesOrder" => new OrderControl() {  Width = tab.Width },
                 _ => null
             }; ;
 
