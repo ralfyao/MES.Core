@@ -52,4 +52,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Forms\Customer\SalesOrder\" />
+  </ItemGroup>
+
 </Project>
