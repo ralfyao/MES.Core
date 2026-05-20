@@ -837,6 +837,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             btnQueryTransferedOrder.TabIndex = 225;
             btnQueryTransferedOrder.Text = "查詢已轉訂單";
             btnQueryTransferedOrder.UseVisualStyleBackColor = false;
+            btnQueryTransferedOrder.Click += btnQueryTransferedOrder_Click;
             // 
             // btnDelete
             // 
@@ -848,6 +849,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             btnDelete.TabIndex = 226;
             btnDelete.Text = "刪除記錄";
             btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnCopy
             // 
@@ -859,6 +861,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             btnCopy.TabIndex = 227;
             btnCopy.Text = "複製";
             btnCopy.UseVisualStyleBackColor = false;
+            btnCopy.Click += btnCopy_Click;
             // 
             // btnActrivate
             // 
@@ -870,6 +873,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             btnActrivate.TabIndex = 228;
             btnActrivate.Text = "生效";
             btnActrivate.UseVisualStyleBackColor = false;
+            btnActrivate.Click += btnActrivate_Click;
             // 
             // btnDeactivate
             // 
@@ -881,6 +885,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             btnDeactivate.TabIndex = 229;
             btnDeactivate.Text = "取消生效";
             btnDeactivate.UseVisualStyleBackColor = false;
+            btnDeactivate.Click += btnDeactivate_Click;
             // 
             // btnPrintC
             // 

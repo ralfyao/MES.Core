@@ -5,6 +5,7 @@ using DigiERP.Util;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -314,7 +315,7 @@ namespace DigiERP.UserControl.Customer.RFQ
             List<C報價明細> commonRep = commonRep1.result.quotationDetailFormList;
             int index = 0;
             dgvQuotationDetail.Rows.Clear();
-            foreach(var item in commonRep)
+            foreach (var item in commonRep)
             {
                 index = 0;
                 DataGridViewRow row = new DataGridViewRow();
@@ -326,6 +327,31 @@ namespace DigiERP.UserControl.Customer.RFQ
                 row.Cells[index++].Value = item.單價;
                 row.Cells[index++].Value = item.單價 * item.數量;
                 dgvQuotationDetail.Rows.Add(row);
+            }
+        }
+
+        private void btnQuotation_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確定新增報價單?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                C報價單 quotation = new C報價單();
+                CommonRep<string> quotationNoRep = customerController.GetQuono();
+                if (!string.IsNullOrEmpty(quotationNoRep.ErrorMessage))
+                {
+                    MessageBox.Show(quotationNoRep.ErrorMessage);
+                    return;
+                }
+                quotation.QUONO = quotationNoRep.result;
+                quotation.RFQNO = txtRFQNO.Text;
+                quotation.SALES = salesSelect1.GetSalesCode();
+                // 先移除先前已開的報價單分頁
+                // 取得父Form
+                FrmCust frm = this.FindForm() as FrmCust;
+
+                if (frm != null)
+                {
+                    frm.OpenNewAddQuotationForm(quotation);
+                }
             }
         }
     }

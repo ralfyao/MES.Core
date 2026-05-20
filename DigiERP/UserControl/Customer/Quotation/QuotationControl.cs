@@ -28,6 +28,11 @@ namespace DigiERP.UserControl.Customer.Quotation
             panel2.MouseWheel += Panel2_MouseWheel;
             panel2.Focus();
         }
+        private C報價單 form;
+        public void SetQuotation(C報價單 quotation)
+        {
+            form = quotation;
+        }
 
         private void Panel2_MouseWheel(object? sender, MouseEventArgs e)
         {
@@ -181,15 +186,23 @@ namespace DigiERP.UserControl.Customer.Quotation
             txtQUONO_Leave(sender, e);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public void button1_Click(object sender, EventArgs e)
         {
             var customerMaintainControl = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(QuotationMaintain) select c).FirstOrDefault();
             var dataGridView = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
             //if (customerMaintainControl == null)
             //{
+            if (form != null)
+            {
+                customerMaintainControl = new QuotationMaintain(form);
+                //((QuotationMaintain)customerMaintainControl).form = form;
+            }
+            else
+            {
                 customerMaintainControl = new QuotationMaintain();
-                customerMaintainControl.Dock = DockStyle.Fill;
-                panel2.Controls.Add(customerMaintainControl);
+            }
+            customerMaintainControl.Dock = DockStyle.Fill;
+            panel2.Controls.Add(customerMaintainControl);
             //}
             var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
             if (lblMode != null)

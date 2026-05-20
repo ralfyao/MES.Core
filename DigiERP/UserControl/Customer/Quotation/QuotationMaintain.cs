@@ -5,6 +5,7 @@ using DigiERP.UserControl.Common.Customer;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
+using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,10 +22,16 @@ namespace DigiERP.UserControl.Customer.Quotation
     {
         public C報價單 form;
         public string mode;
-        public QuotationMaintain()
+        public QuotationMaintain(C報價單 form)
         {
+            this.form = form;
             InitializeComponent();
             initForm();
+            init();
+        }
+
+        private void init()
+        {
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {
                 _customerController = new CustomerController();
@@ -34,6 +41,13 @@ namespace DigiERP.UserControl.Customer.Quotation
             ETDRequest.InnerComboBox.TabIndex = 194;
             shipMethod.InnerComboBox.TabIndex = 197;
             payMethod.InnerComboBox.TabIndex = 200;
+        }
+
+        public QuotationMaintain()
+        {
+            InitializeComponent();
+            initForm();
+            init();
         }
         public void disableControls(bool isDisable)
         {
@@ -123,6 +137,18 @@ namespace DigiERP.UserControl.Customer.Quotation
             //txtCurrency.Text = currencySelect1.GetCurrency();
         }
         private C客戶詢問函 rfq;
+        public void SetRfqNo(string rfqNo)
+        {
+            txtRFQNO.Text = rfqNo;
+        }
+        public void SetCustNo(string custNo)
+        {
+            txtCustNo.Text = custNo;
+        }
+        public void SetCustAlias(string custAlias)
+        {
+            txtCustAlias.Text = custAlias;
+        }
         public void initForm()
         {
             currencySelect1.initCurrencyList();
@@ -140,30 +166,8 @@ namespace DigiERP.UserControl.Customer.Quotation
                     return;
                 }
                 form = quotationRep.result;
-                // 客戶資訊在詢問函內
-                CommonRep<C客戶詢問函> rfqRep = _customerController.GetRfq(form.RFQNO);
-                if (!string.IsNullOrEmpty(rfqRep.ErrorMessage))
-                {
-                    MessageBox.Show(rfqRep.ErrorMessage);
-                    return;
-                }
-                rfq = rfqRep.result;
-
-                CommonRep<C客戶設定> commonRep = _customerController.getCustomerList(rfq?.COMPANY);//.GetCustomer(new C客戶設定() { COMPANY = rfq?.COMPANY });
-                if (!string.IsNullOrEmpty(commonRep.ErrorMessage))
-                {
-                    MessageBox.Show(commonRep.ErrorMessage);
-                    return;
-                }
-                else
-                {
-                    if (commonRep.resultList.Count() > 0)
-                        _customer = commonRep.resultList[0];
-                    else
-                    {
-                        //commonRep = _customerController.getCustomerList(rfq?.Cust);
-                    }
-                }
+                //// 客戶資訊在詢問函內
+                initCustFromRfq(form.RFQNO);
                 dtQUODATE.Value = !string.IsNullOrEmpty(form.QUODATE) ? DateTime.Parse(form.QUODATE) : DateTime.Parse("1900-01-01");
                 txtQUONO.Text = form.QUONO;
                 txtCustNo.Text = _customer?.正航編號;
@@ -189,6 +193,8 @@ namespace DigiERP.UserControl.Customer.Quotation
                 payMethod.SetPriceCond(form.付款方式);
                 // 備註
                 txtXomment.Text = form.Remark;
+                // 業務
+                salesSelect1.SetSalesCode(form.SALES);
                 int index = 0;
                 dataGridView1.Rows.Clear();
                 foreach (var item in form.quotationDetailFormList)
@@ -207,10 +213,29 @@ namespace DigiERP.UserControl.Customer.Quotation
                 }
                 disableControls(true);
                 btnDialog.Visible = true;
+                btnTransferToCustOrder.Visible = true;
+                btnQueryTransferedOrder.Visible = true;
+                btnDelete.Visible = true;
+                btnCopy.Visible = true;
+                btnActrivate.Visible = true;
+                btnDeactivate.Visible = true;
+                btnPrintC.Visible = true;
+                btnPrintE.Visible = true;
+                // 顯示生效或取消生效按鈕
+                if (string.IsNullOrEmpty(form.核准日))
+                {
+                    btnActrivate.Visible = true;
+                    btnDeactivate.Visible = false;
+                }
+                else
+                {
+                    btnActrivate.Visible = false;
+                    btnDeactivate.Visible = true;
+                }
             }
             else
             {
-                dtQUODATE.Value = DateTime.Parse("1900-01-01");
+                dtQUODATE.Value = DateTime.Now;
                 if (_customerController == null)
                     _customerController = new CustomerController();
                 CommonRep<string> commonRepQuono = _customerController.GetQuono();
@@ -221,10 +246,26 @@ namespace DigiERP.UserControl.Customer.Quotation
                     return;
                 }
                 txtQUONO.Text = commonRepQuono.result;
-                txtCustNo.Text = string.Empty;
-                txtCustAlias.Text = string.Empty;
+                if (form == null)
+                {
+                    txtCustNo.Text = string.Empty;
+                    txtCustAlias.Text = string.Empty;
+                    txtCompany.Text = string.Empty;
+                }
+                else
+                {
+                    //// 客戶資訊在詢問函內
+                    if (form.RFQNO != null)
+                    {
+                        initCustFromRfq(form.RFQNO);
+                        txtRFQNO.Text = form.RFQNO;
+                        txtCustNo.Text = _customer?.正航編號;
+                        txtCustAlias.Text = _customer?.欄位2;
+                        salesSelect1.SetSalesCode(form.SALES);
+                        txtCompany.Text = _customer.COMPANY;
+                    }
+                }
                 dtAvailableDate.Value = DateTime.Parse("1900-01-01");
-                txtCompany.Text = string.Empty;
                 // 幣別
                 currencySelect1.SetCurrency(string.Empty);
                 // 匯率
@@ -244,6 +285,14 @@ namespace DigiERP.UserControl.Customer.Quotation
                 // 備註
                 txtXomment.Text = string.Empty;
                 btnDialog.Visible = false;
+                btnTransferToCustOrder.Visible = false;
+                btnQueryTransferedOrder.Visible = false;
+                btnDelete.Visible = false;
+                btnCopy.Visible = false;
+                btnActrivate.Visible = false;
+                btnDeactivate.Visible = false;
+                btnPrintC.Visible = false;
+                btnPrintE.Visible = false;
                 disableControls(false);
             }
             lblCreator.Text = form?.建檔;
@@ -253,6 +302,34 @@ namespace DigiERP.UserControl.Customer.Quotation
             lblApprover.Text = form?.核准;
             lblApproveDate.Text = form?.核准日;
             lblSummary.Text = summaryGridView();
+        }
+
+        private void initCustFromRfq(string? rFQNO)
+        {
+            // 客戶資訊在詢問函內
+            CommonRep<C客戶詢問函> rfqRep = _customerController.GetRfq(rFQNO);
+            if (!string.IsNullOrEmpty(rfqRep.ErrorMessage))
+            {
+                MessageBox.Show(rfqRep.ErrorMessage);
+                return;
+            }
+            rfq = rfqRep.result;
+
+            CommonRep<C客戶設定> commonRep = _customerController.getCustomerList(rfq?.COMPANY);//.GetCustomer(new C客戶設定() { COMPANY = rfq?.COMPANY });
+            if (!string.IsNullOrEmpty(commonRep.ErrorMessage))
+            {
+                MessageBox.Show(commonRep.ErrorMessage);
+                return;
+            }
+            else
+            {
+                if (commonRep.resultList.Count() > 0)
+                    _customer = commonRep.resultList[0];
+                else
+                {
+                    //commonRep = _customerController.getCustomerList(rfq?.Cust);
+                }
+            }
         }
 
         private string summaryGridView()
@@ -359,6 +436,9 @@ namespace DigiERP.UserControl.Customer.Quotation
                 row.Cells[index++].Value = data.描述;
                 dataGridView1.Rows.Add(row);
             }
+            lblSummary.Text = summaryGridView();
+            lblSummary_TextChanged(sender, e);
+            //summaryDetailGrid();
         }
 
         private void lblSummary_TextChanged(object sender, EventArgs e)
@@ -484,7 +564,113 @@ namespace DigiERP.UserControl.Customer.Quotation
                 MessageBox.Show("沒有客戶帳號，不允許送出報價單!");
                 return;
             }
+            if (MessageBox.Show("確定新增報價單?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (_customerController == null)
+                    _customerController = new CustomerController();
+                C訂單 salesOrder = new C訂單();
+                CommonRep<string> soNoRep = _customerController.GetSalesOrderNo();
+                if (!string.IsNullOrEmpty(soNoRep.ErrorMessage))
+                {
+                    MessageBox.Show(soNoRep.ErrorMessage);
+                    return;
+                }
+                salesOrder.單號 = soNoRep.result;
+                FrmCust frm = this.FindForm() as FrmCust;
 
+                if (frm != null)
+                {
+                    frm.OpenNewAddSalesOrder(salesOrder);
+                }
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確認刪除?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (_customerController == null)
+                {
+                    _customerController = new CustomerController();
+                }
+                CommonRep<C報價單> deleteRep = _customerController.DeleteQuotation(txtQUONO.Text);
+                if (!string.IsNullOrEmpty(deleteRep.ErrorMessage))
+                {
+                    MessageBox.Show(deleteRep.ErrorMessage);
+                    return;
+                }
+                MessageBox.Show("執行成功!");
+            }
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確定複製?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (_customerController == null)
+                    _customerController = new CustomerController();
+                CommonRep<string> quonoRep = _customerController.GetQuono();
+                if (!string.IsNullOrEmpty(quonoRep.ErrorMessage))
+                {
+                    MessageBox.Show(quonoRep.ErrorMessage);
+                    return;
+                }
+                form.QUONO = quonoRep.result;
+                CommonRep<C報價單> commonRep = _customerController.SaveQuotation(form);
+                if (!string.IsNullOrEmpty(commonRep.ErrorMessage))
+                {
+                    MessageBox.Show(commonRep.ErrorMessage);
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("複製成功!");
+                    txtQUONO.Text = quonoRep.result;
+                }
+            }
+        }
+
+        private void btnActrivate_Click(object sender, EventArgs e)
+        {
+            toggleValidateForm();
+        }
+
+        private void toggleValidateForm()
+        {
+            if (_customerController == null)
+            {
+                _customerController = new CustomerController();
+            }
+            CommonRep<string> commonRep = _customerController.ValidateQuotation(txtQUONO.Text, string.IsNullOrEmpty(form.核准日), AppSession.User.username);
+            if (!string.IsNullOrEmpty(commonRep.ErrorMessage))
+            {
+                MessageBox.Show(commonRep.ErrorMessage);
+                return;
+            }
+            CommonRep<C報價單> formRep = _customerController.GetQuotation(txtQUONO.Text);
+            if (!string.IsNullOrEmpty(formRep.ErrorMessage))
+            {
+                MessageBox.Show(formRep.ErrorMessage);
+            }
+            else
+            {
+                form = formRep.result;
+                initForm();
+                MessageBox.Show((!string.IsNullOrEmpty(form.核准日) ? "生效成功" : "取消失效成功"));
+            }
+        }
+
+        private void btnDeactivate_Click(object sender, EventArgs e)
+        {
+            toggleValidateForm();
+        }
+
+        private void btnQueryTransferedOrder_Click(object sender, EventArgs e)
+        {
+            FrmQuoTransSO frmQuoTransSO = new FrmQuoTransSO();
+            frmQuoTransSO.quotationNo = txtQUONO.Text;
+            frmQuoTransSO.queryData();
+            frmQuoTransSO.ShowDialog();
         }
     }
 }

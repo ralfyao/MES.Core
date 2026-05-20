@@ -901,7 +901,7 @@ namespace MES.WebAPI.Controllers
                 }
                 else
                 {
-                    commonRep.resultList = customerMiddle.getQuotationList(rfqNo).ToList();
+                    commonRep.resultList = customerMiddle.getQuotationList(rfqNo, "").ToList();
                 }
             }
             catch (Exception ex)

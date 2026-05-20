@@ -400,7 +400,7 @@ namespace MES.MiddleWare.Modules
                 else
                 {
                     CommonRepository<C報價單> commonRepository = new CommonRepository<C報價單>();
-                    ls = commonRepository.GetQuotationCustomList(null);
+                    ls = commonRepository.GetQuotationCustomList(null, "");
                 }
                 //ls.ForEach((x) =>
                 //{

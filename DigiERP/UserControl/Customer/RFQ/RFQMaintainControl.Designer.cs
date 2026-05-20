@@ -80,6 +80,12 @@ namespace DigiERP.UserControl.Customer.RFQ
             報價單號 = new DataGridViewTextBoxColumn();
             報價單日期 = new DataGridViewTextBoxColumn();
             dgvQuotationDetail = new DataGridView();
+            報價單 = new DataGridViewTextBoxColumn();
+            產品編號 = new DataGridViewTextBoxColumn();
+            品名規格 = new DataGridViewTextBoxColumn();
+            數量 = new DataGridViewTextBoxColumn();
+            單價 = new DataGridViewTextBoxColumn();
+            金額 = new DataGridViewTextBoxColumn();
             label22 = new Label();
             dgvWorkRecord = new DataGridView();
             聯絡日期 = new DataGridViewTextBoxColumn();
@@ -90,12 +96,6 @@ namespace DigiERP.UserControl.Customer.RFQ
             label23 = new Label();
             btnWorkRecord = new Button();
             btnQuotation = new Button();
-            報價單 = new DataGridViewTextBoxColumn();
-            產品編號 = new DataGridViewTextBoxColumn();
-            品名規格 = new DataGridViewTextBoxColumn();
-            數量 = new DataGridViewTextBoxColumn();
-            單價 = new DataGridViewTextBoxColumn();
-            金額 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvQuotation).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvQuotationDetail).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvWorkRecord).BeginInit();
@@ -570,6 +570,42 @@ namespace DigiERP.UserControl.Customer.RFQ
             dgvQuotationDetail.Size = new Size(560, 150);
             dgvQuotationDetail.TabIndex = 200;
             // 
+            // 報價單
+            // 
+            報價單.HeaderText = "報價單";
+            報價單.Name = "報價單";
+            報價單.ReadOnly = true;
+            // 
+            // 產品編號
+            // 
+            產品編號.HeaderText = "產品編號";
+            產品編號.Name = "產品編號";
+            產品編號.ReadOnly = true;
+            // 
+            // 品名規格
+            // 
+            品名規格.HeaderText = "品名規格";
+            品名規格.Name = "品名規格";
+            品名規格.ReadOnly = true;
+            // 
+            // 數量
+            // 
+            數量.HeaderText = "數量";
+            數量.Name = "數量";
+            數量.ReadOnly = true;
+            // 
+            // 單價
+            // 
+            單價.HeaderText = "單價";
+            單價.Name = "單價";
+            單價.ReadOnly = true;
+            // 
+            // 金額
+            // 
+            金額.HeaderText = "金額";
+            金額.Name = "金額";
+            金額.ReadOnly = true;
+            // 
             // label22
             // 
             label22.AutoSize = true;
@@ -659,42 +695,7 @@ namespace DigiERP.UserControl.Customer.RFQ
             btnQuotation.TabIndex = 204;
             btnQuotation.Text = "新增報價單";
             btnQuotation.UseVisualStyleBackColor = false;
-            // 
-            // 報價單
-            // 
-            報價單.HeaderText = "報價單";
-            報價單.Name = "報價單";
-            報價單.ReadOnly = true;
-            // 
-            // 產品編號
-            // 
-            產品編號.HeaderText = "產品編號";
-            產品編號.Name = "產品編號";
-            產品編號.ReadOnly = true;
-            // 
-            // 品名規格
-            // 
-            品名規格.HeaderText = "品名規格";
-            品名規格.Name = "品名規格";
-            品名規格.ReadOnly = true;
-            // 
-            // 數量
-            // 
-            數量.HeaderText = "數量";
-            數量.Name = "數量";
-            數量.ReadOnly = true;
-            // 
-            // 單價
-            // 
-            單價.HeaderText = "單價";
-            單價.Name = "單價";
-            單價.ReadOnly = true;
-            // 
-            // 金額
-            // 
-            金額.HeaderText = "金額";
-            金額.Name = "金額";
-            金額.ReadOnly = true;
+            btnQuotation.Click += btnQuotation_Click;
             // 
             // RFQMaintainControl
             // 
