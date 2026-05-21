@@ -28,17 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            commonComboBox1 = new DigiERP.Common.CommonComboBox();
             SuspendLayout();
+            // 
+            // commonComboBox1
+            // 
+            commonComboBox1.FormattingEnabled = true;
+            commonComboBox1.Location = new Point(8, 8);
+            commonComboBox1.Name = "commonComboBox1";
+            commonComboBox1.Size = new Size(121, 23);
+            commonComboBox1.TabIndex = 0;
             // 
             // CustIdSelect
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(commonComboBox1);
             Name = "CustIdSelect";
-            Size = new Size(280, 46);
+            Size = new Size(147, 42);
             ResumeLayout(false);
         }
 
         #endregion
+
+        private DigiERP.Common.CommonComboBox commonComboBox1;
     }
 }
