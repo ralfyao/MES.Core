@@ -42,6 +42,15 @@ namespace MES.Core.Model
         public string? 修改日 { get; set; }
         public string? 核准日 { get; set; }
         public string? AR單號 { get; set; }
+        public decimal? 訂單總額加總()
+        {
+            decimal? result = 0;
+            foreach(var item in orderListDetail)
+            {
+                result += item.單價1??0 * item.數量1??0;
+            }
+            return result;
+        }
         public List<C訂單明細> orderListDetail { get; set; }
         public List<F收款分期> arListDetail { get; set; }
     }

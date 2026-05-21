@@ -30,8 +30,17 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrderControl));
             panel1 = new Panel();
-            pictureBox1 = new PictureBox();
+            btnAdd = new Button();
+            cboCountry = new DigiERP.Common.CommonComboBox();
+            label4 = new Label();
+            txtItemName = new DigiERP.Common.CommonTextBox();
+            label3 = new Label();
+            btnQuery = new Button();
+            txtCustomer = new DigiERP.Common.CommonTextBox();
+            label2 = new Label();
             label1 = new Label();
+            pictureBox1 = new PictureBox();
+            panel2 = new Panel();
             dataGridView1 = new DataGridView();
             單號 = new DataGridViewTextBoxColumn();
             日期 = new DataGridViewTextBoxColumn();
@@ -46,13 +55,23 @@
             業代 = new DataGridViewTextBoxColumn();
             業務人員 = new DataGridViewTextBoxColumn();
             核准 = new DataGridViewTextBoxColumn();
+            結案 = new DataGridViewCheckBoxColumn();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnAdd);
+            panel1.Controls.Add(cboCountry);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(txtItemName);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(btnQuery);
+            panel1.Controls.Add(txtCustomer);
+            panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Top;
@@ -61,15 +80,77 @@
             panel1.Size = new Size(1328, 96);
             panel1.TabIndex = 1;
             // 
-            // pictureBox1
+            // btnAdd
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(8, 8);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(88, 80);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            btnAdd.Location = new Point(688, 64);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(75, 23);
+            btnAdd.TabIndex = 10;
+            btnAdd.Text = "新增";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // cboCountry
+            // 
+            cboCountry.FormattingEnabled = true;
+            cboCountry.Location = new Point(320, 35);
+            cboCountry.Name = "cboCountry";
+            cboCountry.Size = new Size(121, 23);
+            cboCountry.TabIndex = 9;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label4.Location = new Point(224, 35);
+            label4.Name = "label4";
+            label4.Size = new Size(86, 24);
+            label4.TabIndex = 8;
+            label4.Text = "國別查詢";
+            // 
+            // txtItemName
+            // 
+            txtItemName.Location = new Point(320, 64);
+            txtItemName.Name = "txtItemName";
+            txtItemName.Size = new Size(264, 23);
+            txtItemName.TabIndex = 7;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label3.Location = new Point(224, 64);
+            label3.Name = "label3";
+            label3.Size = new Size(86, 24);
+            label3.TabIndex = 6;
+            label3.Text = "品名查詢";
+            // 
+            // btnQuery
+            // 
+            btnQuery.Location = new Point(600, 64);
+            btnQuery.Name = "btnQuery";
+            btnQuery.Size = new Size(75, 23);
+            btnQuery.TabIndex = 5;
+            btnQuery.Text = "查詢";
+            btnQuery.UseVisualStyleBackColor = true;
+            btnQuery.Click += btnQuery_Click;
+            // 
+            // txtCustomer
+            // 
+            txtCustomer.Location = new Point(320, 8);
+            txtCustomer.Name = "txtCustomer";
+            txtCustomer.Size = new Size(264, 23);
+            txtCustomer.TabIndex = 4;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label2.Location = new Point(224, 8);
+            label2.Name = "label2";
+            label2.Size = new Size(86, 24);
+            label2.TabIndex = 3;
+            label2.Text = "客戶查詢";
             // 
             // label1
             // 
@@ -81,18 +162,38 @@
             label1.TabIndex = 2;
             label1.Text = "訂單總覽";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(8, 8);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(88, 80);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(dataGridView1);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 96);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1328, 633);
+            panel2.TabIndex = 2;
+            // 
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { 單號, 日期, 客戶編號, 客戶全稱, 國別, 訂單總額, 預交日期, 交易條件, 運輸方式, 貿易條件, 業代, 業務人員, 核准 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { 單號, 日期, 客戶編號, 客戶全稱, 國別, 訂單總額, 預交日期, 交易條件, 運輸方式, 貿易條件, 業代, 業務人員, 核准, 結案 });
             dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(0, 96);
+            dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(1328, 633);
-            dataGridView1.TabIndex = 2;
+            dataGridView1.TabIndex = 3;
+            dataGridView1.CellContentDoubleClick += dataGridView1_CellContentDoubleClick;
             // 
             // 單號
             // 
@@ -172,18 +273,24 @@
             核准.Name = "核准";
             核准.ReadOnly = true;
             // 
+            // 結案
+            // 
+            結案.HeaderText = "結案";
+            結案.Name = "結案";
+            // 
             // OrderControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightSteelBlue;
-            Controls.Add(dataGridView1);
+            Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "OrderControl";
             Size = new Size(1328, 729);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
@@ -193,6 +300,15 @@
         private Panel panel1;
         private PictureBox pictureBox1;
         private Label label1;
+        private DigiERP.Common.CommonComboBox cboCountry;
+        private Label label4;
+        private DigiERP.Common.CommonTextBox txtItemName;
+        private Label label3;
+        private Button btnQuery;
+        private DigiERP.Common.CommonTextBox txtCustomer;
+        private Label label2;
+        private Button btnAdd;
+        private Panel panel2;
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn 單號;
         private DataGridViewTextBoxColumn 日期;
@@ -207,5 +323,6 @@
         private DataGridViewTextBoxColumn 業代;
         private DataGridViewTextBoxColumn 業務人員;
         private DataGridViewTextBoxColumn 核准;
+        private DataGridViewCheckBoxColumn 結案;
     }
 }
