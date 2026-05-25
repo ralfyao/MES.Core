@@ -53,7 +53,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Forms\Customer\SalesOrder\" />
     <Folder Include="UserControl\Order\" />
   </ItemGroup>
 

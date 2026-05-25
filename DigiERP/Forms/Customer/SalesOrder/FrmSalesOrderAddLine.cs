@@ -1,5 +1,4 @@
-﻿using DigiERP.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DigiERP.UserControl.Common.Customer
+namespace DigiERP.Forms.Customer.SalesOrder
 {
-    public partial class CustIdSelect : CommonUserControl
+    public partial class FrmSalesOrderAddLine : Form
     {
-        public CustIdSelect()
+        public FrmSalesOrderAddLine()
         {
             InitializeComponent();
         }
