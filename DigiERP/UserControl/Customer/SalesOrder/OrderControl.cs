@@ -28,7 +28,6 @@ namespace DigiERP.UserControl.SalesOrder
             }
             initData();
         }
-
         private void initData()
         {
             // 初始化列表資料
@@ -142,7 +141,8 @@ namespace DigiERP.UserControl.SalesOrder
             // 避免點到標題列
             if (e.RowIndex < 0)
                 return;
-
+            //panel2.AutoScroll = true;
+            //panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             var dataGridView = (DataGridView)(from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
             if (dataGridView != null)
             {

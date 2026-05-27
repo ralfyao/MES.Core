@@ -30,7 +30,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         /// </summary>
         private void InitializeComponent()
         {
-            commonCheckBox = new CommonCheckBox();
+            chkClosed = new CommonCheckBox();
             lblMode = new Label();
             label1 = new Label();
             button1 = new Button();
@@ -42,15 +42,16 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             label13 = new Label();
             cboCustId = new CommonComboBox();
             dataGridView1 = new DataGridView();
+            識別 = new DataGridViewTextBoxColumn();
             款項期別 = new DataGridViewTextBoxColumn();
             成數 = new DataGridViewTextBoxColumn();
             金額 = new DataGridViewTextBoxColumn();
             立帳單號 = new DataGridViewTextBoxColumn();
-            轉立帳單 = new DataGridViewTextBoxColumn();
+            轉立帳單 = new DataGridViewButtonColumn();
             label4 = new Label();
             lblCustAlias = new Label();
             label6 = new Label();
-            commonDateTimePicker1 = new CommonDateTimePicker();
+            dtETD = new CommonDateTimePicker();
             txtCompany = new CommonTextBox();
             label5 = new Label();
             label7 = new Label();
@@ -58,7 +59,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             label8 = new Label();
             cboCurrency = new CommonComboBox();
             label9 = new Label();
-            commonTextBox1 = new CommonTextBox();
+            txtAddress = new CommonTextBox();
             label10 = new Label();
             cboTaxType = new CommonComboBox();
             label11 = new Label();
@@ -77,7 +78,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             payMethod = new Common.PriceCondControl();
             label19 = new Label();
             bankCodeSelect1 = new Common.BankCodeSelect();
-            txtCheck = new Button();
+            btnCheck = new Button();
             txtCountry = new CommonTextBox();
             label20 = new Label();
             txtComment = new CommonTextBox();
@@ -109,17 +110,25 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             txtWorkOrder = new CommonTextBox();
             label25 = new Label();
             btnAddAR = new Button();
+            btnSubmit = new Button();
+            btnPrint = new Button();
+            btnCancelActivate = new Button();
+            btnActivate = new Button();
+            btnDelete = new Button();
+            btnTransShipping = new Button();
+            btnTransWorkOrder = new Button();
+            btnQuotationDistribution = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetail).BeginInit();
             SuspendLayout();
             // 
-            // commonCheckBox
+            // chkClosed
             // 
-            commonCheckBox.Location = new Point(780, 88);
-            commonCheckBox.Name = "commonCheckBox";
-            commonCheckBox.Size = new Size(28, 24);
-            commonCheckBox.TabIndex = 240;
-            commonCheckBox.CheckedChanged += commonCheckBox_CheckedChanged;
+            chkClosed.Location = new Point(780, 88);
+            chkClosed.Name = "chkClosed";
+            chkClosed.Size = new Size(28, 24);
+            chkClosed.TabIndex = 240;
+            chkClosed.CheckedChanged += commonCheckBox_CheckedChanged;
             // 
             // lblMode
             // 
@@ -168,6 +177,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnModify.TabIndex = 226;
             btnModify.Text = "修改";
             btnModify.UseVisualStyleBackColor = false;
+            btnModify.Click += btnModify_Click;
             // 
             // label2
             // 
@@ -240,11 +250,19 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { 款項期別, 成數, 金額, 立帳單號, 轉立帳單 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { 識別, 款項期別, 成數, 金額, 立帳單號, 轉立帳單 });
             dataGridView1.Location = new Point(876, 40);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(540, 312);
             dataGridView1.TabIndex = 232;
+            dataGridView1.CellClick += dataGridView1_CellClick;
+            // 
+            // 識別
+            // 
+            識別.HeaderText = "識別";
+            識別.Name = "識別";
+            識別.ReadOnly = true;
+            識別.Visible = false;
             // 
             // 款項期別
             // 
@@ -272,9 +290,13 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 
             // 轉立帳單
             // 
-            轉立帳單.HeaderText = "";
+            轉立帳單.HeaderText = "轉立帳單";
             轉立帳單.Name = "轉立帳單";
             轉立帳單.ReadOnly = true;
+            轉立帳單.Resizable = DataGridViewTriState.True;
+            轉立帳單.SortMode = DataGridViewColumnSortMode.Automatic;
+            轉立帳單.Text = "轉立帳單";
+            轉立帳單.UseColumnTextForButtonValue = true;
             // 
             // label4
             // 
@@ -308,15 +330,15 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             label6.TabIndex = 236;
             label6.Text = "預交日期";
             // 
-            // commonDateTimePicker1
+            // dtETD
             // 
-            commonDateTimePicker1.Enabled = false;
-            commonDateTimePicker1.Font = new Font("Microsoft JhengHei UI", 14.25F);
-            commonDateTimePicker1.Location = new Point(96, 88);
-            commonDateTimePicker1.Name = "commonDateTimePicker1";
-            commonDateTimePicker1.Size = new Size(184, 32);
-            commonDateTimePicker1.TabIndex = 235;
-            commonDateTimePicker1.Value = new DateTime(1900, 1, 1, 0, 0, 0, 0);
+            dtETD.Enabled = false;
+            dtETD.Font = new Font("Microsoft JhengHei UI", 14.25F);
+            dtETD.Location = new Point(96, 88);
+            dtETD.Name = "dtETD";
+            dtETD.Size = new Size(184, 32);
+            dtETD.TabIndex = 235;
+            dtETD.Value = new DateTime(1900, 1, 1, 0, 0, 0, 0);
             // 
             // txtCompany
             // 
@@ -390,13 +412,13 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             label9.TabIndex = 243;
             label9.Text = "幣別";
             // 
-            // commonTextBox1
+            // txtAddress
             // 
-            commonTextBox1.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            commonTextBox1.Location = new Point(376, 130);
-            commonTextBox1.Name = "commonTextBox1";
-            commonTextBox1.Size = new Size(488, 32);
-            commonTextBox1.TabIndex = 246;
+            txtAddress.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            txtAddress.Location = new Point(376, 130);
+            txtAddress.Name = "txtAddress";
+            txtAddress.Size = new Size(488, 32);
+            txtAddress.TabIndex = 246;
             // 
             // label10
             // 
@@ -576,14 +598,15 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             bankCodeSelect1.Size = new Size(234, 44);
             bankCodeSelect1.TabIndex = 263;
             // 
-            // txtCheck
+            // btnCheck
             // 
-            txtCheck.Location = new Point(340, 400);
-            txtCheck.Name = "txtCheck";
-            txtCheck.Size = new Size(75, 32);
-            txtCheck.TabIndex = 264;
-            txtCheck.Text = "核對";
-            txtCheck.UseVisualStyleBackColor = true;
+            btnCheck.Location = new Point(340, 400);
+            btnCheck.Name = "btnCheck";
+            btnCheck.Size = new Size(75, 32);
+            btnCheck.TabIndex = 264;
+            btnCheck.Text = "核對";
+            btnCheck.UseVisualStyleBackColor = true;
+            btnCheck.Click += btnCheck_Click;
             // 
             // txtCountry
             // 
@@ -839,10 +862,106 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnAddAR.UseVisualStyleBackColor = true;
             btnAddAR.Click += btnAddAR_Click;
             // 
+            // btnSubmit
+            // 
+            btnSubmit.BackColor = Color.ForestGreen;
+            btnSubmit.ForeColor = SystemColors.ButtonHighlight;
+            btnSubmit.Location = new Point(1340, 8);
+            btnSubmit.Name = "btnSubmit";
+            btnSubmit.Size = new Size(75, 24);
+            btnSubmit.TabIndex = 284;
+            btnSubmit.Text = "送出";
+            btnSubmit.UseVisualStyleBackColor = false;
+            // 
+            // btnPrint
+            // 
+            btnPrint.BackColor = Color.Gray;
+            btnPrint.ForeColor = SystemColors.ButtonHighlight;
+            btnPrint.Location = new Point(1260, 8);
+            btnPrint.Name = "btnPrint";
+            btnPrint.Size = new Size(75, 24);
+            btnPrint.TabIndex = 285;
+            btnPrint.Text = "列印";
+            btnPrint.UseVisualStyleBackColor = false;
+            // 
+            // btnCancelActivate
+            // 
+            btnCancelActivate.BackColor = Color.Gray;
+            btnCancelActivate.ForeColor = SystemColors.ButtonHighlight;
+            btnCancelActivate.Location = new Point(1176, 8);
+            btnCancelActivate.Name = "btnCancelActivate";
+            btnCancelActivate.Size = new Size(75, 24);
+            btnCancelActivate.TabIndex = 286;
+            btnCancelActivate.Text = "取消生效";
+            btnCancelActivate.UseVisualStyleBackColor = false;
+            // 
+            // btnActivate
+            // 
+            btnActivate.BackColor = Color.Gray;
+            btnActivate.ForeColor = SystemColors.ButtonHighlight;
+            btnActivate.Location = new Point(1092, 8);
+            btnActivate.Name = "btnActivate";
+            btnActivate.Size = new Size(75, 24);
+            btnActivate.TabIndex = 287;
+            btnActivate.Text = "生效";
+            btnActivate.UseVisualStyleBackColor = false;
+            // 
+            // btnDelete
+            // 
+            btnDelete.BackColor = Color.Red;
+            btnDelete.ForeColor = SystemColors.ButtonHighlight;
+            btnDelete.Location = new Point(1008, 8);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(75, 24);
+            btnDelete.TabIndex = 288;
+            btnDelete.Text = "刪除";
+            btnDelete.UseVisualStyleBackColor = false;
+            // 
+            // btnTransShipping
+            // 
+            btnTransShipping.BackColor = Color.DarkRed;
+            btnTransShipping.ForeColor = SystemColors.ButtonHighlight;
+            btnTransShipping.Location = new Point(924, 8);
+            btnTransShipping.Name = "btnTransShipping";
+            btnTransShipping.Size = new Size(75, 24);
+            btnTransShipping.TabIndex = 289;
+            btnTransShipping.Text = "轉開出貨單";
+            btnTransShipping.UseVisualStyleBackColor = false;
+            // 
+            // btnTransWorkOrder
+            // 
+            btnTransWorkOrder.BackColor = Color.Blue;
+            btnTransWorkOrder.ForeColor = SystemColors.ButtonHighlight;
+            btnTransWorkOrder.Location = new Point(840, 8);
+            btnTransWorkOrder.Name = "btnTransWorkOrder";
+            btnTransWorkOrder.Size = new Size(75, 24);
+            btnTransWorkOrder.TabIndex = 290;
+            btnTransWorkOrder.Text = "轉製令工件";
+            btnTransWorkOrder.UseVisualStyleBackColor = false;
+            // 
+            // btnQuotationDistribution
+            // 
+            btnQuotationDistribution.BackColor = Color.Green;
+            btnQuotationDistribution.ForeColor = SystemColors.ButtonHighlight;
+            btnQuotationDistribution.Location = new Point(756, 8);
+            btnQuotationDistribution.Name = "btnQuotationDistribution";
+            btnQuotationDistribution.Size = new Size(75, 24);
+            btnQuotationDistribution.TabIndex = 291;
+            btnQuotationDistribution.Text = "報價單分配";
+            btnQuotationDistribution.UseVisualStyleBackColor = false;
+            // 
             // OrderMaintainControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(btnQuotationDistribution);
+            Controls.Add(btnTransWorkOrder);
+            Controls.Add(btnTransShipping);
+            Controls.Add(btnDelete);
+            Controls.Add(btnActivate);
+            Controls.Add(btnCancelActivate);
+            Controls.Add(btnPrint);
+            Controls.Add(btnSubmit);
             Controls.Add(btnAddAR);
             Controls.Add(txtWorkOrder);
             Controls.Add(label25);
@@ -861,7 +980,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             Controls.Add(label21);
             Controls.Add(txtCountry);
             Controls.Add(label20);
-            Controls.Add(txtCheck);
+            Controls.Add(btnCheck);
             Controls.Add(bankCodeSelect1);
             Controls.Add(label19);
             Controls.Add(label18);
@@ -879,7 +998,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             Controls.Add(cboTaxRate);
             Controls.Add(cboTaxType);
             Controls.Add(label11);
-            Controls.Add(commonTextBox1);
+            Controls.Add(txtAddress);
             Controls.Add(label10);
             Controls.Add(cboCurrency);
             Controls.Add(label9);
@@ -889,7 +1008,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             Controls.Add(txtCompany);
             Controls.Add(label5);
             Controls.Add(label6);
-            Controls.Add(commonDateTimePicker1);
+            Controls.Add(dtETD);
             Controls.Add(lblCustAlias);
             Controls.Add(label4);
             Controls.Add(dataGridView1);
@@ -903,7 +1022,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             Controls.Add(button1);
             Controls.Add(lblMode);
             Controls.Add(label1);
-            Controls.Add(commonCheckBox);
+            Controls.Add(chkClosed);
             Name = "OrderMaintainControl";
             Size = new Size(1446, 773);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -913,7 +1032,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         }
 
         #endregion
-        private CommonCheckBox commonCheckBox;
+        private CommonCheckBox chkClosed;
         private Label lblMode;
         private Label label1;
         private Button button1;
@@ -927,13 +1046,8 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         private DataGridView dataGridView1;
         private Label label4;
         private Label lblCustAlias;
-        private DataGridViewTextBoxColumn 款項期別;
-        private DataGridViewTextBoxColumn 成數;
-        private DataGridViewTextBoxColumn 金額;
-        private DataGridViewTextBoxColumn 立帳單號;
-        private DataGridViewTextBoxColumn 轉立帳單;
         private Label label6;
-        private DigiERP.Common.CommonDateTimePicker commonDateTimePicker1;
+        private DigiERP.Common.CommonDateTimePicker dtETD;
         private DigiERP.Common.CommonTextBox txtCompany;
         private Label label5;
         private Label label7;
@@ -941,7 +1055,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         private Label label8;
         private CommonComboBox cboCurrency;
         private Label label9;
-        private CommonTextBox commonTextBox1;
+        private CommonTextBox txtAddress;
         private Label label10;
         private CommonComboBox cboTaxType;
         private Label label11;
@@ -960,7 +1074,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         private Common.PriceCondControl payMethod;
         private Label label19;
         private Common.BankCodeSelect bankCodeSelect1;
-        private Button txtCheck;
+        private Button btnCheck;
         private CommonTextBox txtCountry;
         private Label label20;
         private CommonTextBox txtComment;
@@ -992,5 +1106,19 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         private CommonTextBox txtWorkOrder;
         private Label label25;
         private Button btnAddAR;
+        private Button btnSubmit;
+        private Button btnPrint;
+        private Button btnCancelActivate;
+        private Button btnActivate;
+        private Button btnDelete;
+        private Button btnTransShipping;
+        private Button btnTransWorkOrder;
+        private Button btnQuotationDistribution;
+        private DataGridViewTextBoxColumn 識別;
+        private DataGridViewTextBoxColumn 款項期別;
+        private DataGridViewTextBoxColumn 成數;
+        private DataGridViewTextBoxColumn 金額;
+        private DataGridViewTextBoxColumn 立帳單號;
+        private DataGridViewButtonColumn 轉立帳單;
     }
 }

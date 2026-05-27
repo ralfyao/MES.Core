@@ -13,10 +13,21 @@ using System.Windows.Forms;
 
 namespace DigiERP.Forms.Customer.SalesOrder
 {
-    public partial class FrmSalesOrderAddLine : Form
+    public partial class FrmAddSalesLine : Form
     {
         private CustomerController _customerController;
         private ItemController _itemController;
+        public FrmAddSalesLine()
+        {
+            InitializeComponent();
+            txtProductId.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            txtProductId.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            txtProductId.AutoCompleteCustomSource = GetProductIdList();
+            if (_customerController == null)
+                _customerController = new CustomerController();
+            if (_itemController == null)
+                _itemController = new ItemController();
+        }
         private AutoCompleteStringCollection GetProductIdList()
         {
             AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
@@ -34,17 +45,6 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 autoCompleteStringCollection.Add(item.產品編號);
             }
             return autoCompleteStringCollection;
-        }
-        public FrmSalesOrderAddLine()
-        {
-            InitializeComponent();
-            txtProductId.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            txtProductId.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            txtProductId.AutoCompleteCustomSource = GetProductIdList();
-            if (_customerController == null)
-                _customerController = new CustomerController();
-            if (_itemController == null)
-                _itemController = new ItemController();
         }
 
         private void txtProductId_Leave(object sender, EventArgs e)
@@ -70,6 +70,16 @@ namespace DigiERP.Forms.Customer.SalesOrder
             {
                 MessageBox.Show(commonRep.ErrorMessage);
             }
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboEqpType_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

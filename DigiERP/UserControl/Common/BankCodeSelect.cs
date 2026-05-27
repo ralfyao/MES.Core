@@ -91,7 +91,7 @@ namespace DigiERP.UserControl.Common
 
         internal string? GetBankCode()
         {
-            return cboIndustry.SelectedValue?.ToString();
+            return string.IsNullOrEmpty( cboIndustry.SelectedValue?.ToString()) ? cboIndustry.Text : cboIndustry.SelectedValue?.ToString();
         }
     }
 }
