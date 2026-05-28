@@ -42,6 +42,7 @@ namespace MES.Core.Model
         public string? 修改日 { get; set; }
         public string? 核准日 { get; set; }
         public string? AR單號 { get; set; }
+        public int? AR識別 { get; set; }
         public decimal? 訂單總額加總()
         {
             decimal? result = 0;

@@ -76,10 +76,30 @@ namespace DigiERP.Forms.Customer.SalesOrder
         {
 
         }
-
+        FrmEqpType popup;
         private void cboEqpType_Enter(object sender, EventArgs e)
         {
+            popup = new FrmEqpType();
+            //{
+            popup.FormBorderStyle = FormBorderStyle.None;
+            popup.StartPosition = FormStartPosition.Manual;
 
+            // 定位在 ComboBox 下方
+            var location = cboEqpType.PointToScreen(Point.Empty);
+            popup.Location = new Point(location.X, location.Y - popup.Height);
+            popup.Size = new Size(popup.Width, 600);
+            if (popup.ShowDialog() == DialogResult.OK)
+            {
+                cboEqpType.Items.Clear();
+                cboEqpType.Items.Add(popup._TYPEID);
+                cboEqpType.Text = popup._TYPEID;
+                //lblIndustryCodeDesc.Text = popup.SelectedName; // 存值（推薦）
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
         }
     }
 }

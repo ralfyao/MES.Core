@@ -1,6 +1,7 @@
 ﻿using DigiERP.Common;
 using DigiERP.Forms.Customer;
 using DigiERP.Forms.Customer.SalesOrder;
+using DigiERP.Models;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
@@ -118,6 +119,16 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             }
             else if (lblMode.Text == "修改")
             {
+                CommonRep<C訂單> soRep = _customerController.GetSalesOrderListByNo(form.單號);
+                if (!string.IsNullOrEmpty( soRep.ErrorMessage))
+                {
+                    MessageBox.Show(soRep.ErrorMessage);
+                    return;
+                }
+                if (soRep.resultList.Count > 0)
+                {
+                    form = soRep.resultList[0];
+                }
                 visibleControls(true);
                 disableAllControls(true);
                 GetFormData();
@@ -125,7 +136,19 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 txtCompany.Enabled = false;
                 txtAddress.Enabled = false;
                 bankCodeSelect1.Enabled = false;
+                txtAmount.Text = txtOrderSum.Text;
+                if (string.IsNullOrEmpty(form.核准日))
+                {
+                    btnActivate.Visible = true;
+                    btnCancelActivate.Visible = false;
+                }
+                else
+                {
+                    btnActivate.Visible = false;
+                    btnCancelActivate.Visible = true;
+                }
             }
+            
         }
 
         private void visibleControls(bool v)
@@ -188,13 +211,13 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 訂單總額
             txtOrderSum.Text = form.訂單總額加總().ToString();
             // 價格條件
-            priceCondControl1.SetPriceCond(form.價格條件 ?? "");
+            priceCondControl1.SetPriceCond(form.價格條件?.Trim() ?? "");
             // 交期要求
-            ETDRequest.SetPriceCond(form.交貨日期 ?? "");
+            ETDRequest.SetPriceCond(form.交貨日期?.Trim() ?? "");
             // 交貨方式
-            shipMethod.SetPriceCond(form.交貨方式 ?? "");
+            shipMethod.SetPriceCond(form.交貨方式?.Trim() ?? "");
             // 付款方式
-            payMethod.SetPriceCond(form.付款方式 ?? "");
+            payMethod.SetPriceCond(form.付款方式?.Trim() ?? "");
             // 銀行代碼
             bankCodeSelect1.SetBankCode(_customer?.CREDIBILITY ?? "");
             // 指配國別
@@ -227,6 +250,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             List<C訂單明細> orderDetailList = form.orderListDetail;
 
             int index = 0;
+            decimal sum = 0;
             foreach (var item in orderDetailList)
             {
                 index = 0;
@@ -243,6 +267,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 {
                     aItem = itemRep.resultList?[0];
                 }
+                row.Cells[index++].Value = item.識別碼;
                 row.Cells[index++].Value = item.產品編號;
                 row.Cells[index++].Value = item.品名規格;
                 try
@@ -253,6 +278,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 row.Cells[index++].Value = item.數量1;
                 row.Cells[index++].Value = item.單價1;
                 row.Cells[index++].Value = item.數量1 * item.單價1;
+                sum += decimal.Parse((item.數量1 * item.單價1).ToString());
                 row.Cells[index++].Value = item.報價單價;
                 row.Cells[index++].Value = item.折數;
                 row.Cells[index++].Value = item.描述;
@@ -262,6 +288,8 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 row.Cells[index++].Value = item.QUONO;
                 dgvDetail.Rows.Add(row);
             }
+            txtOrderSum.Text = sum.ToString();
+            txtAmount.Text = sum.ToString();
             //throw new NotImplementedException();
         }
 
@@ -291,7 +319,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 }
                 else
                 {
-                    row.Cells["轉立帳單"].Value = "轉立帳單";
+                    row.Cells[index].Value = "轉立帳單";
                 }
                 dataGridView1.Rows.Add(row);
             }
@@ -321,6 +349,12 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             txtComment.Enabled = Enabled;
             btnAddLine.Enabled = Enabled;
             btnAddAR.Enabled = Enabled;
+            btnQuotationDistribution.Enabled = Enabled;
+            btnTransWorkOrder.Enabled = Enabled;
+            btnDelete.Enabled = Enabled;
+            btnActivate.Enabled = Enabled;
+            btnCancelActivate.Enabled = Enabled;
+            btnPrint.Enabled = Enabled;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -414,6 +448,8 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         private void btnModify_Click(object sender, EventArgs e)
         {
             disableAllControls(false);
+            cboCustId.Enabled = false;
+            txtCompany.Enabled = false;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -428,20 +464,24 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 {
                     return;
                 }
-                F收款分期 receivable = new F收款分期();
-                if (form.arListDetail == null)
-                    form.arListDetail = new List<F收款分期>();
+                //F收款分期 receivable = new F收款分期();
+                //if (form.arListDetail == null)
+                //    form.arListDetail = new List<F收款分期>();
                 int index = 0;
-                form.arListDetail.Add(new F收款分期()
+                form.AR識別 = int.Parse(row.Cells[index++].Value?.ToString());
+                if (form.AR識別 == 0 || form.AR識別 == null)
                 {
+                    MessageBox.Show("尚未將此筆資料寫入資料庫! 請先按送出後再重新查詢、編輯");
+                    return;
+                } 
+                //form.arListDetail.Add(new F收款分期()
+                //{
 
-                    識別 = int.Parse(row.Cells[index++].Value?.ToString()),
-                    款項期別 = row.Cells[index++].Value.ToString(),
-                    成數 = decimal.Parse(row.Cells[index++].Value.ToString()),
-                    金額 = decimal.Parse(row.Cells[index++].Value.ToString()),
-                    //款項期別 = row.Cells[1].Value.ToString(),
-                    //款項期別 = row.Cells[1].Value.ToString(),
-                }); ; ;
+                //    識別 = int.Parse(row.Cells[index++].Value?.ToString()),
+                //    款項期別 = row.Cells[index++].Value?.ToString(),
+                //    成數 = decimal.Parse(row.Cells[index++].Value.ToString()),
+                //    金額 = decimal.Parse(row.Cells[index++].Value.ToString()),
+                //}); ; ;
                 initController();
                 CommonRep<string> getArNo = _customerController.TransferReceivable(form);
                 if (!string.IsNullOrEmpty(getArNo.ErrorMessage))
@@ -451,7 +491,8 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 }
                 MessageBox.Show("轉單成功!");
                 row.Cells["立帳單號"].Value = getArNo.result;
-
+                form.AR識別 = -1;
+                form.AR單號 = string.Empty;
                 // 已有立帳單號
                 row.Cells["轉立帳單"].Value = "";
 
@@ -472,6 +513,196 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             frmBankDetail.bankCode = bankCodeSelect1.GetBankCode();
             frmBankDetail.initData();
             frmBankDetail.ShowDialog();
+        }
+
+        private void btnAddLine_Click(object sender, EventArgs e)
+        {
+            FrmAddSalesLine frmAddSalesLine = new FrmAddSalesLine();
+            if (frmAddSalesLine.ShowDialog() == DialogResult.OK)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                row.CreateCells(dgvDetail);
+                int index = 0;
+                row.Cells[index++].Value = 0;
+                row.Cells[index++].Value = frmAddSalesLine.txtProductId.Text;
+                row.Cells[index++].Value = frmAddSalesLine.txtProductName.Text;
+                row.Cells[index++].Value = frmAddSalesLine.txtSalesUnit.Text;
+                row.Cells[index++].Value = frmAddSalesLine.numQuantity.Value;
+                row.Cells[index++].Value = frmAddSalesLine.numOrderUnitPrice.Value;
+                row.Cells[index++].Value = frmAddSalesLine.numQuantity.Value * frmAddSalesLine.numOrderUnitPrice.Value;
+                index++;//報價單價
+                index++;//折數
+                row.Cells[index++].Value = frmAddSalesLine.txtComment.Text;
+                row.Cells[index++].Value = frmAddSalesLine.txtProjSerial.Text;
+                row.Cells[index++].Value = frmAddSalesLine.cboEqpType.Text;
+                index++;
+                index++;
+                txtOrderSum.Text = (decimal.Parse(txtOrderSum.Text) + (frmAddSalesLine.numQuantity.Value * frmAddSalesLine.numOrderUnitPrice.Value)).ToString();
+                txtAmount.Text = txtOrderSum.Text;
+                dgvDetail.Rows.Add(row);
+            }
+        }
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            CollectUserInput();
+            if (lblMode.Text == "新增")
+            {
+                form.建檔 = AppSession.User.username;
+                form.建檔日 = DateTime.Now.ToString("yyyy-MM-dd");
+                CommonRep<C訂單> rep = _customerController.SaveSalesOrder(form);
+                if (!string.IsNullOrEmpty(rep.ErrorMessage))
+                {
+                    MessageBox.Show(rep.ErrorMessage);
+                    return;
+                }
+            } 
+            else if (lblMode.Text == "修改")
+            {
+                form.修改 = AppSession.User.username;
+                form.修改日 = DateTime.Now.ToString("yyyy-MM-dd");
+                CommonRep<C訂單> rep = _customerController.UpdateSalesOrder(form);
+                if (!string.IsNullOrEmpty(rep.ErrorMessage))
+                {
+                    MessageBox.Show(rep.ErrorMessage);
+                    return;
+                }
+            }
+            MessageBox.Show(lblMode.Text + "成功!");
+        }
+
+        private void CollectUserInput()
+        {
+            //throw new NotImplementedException();
+            // 日期
+            //dtORDERDATE.Value = DateTime.Parse(form.日期 ?? "1900-01-01");
+            form.日期 = dtORDERDATE.Value.ToString("yyyy-MM-dd");
+            // 客戶編號
+            //cboCustId.Text = form.客戶編號 ?? "";
+            form.客戶編號 = cboCustId.Text;
+            // 單號
+            //txtOrderNo.Text = form.單號;
+            form.單號 = txtOrderNo.Text;
+            // 客戶簡稱
+            //lblCustAlias.Text = _customer?.欄位2;
+            // 預交日期
+            //dtETD.Value = DateTime.Parse( ?? "1900-01-01");
+            form.要望日期 = dtETD.Value.ToString("yyyy-MM-dd");
+            // 客戶全名
+            form.客戶全稱  = txtCompany.Text;
+            // 結案
+            form.結案 = chkClosed.Checked;
+            // 業務人員
+            form.業務員 = cboSales.Text;
+            // 幣別
+            form.幣別 = cboCurrency.Text;
+            // 交貨地址
+            form.交貨地址 = txtAddress.Text;
+            // 稅別
+            form.稅別 = cboTaxType.Text;
+            // 稅率
+            form.稅率 = cboTaxRate.Text;
+            // 目的港
+            form.目的港  = txtDestPort.Text;
+            // 訂單總額
+            //txtOrderSum.Text = form.訂單總額加總().ToString();
+            // 價格條件
+            form.價格條件 = priceCondControl1.GetPriceCond();
+            // 交期要求
+            form.交貨日期 = ETDRequest.GetPriceCond();
+            // 交貨方式
+            form.交貨方式 = shipMethod.GetPriceCond();
+            // 付款方式
+            form.付款方式 = payMethod.GetPriceCond();
+            // 銀行代碼
+            //bankCodeSelect1.SetBankCode(_customer?.CREDIBILITY ?? "");
+            // 指配國別
+            form.指配國別 = txtCountry.Text;
+            // 備註說明
+            form.Remark = txtComment.Text;
+            // 核准
+            form.核准 = txtApprover.Text;
+            // 核准日
+            form.核准日 = txtApproveDate.Text;
+            // 修改
+            form.修改 = txtModifier.Text;
+            // 修改日
+            form.修改日  = txtModifyDate.Text;
+            // 建檔
+            form.建檔 = txtCreator.Text;
+            // 建檔日
+            form.建檔日  = txtCreateDate.Text;
+            // 核准
+            form.核准 = txtCreator.Text;
+            // 核准日
+            form.核准日 = txtCreateDate.Text;
+            // 零件供令單號
+
+            // 收款資料Grid
+            collectArGrid();
+            // 訂單細項Grid
+            collectLineGrid();
+            form.AR單號 = string.Empty;
+            form.account = string.Empty;
+            form.佣金 = 0;
+            form.匯率 = 0;
+            if (string.IsNullOrEmpty(form.稅率))
+            {
+                form.稅率 = "0";
+            }
+            else
+            {
+                if (form.稅率 == "0%")
+                {
+                    form.稅率 = "0";
+                }
+                if (form.稅率 == "5%")
+                {
+                    form.稅率 = "0.05";
+                }
+            }
+            form.MACHINENO = string.Empty;
+        }
+
+        private void collectLineGrid()
+        {
+            form.orderListDetail.Clear();
+            foreach(DataGridViewRow row in dgvDetail.Rows)
+            {
+                int index = 0;
+                C訂單明細 orderDetail = new C訂單明細();
+                orderDetail.識別碼 = row.Cells[index++].Value?.ToString();
+                orderDetail.產品編號 = row.Cells[index++].Value?.ToString();
+                orderDetail.品名規格 = row.Cells[index++].Value?.ToString();
+                orderDetail.單位 = row.Cells[index++].Value?.ToString();
+                orderDetail.數量1 = decimal.Parse(row.Cells[index++].Value?.ToString());
+                orderDetail.單價1 = decimal.Parse(row.Cells[index++].Value?.ToString());
+                //orderDetail.產品編號 = row.Cells[index++].Value.ToString();
+                index++;
+                index++;
+                orderDetail.描述 = row.Cells[index++].Value?.ToString();
+                orderDetail.專案序號 = row.Cells[index++].Value?.ToString();
+                orderDetail.MTYPE = row.Cells[index++].Value?.ToString();
+                orderDetail.佣金率 = row.Cells[index++].Value?.ToString();
+                orderDetail.QUONO = row.Cells[index++].Value?.ToString();
+                form.orderListDetail.Add(orderDetail);
+            }
+        }
+
+        private void collectArGrid()
+        {
+            form.arListDetail.Clear();
+            foreach (DataGridViewRow item in dataGridView1.Rows)
+            {
+                F收款分期 f = new F收款分期();
+                int index = 0;
+                f.識別 = int.Parse(item.Cells[index++].Value.ToString());
+                f.款項期別 = item.Cells[index++].Value.ToString();
+                f.金額 = item.Cells[index++].Value == null ? 0m : decimal.Parse( item.Cells[index++].Value.ToString());//decimal.Parse((string)item.Cells[index++].Value ??"0");
+                f.請款單號 = item.Cells[index++].Value.ToString();
+                f.單號 = txtOrderNo.Text;
+                form.arListDetail.Add(f);
+            }
         }
     }
 }

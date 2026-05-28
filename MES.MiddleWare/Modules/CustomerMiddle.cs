@@ -1017,7 +1017,7 @@ namespace MES.MiddleWare.Modules
                         conn.Open();
                         foreach (var item in form.orderListDetail)
                         {
-                            string strSQL = $@"UPDATE C報價明細 SET 單價='{item.報價單價}' WHERE (QUONO='{item.QUONO}' OR QUONO='{item.專案序號}') AND 產品編號='{item.產品編號}' AND 品名規格='{item.品名規格}'";
+                            string strSQL = $@"UPDATE C報價明細 SET 單價='{(item.報價單價 == null ? "0" : item.報價單價)}' WHERE (QUONO='{item.QUONO}' OR QUONO='{item.專案序號}') AND 產品編號='{item.產品編號}' AND 品名規格='{item.品名規格}'";
                             conn.Execute(strSQL);
                         }
                     }
@@ -1346,12 +1346,20 @@ namespace MES.MiddleWare.Modules
                 lock (soLock)
                 {
                     execCnt += accountsReviver.Insert(f);
-                    foreach (var item in form.arListDetail)
+
+                    using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                     {
-                        item.單號 = form.單號;
-                        item.請款單號 = f.單號;
-                        execCnt += c.Insert(item);
+                        conn.Open();
+                        string strSQL = $@"UPDATE F收款分期 SET 請款單號=@AR單號 WHERE 識別=@AR識別";
+                        DynamicParameters t = new DynamicParameters(form);
+                        conn.Execute(strSQL, t);
                     }
+                    //foreach (var item in form.arListDetail)
+                    //{
+                    //    item.單號 = form.單號;
+                    //    item.請款單號 = f.單號;
+                    //    execCnt += c.Insert(item);
+                    //}
                 }
             }
             catch (Exception ex)

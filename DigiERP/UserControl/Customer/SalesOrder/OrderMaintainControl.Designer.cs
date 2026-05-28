@@ -84,6 +84,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             txtComment = new CommonTextBox();
             label21 = new Label();
             dgvDetail = new DataGridView();
+            識別碼 = new DataGridViewTextBoxColumn();
             品項編號 = new DataGridViewTextBoxColumn();
             品名 = new DataGridViewTextBoxColumn();
             銷售單位 = new DataGridViewTextBoxColumn();
@@ -118,6 +119,8 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnTransShipping = new Button();
             btnTransWorkOrder = new Button();
             btnQuotationDistribution = new Button();
+            txtAmount = new CommonTextBox();
+            label26 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetail).BeginInit();
             SuspendLayout();
@@ -652,11 +655,18 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             dgvDetail.AllowUserToDeleteRows = false;
             dgvDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvDetail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetail.Columns.AddRange(new DataGridViewColumn[] { 品項編號, 品名, 銷售單位, 數量, 訂單單價, 總金額, 報價單價, 折數, 註記, 專案序號, 機台類型, 傭金率, 報價單號 });
-            dgvDetail.Location = new Point(16, 468);
+            dgvDetail.Columns.AddRange(new DataGridViewColumn[] { 識別碼, 品項編號, 品名, 銷售單位, 數量, 訂單單價, 總金額, 報價單價, 折數, 註記, 專案序號, 機台類型, 傭金率, 報價單號 });
+            dgvDetail.Location = new Point(16, 469);
             dgvDetail.Name = "dgvDetail";
-            dgvDetail.Size = new Size(1396, 256);
+            dgvDetail.Size = new Size(1396, 239);
             dgvDetail.TabIndex = 269;
+            // 
+            // 識別碼
+            // 
+            識別碼.HeaderText = "識別碼";
+            識別碼.Name = "識別碼";
+            識別碼.ReadOnly = true;
+            識別碼.Visible = false;
             // 
             // 品項編號
             // 
@@ -744,12 +754,13 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnAddLine.TabIndex = 270;
             btnAddLine.Text = "新增項目";
             btnAddLine.UseVisualStyleBackColor = true;
+            btnAddLine.Click += btnAddLine_Click;
             // 
             // txtApprover
             // 
             txtApprover.Enabled = false;
             txtApprover.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtApprover.Location = new Point(68, 732);
+            txtApprover.Location = new Point(68, 752);
             txtApprover.Name = "txtApprover";
             txtApprover.Size = new Size(120, 32);
             txtApprover.TabIndex = 272;
@@ -759,7 +770,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             label22.AutoSize = true;
             label22.Font = new Font("Microsoft JhengHei UI", 14.25F);
             label22.LiveSetting = System.Windows.Forms.Automation.AutomationLiveSetting.Polite;
-            label22.Location = new Point(16, 736);
+            label22.Location = new Point(16, 756);
             label22.Name = "label22";
             label22.Size = new Size(48, 24);
             label22.TabIndex = 271;
@@ -769,7 +780,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 
             txtApproveDate.Enabled = false;
             txtApproveDate.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtApproveDate.Location = new Point(196, 732);
+            txtApproveDate.Location = new Point(196, 752);
             txtApproveDate.Name = "txtApproveDate";
             txtApproveDate.Size = new Size(120, 32);
             txtApproveDate.TabIndex = 274;
@@ -778,7 +789,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 
             txtModifyDate.Enabled = false;
             txtModifyDate.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtModifyDate.Location = new Point(537, 732);
+            txtModifyDate.Location = new Point(537, 752);
             txtModifyDate.Name = "txtModifyDate";
             txtModifyDate.Size = new Size(120, 32);
             txtModifyDate.TabIndex = 277;
@@ -787,7 +798,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 
             txtModifier.Enabled = false;
             txtModifier.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtModifier.Location = new Point(409, 732);
+            txtModifier.Location = new Point(409, 752);
             txtModifier.Name = "txtModifier";
             txtModifier.Size = new Size(120, 32);
             txtModifier.TabIndex = 276;
@@ -797,7 +808,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             label23.AutoSize = true;
             label23.Font = new Font("Microsoft JhengHei UI", 14.25F);
             label23.LiveSetting = System.Windows.Forms.Automation.AutomationLiveSetting.Polite;
-            label23.Location = new Point(357, 736);
+            label23.Location = new Point(357, 756);
             label23.Name = "label23";
             label23.Size = new Size(48, 24);
             label23.TabIndex = 275;
@@ -807,7 +818,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 
             txtCreateDate.Enabled = false;
             txtCreateDate.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtCreateDate.Location = new Point(859, 731);
+            txtCreateDate.Location = new Point(859, 751);
             txtCreateDate.Name = "txtCreateDate";
             txtCreateDate.Size = new Size(120, 32);
             txtCreateDate.TabIndex = 280;
@@ -816,7 +827,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 
             txtCreator.Enabled = false;
             txtCreator.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtCreator.Location = new Point(731, 731);
+            txtCreator.Location = new Point(731, 751);
             txtCreator.Name = "txtCreator";
             txtCreator.Size = new Size(120, 32);
             txtCreator.TabIndex = 279;
@@ -826,7 +837,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             label24.AutoSize = true;
             label24.Font = new Font("Microsoft JhengHei UI", 14.25F);
             label24.LiveSetting = System.Windows.Forms.Automation.AutomationLiveSetting.Polite;
-            label24.Location = new Point(679, 735);
+            label24.Location = new Point(679, 755);
             label24.Name = "label24";
             label24.Size = new Size(48, 24);
             label24.TabIndex = 278;
@@ -836,7 +847,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 
             txtWorkOrder.Enabled = false;
             txtWorkOrder.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtWorkOrder.Location = new Point(1204, 732);
+            txtWorkOrder.Location = new Point(1204, 752);
             txtWorkOrder.Name = "txtWorkOrder";
             txtWorkOrder.Size = new Size(208, 32);
             txtWorkOrder.TabIndex = 282;
@@ -846,7 +857,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             label25.AutoSize = true;
             label25.Font = new Font("Microsoft JhengHei UI", 14.25F);
             label25.LiveSetting = System.Windows.Forms.Automation.AutomationLiveSetting.Polite;
-            label25.Location = new Point(1072, 736);
+            label25.Location = new Point(1072, 756);
             label25.Name = "label25";
             label25.Size = new Size(124, 24);
             label25.TabIndex = 281;
@@ -872,6 +883,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnSubmit.TabIndex = 284;
             btnSubmit.Text = "送出";
             btnSubmit.UseVisualStyleBackColor = false;
+            btnSubmit.Click += btnSubmit_Click;
             // 
             // btnPrint
             // 
@@ -950,10 +962,32 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnQuotationDistribution.Text = "報價單分配";
             btnQuotationDistribution.UseVisualStyleBackColor = false;
             // 
+            // txtAmount
+            // 
+            txtAmount.Enabled = false;
+            txtAmount.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            txtAmount.Location = new Point(1204, 712);
+            txtAmount.Name = "txtAmount";
+            txtAmount.Size = new Size(208, 32);
+            txtAmount.TabIndex = 293;
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Font = new Font("Microsoft JhengHei UI", 14.25F);
+            label26.LiveSetting = System.Windows.Forms.Automation.AutomationLiveSetting.Polite;
+            label26.Location = new Point(1072, 716);
+            label26.Name = "label26";
+            label26.Size = new Size(86, 24);
+            label26.TabIndex = 292;
+            label26.Text = "金額總計";
+            // 
             // OrderMaintainControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(txtAmount);
+            Controls.Add(label26);
             Controls.Add(btnQuotationDistribution);
             Controls.Add(btnTransWorkOrder);
             Controls.Add(btnTransShipping);
@@ -1024,7 +1058,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             Controls.Add(label1);
             Controls.Add(chkClosed);
             Name = "OrderMaintainControl";
-            Size = new Size(1446, 773);
+            Size = new Size(1446, 788);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetail).EndInit();
             ResumeLayout(false);
@@ -1080,19 +1114,6 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         private CommonTextBox txtComment;
         private Label label21;
         private DataGridView dgvDetail;
-        private DataGridViewTextBoxColumn 品項編號;
-        private DataGridViewTextBoxColumn 品名;
-        private DataGridViewTextBoxColumn 銷售單位;
-        private DataGridViewTextBoxColumn 數量;
-        private DataGridViewTextBoxColumn 訂單單價;
-        private DataGridViewTextBoxColumn 總金額;
-        private DataGridViewTextBoxColumn 報價單價;
-        private DataGridViewTextBoxColumn 折數;
-        private DataGridViewTextBoxColumn 註記;
-        private DataGridViewTextBoxColumn 專案序號;
-        private DataGridViewTextBoxColumn 機台類型;
-        private DataGridViewTextBoxColumn 傭金率;
-        private DataGridViewTextBoxColumn 報價單號;
         private Button btnAddLine;
         private CommonTextBox txtApprover;
         private Label label22;
@@ -1120,5 +1141,21 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         private DataGridViewTextBoxColumn 金額;
         private DataGridViewTextBoxColumn 立帳單號;
         private DataGridViewButtonColumn 轉立帳單;
+        private CommonTextBox txtAmount;
+        private Label label26;
+        private DataGridViewTextBoxColumn 識別碼;
+        private DataGridViewTextBoxColumn 品項編號;
+        private DataGridViewTextBoxColumn 品名;
+        private DataGridViewTextBoxColumn 銷售單位;
+        private DataGridViewTextBoxColumn 數量;
+        private DataGridViewTextBoxColumn 訂單單價;
+        private DataGridViewTextBoxColumn 總金額;
+        private DataGridViewTextBoxColumn 報價單價;
+        private DataGridViewTextBoxColumn 折數;
+        private DataGridViewTextBoxColumn 註記;
+        private DataGridViewTextBoxColumn 專案序號;
+        private DataGridViewTextBoxColumn 機台類型;
+        private DataGridViewTextBoxColumn 傭金率;
+        private DataGridViewTextBoxColumn 報價單號;
     }
 }

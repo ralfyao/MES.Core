@@ -154,7 +154,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
             txtProjSerial.Name = "txtProjSerial";
             txtProjSerial.Size = new Size(264, 23);
             txtProjSerial.TabIndex = 13;
-            txtProjSerial.TextChanged += this.txtProjSerial_TextChanged;
+            txtProjSerial.TextChanged += txtProjSerial_TextChanged;
             // 
             // label7
             // 
@@ -174,6 +174,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
             btnAdd.TabIndex = 14;
             btnAdd.Text = "加入";
             btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
             // 
             // cboEqpType
             // 
@@ -224,24 +225,29 @@ namespace DigiERP.Forms.Customer.SalesOrder
             PerformLayout();
         }
 
+        private void txtProjSerial_TextChanged(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
         #endregion
 
         private Label label1;
-        private CommonTextBox txtProductId;
-        private CommonTextBox txtProductName;
+        public CommonTextBox txtProductId;
+        public CommonTextBox txtProductName;
         private Label label2;
-        private CommonTextBox txtSalesUnit;
+        public CommonTextBox txtSalesUnit;
         private Label label3;
         private Label label4;
-        private CommonNumericUpDown numQuantity;
-        private CommonNumericUpDown numOrderUnitPrice;
+        public CommonNumericUpDown numQuantity;
+        public CommonNumericUpDown numOrderUnitPrice;
         private Label label5;
-        private CommonTextBox txtComment;
+        public CommonTextBox txtComment;
         private Label label6;
-        private CommonTextBox txtProjSerial;
+        public CommonTextBox txtProjSerial;
         private Label label7;
         private Button btnAdd;
-        private CommonComboBox cboEqpType;
+        public CommonComboBox cboEqpType;
         private Label label8;
     }
 }
