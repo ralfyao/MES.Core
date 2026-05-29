@@ -177,5 +177,13 @@ namespace DigiERP.UserControl.SalesOrder
                 }
             }
         }
+
+        private void dataGridView1_VisibleChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.Visible)
+            {
+                initData();
+            }
+        }
     }
 }

@@ -47,8 +47,11 @@ namespace DigiERP.Forms.Customer.SalesOrder
             btnAdd = new Button();
             cboEqpType = new CommonComboBox();
             label8 = new Label();
+            numCommissionRate = new CommonNumericUpDown();
+            label9 = new Label();
             ((System.ComponentModel.ISupportInitialize)numQuantity).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numOrderUnitPrice).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numCommissionRate).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -112,6 +115,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
             // numQuantity
             // 
             numQuantity.Location = new Point(76, 140);
+            numQuantity.Maximum = new decimal(new int[] { -1981284353, -1966660860, 0, 0 });
             numQuantity.Name = "numQuantity";
             numQuantity.Size = new Size(272, 23);
             numQuantity.TabIndex = 7;
@@ -119,6 +123,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
             // numOrderUnitPrice
             // 
             numOrderUnitPrice.Location = new Point(76, 176);
+            numOrderUnitPrice.Maximum = new decimal(new int[] { -1981284353, -1966660860, 0, 0 });
             numOrderUnitPrice.Name = "numOrderUnitPrice";
             numOrderUnitPrice.Size = new Size(272, 23);
             numOrderUnitPrice.TabIndex = 9;
@@ -168,7 +173,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(268, 328);
+            btnAdd.Location = new Point(268, 344);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(75, 23);
             btnAdd.TabIndex = 14;
@@ -194,11 +199,29 @@ namespace DigiERP.Forms.Customer.SalesOrder
             label8.TabIndex = 16;
             label8.Text = "機台類型";
             // 
+            // numCommissionRate
+            // 
+            numCommissionRate.Location = new Point(76, 316);
+            numCommissionRate.Name = "numCommissionRate";
+            numCommissionRate.Size = new Size(272, 23);
+            numCommissionRate.TabIndex = 18;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(20, 320);
+            label9.Name = "label9";
+            label9.Size = new Size(43, 15);
+            label9.TabIndex = 17;
+            label9.Text = "佣金率";
+            // 
             // FrmAddSalesLine
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(377, 383);
+            Controls.Add(numCommissionRate);
+            Controls.Add(label9);
             Controls.Add(label8);
             Controls.Add(cboEqpType);
             Controls.Add(btnAdd);
@@ -221,6 +244,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
             Text = "新增訂單項目";
             ((System.ComponentModel.ISupportInitialize)numQuantity).EndInit();
             ((System.ComponentModel.ISupportInitialize)numOrderUnitPrice).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numCommissionRate).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -249,5 +273,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
         private Button btnAdd;
         public CommonComboBox cboEqpType;
         private Label label8;
+        public CommonNumericUpDown numCommissionRate;
+        private Label label9;
     }
 }

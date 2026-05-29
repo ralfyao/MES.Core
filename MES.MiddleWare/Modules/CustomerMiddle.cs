@@ -1097,7 +1097,7 @@ namespace MES.MiddleWare.Modules
 	                                                       dbo.C報價明細 AS e
                                                     WHERE C.COMPANY=b.COMPANY
                                                       AND c.RFQNO=d.RFQNO
-                                                      AND 正航編號='{custNo}' AND CONVERT(VARCHAR, d.CONDATE, 112) >= '{orderDate}'
+                                                      AND 正航編號='{custNo}' AND CONVERT(VARCHAR, d.CONDATE, 112) <= '{orderDate}'
                                                       AND d.QUONO=e.QUONO
                                                       AND (SELECT COUNT(0) FROM C訂單明細 WHERE (QUONO=d.QUONO OR 專案序號=d.QUONO) AND 產品編號=e.產品編號 AND 品名規格=e.品名規格) = 0").ToList();
                 }

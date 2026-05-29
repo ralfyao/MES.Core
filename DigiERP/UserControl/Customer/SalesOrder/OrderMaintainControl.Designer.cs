@@ -84,20 +84,6 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             txtComment = new CommonTextBox();
             label21 = new Label();
             dgvDetail = new DataGridView();
-            識別碼 = new DataGridViewTextBoxColumn();
-            品項編號 = new DataGridViewTextBoxColumn();
-            品名 = new DataGridViewTextBoxColumn();
-            銷售單位 = new DataGridViewTextBoxColumn();
-            數量 = new DataGridViewTextBoxColumn();
-            訂單單價 = new DataGridViewTextBoxColumn();
-            總金額 = new DataGridViewTextBoxColumn();
-            報價單價 = new DataGridViewTextBoxColumn();
-            折數 = new DataGridViewTextBoxColumn();
-            註記 = new DataGridViewTextBoxColumn();
-            專案序號 = new DataGridViewTextBoxColumn();
-            機台類型 = new DataGridViewTextBoxColumn();
-            傭金率 = new DataGridViewTextBoxColumn();
-            報價單號 = new DataGridViewTextBoxColumn();
             btnAddLine = new Button();
             txtApprover = new CommonTextBox();
             label22 = new Label();
@@ -121,6 +107,20 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnQuotationDistribution = new Button();
             txtAmount = new CommonTextBox();
             label26 = new Label();
+            識別碼 = new DataGridViewTextBoxColumn();
+            品項編號 = new DataGridViewTextBoxColumn();
+            品名 = new DataGridViewTextBoxColumn();
+            銷售單位 = new DataGridViewTextBoxColumn();
+            數量 = new DataGridViewTextBoxColumn();
+            訂單單價 = new DataGridViewTextBoxColumn();
+            總金額 = new DataGridViewTextBoxColumn();
+            報價單價 = new DataGridViewTextBoxColumn();
+            折數 = new DataGridViewTextBoxColumn();
+            註記 = new DataGridViewTextBoxColumn();
+            專案序號 = new DataGridViewTextBoxColumn();
+            機台類型 = new DataGridViewTextBoxColumn();
+            傭金率 = new DataGridViewTextBoxColumn();
+            報價單號 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetail).BeginInit();
             SuspendLayout();
@@ -660,91 +660,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             dgvDetail.Name = "dgvDetail";
             dgvDetail.Size = new Size(1396, 239);
             dgvDetail.TabIndex = 269;
-            // 
-            // 識別碼
-            // 
-            識別碼.HeaderText = "識別碼";
-            識別碼.Name = "識別碼";
-            識別碼.ReadOnly = true;
-            識別碼.Visible = false;
-            // 
-            // 品項編號
-            // 
-            品項編號.HeaderText = "品項編號";
-            品項編號.Name = "品項編號";
-            品項編號.ReadOnly = true;
-            // 
-            // 品名
-            // 
-            品名.HeaderText = "品名";
-            品名.Name = "品名";
-            品名.ReadOnly = true;
-            // 
-            // 銷售單位
-            // 
-            銷售單位.HeaderText = "銷售單位";
-            銷售單位.Name = "銷售單位";
-            銷售單位.ReadOnly = true;
-            // 
-            // 數量
-            // 
-            數量.HeaderText = "數量";
-            數量.Name = "數量";
-            數量.ReadOnly = true;
-            // 
-            // 訂單單價
-            // 
-            訂單單價.HeaderText = "訂單單價";
-            訂單單價.Name = "訂單單價";
-            訂單單價.ReadOnly = true;
-            // 
-            // 總金額
-            // 
-            總金額.HeaderText = "總金額";
-            總金額.Name = "總金額";
-            總金額.ReadOnly = true;
-            // 
-            // 報價單價
-            // 
-            報價單價.HeaderText = "報價單價";
-            報價單價.Name = "報價單價";
-            報價單價.ReadOnly = true;
-            // 
-            // 折數
-            // 
-            折數.HeaderText = "折數";
-            折數.Name = "折數";
-            折數.ReadOnly = true;
-            // 
-            // 註記
-            // 
-            註記.HeaderText = "註記";
-            註記.Name = "註記";
-            註記.ReadOnly = true;
-            // 
-            // 專案序號
-            // 
-            專案序號.HeaderText = "專案序號";
-            專案序號.Name = "專案序號";
-            專案序號.ReadOnly = true;
-            // 
-            // 機台類型
-            // 
-            機台類型.HeaderText = "機台類型";
-            機台類型.Name = "機台類型";
-            機台類型.ReadOnly = true;
-            // 
-            // 傭金率
-            // 
-            傭金率.HeaderText = "傭金率";
-            傭金率.Name = "傭金率";
-            傭金率.ReadOnly = true;
-            // 
-            // 報價單號
-            // 
-            報價單號.HeaderText = "報價單號";
-            報價單號.Name = "報價單號";
-            報價單號.ReadOnly = true;
+            dgvDetail.CellEndEdit += dgvDetail_CellEndEdit;
             // 
             // btnAddLine
             // 
@@ -906,6 +822,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnCancelActivate.TabIndex = 286;
             btnCancelActivate.Text = "取消生效";
             btnCancelActivate.UseVisualStyleBackColor = false;
+            btnCancelActivate.Click += btnCancelActivate_Click;
             // 
             // btnActivate
             // 
@@ -917,6 +834,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnActivate.TabIndex = 287;
             btnActivate.Text = "生效";
             btnActivate.UseVisualStyleBackColor = false;
+            btnActivate.Click += btnActivate_Click;
             // 
             // btnDelete
             // 
@@ -928,6 +846,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnDelete.TabIndex = 288;
             btnDelete.Text = "刪除";
             btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnTransShipping
             // 
@@ -961,6 +880,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnQuotationDistribution.TabIndex = 291;
             btnQuotationDistribution.Text = "報價單分配";
             btnQuotationDistribution.UseVisualStyleBackColor = false;
+            btnQuotationDistribution.Click += btnQuotationDistribution_Click;
             // 
             // txtAmount
             // 
@@ -981,6 +901,89 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             label26.Size = new Size(86, 24);
             label26.TabIndex = 292;
             label26.Text = "金額總計";
+            // 
+            // 識別碼
+            // 
+            識別碼.HeaderText = "識別碼";
+            識別碼.Name = "識別碼";
+            識別碼.ReadOnly = true;
+            識別碼.Visible = false;
+            // 
+            // 品項編號
+            // 
+            品項編號.HeaderText = "品項編號";
+            品項編號.Name = "品項編號";
+            品項編號.ReadOnly = true;
+            // 
+            // 品名
+            // 
+            品名.HeaderText = "品名";
+            品名.Name = "品名";
+            品名.ReadOnly = true;
+            // 
+            // 銷售單位
+            // 
+            銷售單位.HeaderText = "銷售單位";
+            銷售單位.Name = "銷售單位";
+            銷售單位.ReadOnly = true;
+            // 
+            // 數量
+            // 
+            數量.HeaderText = "數量";
+            數量.Name = "數量";
+            // 
+            // 訂單單價
+            // 
+            訂單單價.HeaderText = "訂單單價";
+            訂單單價.Name = "訂單單價";
+            // 
+            // 總金額
+            // 
+            總金額.HeaderText = "總金額";
+            總金額.Name = "總金額";
+            總金額.ReadOnly = true;
+            // 
+            // 報價單價
+            // 
+            報價單價.HeaderText = "報價單價";
+            報價單價.Name = "報價單價";
+            報價單價.ReadOnly = true;
+            // 
+            // 折數
+            // 
+            折數.HeaderText = "折數";
+            折數.Name = "折數";
+            折數.ReadOnly = true;
+            // 
+            // 註記
+            // 
+            註記.HeaderText = "註記";
+            註記.Name = "註記";
+            註記.ReadOnly = true;
+            // 
+            // 專案序號
+            // 
+            專案序號.HeaderText = "專案序號";
+            專案序號.Name = "專案序號";
+            專案序號.ReadOnly = true;
+            // 
+            // 機台類型
+            // 
+            機台類型.HeaderText = "機台類型";
+            機台類型.Name = "機台類型";
+            機台類型.ReadOnly = true;
+            // 
+            // 傭金率
+            // 
+            傭金率.HeaderText = "傭金率";
+            傭金率.Name = "傭金率";
+            傭金率.ReadOnly = true;
+            // 
+            // 報價單號
+            // 
+            報價單號.HeaderText = "報價單號";
+            報價單號.Name = "報價單號";
+            報價單號.ReadOnly = true;
             // 
             // OrderMaintainControl
             // 

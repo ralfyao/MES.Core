@@ -194,6 +194,7 @@
             dataGridView1.Size = new Size(1328, 633);
             dataGridView1.TabIndex = 3;
             dataGridView1.CellContentDoubleClick += dataGridView1_CellContentDoubleClick;
+            dataGridView1.VisibleChanged += dataGridView1_VisibleChanged;
             // 
             // 單號
             // 

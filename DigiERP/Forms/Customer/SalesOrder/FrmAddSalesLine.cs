@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace DigiERP.Forms.Customer.SalesOrder
 {
-    public partial class FrmAddSalesLine : Form
+    public partial class FrmAddSalesLine : CommonForm
     {
         private CustomerController _customerController;
         private ItemController _itemController;

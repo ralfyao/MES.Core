@@ -5,6 +5,7 @@ using DigiERP.Models;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +28,8 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             _isLoaded = false;
             InitializeComponent();
             initController();
+            initForm();
+            initControls(form);
             _isLoaded = true;
         }
 
@@ -70,9 +73,9 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             cboCurrency.DataSource = currencyRep.resultList;
             cboCurrency.DisplayMember = "CURRENCY";
             cboCurrency.ValueMember = "CURRENCY";
-            if (!string.IsNullOrEmpty(form.幣別))
+            if (!string.IsNullOrEmpty(form?.幣別 ?? ""))
             {
-                cboCurrency.Text = form.幣別;
+                cboCurrency.Text = form?.幣別 ?? "";
             }
         }
 
@@ -90,14 +93,16 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             cboSales.DataSource = salesRep.resultList;
             cboSales.DisplayMember = "工號";
             cboSales.ValueMember = "工號";
-            if (!string.IsNullOrEmpty(form.業務人員))
+            if (!string.IsNullOrEmpty(form?.業務人員 ?? ""))
             {
-                cboSales.Text = form.業務人員;
+                cboSales.Text = form?.業務人員 ?? "";
             }
         }
 
         internal void initForm()
         {
+
+            _isLoaded = false;
             //throw new NotImplementedException();
             initController();
             priceCondControl1.txType = "T";
@@ -111,6 +116,14 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 {
                     MessageBox.Show(soRep.ErrorMessage);
                 }
+                // 價格條件
+                priceCondControl1.SetPriceCond(form?.價格條件?.Trim() ?? "");
+                // 交期要求
+                ETDRequest.SetPriceCond(form?.交貨日期?.Trim() ?? "");
+                // 交貨方式
+                shipMethod.SetPriceCond(form?.交貨方式?.Trim() ?? "");
+                // 付款方式
+                payMethod.SetPriceCond(form?.付款方式?.Trim() ?? "");
                 txtOrderNo.Text = soRep.result;
                 dtORDERDATE.Value = DateTime.Now;
                 visibleControls(false);
@@ -120,7 +133,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             else if (lblMode.Text == "修改")
             {
                 CommonRep<C訂單> soRep = _customerController.GetSalesOrderListByNo(form.單號);
-                if (!string.IsNullOrEmpty( soRep.ErrorMessage))
+                if (!string.IsNullOrEmpty(soRep.ErrorMessage))
                 {
                     MessageBox.Show(soRep.ErrorMessage);
                     return;
@@ -131,6 +144,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 }
                 visibleControls(true);
                 disableAllControls(true);
+                initControls(form);
                 GetFormData();
                 cboCustId.Enabled = false;
                 txtCompany.Enabled = false;
@@ -148,7 +162,8 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                     btnCancelActivate.Visible = true;
                 }
             }
-            
+
+            _isLoaded = true;
         }
 
         private void visibleControls(bool v)
@@ -251,6 +266,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
 
             int index = 0;
             decimal sum = 0;
+            dgvDetail.Rows.Clear();
             foreach (var item in orderDetailList)
             {
                 index = 0;
@@ -278,7 +294,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 row.Cells[index++].Value = item.數量1;
                 row.Cells[index++].Value = item.單價1;
                 row.Cells[index++].Value = item.數量1 * item.單價1;
-                sum += decimal.Parse((item.數量1 * item.單價1).ToString());
+                sum += decimal.Parse(((item.數量1 ?? 0) * (item.單價1 ?? 0)).ToString());
                 row.Cells[index++].Value = item.報價單價;
                 row.Cells[index++].Value = item.折數;
                 row.Cells[index++].Value = item.描述;
@@ -473,7 +489,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 {
                     MessageBox.Show("尚未將此筆資料寫入資料庫! 請先按送出後再重新查詢、編輯");
                     return;
-                } 
+                }
                 //form.arListDetail.Add(new F收款分期()
                 //{
 
@@ -535,9 +551,10 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 row.Cells[index++].Value = frmAddSalesLine.txtComment.Text;
                 row.Cells[index++].Value = frmAddSalesLine.txtProjSerial.Text;
                 row.Cells[index++].Value = frmAddSalesLine.cboEqpType.Text;
+                row.Cells[index++].Value = frmAddSalesLine.numCommissionRate.Value;
                 index++;
                 index++;
-                txtOrderSum.Text = (decimal.Parse(txtOrderSum.Text) + (frmAddSalesLine.numQuantity.Value * frmAddSalesLine.numOrderUnitPrice.Value)).ToString();
+                txtOrderSum.Text = (decimal.Parse(string.IsNullOrEmpty(txtOrderSum.Text) ? "0" : txtOrderSum.Text) + (frmAddSalesLine.numQuantity.Value * frmAddSalesLine.numOrderUnitPrice.Value)).ToString();
                 txtAmount.Text = txtOrderSum.Text;
                 dgvDetail.Rows.Add(row);
             }
@@ -556,7 +573,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                     MessageBox.Show(rep.ErrorMessage);
                     return;
                 }
-            } 
+            }
             else if (lblMode.Text == "修改")
             {
                 form.修改 = AppSession.User.username;
@@ -569,6 +586,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 }
             }
             MessageBox.Show(lblMode.Text + "成功!");
+            button1_Click(null, null);
         }
 
         private void CollectUserInput()
@@ -589,7 +607,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             //dtETD.Value = DateTime.Parse( ?? "1900-01-01");
             form.要望日期 = dtETD.Value.ToString("yyyy-MM-dd");
             // 客戶全名
-            form.客戶全稱  = txtCompany.Text;
+            form.客戶全稱 = txtCompany.Text;
             // 結案
             form.結案 = chkClosed.Checked;
             // 業務人員
@@ -603,7 +621,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 稅率
             form.稅率 = cboTaxRate.Text;
             // 目的港
-            form.目的港  = txtDestPort.Text;
+            form.目的港 = txtDestPort.Text;
             // 訂單總額
             //txtOrderSum.Text = form.訂單總額加總().ToString();
             // 價格條件
@@ -627,15 +645,25 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 修改
             form.修改 = txtModifier.Text;
             // 修改日
-            form.修改日  = txtModifyDate.Text;
+            form.修改日 = txtModifyDate.Text;
             // 建檔
             form.建檔 = txtCreator.Text;
             // 建檔日
-            form.建檔日  = txtCreateDate.Text;
+            form.建檔日 = txtCreateDate.Text;
             // 核准
             form.核准 = txtCreator.Text;
             // 核准日
             form.核准日 = txtCreateDate.Text;
+            if (string.IsNullOrEmpty(form.核准))
+            {
+                btnActivate.Visible = true;
+                btnCancelActivate.Visible = false;
+            }
+            else
+            {
+                btnCancelActivate.Visible = true;
+                btnActivate.Visible = false;
+            }
             // 零件供令單號
 
             // 收款資料Grid
@@ -666,8 +694,8 @@ namespace DigiERP.UserControl.Customer.SalesOrder
 
         private void collectLineGrid()
         {
-            form.orderListDetail.Clear();
-            foreach(DataGridViewRow row in dgvDetail.Rows)
+            form.orderListDetail?.Clear();
+            foreach (DataGridViewRow row in dgvDetail.Rows)
             {
                 int index = 0;
                 C訂單明細 orderDetail = new C訂單明細();
@@ -678,30 +706,165 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 orderDetail.數量1 = decimal.Parse(row.Cells[index++].Value?.ToString());
                 orderDetail.單價1 = decimal.Parse(row.Cells[index++].Value?.ToString());
                 //orderDetail.產品編號 = row.Cells[index++].Value.ToString();
-                index++;
-                index++;
+                index++;//總金額
+                index++;//報價單價
+                index++;//折數
                 orderDetail.描述 = row.Cells[index++].Value?.ToString();
                 orderDetail.專案序號 = row.Cells[index++].Value?.ToString();
                 orderDetail.MTYPE = row.Cells[index++].Value?.ToString();
                 orderDetail.佣金率 = row.Cells[index++].Value?.ToString();
                 orderDetail.QUONO = row.Cells[index++].Value?.ToString();
+                if (form.orderListDetail == null)
+                    form.orderListDetail = new List<C訂單明細>();
                 form.orderListDetail.Add(orderDetail);
             }
         }
 
         private void collectArGrid()
         {
-            form.arListDetail.Clear();
+            form.arListDetail?.Clear();
             foreach (DataGridViewRow item in dataGridView1.Rows)
             {
                 F收款分期 f = new F收款分期();
                 int index = 0;
                 f.識別 = int.Parse(item.Cells[index++].Value.ToString());
                 f.款項期別 = item.Cells[index++].Value.ToString();
-                f.金額 = item.Cells[index++].Value == null ? 0m : decimal.Parse( item.Cells[index++].Value.ToString());//decimal.Parse((string)item.Cells[index++].Value ??"0");
-                f.請款單號 = item.Cells[index++].Value.ToString();
+                f.金額 = item.Cells[index++].Value == null ? 0m : decimal.Parse(item.Cells[index++].Value.ToString());//decimal.Parse((string)item.Cells[index++].Value ??"0");
+                f.請款單號 = item.Cells[index++].Value?.ToString();
                 f.單號 = txtOrderNo.Text;
+                if (form.arListDetail == null)
+                    form.arListDetail = new List<F收款分期>();
                 form.arListDetail.Add(f);
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確認刪除?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                initController();
+                CommonRep<C訂單> delRep = _customerController.DeleteSalesOrderNo(form.單號);
+                if (!string.IsNullOrEmpty(delRep.ErrorMessage))
+                {
+                    MessageBox.Show(delRep.ErrorMessage);
+                    return;
+                }
+                MessageBox.Show("刪除成功!");
+                button1_Click(null, null);
+            }
+        }
+
+        private void btnActivate_Click(object sender, EventArgs e)
+        {
+            form.核准 = AppSession.User.username;
+            form.核准日 = DateTime.Now.ToString("yyyy-MM-dd");
+            CommonRep<C訂單> activateRep = _customerController.UpdateSalesOrder(form);
+            if (!string.IsNullOrEmpty(activateRep.ErrorMessage))
+            {
+                MessageBox.Show(activateRep.ErrorMessage);
+                return;
+            }
+            MessageBox.Show("生效成功!");
+            btnActivate.Visible = false;
+            btnCancelActivate.Visible = true;
+        }
+
+        private void btnCancelActivate_Click(object sender, EventArgs e)
+        {
+            form.核准 = null;
+            form.核准日 = null;
+            CommonRep<C訂單> activateRep = _customerController.UpdateSalesOrder(form);
+            if (!string.IsNullOrEmpty(activateRep.ErrorMessage))
+            {
+                MessageBox.Show(activateRep.ErrorMessage);
+                return;
+            }
+            MessageBox.Show("取消生效成功!");
+            btnActivate.Visible = true;
+            btnCancelActivate.Visible = false;
+        }
+        List<int> quotationDistRemoveIndexLst = new List<int>();
+        private void btnQuotationDistribution_Click(object sender, EventArgs e)
+        {
+            FrmQuotationDistribution frmQuotationDistribution = new FrmQuotationDistribution();
+            frmQuotationDistribution.removedIndex = quotationDistRemoveIndexLst;
+            frmQuotationDistribution.customerId = cboCustId.Text;
+            frmQuotationDistribution.orderDate = dtORDERDATE.Value.ToString("yyyy-MM-dd");
+            frmQuotationDistribution.initGrid();
+            if (frmQuotationDistribution.ShowDialog() == DialogResult.OK)
+            {
+                quotationDistRemoveIndexLst = frmQuotationDistribution.removedIndex;
+                foreach (C報價明細 c in frmQuotationDistribution.checkedList)
+                {
+                    bool isContinue = false;
+                    foreach (var item in dgvDetail.Rows.Cast<DataGridViewRow>())
+                    {
+                        if ((item.Cells[13].Value ?? "").ToString() == c.QUONO && (item.Cells[1].Value ?? "").ToString() == c.產品編號)
+                        {
+                            isContinue = true;
+                        }
+                    }
+                    if (isContinue)
+                        continue;
+                    DataGridViewRow row = new DataGridViewRow();
+                    row.CreateCells(dgvDetail);
+                    row.Cells[0].Value = 0;
+                    row.Cells[1].Value = c.產品編號;
+                    row.Cells[2].Value = c.品名規格;
+                    row.Cells[3].Value = c.單位;
+                    row.Cells[4].Value = c.數量;
+                    row.Cells[7].Value = c.單價;
+                    row.Cells[13].Value = c.QUONO;
+                    dgvDetail.Rows.Add(row);
+                }
+            }
+        }
+
+        private void dgvDetail_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            // 取得目前編輯的 row / column
+            int rowIndex = e.RowIndex;
+            int colIndex = e.ColumnIndex;
+            if (colIndex == 4)
+            {
+                var quantity = dgvDetail.Rows[rowIndex].Cells[colIndex].Value?.ToString();
+                int numQuantity = -1;
+                int.TryParse(quantity, out numQuantity);
+                if (numQuantity > 0)
+                {
+                    var unitPrice = dgvDetail.Rows[rowIndex].Cells[colIndex + 1].Value?.ToString();
+                    int numUnitPrice = -1;
+                    int.TryParse(unitPrice, out numUnitPrice);
+                    if (numUnitPrice > 0)
+                    {
+                        dgvDetail.Rows[rowIndex].Cells[colIndex + 2].Value = numQuantity * numUnitPrice;
+                        if (!string.IsNullOrEmpty(dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value?.ToString()))
+                        {
+                            dgvDetail.Rows[rowIndex].Cells[colIndex + 4].Value = ((decimal)numUnitPrice / decimal.Parse(dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value != null ? dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value?.ToString() : "0") * 100).ToString()+"%";
+                        }
+                    }
+                }
+
+            }
+            if (colIndex == 5)
+            {
+                var unitPrice = dgvDetail.Rows[rowIndex].Cells[colIndex].Value?.ToString();
+                int numUnitPrice = -1;
+                int.TryParse(unitPrice, out numUnitPrice);
+                if (numUnitPrice > 0)
+                {
+                    var quantity = dgvDetail.Rows[rowIndex].Cells[colIndex - 1].Value?.ToString();
+                    int numQuantity = -1;
+                    int.TryParse(quantity, out numQuantity);
+                    if (numQuantity > 0)
+                    {
+                        dgvDetail.Rows[rowIndex].Cells[colIndex + 1].Value = numQuantity * numUnitPrice;
+                        if (!string.IsNullOrEmpty(dgvDetail.Rows[rowIndex].Cells[colIndex + 2].Value?.ToString()))
+                        {
+                            dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value = Math.Round( ((decimal)numUnitPrice / decimal.Parse(dgvDetail.Rows[rowIndex].Cells[colIndex + 2].Value != null ? dgvDetail.Rows[rowIndex].Cells[colIndex + 2].Value?.ToString() : "0") * 100), 2).ToString() + "%";
+                        }
+                    }
+                }
             }
         }
     }
