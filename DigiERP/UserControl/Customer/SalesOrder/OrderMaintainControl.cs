@@ -200,6 +200,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             // 日期
             dtORDERDATE.Value = DateTime.Parse(form.日期 ?? "1900-01-01");
             // 客戶編號
+            cboCustId.Items.Add(form.客戶編號);
             cboCustId.Text = form.客戶編號 ?? "";
             // 單號
             txtOrderNo.Text = form.單號;
@@ -367,6 +368,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             btnAddAR.Enabled = Enabled;
             btnQuotationDistribution.Enabled = Enabled;
             btnTransWorkOrder.Enabled = Enabled;
+            btnTransShipping.Enabled = Enabled;
             btnDelete.Enabled = Enabled;
             btnActivate.Enabled = Enabled;
             btnCancelActivate.Enabled = Enabled;
@@ -840,7 +842,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                         dgvDetail.Rows[rowIndex].Cells[colIndex + 2].Value = numQuantity * numUnitPrice;
                         if (!string.IsNullOrEmpty(dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value?.ToString()))
                         {
-                            dgvDetail.Rows[rowIndex].Cells[colIndex + 4].Value = ((decimal)numUnitPrice / decimal.Parse(dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value != null ? dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value?.ToString() : "0") * 100).ToString()+"%";
+                            dgvDetail.Rows[rowIndex].Cells[colIndex + 4].Value = ((decimal)numUnitPrice / decimal.Parse(dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value != null ? dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value?.ToString() : "0") * 100).ToString() + "%";
                         }
                     }
                 }
@@ -861,11 +863,29 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                         dgvDetail.Rows[rowIndex].Cells[colIndex + 1].Value = numQuantity * numUnitPrice;
                         if (!string.IsNullOrEmpty(dgvDetail.Rows[rowIndex].Cells[colIndex + 2].Value?.ToString()))
                         {
-                            dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value = Math.Round( ((decimal)numUnitPrice / decimal.Parse(dgvDetail.Rows[rowIndex].Cells[colIndex + 2].Value != null ? dgvDetail.Rows[rowIndex].Cells[colIndex + 2].Value?.ToString() : "0") * 100), 2).ToString() + "%";
+                            dgvDetail.Rows[rowIndex].Cells[colIndex + 3].Value = Math.Round(((decimal)numUnitPrice / decimal.Parse(dgvDetail.Rows[rowIndex].Cells[colIndex + 2].Value != null ? dgvDetail.Rows[rowIndex].Cells[colIndex + 2].Value?.ToString() : "0") * 100), 2).ToString() + "%";
                         }
                     }
                 }
             }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnTransShipping_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(cboCustId.Text))
+            {
+                MessageBox.Show("無客戶編號!");
+                return;
+            }
+            FrmTransToShippingOrder frmTransToShippingOrder = new FrmTransToShippingOrder();
+            frmTransToShippingOrder.custId = cboCustId.Text;
+            frmTransToShippingOrder.loadData();
+            frmTransToShippingOrder.ShowDialog();
         }
     }
 }
