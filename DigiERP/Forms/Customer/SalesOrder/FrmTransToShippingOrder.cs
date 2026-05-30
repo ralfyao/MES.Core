@@ -44,7 +44,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 return;
             }
             int index = 0;
-            foreach(var item in commonRep.resultList)
+            foreach (var item in commonRep.resultList)
             {
                 index = 0;
                 DataGridViewRow row = new DataGridViewRow();
@@ -62,6 +62,23 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 dataGridView1.Rows.Add(row);
             }
             //throw new NotImplementedException();
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 判斷是不是 checkbox 欄
+            if (e.RowIndex >= 0 &&
+                dataGridView1.Columns[e.ColumnIndex].Name == "勾選")
+            {
+                // 先取消所有勾選
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Cells["勾選"].Value = false;
+                }
+
+                // 勾選目前列
+                dataGridView1.Rows[e.RowIndex].Cells["勾選"].Value = true;
+            }
         }
     }
 }

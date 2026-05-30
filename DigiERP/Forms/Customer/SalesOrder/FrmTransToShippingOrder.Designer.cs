@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            btnTransShippingOrder = new Button();
             識別 = new DataGridViewTextBoxColumn();
             勾選 = new DataGridViewCheckBoxColumn();
             單號 = new DataGridViewTextBoxColumn();
@@ -40,6 +39,7 @@
             訂單數量 = new DataGridViewTextBoxColumn();
             建檔 = new DataGridViewTextBoxColumn();
             報價單號 = new DataGridViewTextBoxColumn();
+            btnTransShippingOrder = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -54,16 +54,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(872, 284);
             dataGridView1.TabIndex = 0;
-            // 
-            // btnTransShippingOrder
-            // 
-            btnTransShippingOrder.Location = new Point(816, 316);
-            btnTransShippingOrder.Name = "btnTransShippingOrder";
-            btnTransShippingOrder.Size = new Size(75, 23);
-            btnTransShippingOrder.TabIndex = 1;
-            btnTransShippingOrder.Text = "轉出貨單";
-            btnTransShippingOrder.UseVisualStyleBackColor = true;
-            btnTransShippingOrder.Click += btnTransShippingOrder_Click;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // 識別
             // 
@@ -123,6 +114,16 @@
             報價單號.HeaderText = "報價單號";
             報價單號.Name = "報價單號";
             報價單號.ReadOnly = true;
+            // 
+            // btnTransShippingOrder
+            // 
+            btnTransShippingOrder.Location = new Point(816, 316);
+            btnTransShippingOrder.Name = "btnTransShippingOrder";
+            btnTransShippingOrder.Size = new Size(75, 23);
+            btnTransShippingOrder.TabIndex = 1;
+            btnTransShippingOrder.Text = "轉出貨單";
+            btnTransShippingOrder.UseVisualStyleBackColor = true;
+            btnTransShippingOrder.Click += btnTransShippingOrder_Click;
             // 
             // FrmTransToShippingOrder
             // 

@@ -51,6 +51,7 @@ namespace DigiERP
             TreeNode treeNode4 = new TreeNode("客戶訴願");
             TreeNode treeNode5 = new TreeNode("機台客服");
             TreeNode treeNode6 = new TreeNode("訂單維護");
+            TreeNode treeNode7 = new TreeNode("出貨單據");
             sidebar = new Panel();
             splitContainer = new SplitContainer();
             treeView = new System.Windows.Forms.TreeView();
@@ -109,7 +110,9 @@ namespace DigiERP
             treeNode5.Text = "機台客服";
             treeNode6.Name = "SalesOrder";
             treeNode6.Text = "訂單維護";
-            treeView.Nodes.AddRange(new TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4, treeNode5, treeNode6 });
+            treeNode7.Name = "ShippingOrder";
+            treeNode7.Text = "出貨單據";
+            treeView.Nodes.AddRange(new TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4, treeNode5, treeNode6, treeNode7 });
             treeView.Size = new Size(387, 669);
             treeView.TabIndex = 0;
             treeView.AfterSelect += TreeView_AfterSelect;

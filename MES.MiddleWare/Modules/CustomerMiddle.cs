@@ -1185,6 +1185,7 @@ namespace MES.MiddleWare.Modules
                     obj.單號 = item.單號;
                     item.shipOrderLists = shipOrderDetailRepository.GetListBy(obj, "單號").ToList();
                     item.客戶簡稱 = customerMiddle.getCustomerByCustNo(item.客戶編號)?.欄位2;
+                    item.客戶名稱 = customerMiddle.getCustomerByCustNo(item.客戶編號)?.COMPANY;
                     item.業務人員 = humanResourceRepository.GetListBy(new H員工清冊() { 工號 = item.業務員 }, "工號").FirstOrDefault()?.姓名;//customerMiddle.getCustomerByCustNo(item.業務員)?.欄位2;
                 }
             }

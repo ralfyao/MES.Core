@@ -14,6 +14,7 @@ using DigiERP.UserControl.Customer.Quotation;
 using MES.Core.Model;
 using DigiERP.UserControl.SalesOrder;
 using DigiERP.UserControl.Customer;
+using DigiERP.UserControl.Customer.ShippingOrder;
 
 namespace DigiERP
 {
@@ -78,6 +79,7 @@ namespace DigiERP
                 "RFQ" => new RFQControl() { Width = tab.Width },
                 "Quotation" => new QuotationControl() {  Width = tab.Width },
                 "SalesOrder" => new OrderControl() {  Width = tab.Width },
+                "ShippingOrder" => new ShippingOrderControl() {  Width = tab.Width },
                 _ => null
             }; ;
 

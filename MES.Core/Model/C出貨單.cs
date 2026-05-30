@@ -15,6 +15,7 @@ namespace MES.Core.Model
         public string? 日期 { get; set; }
         public string? 單號 { get; set; }
         public string? 客戶編號 { get; set; }
+        public string? 客戶名稱 { get; set; }
         public string? 客戶簡稱 { get; set; }
         public string? 業務人員 { get; set; }
         public string? 業務員 { get; set; }
