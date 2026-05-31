@@ -22,7 +22,7 @@ namespace DigiERP.UserControl.Auth
 
         private void initGrid()
         {
-            CommonRep<Authenticate> authRep = _controller.GetAllUsers();
+            CommonRep<H員工清冊> authRep = _controller.GetAllHRData();
             if (!string.IsNullOrEmpty(authRep.ErrorMessage))
             {
                 MessageBox.Show(authRep.ErrorMessage);
