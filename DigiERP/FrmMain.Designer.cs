@@ -45,10 +45,10 @@
             // 
             panel1.BackColor = Color.FromArgb(1, 0, 0, 0);
             panel1.Cursor = Cursors.Hand;
-            panel1.Location = new Point(308, 93);
-            panel1.Margin = new Padding(2, 2, 2, 2);
+            panel1.Location = new Point(240, 73);
+            panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(196, 178);
+            panel1.Size = new Size(152, 141);
             panel1.TabIndex = 0;
             panel1.Click += panel1_Click;
             panel1.DoubleClick += panel1_DoubleClick;
@@ -61,10 +61,10 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Microsoft JhengHei UI", 14F);
             label1.ForeColor = SystemColors.ButtonHighlight;
-            label1.Location = new Point(33, 13);
+            label1.Location = new Point(26, 10);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(85, 30);
+            label1.Size = new Size(67, 24);
             label1.TabIndex = 1;
             label1.Text = "登錄者";
             // 
@@ -74,10 +74,10 @@
             lblUser.BackColor = Color.Transparent;
             lblUser.Font = new Font("Microsoft JhengHei UI", 14F);
             lblUser.ForeColor = Color.Yellow;
-            lblUser.Location = new Point(131, 13);
+            lblUser.Location = new Point(102, 10);
             lblUser.Margin = new Padding(2, 0, 2, 0);
             lblUser.Name = "lblUser";
-            lblUser.Size = new Size(92, 30);
+            lblUser.Size = new Size(73, 24);
             lblUser.TabIndex = 2;
             lblUser.Text = "lblUser";
             // 
@@ -87,10 +87,10 @@
             lblUserName.BackColor = Color.Transparent;
             lblUserName.Font = new Font("Microsoft JhengHei UI", 14F);
             lblUserName.ForeColor = SystemColors.ButtonHighlight;
-            lblUserName.Location = new Point(229, 13);
+            lblUserName.Location = new Point(178, 10);
             lblUserName.Margin = new Padding(2, 0, 2, 0);
             lblUserName.Name = "lblUserName";
-            lblUserName.Size = new Size(160, 30);
+            lblUserName.Size = new Size(127, 24);
             lblUserName.TabIndex = 3;
             lblUserName.Text = "lblUserName";
             // 
@@ -100,10 +100,10 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Microsoft JhengHei UI", 14F);
             label2.ForeColor = SystemColors.ButtonHighlight;
-            label2.Location = new Point(406, 13);
+            label2.Location = new Point(316, 10);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(109, 30);
+            label2.Size = new Size(86, 24);
             label2.TabIndex = 4;
             label2.Text = "登錄時間";
             // 
@@ -113,19 +113,19 @@
             lblLoginTime.BackColor = Color.Transparent;
             lblLoginTime.Font = new Font("Microsoft JhengHei UI", 14F);
             lblLoginTime.ForeColor = SystemColors.ButtonHighlight;
-            lblLoginTime.Location = new Point(524, 13);
+            lblLoginTime.Location = new Point(408, 10);
             lblLoginTime.Margin = new Padding(2, 0, 2, 0);
             lblLoginTime.Name = "lblLoginTime";
-            lblLoginTime.Size = new Size(158, 30);
+            lblLoginTime.Size = new Size(128, 24);
             lblLoginTime.TabIndex = 5;
             lblLoginTime.Text = "lblLoginTime";
             // 
             // btnClose
             // 
-            btnClose.Location = new Point(1021, 20);
-            btnClose.Margin = new Padding(2, 2, 2, 2);
+            btnClose.Location = new Point(794, 16);
+            btnClose.Margin = new Padding(2);
             btnClose.Name = "btnClose";
-            btnClose.Size = new Size(33, 28);
+            btnClose.Size = new Size(26, 22);
             btnClose.TabIndex = 6;
             btnClose.Text = "X";
             btnClose.UseVisualStyleBackColor = true;
@@ -134,21 +134,22 @@
             // btnPasswordManage
             // 
             btnPasswordManage.ForeColor = Color.Blue;
-            btnPasswordManage.Location = new Point(766, 20);
-            btnPasswordManage.Margin = new Padding(2, 2, 2, 2);
+            btnPasswordManage.Location = new Point(596, 16);
+            btnPasswordManage.Margin = new Padding(2);
             btnPasswordManage.Name = "btnPasswordManage";
-            btnPasswordManage.Size = new Size(92, 28);
+            btnPasswordManage.Size = new Size(72, 22);
             btnPasswordManage.TabIndex = 7;
             btnPasswordManage.Text = "密碼管理";
             btnPasswordManage.UseVisualStyleBackColor = true;
+            btnPasswordManage.Click += btnPasswordManage_Click;
             // 
             // btnPassworkChange
             // 
             btnPassworkChange.ForeColor = Color.Red;
-            btnPassworkChange.Location = new Point(877, 20);
-            btnPassworkChange.Margin = new Padding(2, 2, 2, 2);
+            btnPassworkChange.Location = new Point(682, 16);
+            btnPassworkChange.Margin = new Padding(2);
             btnPassworkChange.Name = "btnPassworkChange";
-            btnPassworkChange.Size = new Size(92, 28);
+            btnPassworkChange.Size = new Size(72, 22);
             btnPassworkChange.TabIndex = 8;
             btnPassworkChange.Text = "密碼變更";
             btnPassworkChange.UseVisualStyleBackColor = true;
@@ -158,20 +159,20 @@
             // 
             panelSettings.BackColor = Color.FromArgb(1, 0, 0, 0);
             panelSettings.Cursor = Cursors.Hand;
-            panelSettings.Location = new Point(812, 317);
-            panelSettings.Margin = new Padding(2, 2, 2, 2);
+            panelSettings.Location = new Point(632, 250);
+            panelSettings.Margin = new Padding(2);
             panelSettings.Name = "panelSettings";
-            panelSettings.Size = new Size(196, 178);
+            panelSettings.Size = new Size(152, 141);
             panelSettings.TabIndex = 9;
             panelSettings.Click += panelSettings_Click;
             // 
             // FrmMain
             // 
-            AutoScaleDimensions = new SizeF(9F, 19F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1073, 573);
+            ClientSize = new Size(835, 452);
             ControlBox = false;
             Controls.Add(panelSettings);
             Controls.Add(btnPassworkChange);
@@ -184,7 +185,7 @@
             Controls.Add(label1);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmMain";

@@ -1,4 +1,5 @@
 ﻿using DigiERP.Forms.Settings;
+using DigiERP.UserControl.Auth;
 using MES.WebAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,12 @@ namespace DigiERP
             FrmPasswordSetting frmPasswordSetting = new FrmPasswordSetting();
             frmPasswordSetting.SetAccount(_user.name);
             frmPasswordSetting.ShowDialog();
+        }
+
+        private void btnPasswordManage_Click(object sender, EventArgs e)
+        {
+            FrmAuth frmAuth = new FrmAuth();
+            frmAuth.ShowDialog();
         }
     }
 }

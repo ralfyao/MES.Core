@@ -32,8 +32,21 @@ namespace DigiERP.UserControl.Auth
             dataGridView1.Rows.Clear();
             foreach (var item in authRep.resultList)
             {
+                index = 0;
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dataGridView1);
+                row.Cells[index++].Value = item.工號;
+                row.Cells[index++].Value = item.姓名;
+                row.Cells[index++].Value = item.部門;
+                row.Cells[index++].Value = item.職能;
+                row.Cells[index++].Value = item.地址;
+                row.Cells[index++].Value = item.生日;
+                row.Cells[index++].Value = item.職稱;
+                row.Cells[index++].Value = item.狀況;
+                row.Cells[index++].Value = item.身分證號;
+                row.Cells[index++].Value = item.人事編號;
+                row.Cells[index++].Value = item.卡號;
+                row.Cells[index++].Value = item.系統帳號;
                 dataGridView1.Rows.Add(row);
             }
         }
