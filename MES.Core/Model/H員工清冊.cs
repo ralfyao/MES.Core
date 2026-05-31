@@ -8,6 +8,8 @@ namespace MES.Core.Model
 {
     public class H員工清冊
     {
+        public object 系統帳號 { get; set; }
+
         public string 工號            {get; set;}
         public string 姓名            {get; set;}
         public string 部門            {get; set;}

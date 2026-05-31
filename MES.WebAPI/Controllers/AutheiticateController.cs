@@ -138,25 +138,6 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
-        [HttpGet]
-        [Route("api/GetAllHRData")]
-        public CommonRep<H員工清冊> GetAllHRData()
-        {
-            CommonRep<H員工清冊> rep = new CommonRep<H員工清冊>();
-            try
-            {
-                List<H員工清冊> userList = new HumanResourceRepository().GetList(null, "", "");
-                rep.resultList = userList;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex + ex.StackTrace);
-                rep.ErrorMessage = ex + ex.StackTrace;
-                rep.WorkStatus = WorkStatus.Fail.ToString();
-                //throw;
-            }
-            return rep;
-        }
         /// <summary>
         /// 取得所有使用者帳號
         /// </summary>
@@ -309,5 +290,6 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+
     }
 }

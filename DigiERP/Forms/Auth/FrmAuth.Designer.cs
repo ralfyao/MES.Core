@@ -29,7 +29,8 @@ namespace DigiERP.UserControl.Auth
             身分證號 = new DataGridViewTextBoxColumn();
             人事編號 = new DataGridViewTextBoxColumn();
             卡號 = new DataGridViewTextBoxColumn();
-            系統帳號 = new DataGridViewTextBoxColumn();
+            系統帳號 = new DataGridViewComboBoxColumn();
+            功能權限 = new DataGridViewButtonColumn();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -44,7 +45,7 @@ namespace DigiERP.UserControl.Auth
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1025, 51);
+            panel1.Size = new Size(1089, 51);
             panel1.TabIndex = 0;
             // 
             // button2
@@ -88,7 +89,7 @@ namespace DigiERP.UserControl.Auth
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 51);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1025, 542);
+            panel2.Size = new Size(1089, 542);
             panel2.TabIndex = 1;
             // 
             // dataGridView1
@@ -97,12 +98,13 @@ namespace DigiERP.UserControl.Auth
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { 工號, 姓名, 部門, 職能, 地址, 生日, 職稱, 狀況, 身分證號, 人事編號, 卡號, 系統帳號 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { 工號, 姓名, 部門, 職能, 地址, 生日, 職稱, 狀況, 身分證號, 人事編號, 卡號, 系統帳號, 功能權限 });
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1025, 542);
+            dataGridView1.Size = new Size(1089, 542);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellLeave += dataGridView1_CellLeave;
             // 
             // 工號
             // 
@@ -175,13 +177,20 @@ namespace DigiERP.UserControl.Auth
             // 
             系統帳號.HeaderText = "系統帳號";
             系統帳號.Name = "系統帳號";
-            系統帳號.ReadOnly = true;
+            系統帳號.Resizable = DataGridViewTriState.True;
+            系統帳號.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // 功能權限
+            // 
+            功能權限.HeaderText = "功能權限";
+            功能權限.Name = "功能權限";
+            功能權限.UseColumnTextForButtonValue = true;
             // 
             // FrmAuth
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1025, 593);
+            ClientSize = new Size(1089, 593);
             Controls.Add(panel2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
@@ -193,6 +202,7 @@ namespace DigiERP.UserControl.Auth
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
+
         private Panel panel1;
         private Button button2;
         private Button button1;
@@ -211,6 +221,7 @@ namespace DigiERP.UserControl.Auth
         private DataGridViewTextBoxColumn 身分證號;
         private DataGridViewTextBoxColumn 人事編號;
         private DataGridViewTextBoxColumn 卡號;
-        private DataGridViewTextBoxColumn 系統帳號;
+        private DataGridViewComboBoxColumn 系統帳號;
+        private DataGridViewButtonColumn 功能權限;
     }
 }

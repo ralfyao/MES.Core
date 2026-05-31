@@ -13,6 +13,7 @@ namespace DigiERP.UserControl.Auth
     public partial class FrmAuth : CommonForm
     {
         private AutheiticateController _controller;
+        private HRController _hrController;
         public FrmAuth()
         {
             InitializeComponent();
@@ -22,7 +23,7 @@ namespace DigiERP.UserControl.Auth
 
         private void initGrid()
         {
-            CommonRep<H員工清冊> authRep = _controller.GetAllHRData();
+            CommonRep<H員工清冊> authRep = _hrController.AllWorkers();
             if (!string.IsNullOrEmpty(authRep.ErrorMessage))
             {
                 MessageBox.Show(authRep.ErrorMessage);
@@ -30,6 +31,17 @@ namespace DigiERP.UserControl.Auth
             }
             int index = 0;
             dataGridView1.Rows.Clear();
+            CommonRep<Authenticate> allAccountsRep = _controller.GetAllUsers();
+            if (!string.IsNullOrEmpty(allAccountsRep.ErrorMessage))
+            {
+                MessageBox.Show(allAccountsRep.ErrorMessage);
+                return;
+            }
+            List<string> accounts = new List<string>();
+            allAccountsRep.resultList.ForEach(x =>
+            {
+                accounts.Add(x.Account);
+            });
             foreach (var item in authRep.resultList)
             {
                 index = 0;
@@ -46,7 +58,9 @@ namespace DigiERP.UserControl.Auth
                 row.Cells[index++].Value = item.身分證號;
                 row.Cells[index++].Value = item.人事編號;
                 row.Cells[index++].Value = item.卡號;
-                row.Cells[index++].Value = item.系統帳號;
+                ((DataGridViewComboBoxCell)row.Cells[index]).DataSource = accounts;
+                row.Cells[index].Value = item.系統帳號;
+                index++;
                 dataGridView1.Rows.Add(row);
             }
         }
@@ -57,6 +71,17 @@ namespace DigiERP.UserControl.Auth
             {
                 _controller = new AutheiticateController();
             }
+            if (_hrController == null)
+            {
+                _hrController = new HRController();
+            }
+        }
+
+        private void dataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            //取得使用者選到的值
+            //string value =
+            //dataGridView1.CurrentRow.Cells["colStatus"].Value?.ToString();
         }
     }
 }
