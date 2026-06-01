@@ -40,6 +40,41 @@ namespace MES.Core.Repository.Impl
             //throw new NotImplementedException();
         }
 
+        public List<account> GetAccountList(account t, string topn, string orderBy)
+        {
+            List<account> authList = new List<account>();
+            try
+            {
+                using (var conn = new SqlConnection(string.IsNullOrEmpty(IRepository<Authenticate>.ConnStr) ? Constant.CONNECTION_STRING : IRepository<Authenticate>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"SELECT  {topn} a.[帳號]
+                                                  ,a.[密碼]
+                                                  ,a.[姓名]
+                                                  ,a.[停用]
+                                                  ,a.[SSMA_TimeStamp]
+                                                  ,a.[寄件允許]
+                                                  ,b.[職能]
+                                                  ,b.[工號]
+                                       FROM account a  
+                                       LEFT OUTER JOIN H員工清冊 b ON a.帳號=b.工號
+                                      WHERE 1=1";
+                    if (t != null)
+                    {
+                        sql += " AND 帳號 like @帳號 + '%'";
+                    }
+                    var parameters = new DynamicParameters(t);
+                    var result = conn.Query<account>(sql, parameters);
+                    authList.AddRange(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+            return authList;
+        }
+
         public List<Authenticate> GetList(Authenticate t, string topn = "")
         {
             List <Authenticate> authList = new List<Authenticate>();

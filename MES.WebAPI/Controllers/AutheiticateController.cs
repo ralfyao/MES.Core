@@ -31,16 +31,16 @@ namespace MES.WebAPI.Controllers
             AuthenticateRepository repository = new AuthenticateRepository();
             try
             {
-                Authenticate authenticate = new Authenticate();
-                authenticate.Account = user.username;
-                var result = repository.GetList(authenticate, "", "");
-                if (result.Count > 0)
+                account authenticate = new account();
+                authenticate.帳號 = user.username;
+                var result = repository.GetAccountList(authenticate, "", "");
+                if (result.Count() > 0)
                 {
                     foreach(var item in result)
                     {
-                        if (item.Password == user.password)
+                        if (((account)item).密碼 == user.password)
                         {
-                            if (!(bool)item.IsActivate)
+                            if ((bool)((account)item).停用)
                             {
                                 rep.WorkStatus = WorkStatus.NG.ToString();
                                 rep.ErrorMessage = "帳號已停用";
@@ -50,13 +50,13 @@ namespace MES.WebAPI.Controllers
                             {
                                 rep.result = new User
                                 {
-                                    username = item.AccountName,
-                                    name = item.Account,
-                                    password = item.Password,
-                                    empNo = item.員工編號,
-                                    isEmail = item.IsEmail,
-                                    isActivate = item.IsActivate,
-                                    position = item.職務,
+                                    username = ((account)item).姓名,
+                                    name = ((account)item).帳號,
+                                    password = ((account)item).密碼,
+                                    empNo = ((account)item).工號,
+                                    isEmail = ((account)item).寄件允許,
+                                    isActivate = ((account)item).停用,
+                                    position = ((account)item).職能,
                                 };
                                 rep.WorkStatus = WorkStatus.OK.ToString();
                                 rep.ErrorMessage = string.Empty;
@@ -86,16 +86,16 @@ namespace MES.WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/GetUser")]
-        public CommonRep<Authenticate> GetUser(User user)
+        public CommonRep<account> GetUser(User user)
         {
-            CommonRep<Authenticate> rep = new CommonRep<Authenticate>();
+            CommonRep<account> rep = new CommonRep<account>();
             rep.WorkStatus = WorkStatus.NG.ToString();
             rep.ErrorMessage = "無帳號資料";
-            AuthenticateRepository repository = new AuthenticateRepository();
+            AccountRepository repository = new AccountRepository();
             try
             {
-                Authenticate authenticate = new Authenticate();
-                authenticate.Account = user.username;
+                account authenticate = new account();
+                authenticate.帳號 = user.username;
                 var result = repository.GetList(authenticate, "", "");
                 if (result.Count > 0)
                 {
@@ -144,12 +144,12 @@ namespace MES.WebAPI.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/GetAllUsers")]
-        public CommonRep<Authenticate> GetAllUsers()
+        public CommonRep<account> GetAllUsers()
         {
-            CommonRep<Authenticate> rep = new CommonRep<Authenticate>();
+            CommonRep<account> rep = new CommonRep<account>();
             try
             {
-                List<Authenticate> userList = new AuthenticateRepository().GetList(null, "", "");
+                List<account> userList = new AccountRepository().GetList(null, "", "");
                 rep.resultList = userList; 
             }
             catch (Exception ex)
@@ -168,14 +168,16 @@ namespace MES.WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/AddUser")]
-        public CommonRep<Authenticate> addUser(User user)
+        public CommonRep<account> addUser(User user)
         {
-            CommonRep<Authenticate> rep = new Models.CommonRep<Authenticate>();
+            CommonRep<account> rep = new Models.CommonRep<account>();
             try
             {
-                Authenticate authenticate = user.ToAuthenticate();
-                AuthenticateRepository authenticateRepository = new AuthenticateRepository();
-                authenticateRepository.Insert(authenticate);
+                account authenticate = user.ToAccount();
+                AccountRepository authenticateRepository = new AccountRepository();
+                int retCode = authenticateRepository.Insert(authenticate);
+                if (retCode == 0)
+                    rep.ErrorMessage = "寫入使用者資料有誤";
             }
             catch (Exception ex)
             {
@@ -193,20 +195,23 @@ namespace MES.WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/UpdateUser")]
-        public CommonRep<Authenticate> updateUser(User user)
+        public CommonRep<account> updateUser(User user)
         {
-            CommonRep<Authenticate> rep = new CommonRep<Authenticate>();
+            CommonRep<account> rep = new Models.CommonRep<account>();
             try
             {
-                Authenticate authenticate = user.ToAuthenticate();
-                AuthenticateRepository authenticateRepository = new AuthenticateRepository();
-                authenticateRepository.Update(authenticate);
+                account authenticate = user.ToAccount();
+                AccountRepository authenticateRepository = new AccountRepository();
+                int retCode = authenticateRepository.Insert(authenticate);
+                if (retCode == 0)
+                    rep.ErrorMessage = "寫入使用者資料有誤";
             }
             catch (Exception ex)
             {
                 _logger.Error(ex + ex.StackTrace);
                 rep.ErrorMessage = ex + ex.StackTrace;
                 rep.WorkStatus = WorkStatus.Fail.ToString();
+                //throw;
             }
             return rep;
         }
@@ -217,13 +222,13 @@ namespace MES.WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/DeleteUser")]
-        public CommonRep<Authenticate> deleteUser(User user)
+        public CommonRep<account> deleteUser(User user)
         {
-            CommonRep<Authenticate> commonRep = new CommonRep<Authenticate>();
+            CommonRep<account> commonRep = new CommonRep<account>();
             try
             {
-                Authenticate authenticate = user.ToAuthenticate();
-                AuthenticateRepository authenticateRepository = new AuthenticateRepository();
+                account authenticate = user.ToAccount();
+                AccountRepository authenticateRepository = new AccountRepository();
                 authenticateRepository.Delete(authenticate);
             }
             catch (Exception ex)

@@ -224,11 +224,15 @@ namespace DigiERP.UserControl.Customer.Quotation
                 {
                     btnActrivate.Visible = true;
                     btnDeactivate.Visible = false;
+                    btnPrintC.Visible = false; 
+                    btnPrintE.Visible = false;
                 }
                 else
                 {
                     btnActrivate.Visible = false;
                     btnDeactivate.Visible = true;
+                    btnPrintC.Visible = true; 
+                    btnPrintE.Visible = true;
                 }
             }
             else

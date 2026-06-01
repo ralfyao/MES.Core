@@ -47,11 +47,11 @@ namespace DigiERP.Forms.Settings
                 MessageBox.Show("【新密碼】與【確認新密碼】不同");
                 return;
             }
-            AutheiticateController autheiticateController = new AutheiticateController();
-            var user = autheiticateController.GetUser(new MES.WebAPI.Models.User() { username = lblAccount.Text });
+            AccountController autheiticateController = new AccountController();
+            var user = autheiticateController.GetAccount(lblAccount.Text);
             if (user != null && user.result != null)
             {
-                if (user.result.Password != txtPassword.Text)
+                if (user.result.密碼 != txtPassword.Text)
                 {
                     MessageBox.Show($"原密碼輸入錯誤!");
                     return;

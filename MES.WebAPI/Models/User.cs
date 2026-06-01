@@ -26,5 +26,17 @@ namespace MES.WebAPI.Models
             authenticate.員工編號 = empNo;
             return authenticate;
         }
+
+        public account ToAccount()
+        {
+            account a = new account();
+            a.帳號 = username;
+            a.姓名 = name;
+            a.密碼 = password;
+            a.停用 = isActivate;
+            a.寄件允許 = isEmail;
+            a.工號 = username;
+            return a;
+        }
     }
 }

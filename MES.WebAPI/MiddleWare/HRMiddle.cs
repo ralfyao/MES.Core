@@ -67,7 +67,6 @@ namespace MES.WebAPI.MiddleWare
             }
             return obj;
         }
-
         public void saveUpdateJournal(工作紀錄A form)
         {
             try
@@ -86,8 +85,6 @@ namespace MES.WebAPI.MiddleWare
                 throw;
             }
         }
-
-
         public 工作紀錄A getJournalByNo(string journalNo)
         {
             工作紀錄A a = new 工作紀錄A();
@@ -106,6 +103,56 @@ namespace MES.WebAPI.MiddleWare
                 throw;
             }
             return a;
+        }
+        public account getAccount(string account = "")
+        {
+            account a = new account();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"SELECT * FROM account WHERE 1=1";
+                    if (!string.IsNullOrEmpty(account))
+                        sql +=  " AND 帳號=@帳號";
+                    account account1 = new account();
+                    account1.帳號 = account;
+                    DynamicParameters dynamicParameters = new DynamicParameters(account1);
+                    var tmpa = conn.Query<account>(sql, dynamicParameters)?.FirstOrDefault();
+                    if (tmpa != null)
+                        a = tmpa;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return a;
+        }
+
+        internal int UpdatePassword(string account, string newPassword)
+        {
+            int retCode = 0;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"UPDATE account SET 密碼=@密碼 WHERE 帳號=@帳號";
+                    account authenticate = new account();
+                    authenticate.帳號 = account;
+                    authenticate.密碼 = newPassword;
+                    DynamicParameters dynamicParameters = new DynamicParameters(authenticate);
+                    retCode = conn.Execute(strSQL, dynamicParameters);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return retCode;
         }
     }
 }

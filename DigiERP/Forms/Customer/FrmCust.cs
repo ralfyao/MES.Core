@@ -23,10 +23,17 @@ namespace DigiERP
         public FrmCust()
         {
             InitializeComponent();
+            initMenu();
             treeView.SelectedNode = null;
             ToggleDrawer(null, null);
             ToggleDrawer(null, null);
         }
+
+        private void initMenu()
+        {
+            //throw new NotImplementedException();
+        }
+
         public void OpenNewAddQuotationForm(C報價單 quono)
         {
             foreach(TabPage page in tabControl.TabPages)

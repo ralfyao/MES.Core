@@ -129,6 +129,15 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 visibleControls(false);
                 disableAllControls(false);
                 chkClosed.Enabled = false;
+                // 沒有核准不能列印
+                if (!string.IsNullOrEmpty(form?.核准))
+                {
+                    btnPrint.Visible = true;
+                }
+                else
+                {
+                    btnPrint.Visible = false;
+                }
             }
             else if (lblMode.Text == "修改")
             {
