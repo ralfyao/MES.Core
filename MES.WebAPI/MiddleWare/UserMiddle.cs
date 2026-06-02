@@ -2,6 +2,7 @@
 using Dapper;
 using MES.Core.Model;
 using MES.Core.Repository;
+using MES.Core.Repository.Impl;
 using Microsoft.AspNetCore.SignalR;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
@@ -226,6 +227,90 @@ namespace MES.WebAPI.MiddleWare
                 {
                     conn.Open();
                     execCnt += conn.Execute(sql);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
+        }
+
+        public List<A使用者授權> getPrivilegeByAccount(string account)
+        {
+            List<A使用者授權> list = new List<A使用者授權>();
+            UserPrivilegeRepository userPrivilegeRepository = new UserPrivilegeRepository();
+            try
+            {
+                if (string.IsNullOrEmpty(account))
+                {
+                    list = userPrivilegeRepository.GetList(null, "", "");
+                }
+                else
+                {
+                    A使用者授權 a = new A使用者授權();
+                    a.員工編號 = account;
+                    list = userPrivilegeRepository.GetListBy(a, "員工編號");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+            //throw new NotImplementedException();
+        }
+
+        public int saveUserPrivilege(List<A使用者授權> saveList)
+        {
+            int rep = 0;
+            UserPrivilegeRepository userPrivilegeRepository = new UserPrivilegeRepository();
+            try
+            {
+                rep = userPrivilegeRepository.BatchUpdate(saveList);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return rep;
+        }
+
+        public int saveAccount(account user)
+        {
+            int execCnt = 0;
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    DynamicParameters dynamicParameters = new DynamicParameters(user);
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        string strSQL = $@" DELETE FROM account WHERE 帳號=@帳號;";
+                        execCnt += conn.Execute(strSQL, dynamicParameters, tran);
+                        strSQL = $@"    INSERT INTO account
+                                        (
+                                            帳號,
+                                            密碼,
+                                            姓名,
+                                            停用,
+                                            寄件允許
+                                        )
+                                        VALUES
+                                        (   
+	                                        @帳號		,-- nvarchar(20)
+                                            @密碼		,-- nvarchar(50)
+                                            @姓名		,-- nvarchar(50)
+                                            @停用		,-- bit
+                                            @寄件允許		-- bit
+                                            )";
+                        execCnt += conn.Execute(strSQL, dynamicParameters, tran);
+                        tran.Commit();
+                    }
                 }
             }
             catch (Exception)

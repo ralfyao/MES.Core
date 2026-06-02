@@ -4,6 +4,8 @@ namespace MES.WebAPI.Models
 {
     public class User
     {
+        public List<A使用者授權> privilegeList;
+
         public string? name { get; set; }
         public string? username { get; set; }
         public string? password { get; set; }

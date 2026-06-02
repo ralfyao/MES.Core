@@ -32,6 +32,7 @@ namespace DigiERP
             try
             {
                 AutheiticateController controller = new AutheiticateController();
+                UserPrivilegeController userPrivilegeController = new UserPrivilegeController();
                 User user = new User();
                 user.username = txtAccount.Text.Trim();
                 user.password = txtPassword.Text.Trim();
@@ -45,6 +46,13 @@ namespace DigiERP
                 {
                     this.Visible = false;
                     AppSession.User = commonRep.result;
+                    var privilegeListRep = userPrivilegeController.GetUserPrivilegeByAccount(user.username);
+                    if (!string.IsNullOrEmpty(privilegeListRep.ErrorMessage))
+                    {
+                        MessageBox.Show(privilegeListRep.ErrorMessage);
+                        return;
+                    }
+                    AppSession.User.privilegeList = privilegeListRep.resultList;
                     FrmMain frmMain = new FrmMain();
                     frmMain.SetUser(AppSession.User);
                     frmMain.ShowDialog();

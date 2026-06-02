@@ -1,4 +1,5 @@
-﻿using DigiERP.UserControl.Customer.Quotation;
+﻿using DigiERP.Models;
+using DigiERP.UserControl.Customer.Quotation;
 using DigiERP.UserControl.Customer.SalesOrder;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
@@ -19,8 +20,27 @@ namespace DigiERP.UserControl.SalesOrder
     public partial class OrderControl : System.Windows.Forms.UserControl
     {
         private CustomerController _customerController;
+        private static string id = "A29F4CAB-2932-49A3-89E7-034A60700FAD";
         public OrderControl()
         {
+            if (AppSession.User.username.ToUpper() != "admin")
+            {
+                var privList = (from p in AppSession.User.privilegeList where p.授權子表單.ToString() == id select p);
+                if (privList.Count() == 0)
+                {
+                    MessageBox.Show("非授權使用者無法使用此功能!");
+                    Dispose();
+                }
+                var priv = privList.FirstOrDefault();
+                if (priv != null)
+                {
+                    if (!((bool)priv.高管) && !((bool)priv.編修) && !((bool)priv.核准) && !((bool)priv.報表) && !((bool)priv.查詢) && !((bool)priv.輸出) && string.IsNullOrEmpty(priv.職務代理效期))
+                    {
+                        MessageBox.Show("非授權使用者無法使用此功能!");
+                        Dispose();
+                    }
+                }
+            }
             InitializeComponent();
             if (_customerController == null)
             {

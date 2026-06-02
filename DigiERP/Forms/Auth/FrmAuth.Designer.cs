@@ -48,6 +48,7 @@ namespace DigiERP.UserControl.Auth
             button2.TabIndex = 3;
             button2.Text = "新增帳號";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button1
             // 
@@ -96,6 +97,8 @@ namespace DigiERP.UserControl.Auth
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(469, 542);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            dataGridView1.CellFormatting += dataGridView1_CellFormatting;
             dataGridView1.CellLeave += dataGridView1_CellLeave;
             dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
             // 

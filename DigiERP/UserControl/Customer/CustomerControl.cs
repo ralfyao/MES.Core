@@ -1,5 +1,6 @@
 ﻿using DigiERP.Common;
 using DigiERP.Forms.Customer;
+using DigiERP.Models;
 using DigiERP.Util;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
@@ -20,8 +21,27 @@ namespace DigiERP.UserControl
 {
     public partial class CustomerControl : CommonUserControl
     {
+        private static string id = "92CFA0F4-839D-4505-B51A-7B72D7B840F1";
         public CustomerControl()
         {
+            if (AppSession.User.username.ToUpper() != "admin")
+            {
+                var privList = (from p in AppSession.User.privilegeList where p.授權子表單.ToString() == id select p);
+                if (privList.Count() == 0)
+                {
+                    MessageBox.Show("非授權使用者無法使用此功能!");
+                    Dispose();
+                }
+                var priv = privList.FirstOrDefault();
+                if (priv != null)
+                {
+                    if (!((bool)priv.高管) && !((bool)priv.編修) && !((bool)priv.核准) && !((bool)priv.報表) && !((bool)priv.查詢) && !((bool)priv.輸出) && string.IsNullOrEmpty(priv.職務代理效期))
+                    {
+                        MessageBox.Show("非授權使用者無法使用此功能!");
+                        Dispose();
+                    }
+                }
+            }
             InitializeComponent();
             initGridView();
             initCountrySelect();

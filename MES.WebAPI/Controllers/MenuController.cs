@@ -82,6 +82,27 @@ namespace MES.WebAPI.Controllers
             }
             return rep;
         }
+        /// <summary>
+        /// WinForm版選單
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/GetModuleList")]
+        public CommonRep<模組選單> GetModuleList()
+        {
+            CommonRep<模組選單> rep = new Models.CommonRep<模組選單>();
+            try
+            {
+                rep.resultList = new AuthenticateMenu().GetModuleList();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex + ex.StackTrace);
+                rep.ErrorMessage = ex.Message;
+                rep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return rep;
+        }
         [HttpPost]
         [Route("api/UpdateRoleMenu")]
         public CommonRep<string> UpdateRoleMenu([FromBody]UserRoleRequest request)

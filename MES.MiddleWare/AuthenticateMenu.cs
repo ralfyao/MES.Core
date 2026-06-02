@@ -1,10 +1,12 @@
-﻿using MES.Core;
+﻿using Dapper;
+using MES.Core;
 using MES.Core.Model;
 using MES.Core.Repository;
 using MES.Core.Repository.Impl;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Reflection.Metadata;
@@ -172,6 +174,31 @@ namespace MES.MiddleWare
                 throw ex;
             }
             return menuList;
+        }
+        public List<模組選單> GetModuleList() 
+        {
+            List<模組選單> moduleList = new List<模組選單>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"SELECT ID, 模組名稱, 建立日期 FROM 模組選單";
+                    moduleList = conn.Query<模組選單>(strSQL).ToList();
+                    foreach(var item in moduleList)
+                    {
+                        strSQL = $@"SELECT * FROM 模組子選單 WHERE 父選單ID=@ID";
+                        DynamicParameters dynamicParameters = new DynamicParameters(item);
+                        item.subModuleList = conn.Query<模組子選單>(strSQL, dynamicParameters).ToList();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return moduleList;
         }
     }
 }

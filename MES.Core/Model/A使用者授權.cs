@@ -19,10 +19,11 @@ namespace MES.Core.Model
         public bool? 編修{get; set; }
         public bool? 報表{get; set; }
         public bool? 輸出{get; set; }
+        public bool? 查詢 { get; set; }
         public string? 註記{get; set; }
         public string? 職務代理效期{get; set; }
         public string? 機號{get; set; }
-        public string? 授權表單{get; set; }
-        public string? 授權子表單 { get; set; }
+        public Guid? 授權表單{get; set; }
+        public Guid? 授權子表單 { get; set; }
     }
 }

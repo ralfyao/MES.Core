@@ -1,4 +1,5 @@
 ﻿using DigiERP.Forms.Customer.Quotation;
+using DigiERP.Models;
 using DigiERP.UserControl.Customer.RFQ;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
@@ -18,10 +19,29 @@ namespace DigiERP.UserControl.Customer.Quotation
 {
     public partial class QuotationControl : System.Windows.Forms.UserControl
     {
+        private static string id = "007D611C-E8E9-4387-A7FF-5A54C313B25F";
         private float zoom = 1.0f;
         private Size originalSize;
         public QuotationControl()
         {
+            if (AppSession.User.username.ToUpper() != "admin")
+            {
+                var privList = (from p in AppSession.User.privilegeList where p.授權子表單.ToString() == id select p);
+                if (privList.Count() == 0)
+                {
+                    MessageBox.Show("非授權使用者無法使用此功能!");
+                    Dispose();
+                }
+                var priv = privList.FirstOrDefault();
+                if (priv != null)
+                {
+                    if (!((bool)priv.高管) && !((bool)priv.編修) && !((bool)priv.核准) && !((bool)priv.報表) && !((bool)priv.查詢) && !((bool)priv.輸出) && string.IsNullOrEmpty(priv.職務代理效期))
+                    {
+                        MessageBox.Show("非授權使用者無法使用此功能!");
+                        Dispose();
+                    }
+                }
+            }
             InitializeComponent();
             initGridView(null);
             originalSize = panel2.Size;

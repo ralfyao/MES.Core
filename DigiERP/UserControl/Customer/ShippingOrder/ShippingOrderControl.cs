@@ -1,4 +1,5 @@
 ﻿using DigiERP.Common;
+using DigiERP.Models;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
@@ -16,6 +17,7 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
 {
     public partial class ShippingOrderControl : CommonUserControl
     {
+        private static string id = "CF770F40-EA82-4FBF-9D2D-EAD798440F3E";
         private CustomerController _customerController;
         private void initController()
         {
@@ -26,6 +28,24 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
         }
         public ShippingOrderControl()
         {
+            if (AppSession.User.username.ToUpper() != "admin")
+            {
+                var privList = (from p in AppSession.User.privilegeList where p.授權子表單.ToString() == id select p);
+                if (privList.Count() == 0)
+                {
+                    MessageBox.Show("非授權使用者無法使用此功能!");
+                    Dispose();
+                }
+                var priv = privList.FirstOrDefault();
+                if (priv != null)
+                {
+                    if (!((bool)priv.高管) && !((bool)priv.編修) && !((bool)priv.核准) && !((bool)priv.報表) && !((bool)priv.查詢) && !((bool)priv.輸出) && string.IsNullOrEmpty(priv.職務代理效期))
+                    {
+                        MessageBox.Show("非授權使用者無法使用此功能!");
+                        Dispose();
+                    }
+                }
+            }
             InitializeComponent();
             initController();
         }

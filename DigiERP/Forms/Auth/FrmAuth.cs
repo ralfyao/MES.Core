@@ -1,4 +1,5 @@
 ﻿using DigiERP.Forms;
+using DigiERP.Forms.Auth;
 using MES.Core.Model;
 using MES.Core.Repository.Impl;
 using MES.WebAPI.Controllers;
@@ -51,6 +52,7 @@ namespace DigiERP.UserControl.Auth
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dataGridView1);
                 row.Cells[index++].Value = item.帳號;
+                //DataGridViewTextBoxColumn passwordTextBox = (DataGridViewTextBoxColumn)row.Cells[index++];
                 row.Cells[index++].Value = item.密碼;
                 row.Cells[index++].Value = item.姓名;
                 row.Cells[index++].Value = item.停用;
@@ -102,6 +104,7 @@ namespace DigiERP.UserControl.Auth
                 {
                     // 啟用系統預設的密碼遮罩字元（如 ● 或 *）
                     passwordTextBox.UseSystemPasswordChar = true;
+                    passwordTextBox.PasswordChar = '●';
                 }
             }
             else
@@ -113,6 +116,37 @@ namespace DigiERP.UserControl.Auth
                     regularTextBox.UseSystemPasswordChar = false;
                 }
             }
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //int index = 0;
+            account a = new account();
+            a.帳號 = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            a.密碼 = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+            a.姓名 = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            a.停用 = bool.Parse((dataGridView1.CurrentRow.Cells[3].Value != null ? dataGridView1.CurrentRow.Cells[3].Value.ToString() : "false"));
+            a.寄件允許 = bool.Parse((dataGridView1.CurrentRow.Cells[4].Value != null ? dataGridView1.CurrentRow.Cells[4].Value.ToString() : "false"));
+            FrmAccount frmAccount = new FrmAccount();
+            frmAccount.user = a;
+            frmAccount.SetData();
+            frmAccount.ShowDialog(this);
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // 檢查是否為目標欄位（請將 "PasswordColumn" 替換成你的欄位名稱）
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "密碼" && e.Value != null)
+            {
+                // 將顯示的文字全部替換為密碼字元 *
+                e.Value = new string('●', e.Value.ToString().Length);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            FrmAccount frmAccount = new FrmAccount();
+            frmAccount.ShowDialog(this);
         }
     }
 }
