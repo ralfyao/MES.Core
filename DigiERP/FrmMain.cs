@@ -1,4 +1,5 @@
 ﻿using DigiERP.Forms.Settings;
+using DigiERP.Models;
 using DigiERP.UserControl.Auth;
 using MES.WebAPI.Models;
 using System;
@@ -97,6 +98,11 @@ namespace DigiERP
 
         private void btnPasswordManage_Click(object sender, EventArgs e)
         {
+            if (AppSession.User.username.ToLower() != "admin")
+            {
+                MessageBox.Show("非管理者無法使用此功能!");
+                return;
+            }
             FrmAuth frmAuth = new FrmAuth();
             frmAuth.ShowDialog();
         }

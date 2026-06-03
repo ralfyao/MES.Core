@@ -23,18 +23,28 @@ namespace DigiERP.UserControl.SalesOrder
         private static string id = "A29F4CAB-2932-49A3-89E7-034A60700FAD";
         public OrderControl()
         {
-            if (AppSession.User.username.ToUpper() != "admin")
+            if (AppSession.User.username?.ToUpper() != "ADMIN")
             {
-                var privList = (from p in AppSession.User.privilegeList where p.授權子表單.ToString() == id select p);
-                if (privList.Count() == 0)
+                int count = 0;
+                var item1 = new A使用者授權();
+                foreach (var item in AppSession.User.privilegeList)
+                {
+                    if (item.授權子表單?.ToString().ToLower() == id.ToLower())
+                    {
+                        count++;
+                        item1 = item;
+                        break;
+                    }
+                }
+                if (count == 0)
                 {
                     MessageBox.Show("非授權使用者無法使用此功能!");
                     Dispose();
                 }
-                var priv = privList.FirstOrDefault();
+                var priv = item1;
                 if (priv != null)
                 {
-                    if (!((bool)priv.高管) && !((bool)priv.編修) && !((bool)priv.核准) && !((bool)priv.報表) && !((bool)priv.查詢) && !((bool)priv.輸出) && string.IsNullOrEmpty(priv.職務代理效期))
+                    if (!((bool)(priv.高管 ?? false)) && !((bool)(priv.編修 ?? false)) && !((bool)(priv.核准 ?? false)) && !((bool)(priv.報表 ?? false)) && !((bool)(priv.查詢 ?? false)) && !((bool)(priv.輸出 ?? false)) && string.IsNullOrEmpty(priv.職務代理效期))
                     {
                         MessageBox.Show("非授權使用者無法使用此功能!");
                         Dispose();

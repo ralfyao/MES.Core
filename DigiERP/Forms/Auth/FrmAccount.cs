@@ -23,7 +23,7 @@ namespace DigiERP.Forms.Auth
             {
                 _privilegeController = new UserPrivilegeController();
             }
-        };
+        }
         public FrmAccount()
         {
             InitializeComponent();
