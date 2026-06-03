@@ -31,6 +31,7 @@
             lblMode = new Label();
             label1 = new Label();
             btnClose = new Button();
+            btnModify = new Button();
             SuspendLayout();
             // 
             // lblMode
@@ -70,10 +71,22 @@
             btnClose.UseVisualStyleBackColor = false;
             btnClose.Click += btnClose_Click;
             // 
+            // btnModify
+            // 
+            btnModify.BackColor = Color.FromArgb(192, 0, 0);
+            btnModify.ForeColor = SystemColors.ButtonHighlight;
+            btnModify.Location = new Point(148, 8);
+            btnModify.Name = "btnModify";
+            btnModify.Size = new Size(75, 23);
+            btnModify.TabIndex = 227;
+            btnModify.Text = "修改";
+            btnModify.UseVisualStyleBackColor = false;
+            // 
             // ShippingOrderMaintainControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(btnModify);
             Controls.Add(btnClose);
             Controls.Add(lblMode);
             Controls.Add(label1);
@@ -88,5 +101,6 @@
         private Label lblMode;
         private Label label1;
         private Button btnClose;
+        private Button btnModify;
     }
 }

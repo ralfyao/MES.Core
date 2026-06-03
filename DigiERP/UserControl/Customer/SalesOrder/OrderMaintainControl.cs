@@ -907,7 +907,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             FrmTransToShippingOrder frmTransToShippingOrder = new FrmTransToShippingOrder();
             frmTransToShippingOrder.custId = cboCustId.Text;
             frmTransToShippingOrder.loadData();
-            frmTransToShippingOrder.ShowDialog();
+            frmTransToShippingOrder.ShowDialog(this);
         }
     }
 }

@@ -138,5 +138,10 @@ namespace DigiERP
             }
             catch { }
         }
+
+        internal void OpenNewAddShippingOrder(C訂單 salesOrder)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

@@ -35,7 +35,24 @@ namespace DigiERP.Forms.Customer.SalesOrder
             if (MessageBox.Show("確定轉出貨單?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 initController();
-
+                FrmCust frm = this.FindForm() as FrmCust;
+                if (frm == null)
+                {
+                    frm = Owner.FindForm() as FrmCust;
+                }
+                if (frm != null)
+                {
+                    var salesOrderNo = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+                    var salesOrder = new C訂單();
+                    salesOrder.單號 = salesOrderNo;
+                    var salesOrderRep = _customerController.GetSalesOrderListByNo(salesOrderNo);
+                    if (!string.IsNullOrEmpty(salesOrderRep.ErrorMessage))
+                    {
+                        MessageBox.Show(salesOrderRep.ErrorMessage);
+                        return;
+                    }
+                    frm.OpenNewAddShippingOrder(salesOrder);
+                }
             }
         }
 
@@ -49,6 +66,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 return;
             }
             int index = 0;
+            dataGridView1.Rows.Clear();
             foreach (var item in commonRep.resultList)
             {
                 index = 0;
