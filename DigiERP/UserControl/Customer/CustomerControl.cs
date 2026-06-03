@@ -24,33 +24,10 @@ namespace DigiERP.UserControl
         private static string id = "92CFA0F4-839D-4505-B51A-7B72D7B840F1";
         public CustomerControl()
         {
-            if (AppSession.User.username.ToUpper() != "ADMIN")
+            if (!chkPrivilege(id))
             {
-                int count = 0;
-                var item1 = new A使用者授權();
-                foreach(var item in AppSession.User.privilegeList)
-                {
-                    if (item.授權子表單.ToString().ToLower() == id.ToLower())
-                    {
-                        count++;
-                        item1 = item;
-                        break;
-                    }
-                }
-                if (count == 0)
-                {
-                    MessageBox.Show("非授權使用者無法使用此功能!");
-                    Dispose();
-                }
-                var priv = item1;
-                if (priv != null)
-                {
-                    if (!((bool)(priv.高管??false)) && !((bool)(priv.編修 ?? false)) && !((bool)(priv.核准 ?? false)) && !((bool)(priv.報表 ?? false)) && !((bool)(priv.查詢 ?? false)) && !((bool)(priv.輸出 ?? false)) && string.IsNullOrEmpty(priv.職務代理效期))
-                    {
-                        MessageBox.Show("非授權使用者無法使用此功能!");
-                        Dispose();
-                    }
-                }
+                MessageBox.Show("非授權使用者無法使用此功能!");
+                Dispose();
             }
             InitializeComponent();
             initGridView();

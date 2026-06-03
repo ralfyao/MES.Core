@@ -31,7 +31,12 @@ namespace DigiERP.Forms.Customer.SalesOrder
 
         private void btnTransShippingOrder_Click(object sender, EventArgs e)
         {
+            // 20260603 TO-DO 出貨單介面OK後再來寫轉出邏輯
+            if (MessageBox.Show("確定轉出貨單?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                initController();
 
+            }
         }
 
         public void loadData()

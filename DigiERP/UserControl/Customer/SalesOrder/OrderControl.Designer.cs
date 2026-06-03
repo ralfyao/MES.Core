@@ -1,6 +1,8 @@
-﻿namespace DigiERP.UserControl.SalesOrder
+﻿using DigiERP.Common;
+
+namespace DigiERP.UserControl.SalesOrder
 {
-    partial class OrderControl : System.Windows.Forms.UserControl
+    partial class OrderControl : CommonUserControl
     {
         /// <summary> 
         /// 設計工具所需的變數。
@@ -307,7 +309,7 @@
         private Button btnQuery;
         private DigiERP.Common.CommonTextBox txtCustomer;
         private Label label2;
-        private Button btnAdd;
+        public Button btnAdd;
         private Panel panel2;
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn 單號;

@@ -1,4 +1,5 @@
-﻿using DigiERP.Models;
+﻿using DigiERP.Common;
+using DigiERP.Models;
 using DigiERP.UserControl.Customer.Quotation;
 using DigiERP.UserControl.Customer.SalesOrder;
 using MES.Core.Model;
@@ -17,39 +18,17 @@ using System.Windows.Forms;
 
 namespace DigiERP.UserControl.SalesOrder
 {
-    public partial class OrderControl : System.Windows.Forms.UserControl
+    public partial class OrderControl : CommonUserControl
     {
+        public string custId { get; set; }
         private CustomerController _customerController;
         private static string id = "A29F4CAB-2932-49A3-89E7-034A60700FAD";
         public OrderControl()
         {
-            if (AppSession.User.username?.ToUpper() != "ADMIN")
+            if (!chkPrivilege(id))
             {
-                int count = 0;
-                var item1 = new A使用者授權();
-                foreach (var item in AppSession.User.privilegeList)
-                {
-                    if (item.授權子表單?.ToString().ToLower() == id.ToLower())
-                    {
-                        count++;
-                        item1 = item;
-                        break;
-                    }
-                }
-                if (count == 0)
-                {
-                    MessageBox.Show("非授權使用者無法使用此功能!");
-                    Dispose();
-                }
-                var priv = item1;
-                if (priv != null)
-                {
-                    if (!((bool)(priv.高管 ?? false)) && !((bool)(priv.編修 ?? false)) && !((bool)(priv.核准 ?? false)) && !((bool)(priv.報表 ?? false)) && !((bool)(priv.查詢 ?? false)) && !((bool)(priv.輸出 ?? false)) && string.IsNullOrEmpty(priv.職務代理效期))
-                    {
-                        MessageBox.Show("非授權使用者無法使用此功能!");
-                        Dispose();
-                    }
-                }
+                MessageBox.Show("非授權使用者無法使用此功能!");
+                Dispose();
             }
             InitializeComponent();
             if (_customerController == null)
@@ -134,7 +113,7 @@ namespace DigiERP.UserControl.SalesOrder
             initGrid(list);
         }
         public C訂單 form;
-        private void btnAdd_Click(object sender, EventArgs e)
+        public void btnAdd_Click(object sender, EventArgs e)
         {
             var customerMaintainControl = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(OrderMaintainControl) select c).FirstOrDefault();
             var dataGridView = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
@@ -158,6 +137,7 @@ namespace DigiERP.UserControl.SalesOrder
                 lblMode.Text = "新增";
             }
             ((OrderMaintainControl)customerMaintainControl).form = new C訂單();
+            ((OrderMaintainControl)customerMaintainControl).custId = custId;
             ((OrderMaintainControl)customerMaintainControl).initForm();
             customerMaintainControl.Visible = true;
             if (dataGridView != null)

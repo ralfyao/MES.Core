@@ -21,6 +21,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
     public partial class OrderMaintainControl : CommonUserControl
     {
         public C訂單 form { get; set; }
+        public string custId { get; set; }
         private CustomerController _customerController;
         private ItemController _itemController;
         public OrderMaintainControl()
@@ -115,6 +116,18 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 if (!string.IsNullOrEmpty(soRep.ErrorMessage))
                 {
                     MessageBox.Show(soRep.ErrorMessage);
+                }
+                if (!string.IsNullOrEmpty(custId))
+                {
+                    cboCustId.Items.Add(custId);
+                    cboCustId.Text = custId;
+                    C客戶設定 customer = _customerController.getCustomerList().resultList.Where(x=>x.正航編號 == custId).FirstOrDefault();
+                    if (customer != null)
+                    {
+                        txtCompany.Text = customer.COMPANY;
+                        txtCountry.Text = customer.COUNTRY;
+                        lblCustAlias.Text = customer.欄位2;
+                    }
                 }
                 // 價格條件
                 priceCondControl1.SetPriceCond(form?.價格條件?.Trim() ?? "");

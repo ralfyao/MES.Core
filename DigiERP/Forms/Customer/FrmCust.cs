@@ -20,13 +20,16 @@ namespace DigiERP
 {
     public partial class FrmCust : Form
     {
+        private bool isloaded = false;
         public FrmCust()
         {
+            isloaded = false;
             InitializeComponent();
             initMenu();
             treeView.SelectedNode = null;
             ToggleDrawer(null, null);
             ToggleDrawer(null, null);
+            isloaded = true;
         }
 
         private void initMenu()
@@ -36,7 +39,7 @@ namespace DigiERP
 
         public void OpenNewAddQuotationForm(C報價單 quono)
         {
-            foreach(TabPage page in tabControl.TabPages)
+            foreach (TabPage page in tabControl.TabPages)
             {
                 if (page.Name == "Quotation")
                 {
@@ -58,12 +61,41 @@ namespace DigiERP
             quotationControl.button1_Click(null, null);
         }
 
-        internal void OpenNewAddSalesOrder(C訂單 salesOrder)
+        internal void OpenNewAddSalesOrder(C訂單 salesOrder, string custId)
         {
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == "SalesOrder")
+                {
+                    tabControl.TabPages.Remove(page);
+                    break;
+                }
+            }
+            TabPage tab = new TabPage($"訂單維護");
+            tab.Name = "SalesOrder";
+            tab.AutoScroll = true;
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.ItemSize = new Size(120, 30);
+            OrderControl orderControl = new OrderControl() { Width = tab.Width };
+            tab.Controls.Add(orderControl);
+            orderControl.Dock = DockStyle.Fill;
+            orderControl.custId = custId;
+            //orderControl.(quono);
+            orderControl.btnAdd_Click(null, null);
             //throw new NotImplementedException();
         }
-
+        private void FrmCust_Shown(object sender, EventArgs e)
+        {
+            treeView.SelectedNode = null;
+            this.ActiveControl = null;
+        }
         private void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+        }
+
+        private void treeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             string key = e.Node.Name;
 
@@ -84,12 +116,13 @@ namespace DigiERP
                 "Customer" => new CustomerControl() { Width = tab.Width },
                 //"Order" => new OrderControl() { Width = tab.Width },
                 "RFQ" => new RFQControl() { Width = tab.Width },
-                "Quotation" => new QuotationControl() {  Width = tab.Width },
-                "SalesOrder" => new OrderControl() {  Width = tab.Width },
-                "ShippingOrder" => new ShippingOrderControl() {  Width = tab.Width },
+                "Quotation" => new QuotationControl() { Width = tab.Width },
+                "SalesOrder" => new OrderControl() { Width = tab.Width },
+                "ShippingOrder" => new ShippingOrderControl() { Width = tab.Width },
                 _ => null
             }; ;
-
+            if (ctrl.IsDisposed || ctrl == null)
+                return;
             if (ctrl != null)
             {
                 ctrl.Dock = DockStyle.Fill;

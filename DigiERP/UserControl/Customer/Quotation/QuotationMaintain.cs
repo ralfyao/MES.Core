@@ -590,10 +590,10 @@ namespace DigiERP.UserControl.Customer.Quotation
         {
             if (string.IsNullOrEmpty(txtCustNo.Text))
             {
-                MessageBox.Show("沒有客戶帳號，不允許送出報價單!");
+                MessageBox.Show("沒有客戶帳號，不允許送出訂單!");
                 return;
             }
-            if (MessageBox.Show("確定新增報價單?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("確定新增訂單?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 if (_customerController == null)
                     _customerController = new CustomerController();
@@ -609,7 +609,7 @@ namespace DigiERP.UserControl.Customer.Quotation
 
                 if (frm != null)
                 {
-                    frm.OpenNewAddSalesOrder(salesOrder);
+                    frm.OpenNewAddSalesOrder(salesOrder, txtCustNo.Text);
                 }
             }
         }

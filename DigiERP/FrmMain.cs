@@ -98,7 +98,7 @@ namespace DigiERP
 
         private void btnPasswordManage_Click(object sender, EventArgs e)
         {
-            if (AppSession.User.username.ToLower() != "admin")
+            if (AppSession.User.name.ToLower() != "admin")
             {
                 MessageBox.Show("非管理者無法使用此功能!");
                 return;

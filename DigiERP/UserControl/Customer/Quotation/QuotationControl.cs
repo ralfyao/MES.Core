@@ -1,4 +1,5 @@
-﻿using DigiERP.Forms.Customer.Quotation;
+﻿using DigiERP.Common;
+using DigiERP.Forms.Customer.Quotation;
 using DigiERP.Models;
 using DigiERP.UserControl.Customer.RFQ;
 using MES.Core.Model;
@@ -17,40 +18,17 @@ using System.Windows.Forms;
 
 namespace DigiERP.UserControl.Customer.Quotation
 {
-    public partial class QuotationControl : System.Windows.Forms.UserControl
+    public partial class QuotationControl : CommonUserControl
     {
         private static string id = "007D611C-E8E9-4387-A7FF-5A54C313B25F";
         private float zoom = 1.0f;
         private Size originalSize;
         public QuotationControl()
         {
-            if (AppSession.User.username.ToUpper() != "ADMIN")
+            if (!chkPrivilege(id))
             {
-                int count = 0;
-                var item1 = new A使用者授權();
-                foreach (var item in AppSession.User.privilegeList)
-                {
-                    if (item.授權子表單?.ToString().ToLower() == id.ToLower())
-                    {
-                        count++;
-                        item1 = item;
-                        break;
-                    }
-                }
-                if (count == 0)
-                {
-                    MessageBox.Show("非授權使用者無法使用此功能!");
-                    Dispose();
-                }
-                var priv = item1;
-                if (priv != null)
-                {
-                    if (!((bool)(priv.高管 ?? false)) && !((bool)(priv.編修 ?? false)) && !((bool)(priv.核准 ?? false)) && !((bool)(priv.報表 ?? false)) && !((bool)(priv.查詢 ?? false)) && !((bool)(priv.輸出 ?? false)) && string.IsNullOrEmpty(priv.職務代理效期))
-                    {
-                        MessageBox.Show("非授權使用者無法使用此功能!");
-                        Dispose();
-                    }
-                }
+                MessageBox.Show("非授權使用者無法使用此功能!");
+                Dispose();
             }
             InitializeComponent();
             initGridView(null);

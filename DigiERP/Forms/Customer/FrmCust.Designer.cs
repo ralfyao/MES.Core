@@ -116,6 +116,7 @@ namespace DigiERP
             treeView.Size = new Size(387, 669);
             treeView.TabIndex = 0;
             treeView.AfterSelect += TreeView_AfterSelect;
+            treeView.NodeMouseClick += treeView_NodeMouseClick;
             // 
             // tabControl
             // 

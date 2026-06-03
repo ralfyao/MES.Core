@@ -1,4 +1,5 @@
-﻿using DigiERP.Forms.Customer;
+﻿using DigiERP.Common;
+using DigiERP.Forms.Customer;
 using DigiERP.Models;
 using DigiERP.Util;
 using MES.Core.Model;
@@ -16,38 +17,15 @@ using System.Windows.Forms;
 
 namespace DigiERP.UserControl.Customer.RFQ
 {
-    public partial class RFQControl : System.Windows.Forms.UserControl
+    public partial class RFQControl : CommonUserControl
     {
         private static string id = "2D923859-7D2E-4870-90F1-E438086FD583";
         public RFQControl()
         {
-            if (AppSession.User.username.ToUpper() != "ADMIN")
+            if (!chkPrivilege(id))
             {
-                int count = 0;
-                var item1 = new A使用者授權();
-                foreach (var item in AppSession.User.privilegeList)
-                {
-                    if (item.授權子表單?.ToString().ToLower() == id.ToLower())
-                    {
-                        count++;
-                        item1 = item;
-                        break;
-                    }
-                }
-                if (count == 0)
-                {
-                    MessageBox.Show("非授權使用者無法使用此功能!");
-                    Dispose();
-                }
-                var priv = item1;
-                if (priv != null)
-                {
-                    if (!((bool)(priv.高管 ?? false)) && !((bool)(priv.編修 ?? false)) && !((bool)(priv.核准 ?? false)) && !((bool)(priv.報表 ?? false)) && !((bool)(priv.查詢 ?? false)) && !((bool)(priv.輸出 ?? false)) && string.IsNullOrEmpty(priv.職務代理效期))
-                    {
-                        MessageBox.Show("非授權使用者無法使用此功能!");
-                        Dispose();
-                    }
-                }
+                MessageBox.Show("非授權使用者無法使用此功能!");
+                Dispose();
             }
             InitializeComponent();
             initCountrySelect();
