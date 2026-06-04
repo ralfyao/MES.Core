@@ -897,6 +897,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             btnPrintC.TabIndex = 230;
             btnPrintC.Text = "列印";
             btnPrintC.UseVisualStyleBackColor = false;
+            btnPrintC.Click += btnPrintC_Click;
             // 
             // btnPrintE
             // 
@@ -908,6 +909,7 @@ namespace DigiERP.UserControl.Customer.Quotation
             btnPrintE.TabIndex = 231;
             btnPrintE.Text = "列印(英)";
             btnPrintE.UseVisualStyleBackColor = false;
+            btnPrintE.Click += btnPrintE_Click;
             // 
             // QuotationMaintain
             // 

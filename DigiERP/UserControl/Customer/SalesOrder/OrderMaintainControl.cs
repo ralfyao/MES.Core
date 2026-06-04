@@ -504,9 +504,6 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 {
                     return;
                 }
-                //F收款分期 receivable = new F收款分期();
-                //if (form.arListDetail == null)
-                //    form.arListDetail = new List<F收款分期>();
                 int index = 0;
                 form.AR識別 = int.Parse(row.Cells[index++].Value?.ToString());
                 if (form.AR識別 == 0 || form.AR識別 == null)
@@ -514,14 +511,6 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                     MessageBox.Show("尚未將此筆資料寫入資料庫! 請先按送出後再重新查詢、編輯");
                     return;
                 }
-                //form.arListDetail.Add(new F收款分期()
-                //{
-
-                //    識別 = int.Parse(row.Cells[index++].Value?.ToString()),
-                //    款項期別 = row.Cells[index++].Value?.ToString(),
-                //    成數 = decimal.Parse(row.Cells[index++].Value.ToString()),
-                //    金額 = decimal.Parse(row.Cells[index++].Value.ToString()),
-                //}); ; ;
                 initController();
                 CommonRep<string> getArNo = _customerController.TransferReceivable(form);
                 if (!string.IsNullOrEmpty(getArNo.ErrorMessage))
@@ -729,7 +718,6 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 orderDetail.單位 = row.Cells[index++].Value?.ToString();
                 orderDetail.數量1 = decimal.Parse(row.Cells[index++].Value?.ToString());
                 orderDetail.單價1 = decimal.Parse(row.Cells[index++].Value?.ToString());
-                //orderDetail.產品編號 = row.Cells[index++].Value.ToString();
                 index++;//總金額
                 index++;//報價單價
                 index++;//折數
@@ -894,7 +882,8 @@ namespace DigiERP.UserControl.Customer.SalesOrder
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-
+            FrmSalesOrderPrint frmSalesOrderPrint = new FrmSalesOrderPrint(form);
+            frmSalesOrderPrint.ShowDialog(this);
         }
 
         private void btnTransShipping_Click(object sender, EventArgs e)

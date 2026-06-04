@@ -29,6 +29,10 @@ namespace DigiERP.UserControl.Common
         private CustomerController _customerController;
         public string txType { get; set; }
 
+        public string GetPriceCondTxt() {
+            return lblPriceCond.Text;
+        }
+
         private void initPriceCondList()
         {
             // throw new NotImplementedException();

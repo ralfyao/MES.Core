@@ -117,6 +117,7 @@
             ClientSize = new Size(782, 396);
             Controls.Add(btnOK);
             Controls.Add(dataGridView1);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "FrmQuotationDistribution";
             Text = "報價單分配";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

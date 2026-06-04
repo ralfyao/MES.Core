@@ -121,7 +121,7 @@ namespace DigiERP
                 "ShippingOrder" => new ShippingOrderControl() { Width = tab.Width },
                 _ => null
             }; ;
-            if (ctrl.IsDisposed || ctrl == null)
+            if (ctrl == null || ctrl.IsDisposed)
                 return;
             if (ctrl != null)
             {

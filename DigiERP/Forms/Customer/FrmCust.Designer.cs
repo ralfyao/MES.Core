@@ -52,6 +52,7 @@ namespace DigiERP
             TreeNode treeNode5 = new TreeNode("機台客服");
             TreeNode treeNode6 = new TreeNode("訂單維護");
             TreeNode treeNode7 = new TreeNode("出貨單據");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCust));
             sidebar = new Panel();
             splitContainer = new SplitContainer();
             treeView = new System.Windows.Forms.TreeView();
@@ -140,6 +141,7 @@ namespace DigiERP
             ClientSize = new Size(1186, 669);
             Controls.Add(splitContainer);
             Controls.Add(sidebar);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmCust";
             Text = "CRM客戶關係";
             WindowState = FormWindowState.Maximized;

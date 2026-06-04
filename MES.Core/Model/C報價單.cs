@@ -44,6 +44,10 @@ namespace MES.Core.Model
         public string? 建檔日            { get; set; }
         public string? 修改日            { get; set; }
         public string? 核准日 { get; set; }
+        public string priceCondText { get; set; }
+        public string deliveryMethodText { get; set; }
+        public string paymentTermText { get; set; }
+        public string deliveryDateText { get; set; }
         public List<C報價明細>? quotationDetailFormList { get; set; }
     }
 }

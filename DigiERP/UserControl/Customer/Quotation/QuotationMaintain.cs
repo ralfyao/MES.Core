@@ -224,14 +224,14 @@ namespace DigiERP.UserControl.Customer.Quotation
                 {
                     btnActrivate.Visible = true;
                     btnDeactivate.Visible = false;
-                    btnPrintC.Visible = false; 
+                    btnPrintC.Visible = false;
                     btnPrintE.Visible = false;
                 }
                 else
                 {
                     btnActrivate.Visible = false;
                     btnDeactivate.Visible = true;
-                    btnPrintC.Visible = true; 
+                    btnPrintC.Visible = true;
                     btnPrintE.Visible = true;
                 }
             }
@@ -705,7 +705,31 @@ namespace DigiERP.UserControl.Customer.Quotation
             FrmQuoTransSO frmQuoTransSO = new FrmQuoTransSO();
             frmQuoTransSO.quotationNo = txtQUONO.Text;
             frmQuoTransSO.queryData();
-            frmQuoTransSO.ShowDialog();
+            frmQuoTransSO.ShowDialog(this);
+        }
+
+        private void btnPrintC_Click(object sender, EventArgs e)
+        {
+            form.priceCondText = priceCond.GetPriceCondTxt();
+            form.deliveryMethodText = shipMethod.GetPriceCondTxt();
+            form.paymentTermText = payMethod.GetPriceCondTxt();
+            form.deliveryDateText = ETDRequest.GetPriceCondTxt();
+            FrmQuotationPrintC frmQuotationPrintC = new FrmQuotationPrintC();
+            frmQuotationPrintC.quotation = form;
+            frmQuotationPrintC.GetData();
+            frmQuotationPrintC.ShowDialog(this);
+        }
+
+        private void btnPrintE_Click(object sender, EventArgs e)
+        {
+            form.priceCondText = priceCond.GetPriceCondTxt();
+            form.deliveryMethodText = shipMethod.GetPriceCondTxt();
+            form.paymentTermText = payMethod.GetPriceCondTxt();
+            form.deliveryDateText = ETDRequest.GetPriceCondTxt();
+            FrmQuotationPrintE frmQuotationPrintE = new FrmQuotationPrintE();
+            frmQuotationPrintE.quotation = form;
+            frmQuotationPrintE.GetData();
+            frmQuotationPrintE.ShowDialog(this);
         }
     }
 }
