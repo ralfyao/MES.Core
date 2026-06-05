@@ -73,7 +73,7 @@ namespace DigiERP.Forms.Customer.Quotation
             label19 = new Label();
             txtBuyerConfirmation = new TextBox();
             label20 = new Label();
-            textBox3 = new TextBox();
+            txtAudit = new TextBox();
             txtSales = new TextBox();
             label21 = new Label();
             pictureBox2 = new PictureBox();
@@ -88,7 +88,7 @@ namespace DigiERP.Forms.Customer.Quotation
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(834, 84);
+            pictureBox1.Size = new Size(834, 83);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -96,7 +96,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(8, 92);
+            label1.Location = new Point(8, 93);
             label1.Name = "label1";
             label1.Size = new Size(99, 24);
             label1.TabIndex = 1;
@@ -105,7 +105,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // lblCustomer
             // 
             lblCustomer.AutoSize = true;
-            lblCustomer.Location = new Point(108, 92);
+            lblCustomer.Location = new Point(108, 93);
             lblCustomer.Name = "lblCustomer";
             lblCustomer.Size = new Size(121, 24);
             lblCustomer.TabIndex = 2;
@@ -114,7 +114,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // lblQuono
             // 
             lblQuono.AutoSize = true;
-            lblQuono.Location = new Point(704, 92);
+            lblQuono.Location = new Point(704, 93);
             lblQuono.Name = "lblQuono";
             lblQuono.Size = new Size(95, 24);
             lblQuono.TabIndex = 4;
@@ -123,7 +123,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(596, 92);
+            label4.Location = new Point(596, 93);
             label4.Name = "label4";
             label4.Size = new Size(92, 24);
             label4.TabIndex = 3;
@@ -168,7 +168,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // lblCurrency
             // 
             lblCurrency.AutoSize = true;
-            lblCurrency.Location = new Point(482, 120);
+            lblCurrency.Location = new Point(704, 269);
             lblCurrency.Name = "lblCurrency";
             lblCurrency.Size = new Size(113, 24);
             lblCurrency.TabIndex = 10;
@@ -177,7 +177,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(385, 120);
+            label10.Location = new Point(596, 270);
             label10.Name = "label10";
             label10.Size = new Size(91, 24);
             label10.TabIndex = 9;
@@ -204,7 +204,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // lblEmail
             // 
             lblEmail.AutoSize = true;
-            lblEmail.Location = new Point(108, 148);
+            lblEmail.Location = new Point(108, 147);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(80, 24);
             lblEmail.TabIndex = 14;
@@ -213,7 +213,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(8, 148);
+            label3.Location = new Point(8, 147);
             label3.Name = "label3";
             label3.Size = new Size(58, 24);
             label3.TabIndex = 13;
@@ -222,7 +222,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // lblConDate
             // 
             lblConDate.AutoSize = true;
-            lblConDate.Location = new Point(704, 148);
+            lblConDate.Location = new Point(704, 147);
             lblConDate.Name = "lblConDate";
             lblConDate.Size = new Size(111, 24);
             lblConDate.TabIndex = 16;
@@ -231,7 +231,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(597, 148);
+            label7.Location = new Point(597, 147);
             label7.Name = "label7";
             label7.Size = new Size(107, 24);
             label7.TabIndex = 15;
@@ -249,7 +249,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // lblPriceBase
             // 
             lblPriceBase.AutoSize = true;
-            lblPriceBase.Location = new Point(180, 179);
+            lblPriceBase.Location = new Point(181, 179);
             lblPriceBase.Name = "lblPriceBase";
             lblPriceBase.Size = new Size(112, 24);
             lblPriceBase.TabIndex = 18;
@@ -267,7 +267,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // lbDeliveryMethod
             // 
             lbDeliveryMethod.AutoSize = true;
-            lbDeliveryMethod.Location = new Point(180, 211);
+            lbDeliveryMethod.Location = new Point(181, 211);
             lbDeliveryMethod.Name = "lbDeliveryMethod";
             lbDeliveryMethod.Size = new Size(172, 24);
             lbDeliveryMethod.TabIndex = 20;
@@ -276,7 +276,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // lblPaymentTerm
             // 
             lblPaymentTerm.AutoSize = true;
-            lblPaymentTerm.Location = new Point(180, 242);
+            lblPaymentTerm.Location = new Point(181, 242);
             lblPaymentTerm.Name = "lblPaymentTerm";
             lblPaymentTerm.Size = new Size(158, 24);
             lblPaymentTerm.TabIndex = 22;
@@ -294,7 +294,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // lblDeliveryDate
             // 
             lblDeliveryDate.AutoSize = true;
-            lblDeliveryDate.Location = new Point(180, 272);
+            lblDeliveryDate.Location = new Point(181, 272);
             lblDeliveryDate.Name = "lblDeliveryDate";
             lblDeliveryDate.Size = new Size(147, 24);
             lblDeliveryDate.TabIndex = 24;
@@ -314,9 +314,9 @@ namespace DigiERP.Forms.Customer.Quotation
             btnPreviewPrint.BackColor = Color.Red;
             btnPreviewPrint.FlatStyle = FlatStyle.Flat;
             btnPreviewPrint.ForeColor = SystemColors.ButtonFace;
-            btnPreviewPrint.Location = new Point(588, 28);
+            btnPreviewPrint.Location = new Point(588, 29);
             btnPreviewPrint.Name = "btnPreviewPrint";
-            btnPreviewPrint.Size = new Size(148, 36);
+            btnPreviewPrint.Size = new Size(148, 35);
             btnPreviewPrint.TabIndex = 25;
             btnPreviewPrint.Text = "Preview Print";
             btnPreviewPrint.UseVisualStyleBackColor = false;
@@ -324,14 +324,15 @@ namespace DigiERP.Forms.Customer.Quotation
             // 
             // dataGridView1
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.BackgroundColor = SystemColors.ControlLightLight;
+            dataGridView1.BorderStyle = BorderStyle.None;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { No, Products, Description, Qty, Unit, UnitPrice, Amount });
-            dataGridView1.Location = new Point(12, 304);
+            dataGridView1.Location = new Point(13, 304);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(808, 252);
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.Size = new Size(808, 253);
             dataGridView1.TabIndex = 26;
             // 
             // No
@@ -387,7 +388,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // 
             // txtRemark
             // 
-            txtRemark.Location = new Point(12, 590);
+            txtRemark.Location = new Point(13, 590);
             txtRemark.Multiline = true;
             txtRemark.Name = "txtRemark";
             txtRemark.PlaceholderText = "Remark";
@@ -397,7 +398,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // label16
             // 
             label16.AutoSize = true;
-            label16.Location = new Point(16, 748);
+            label16.Location = new Point(16, 749);
             label16.Name = "label16";
             label16.Size = new Size(704, 24);
             label16.TabIndex = 29;
@@ -406,7 +407,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // label17
             // 
             label17.AutoSize = true;
-            label17.Location = new Point(16, 772);
+            label17.Location = new Point(16, 771);
             label17.Name = "label17";
             label17.Size = new Size(183, 24);
             label17.TabIndex = 30;
@@ -415,7 +416,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // label18
             // 
             label18.AutoSize = true;
-            label18.Location = new Point(16, 804);
+            label18.Location = new Point(16, 803);
             label18.Name = "label18";
             label18.Size = new Size(230, 24);
             label18.TabIndex = 31;
@@ -432,36 +433,36 @@ namespace DigiERP.Forms.Customer.Quotation
             // 
             // txtBuyerConfirmation
             // 
-            txtBuyerConfirmation.Location = new Point(216, 852);
+            txtBuyerConfirmation.Location = new Point(215, 851);
             txtBuyerConfirmation.Name = "txtBuyerConfirmation";
-            txtBuyerConfirmation.Size = new Size(212, 32);
+            txtBuyerConfirmation.Size = new Size(211, 32);
             txtBuyerConfirmation.TabIndex = 33;
             // 
             // label20
             // 
             label20.AutoSize = true;
             label20.BorderStyle = BorderStyle.FixedSingle;
-            label20.Location = new Point(637, 788);
+            label20.Location = new Point(636, 787);
             label20.Name = "label20";
             label20.Size = new Size(87, 26);
             label20.TabIndex = 34;
             label20.Text = "Examine";
             // 
-            // textBox3
+            // txtAudit
             // 
-            textBox3.BorderStyle = BorderStyle.FixedSingle;
-            textBox3.Enabled = false;
-            textBox3.Location = new Point(636, 812);
-            textBox3.Multiline = true;
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(88, 72);
-            textBox3.TabIndex = 35;
+            txtAudit.BorderStyle = BorderStyle.FixedSingle;
+            txtAudit.Enabled = false;
+            txtAudit.Location = new Point(636, 813);
+            txtAudit.Multiline = true;
+            txtAudit.Name = "txtAudit";
+            txtAudit.Size = new Size(88, 72);
+            txtAudit.TabIndex = 35;
             // 
             // txtSales
             // 
             txtSales.BorderStyle = BorderStyle.FixedSingle;
             txtSales.Enabled = false;
-            txtSales.Location = new Point(724, 812);
+            txtSales.Location = new Point(724, 813);
             txtSales.Multiline = true;
             txtSales.Name = "txtSales";
             txtSales.Size = new Size(88, 72);
@@ -471,7 +472,7 @@ namespace DigiERP.Forms.Customer.Quotation
             // 
             label21.AutoSize = true;
             label21.BorderStyle = BorderStyle.FixedSingle;
-            label21.Location = new Point(724, 788);
+            label21.Location = new Point(724, 787);
             label21.Name = "label21";
             label21.Size = new Size(88, 26);
             label21.TabIndex = 36;
@@ -481,9 +482,9 @@ namespace DigiERP.Forms.Customer.Quotation
             // 
             pictureBox2.Dock = DockStyle.Bottom;
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(0, 908);
+            pictureBox2.Location = new Point(0, 909);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(834, 84);
+            pictureBox2.Size = new Size(834, 83);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.TabIndex = 38;
             pictureBox2.TabStop = false;
@@ -497,7 +498,7 @@ namespace DigiERP.Forms.Customer.Quotation
             Controls.Add(pictureBox2);
             Controls.Add(txtSales);
             Controls.Add(label21);
-            Controls.Add(textBox3);
+            Controls.Add(txtAudit);
             Controls.Add(label20);
             Controls.Add(txtBuyerConfirmation);
             Controls.Add(label19);
@@ -535,10 +536,11 @@ namespace DigiERP.Forms.Customer.Quotation
             Controls.Add(pictureBox1);
             Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5);
             Name = "FrmQuotationPrintE";
             Text = "Print Quotation";
-            Click += this.FrmQuotationPrintE_Click;
+            Click += FrmQuotationPrintE_Click;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -578,13 +580,6 @@ namespace DigiERP.Forms.Customer.Quotation
         private Label label15;
         private Button btnPreviewPrint;
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn No;
-        private DataGridViewTextBoxColumn Products;
-        private DataGridViewTextBoxColumn Description;
-        private DataGridViewTextBoxColumn Qty;
-        private DataGridViewTextBoxColumn Unit;
-        private DataGridViewTextBoxColumn UnitPrice;
-        private DataGridViewTextBoxColumn Amount;
         private Label label11;
         private TextBox txtRemark;
         private Label label16;
@@ -593,9 +588,16 @@ namespace DigiERP.Forms.Customer.Quotation
         private Label label19;
         private TextBox txtBuyerConfirmation;
         private Label label20;
-        private TextBox textBox3;
+        private TextBox txtAudit;
         private TextBox txtSales;
         private Label label21;
         private PictureBox pictureBox2;
+        private DataGridViewTextBoxColumn No;
+        private DataGridViewTextBoxColumn Products;
+        private DataGridViewTextBoxColumn Description;
+        private DataGridViewTextBoxColumn Qty;
+        private DataGridViewTextBoxColumn Unit;
+        private DataGridViewTextBoxColumn UnitPrice;
+        private DataGridViewTextBoxColumn Amount;
     }
 }

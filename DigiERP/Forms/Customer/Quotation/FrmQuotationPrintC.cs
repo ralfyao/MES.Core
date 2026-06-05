@@ -138,7 +138,8 @@ namespace DigiERP.Forms.Customer.Quotation
                     MessageBox.Show(salesRep.ErrorMessage);
                     return;
                 }
-                txtSales.Text = salesRep.result?.姓名;
+                txtSales.Text = rfqRep.result?.SALES;
+                txtAudit.Text = quotation.核准;
             }
             //throw new NotImplementedException();
         }
@@ -160,6 +161,7 @@ namespace DigiERP.Forms.Customer.Quotation
                 row.Cells[index++].Value = item.單位;
                 row.Cells[index++].Value = item.單價;
                 row.Cells[index++].Value = item.數量 * item.單價;
+                dataGridView1.Rows.Add(row);
             }
             //throw new NotImplementedException();
         }

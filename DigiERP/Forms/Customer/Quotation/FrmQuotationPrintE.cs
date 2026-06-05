@@ -132,13 +132,14 @@ namespace DigiERP.Forms.Customer.Quotation
                 lblConDate.Text = quotation.CONDATE;
                 initDataGrid(quotation);
                 txtRemark.Text = quotation.Remark;
-                var salesRep = _hrController.GetWorkerByNumber(quotation.SALES);
+                var salesRep = _hrController.GetWorkerByNumber(rfqRep.result?.SALES);
                 if (!string.IsNullOrEmpty(salesRep.ErrorMessage))
                 {
                     MessageBox.Show(salesRep.ErrorMessage);
                     return;
                 }
-                txtSales.Text = salesRep.result?.姓名;
+                txtSales.Text = !string.IsNullOrEmpty(salesRep.result.姓名) ? salesRep.result.姓名 : rfqRep.result?.SALES;
+                txtAudit.Text = quotation.核准;
             }
             //throw new NotImplementedException();
         }
@@ -160,6 +161,7 @@ namespace DigiERP.Forms.Customer.Quotation
                 row.Cells[index++].Value = item.單位;
                 row.Cells[index++].Value = item.單價;
                 row.Cells[index++].Value = item.數量 * item.單價;
+                dataGridView1.Rows.Add(row);
             }
             //throw new NotImplementedException();
         }
