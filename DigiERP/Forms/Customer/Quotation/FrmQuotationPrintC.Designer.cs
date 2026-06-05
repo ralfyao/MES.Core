@@ -313,7 +313,7 @@ namespace DigiERP.Forms.Customer.Quotation
             btnPreviewPrint.BackColor = Color.Red;
             btnPreviewPrint.FlatStyle = FlatStyle.Flat;
             btnPreviewPrint.ForeColor = SystemColors.ButtonFace;
-            btnPreviewPrint.Location = new Point(588, 28);
+            btnPreviewPrint.Location = new Point(588, 32);
             btnPreviewPrint.Name = "btnPreviewPrint";
             btnPreviewPrint.Size = new Size(148, 36);
             btnPreviewPrint.TabIndex = 25;
