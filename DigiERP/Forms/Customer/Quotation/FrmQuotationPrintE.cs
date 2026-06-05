@@ -40,7 +40,7 @@ namespace DigiERP.Forms.Customer.Quotation
         {
             btnPreviewPrint.Text = "";
             //throw new NotImplementedException();
-            
+
             Bitmap bmp = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
             this.DrawToBitmap(bmp, new Rectangle(0, 0, this.ClientSize.Width, this.ClientSize.Height));
             byte[] imageBytes;
@@ -69,7 +69,7 @@ namespace DigiERP.Forms.Customer.Quotation
             }
             string fileName = $"Quotation{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.pdf";
             doc.Save(fileName);
-            byte[] pdfBytes = File.ReadAllBytes(".\\"+fileName);
+            byte[] pdfBytes = File.ReadAllBytes(".\\" + fileName);
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
                 sfd.Filter = "PDF Files (*.pdf)|*.pdf";
@@ -118,7 +118,7 @@ namespace DigiERP.Forms.Customer.Quotation
                 }
                 if (custRep.resultList.Count() > 0)
                     _customer = custRep.resultList[0];
-                lblCustomer.Text = _customer.COMPANY??"";
+                lblCustomer.Text = _customer.COMPANY ?? "";
                 lblQuono.Text = quotation.QUONO ?? "";
                 lblRanking.Text = quotation.RANKING ?? "";
                 lblTel.Text = _customer.TEL ?? "";
@@ -149,7 +149,7 @@ namespace DigiERP.Forms.Customer.Quotation
             int index = 0;
             int lineNo = 1;
             dataGridView1.Rows.Clear();
-            foreach(var item in quotation.quotationDetailFormList)
+            foreach (var item in quotation.quotationDetailFormList)
             {
                 index = 0;
                 DataGridViewRow row = new DataGridViewRow();
@@ -164,6 +164,38 @@ namespace DigiERP.Forms.Customer.Quotation
                 dataGridView1.Rows.Add(row);
             }
             //throw new NotImplementedException();
+        }
+
+        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (!dataGridView1.Rows[i].IsNewRow)
+                {
+                    dataGridView1.Rows[i].Cells["No"].Value = (i + 1).ToString();
+                }
+            }
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+            try
+            {
+                decimal qty = 0;
+                decimal unitPrice = 0;
+
+                decimal.TryParse(
+                    Convert.ToString(row.Cells["Qty"].Value),
+                    out qty);
+
+                decimal.TryParse(
+                    Convert.ToString(row.Cells["UnitPrice"].Value),
+                    out unitPrice);
+
+                row.Cells["Amount"].Value = qty * unitPrice;
+            }
+            catch { }
         }
     }
 }

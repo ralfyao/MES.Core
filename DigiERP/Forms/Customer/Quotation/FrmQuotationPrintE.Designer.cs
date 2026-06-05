@@ -334,6 +334,8 @@ namespace DigiERP.Forms.Customer.Quotation
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(808, 253);
             dataGridView1.TabIndex = 26;
+            dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
+            dataGridView1.RowsAdded += dataGridView1_RowsAdded;
             // 
             // No
             // 
@@ -345,37 +347,31 @@ namespace DigiERP.Forms.Customer.Quotation
             // 
             Products.HeaderText = "Products";
             Products.Name = "Products";
-            Products.ReadOnly = true;
             // 
             // Description
             // 
             Description.HeaderText = "Description";
             Description.Name = "Description";
-            Description.ReadOnly = true;
             // 
             // Qty
             // 
             Qty.HeaderText = "Qty";
             Qty.Name = "Qty";
-            Qty.ReadOnly = true;
             // 
             // Unit
             // 
             Unit.HeaderText = "Unit";
             Unit.Name = "Unit";
-            Unit.ReadOnly = true;
             // 
             // UnitPrice
             // 
             UnitPrice.HeaderText = "Unit Price";
             UnitPrice.Name = "UnitPrice";
-            UnitPrice.ReadOnly = true;
             // 
             // Amount
             // 
             Amount.HeaderText = "Amount";
             Amount.Name = "Amount";
-            Amount.ReadOnly = true;
             // 
             // label11
             // 

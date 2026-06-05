@@ -334,6 +334,8 @@ namespace DigiERP.Forms.Customer.Quotation
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(808, 252);
             dataGridView1.TabIndex = 26;
+            dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
+            dataGridView1.RowsAdded += dataGridView1_RowsAdded;
             // 
             // No
             // 
@@ -345,37 +347,31 @@ namespace DigiERP.Forms.Customer.Quotation
             // 
             Products.HeaderText = "產品編號";
             Products.Name = "Products";
-            Products.ReadOnly = true;
             // 
             // Description
             // 
             Description.HeaderText = "品名描述";
             Description.Name = "Description";
-            Description.ReadOnly = true;
             // 
             // Qty
             // 
             Qty.HeaderText = "數量";
             Qty.Name = "Qty";
-            Qty.ReadOnly = true;
             // 
             // Unit
             // 
             Unit.HeaderText = "單位";
             Unit.Name = "Unit";
-            Unit.ReadOnly = true;
             // 
             // UnitPrice
             // 
             UnitPrice.HeaderText = "單價";
             UnitPrice.Name = "UnitPrice";
-            UnitPrice.ReadOnly = true;
             // 
             // Amount
             // 
             Amount.HeaderText = "總額";
             Amount.Name = "Amount";
-            Amount.ReadOnly = true;
             // 
             // label11
             // 
