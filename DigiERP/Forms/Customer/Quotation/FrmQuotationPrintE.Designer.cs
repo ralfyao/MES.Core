@@ -58,13 +58,6 @@ namespace DigiERP.Forms.Customer.Quotation
             label15 = new Label();
             btnPreviewPrint = new Button();
             dataGridView1 = new DataGridView();
-            No = new DataGridViewTextBoxColumn();
-            Products = new DataGridViewTextBoxColumn();
-            Description = new DataGridViewTextBoxColumn();
-            Qty = new DataGridViewTextBoxColumn();
-            Unit = new DataGridViewTextBoxColumn();
-            UnitPrice = new DataGridViewTextBoxColumn();
-            Amount = new DataGridViewTextBoxColumn();
             label11 = new Label();
             txtRemark = new TextBox();
             label16 = new Label();
@@ -77,6 +70,13 @@ namespace DigiERP.Forms.Customer.Quotation
             txtSales = new TextBox();
             label21 = new Label();
             pictureBox2 = new PictureBox();
+            No = new DataGridViewTextBoxColumn();
+            Products = new DataGridViewTextBoxColumn();
+            Description = new DataGridViewTextBoxColumn();
+            Qty = new DataGridViewTextBoxColumn();
+            Unit = new DataGridViewTextBoxColumn();
+            UnitPrice = new DataGridViewTextBoxColumn();
+            Amount = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -337,42 +337,6 @@ namespace DigiERP.Forms.Customer.Quotation
             dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
             dataGridView1.RowsAdded += dataGridView1_RowsAdded;
             // 
-            // No
-            // 
-            No.HeaderText = "No";
-            No.Name = "No";
-            No.ReadOnly = true;
-            // 
-            // Products
-            // 
-            Products.HeaderText = "Products";
-            Products.Name = "Products";
-            // 
-            // Description
-            // 
-            Description.HeaderText = "Description";
-            Description.Name = "Description";
-            // 
-            // Qty
-            // 
-            Qty.HeaderText = "Qty";
-            Qty.Name = "Qty";
-            // 
-            // Unit
-            // 
-            Unit.HeaderText = "Unit";
-            Unit.Name = "Unit";
-            // 
-            // UnitPrice
-            // 
-            UnitPrice.HeaderText = "Unit Price";
-            UnitPrice.Name = "UnitPrice";
-            // 
-            // Amount
-            // 
-            Amount.HeaderText = "Amount";
-            Amount.Name = "Amount";
-            // 
             // label11
             // 
             label11.AutoSize = true;
@@ -484,6 +448,43 @@ namespace DigiERP.Forms.Customer.Quotation
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.TabIndex = 38;
             pictureBox2.TabStop = false;
+            // 
+            // No
+            // 
+            No.HeaderText = "No";
+            No.Name = "No";
+            No.ReadOnly = true;
+            // 
+            // Products
+            // 
+            Products.HeaderText = "Products";
+            Products.Name = "Products";
+            // 
+            // Description
+            // 
+            Description.HeaderText = "Description";
+            Description.Name = "Description";
+            // 
+            // Qty
+            // 
+            Qty.HeaderText = "Qty";
+            Qty.Name = "Qty";
+            // 
+            // Unit
+            // 
+            Unit.HeaderText = "Unit";
+            Unit.Name = "Unit";
+            // 
+            // UnitPrice
+            // 
+            UnitPrice.HeaderText = "Unit Price";
+            UnitPrice.Name = "UnitPrice";
+            // 
+            // Amount
+            // 
+            Amount.HeaderText = "Amount";
+            Amount.Name = "Amount";
+            Amount.ReadOnly = true;
             // 
             // FrmQuotationPrintE
             // 
