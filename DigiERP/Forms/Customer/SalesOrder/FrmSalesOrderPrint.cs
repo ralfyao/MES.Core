@@ -24,5 +24,14 @@ namespace DigiERP.Forms.Customer.SalesOrder
             InitializeComponent();
             this.customerOrder = customerOrder;
         }
+
+        private void btnCorderT_Click(object sender, EventArgs e)
+        {
+            FrmPrintSalesOrderCT frmPrintSalesOrderCT = new FrmPrintSalesOrderCT();
+            frmPrintSalesOrderCT.form = customerOrder;
+            frmPrintSalesOrderCT.initControls();
+            frmPrintSalesOrderCT.initData();
+            frmPrintSalesOrderCT.ShowDialog(this);
+        }
     }
 }

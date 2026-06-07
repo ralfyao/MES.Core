@@ -38,18 +38,18 @@
             lblCompany = new Label();
             txtComment = new TextBox();
             dataGridView1 = new DataGridView();
-            btnCorderP = new Button();
-            btnCorderT = new Button();
-            btnPerformaInvoiceT = new Button();
-            btnPerformaInvoiceP = new Button();
-            button1 = new Button();
-            btnInvoiceP = new Button();
             品項編號 = new DataGridViewTextBoxColumn();
             數量 = new DataGridViewTextBoxColumn();
             訂單單價 = new DataGridViewTextBoxColumn();
             總金額 = new DataGridViewTextBoxColumn();
             請款選項 = new DataGridViewComboBoxColumn();
             專案序號 = new DataGridViewTextBoxColumn();
+            btnCorderP = new Button();
+            btnCorderT = new Button();
+            btnPerformaInvoiceT = new Button();
+            btnPerformaInvoiceP = new Button();
+            button1 = new Button();
+            btnInvoiceP = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -136,6 +136,42 @@
             dataGridView1.Size = new Size(504, 188);
             dataGridView1.TabIndex = 8;
             // 
+            // 品項編號
+            // 
+            品項編號.HeaderText = "品項編號";
+            品項編號.Name = "品項編號";
+            品項編號.ReadOnly = true;
+            // 
+            // 數量
+            // 
+            數量.HeaderText = "數量";
+            數量.Name = "數量";
+            數量.ReadOnly = true;
+            // 
+            // 訂單單價
+            // 
+            訂單單價.HeaderText = "訂單單價";
+            訂單單價.Name = "訂單單價";
+            訂單單價.ReadOnly = true;
+            // 
+            // 總金額
+            // 
+            總金額.HeaderText = "總金額";
+            總金額.Name = "總金額";
+            總金額.ReadOnly = true;
+            // 
+            // 請款選項
+            // 
+            請款選項.HeaderText = "請款選項";
+            請款選項.Items.AddRange(new object[] { "", "是", "否" });
+            請款選項.Name = "請款選項";
+            // 
+            // 專案序號
+            // 
+            專案序號.HeaderText = "專案序號";
+            專案序號.Name = "專案序號";
+            專案序號.ReadOnly = true;
+            // 
             // btnCorderP
             // 
             btnCorderP.BackColor = Color.Bisque;
@@ -155,6 +191,7 @@
             btnCorderT.TabIndex = 10;
             btnCorderT.Text = "中文訂單T";
             btnCorderT.UseVisualStyleBackColor = false;
+            btnCorderT.Click += btnCorderT_Click;
             // 
             // btnPerformaInvoiceT
             // 
@@ -196,42 +233,6 @@
             btnInvoiceP.Text = "Invoice %";
             btnInvoiceP.UseVisualStyleBackColor = false;
             // 
-            // 品項編號
-            // 
-            品項編號.HeaderText = "品項編號";
-            品項編號.Name = "品項編號";
-            品項編號.ReadOnly = true;
-            // 
-            // 數量
-            // 
-            數量.HeaderText = "數量";
-            數量.Name = "數量";
-            數量.ReadOnly = true;
-            // 
-            // 訂單單價
-            // 
-            訂單單價.HeaderText = "訂單單價";
-            訂單單價.Name = "訂單單價";
-            訂單單價.ReadOnly = true;
-            // 
-            // 總金額
-            // 
-            總金額.HeaderText = "總金額";
-            總金額.Name = "總金額";
-            總金額.ReadOnly = true;
-            // 
-            // 請款選項
-            // 
-            請款選項.HeaderText = "請款選項";
-            請款選項.Items.AddRange(new object[] { "", "是", "否" });
-            請款選項.Name = "請款選項";
-            // 
-            // 專案序號
-            // 
-            專案序號.HeaderText = "專案序號";
-            專案序號.Name = "專案序號";
-            專案序號.ReadOnly = true;
-            // 
             // FrmSalesOrderPrint
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
@@ -255,7 +256,7 @@
             Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(5, 5, 5, 5);
+            Margin = new Padding(5);
             Name = "FrmSalesOrderPrint";
             Text = "訂單列印";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

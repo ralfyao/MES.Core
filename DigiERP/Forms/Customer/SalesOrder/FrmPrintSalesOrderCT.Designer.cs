@@ -54,7 +54,7 @@
             label8 = new Label();
             lblPaymentTerm = new Label();
             label12 = new Label();
-            label3 = new Label();
+            lblETDRequest = new Label();
             label14 = new Label();
             dataGridView1 = new DataGridView();
             No = new DataGridViewTextBoxColumn();
@@ -71,7 +71,7 @@
             lblAmountSum = new Label();
             label20 = new Label();
             label15 = new Label();
-            textBox1 = new TextBox();
+            lblRemark = new TextBox();
             label17 = new Label();
             label19 = new Label();
             lblAccountWithBank = new Label();
@@ -87,8 +87,8 @@
             lblModifyDate = new Label();
             label29 = new Label();
             label30 = new Label();
-            textBox3 = new TextBox();
-            textBox4 = new TextBox();
+            lblAudit = new TextBox();
+            lblSales = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -110,7 +110,7 @@
             pictureBox2.BackColor = SystemColors.ControlLightLight;
             pictureBox2.Dock = DockStyle.Bottom;
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(0, 896);
+            pictureBox2.Location = new Point(0, 955);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(809, 76);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
@@ -326,14 +326,14 @@
             label12.TabIndex = 23;
             label12.Text = "付款條件";
             // 
-            // label3
+            // lblETDRequest
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(100, 300);
-            label3.Name = "label3";
-            label3.Size = new Size(141, 24);
-            label3.TabIndex = 26;
-            label3.Text = "lblETDRequest";
+            lblETDRequest.AutoSize = true;
+            lblETDRequest.Location = new Point(100, 300);
+            lblETDRequest.Name = "lblETDRequest";
+            lblETDRequest.Size = new Size(141, 24);
+            lblETDRequest.TabIndex = 26;
+            lblETDRequest.Text = "lblETDRequest";
             // 
             // label14
             // 
@@ -456,13 +456,14 @@
             label15.TabIndex = 34;
             label15.Text = "備註";
             // 
-            // textBox1
+            // lblRemark
             // 
-            textBox1.Location = new Point(60, 571);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(484, 92);
-            textBox1.TabIndex = 35;
+            lblRemark.Location = new Point(60, 571);
+            lblRemark.Multiline = true;
+            lblRemark.Name = "lblRemark";
+            lblRemark.PlaceholderText = "備註";
+            lblRemark.Size = new Size(484, 92);
+            lblRemark.TabIndex = 35;
             // 
             // label17
             // 
@@ -564,7 +565,7 @@
             // label27
             // 
             label27.AutoSize = true;
-            label27.Location = new Point(12, 904);
+            label27.Location = new Point(16, 960);
             label27.Name = "label27";
             label27.Size = new Size(85, 24);
             label27.TabIndex = 47;
@@ -573,7 +574,7 @@
             // lblModifyDate
             // 
             lblModifyDate.AutoSize = true;
-            lblModifyDate.Location = new Point(12, 936);
+            lblModifyDate.Location = new Point(16, 992);
             lblModifyDate.Name = "lblModifyDate";
             lblModifyDate.Size = new Size(137, 24);
             lblModifyDate.TabIndex = 48;
@@ -599,32 +600,32 @@
             label30.TabIndex = 50;
             label30.Text = "    Sales    ";
             // 
-            // textBox3
+            // lblAudit
             // 
-            textBox3.BorderStyle = BorderStyle.FixedSingle;
-            textBox3.Location = new Point(553, 730);
-            textBox3.Multiline = true;
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(96, 82);
-            textBox3.TabIndex = 51;
+            lblAudit.BorderStyle = BorderStyle.FixedSingle;
+            lblAudit.Location = new Point(553, 730);
+            lblAudit.Multiline = true;
+            lblAudit.Name = "lblAudit";
+            lblAudit.Size = new Size(96, 82);
+            lblAudit.TabIndex = 51;
             // 
-            // textBox4
+            // lblSales
             // 
-            textBox4.BorderStyle = BorderStyle.FixedSingle;
-            textBox4.Location = new Point(649, 729);
-            textBox4.Multiline = true;
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(96, 82);
-            textBox4.TabIndex = 52;
+            lblSales.BorderStyle = BorderStyle.FixedSingle;
+            lblSales.Location = new Point(649, 729);
+            lblSales.Multiline = true;
+            lblSales.Name = "lblSales";
+            lblSales.Size = new Size(96, 82);
+            lblSales.TabIndex = 52;
             // 
             // FrmPrintSalesOrderCT
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLightLight;
-            ClientSize = new Size(809, 972);
-            Controls.Add(textBox4);
-            Controls.Add(textBox3);
+            ClientSize = new Size(809, 1031);
+            Controls.Add(lblSales);
+            Controls.Add(lblAudit);
             Controls.Add(label30);
             Controls.Add(label29);
             Controls.Add(lblModifyDate);
@@ -640,7 +641,7 @@
             Controls.Add(lblAccountWithBank);
             Controls.Add(label19);
             Controls.Add(label17);
-            Controls.Add(textBox1);
+            Controls.Add(lblRemark);
             Controls.Add(label15);
             Controls.Add(lblTotalAmount);
             Controls.Add(label16);
@@ -649,7 +650,7 @@
             Controls.Add(lblAmountSum);
             Controls.Add(label20);
             Controls.Add(dataGridView1);
-            Controls.Add(label3);
+            Controls.Add(lblETDRequest);
             Controls.Add(label14);
             Controls.Add(lblPaymentTerm);
             Controls.Add(label12);
@@ -678,7 +679,7 @@
             Controls.Add(pictureBox1);
             Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(5, 5, 5, 5);
+            Margin = new Padding(5);
             Name = "FrmPrintSalesOrderCT";
             Text = "中文訂單T";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -715,7 +716,7 @@
         private Label label8;
         private Label lblPaymentTerm;
         private Label label12;
-        private Label label3;
+        private Label lblETDRequest;
         private Label label14;
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn No;
@@ -732,7 +733,7 @@
         private Label lblAmountSum;
         private Label label20;
         private Label label15;
-        private TextBox textBox1;
+        private TextBox lblRemark;
         private Label label17;
         private Label label19;
         private Label lblAccountWithBank;
@@ -748,7 +749,7 @@
         private Label lblModifyDate;
         private Label label29;
         private Label label30;
-        private TextBox textBox3;
-        private TextBox textBox4;
+        private TextBox lblAudit;
+        private TextBox lblSales;
     }
 }
