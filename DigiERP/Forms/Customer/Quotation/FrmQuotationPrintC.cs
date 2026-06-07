@@ -197,5 +197,10 @@ namespace DigiERP.Forms.Customer.Quotation
             }
             catch { }
         }
+
+        private void FrmQuotationPrintC_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

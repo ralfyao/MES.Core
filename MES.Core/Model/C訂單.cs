@@ -48,7 +48,7 @@ namespace MES.Core.Model
             decimal? result = 0;
             foreach(var item in orderListDetail)
             {
-                result += item.單價1??0 * item.數量1??0;
+                result += (item.單價1??0) * (item.數量1??0);
             }
             return result;
         }

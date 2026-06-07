@@ -89,6 +89,7 @@
             label30 = new Label();
             lblAudit = new TextBox();
             lblSales = new TextBox();
+            btnPreviewPrint = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -100,7 +101,7 @@
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(809, 76);
+            pictureBox1.Size = new Size(1001, 76);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -112,7 +113,7 @@
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
             pictureBox2.Location = new Point(0, 955);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(809, 76);
+            pictureBox2.Size = new Size(1001, 76);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.TabIndex = 1;
             pictureBox2.TabStop = false;
@@ -139,7 +140,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 136);
-            label2.Location = new Point(736, 80);
+            label2.Location = new Point(928, 79);
             label2.Name = "label2";
             label2.Size = new Size(61, 30);
             label2.TabIndex = 4;
@@ -166,7 +167,7 @@
             // lblEmail
             // 
             lblEmail.AutoSize = true;
-            lblEmail.Location = new Point(360, 116);
+            lblEmail.Location = new Point(483, 114);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(80, 24);
             lblEmail.TabIndex = 8;
@@ -176,7 +177,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(308, 116);
+            label5.Location = new Point(431, 114);
             label5.Name = "label5";
             label5.Size = new Size(48, 24);
             label5.TabIndex = 7;
@@ -185,7 +186,7 @@
             // lblDate
             // 
             lblDate.AutoSize = true;
-            lblDate.Location = new Point(670, 114);
+            lblDate.Location = new Point(846, 114);
             lblDate.Name = "lblDate";
             lblDate.Size = new Size(74, 24);
             lblDate.TabIndex = 10;
@@ -194,7 +195,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(619, 116);
+            label6.Location = new Point(795, 116);
             label6.Name = "label6";
             label6.Size = new Size(48, 24);
             label6.TabIndex = 9;
@@ -203,7 +204,7 @@
             // lblSONo
             // 
             lblSONo.AutoSize = true;
-            lblSONo.Location = new Point(670, 146);
+            lblSONo.Location = new Point(846, 146);
             lblSONo.Name = "lblSONo";
             lblSONo.Size = new Size(85, 24);
             lblSONo.TabIndex = 16;
@@ -212,7 +213,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(619, 148);
+            label7.Location = new Point(795, 148);
             label7.Name = "label7";
             label7.Size = new Size(48, 24);
             label7.TabIndex = 15;
@@ -221,7 +222,7 @@
             // lblFax
             // 
             lblFax.AutoSize = true;
-            lblFax.Location = new Point(360, 148);
+            lblFax.Location = new Point(483, 146);
             lblFax.Name = "lblFax";
             lblFax.Size = new Size(61, 24);
             lblFax.TabIndex = 14;
@@ -230,7 +231,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(308, 148);
+            label9.Location = new Point(431, 146);
             label9.Name = "label9";
             label9.Size = new Size(48, 24);
             label9.TabIndex = 13;
@@ -353,7 +354,7 @@
             dataGridView1.Location = new Point(12, 336);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
-            dataGridView1.Size = new Size(788, 228);
+            dataGridView1.Size = new Size(977, 228);
             dataGridView1.TabIndex = 27;
             // 
             // No
@@ -396,7 +397,7 @@
             // lblTotalAmount
             // 
             lblTotalAmount.AutoSize = true;
-            lblTotalAmount.Location = new Point(648, 635);
+            lblTotalAmount.Location = new Point(800, 638);
             lblTotalAmount.Name = "lblTotalAmount";
             lblTotalAmount.Size = new Size(151, 24);
             lblTotalAmount.TabIndex = 33;
@@ -405,7 +406,7 @@
             // label16
             // 
             label16.AutoSize = true;
-            label16.Location = new Point(556, 635);
+            label16.Location = new Point(708, 638);
             label16.Name = "label16";
             label16.Size = new Size(67, 24);
             label16.TabIndex = 32;
@@ -414,7 +415,7 @@
             // lblTax
             // 
             lblTax.AutoSize = true;
-            lblTax.Location = new Point(648, 603);
+            lblTax.Location = new Point(800, 606);
             lblTax.Name = "lblTax";
             lblTax.Size = new Size(62, 24);
             lblTax.TabIndex = 31;
@@ -423,7 +424,7 @@
             // label18
             // 
             label18.AutoSize = true;
-            label18.Location = new Point(556, 603);
+            label18.Location = new Point(708, 606);
             label18.Name = "label18";
             label18.Size = new Size(48, 24);
             label18.TabIndex = 30;
@@ -432,7 +433,7 @@
             // lblAmountSum
             // 
             lblAmountSum.AutoSize = true;
-            lblAmountSum.Location = new Point(648, 571);
+            lblAmountSum.Location = new Point(800, 574);
             lblAmountSum.Name = "lblAmountSum";
             lblAmountSum.Size = new Size(147, 24);
             lblAmountSum.TabIndex = 29;
@@ -441,7 +442,7 @@
             // label20
             // 
             label20.AutoSize = true;
-            label20.Location = new Point(556, 571);
+            label20.Location = new Point(708, 574);
             label20.Name = "label20";
             label20.Size = new Size(86, 24);
             label20.TabIndex = 28;
@@ -462,7 +463,7 @@
             lblRemark.Multiline = true;
             lblRemark.Name = "lblRemark";
             lblRemark.PlaceholderText = "備註";
-            lblRemark.Size = new Size(484, 92);
+            lblRemark.Size = new Size(631, 92);
             lblRemark.TabIndex = 35;
             // 
             // label17
@@ -584,7 +585,7 @@
             // 
             label29.AutoSize = true;
             label29.BorderStyle = BorderStyle.FixedSingle;
-            label29.Location = new Point(552, 704);
+            label29.Location = new Point(704, 707);
             label29.Name = "label29";
             label29.Size = new Size(97, 26);
             label29.TabIndex = 49;
@@ -594,7 +595,7 @@
             // 
             label30.AutoSize = true;
             label30.BorderStyle = BorderStyle.FixedSingle;
-            label30.Location = new Point(648, 704);
+            label30.Location = new Point(800, 707);
             label30.Name = "label30";
             label30.Size = new Size(98, 26);
             label30.TabIndex = 50;
@@ -603,7 +604,7 @@
             // lblAudit
             // 
             lblAudit.BorderStyle = BorderStyle.FixedSingle;
-            lblAudit.Location = new Point(553, 730);
+            lblAudit.Location = new Point(705, 733);
             lblAudit.Multiline = true;
             lblAudit.Name = "lblAudit";
             lblAudit.Size = new Size(96, 82);
@@ -612,18 +613,31 @@
             // lblSales
             // 
             lblSales.BorderStyle = BorderStyle.FixedSingle;
-            lblSales.Location = new Point(649, 729);
+            lblSales.Location = new Point(801, 732);
             lblSales.Multiline = true;
             lblSales.Name = "lblSales";
             lblSales.Size = new Size(96, 82);
             lblSales.TabIndex = 52;
             // 
+            // btnPreviewPrint
+            // 
+            btnPreviewPrint.BackColor = Color.Red;
+            btnPreviewPrint.FlatStyle = FlatStyle.Flat;
+            btnPreviewPrint.ForeColor = SystemColors.ButtonFace;
+            btnPreviewPrint.Location = new Point(736, 28);
+            btnPreviewPrint.Name = "btnPreviewPrint";
+            btnPreviewPrint.Size = new Size(148, 36);
+            btnPreviewPrint.TabIndex = 53;
+            btnPreviewPrint.Text = "Preview Print";
+            btnPreviewPrint.UseVisualStyleBackColor = false;
+            btnPreviewPrint.Click += btnPreviewPrint_Click;
+            // 
             // FrmPrintSalesOrderCT
             // 
-            AutoScaleDimensions = new SizeF(11F, 24F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = SystemColors.ControlLightLight;
-            ClientSize = new Size(809, 1031);
+            ClientSize = new Size(1001, 1031);
+            Controls.Add(btnPreviewPrint);
             Controls.Add(lblSales);
             Controls.Add(lblAudit);
             Controls.Add(label30);
@@ -682,6 +696,8 @@
             Margin = new Padding(5);
             Name = "FrmPrintSalesOrderCT";
             Text = "中文訂單T";
+            Load += FrmPrintSalesOrderCT_Load;
+            Click += FrmPrintSalesOrderCT_Click;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -751,5 +767,6 @@
         private Label label30;
         private TextBox lblAudit;
         private TextBox lblSales;
+        private Button btnPreviewPrint;
     }
 }

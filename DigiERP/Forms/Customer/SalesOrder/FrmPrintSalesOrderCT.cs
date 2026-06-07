@@ -3,11 +3,14 @@ using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,12 +70,12 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 lblCustomerName.Text = form.客戶全稱;
                 lblContact.Text = _customer?.CONTACTPERSON;
                 lblEmail.Text = _customer?.EMAIL;
-                lblDate.Text = form.日期;
+                lblDate.Text = DateTime.Parse(form.日期).ToString("yyyy/MM/dd");
                 lblTel.Text = _customer?.TEL;
                 lblFax.Text = _customer?.FAX;
                 lblSONo.Text = form.單號;
                 lblAddress.Text = _customer?.ADDRESS;
-                priceCond.SetPriceCond(form.價格條件??"");
+                priceCond.SetPriceCond(form.價格條件 ?? "");
                 // 交期要求
                 ETDRequest.SetPriceCond(form.交貨日期 ?? "");
                 // 交貨方式
@@ -84,11 +87,11 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 lblPaymentTerm.Text = payMethod.GetPriceCondTxt();
                 lblETDRequest.Text = ETDRequest.GetPriceCondTxt();
                 lblAmountSum.Text = form.訂單總額加總().ToString();
-                if (form.稅率!= "0%")
+                if (form.稅率 != "0%")
                 {
                     try
                     {
-                        if (form.稅率!= null)
+                        if (form.稅率 != null)
                         {
                             decimal taxRate = decimal.Parse(form.稅率?.Replace("%", ""));
                             lblTax.Text = (form.訂單總額加總() * taxRate).ToString();
@@ -114,11 +117,13 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 lblAudit.Text = form.核准;
                 lblSales.Text = form.業務人員;
                 lblModifyDate.Text = form.修改日;
-                foreach(var item in form.orderListDetail)
+                int rowIdx = 1;
+                foreach (var item in form.orderListDetail)
                 {
                     int index = 1;
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dataGridView1);
+                    row.Cells[index - 1].Value = rowIdx;
                     row.Cells[index++].Value = item.產品編號;
                     row.Cells[index++].Value = item.品名規格;
                     row.Cells[index++].Value = item.數量1;
@@ -126,6 +131,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
                     row.Cells[index++].Value = item.單價1;
                     row.Cells[index++].Value = item.單價1 * item.數量1;
                     dataGridView1.Rows.Add(row);
+                    rowIdx++;
                 }
             }
             //throw new NotImplementedException();
@@ -134,6 +140,68 @@ namespace DigiERP.Forms.Customer.SalesOrder
         private void lblEmail_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnPreviewPrint_Click(object sender, EventArgs e)
+        {
+            btnPreviewPrint.Text = "";
+            //throw new NotImplementedException();
+
+            Bitmap bmp = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
+            this.DrawToBitmap(bmp, new Rectangle(0, 0, this.ClientSize.Width, this.ClientSize.Height));
+            byte[] imageBytes;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                imageBytes = ms.ToArray();
+            }
+            PdfDocument doc = new PdfDocument();
+            PdfPage page = doc.AddPage();
+
+            using (XGraphics gfx = XGraphics.FromPdfPage(page))
+            {
+                using (MemoryStream ms = new MemoryStream(imageBytes))
+                {
+                    bmp.Save(ms, ImageFormat.Png);
+                    ms.Position = 0;
+
+                    XImage img = XImage.FromStream(ms);
+
+                    gfx.DrawImage(img, 0, 0,
+                        page.Width,
+                        page.Height);
+                }
+            }
+            string fileName = $"SalesOrder{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.pdf";
+            doc.Save(fileName);
+            byte[] pdfBytes = File.ReadAllBytes(".\\" + fileName);
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF Files (*.pdf)|*.pdf";
+                sfd.FileName = fileName;
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    File.WriteAllBytes(sfd.FileName, pdfBytes);
+
+                    MessageBox.Show("PDF已儲存");
+                }
+            }
+        }
+
+        private void FrmPrintSalesOrderCT_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FrmPrintSalesOrderCT_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("確認關閉視窗?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Dispose();
+                Close();
+            }
         }
     }
 }
