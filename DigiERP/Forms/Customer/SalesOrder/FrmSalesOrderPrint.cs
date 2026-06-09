@@ -83,12 +83,6 @@ namespace DigiERP.Forms.Customer.SalesOrder
             {
                 if (item.Cells[4].Value.ToString() == "是")
                 {
-                    //var rep = new ItemController().ItemList(item.Cells[0].Value.ToString());
-                    //if (!string.IsNullOrEmpty(rep.ErrorMessage))
-                    //{
-                    //    MessageBox.Show(rep.ErrorMessage);
-                    //    return;
-                    //}
                     var product = customerOrder.orderListDetail.Where(x => x.產品編號 == item.Cells[0].Value.ToString()).FirstOrDefault(); //rep.resultList.FirstOrDefault();
                     listDetail.Add(new C訂單明細()
                     {
@@ -119,12 +113,6 @@ namespace DigiERP.Forms.Customer.SalesOrder
             {
                 if (item.Cells[4].Value.ToString() == "是")
                 {
-                    //var rep = new ItemController().ItemList(item.Cells[0].Value.ToString());
-                    //if (!string.IsNullOrEmpty(rep.ErrorMessage))
-                    //{
-                    //    MessageBox.Show(rep.ErrorMessage);
-                    //    return;
-                    //}
                     var product = customerOrder.orderListDetail.Where(x => x.產品編號 == item.Cells[0].Value.ToString()).FirstOrDefault(); //rep.resultList.FirstOrDefault();
                     listDetail.Add(new C訂單明細()
                     {
