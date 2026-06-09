@@ -103,7 +103,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 }
             }
             customerOrder.orderPrintListDetail = listDetail;
-            FrmPrintSalesOrderIT frmPrintSalesOrderIT = new FrmPrintSalesOrderIT();
+            FrmPrintSalesOrderPT frmPrintSalesOrderIT = new FrmPrintSalesOrderPT();
             frmPrintSalesOrderIT.form = customerOrder;
             frmPrintSalesOrderIT.percent = this.percent;
             frmPrintSalesOrderIT.initControls();
@@ -139,7 +139,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 }
             }
             customerOrder.orderPrintListDetail = listDetail;
-            FrmPrintSalesOrderPT frmPrintSalesOrderPT = new FrmPrintSalesOrderPT();
+            FrmPrintSalesOrderIT frmPrintSalesOrderPT = new FrmPrintSalesOrderIT();
             frmPrintSalesOrderPT.form = customerOrder;
             frmPrintSalesOrderPT.percent = this.percent;
             frmPrintSalesOrderPT.initControls();
