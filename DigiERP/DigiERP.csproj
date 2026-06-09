@@ -44,6 +44,12 @@
     <Compile Update="Forms\Customer\Quotation\FrmQuotationPrintC.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\Customer\SalesOrder\FrmPrintSalesOrderPT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\Customer\SalesOrder\FrmPrintSalesOrderIT.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

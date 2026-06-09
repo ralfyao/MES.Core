@@ -18,12 +18,12 @@ using System.Windows.Forms;
 
 namespace DigiERP.Forms.Customer.SalesOrder
 {
-    public partial class FrmPrintSalesOrderCT : CommonForm
+    public partial class FrmPrintSalesOrderIT : CommonForm
     {
         public C訂單 form { get; set; }
         private CustomerController _customerController;
         private C客戶設定 _customer { get; set; }
-        public FrmPrintSalesOrderCT()
+        public FrmPrintSalesOrderIT()
         {
             InitializeComponent();
             initController();
@@ -95,33 +95,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 lblPaymentTerm.Text = payMethod.GetPriceCondTxt();
                 lblETDRequest.Text = ETDRequest.GetPriceCondTxt();
                 lblAmountSum.Text = form.訂單總額加總().ToString();
-                if (form.稅率 != "0%")
-                {
-                    try
-                    {
-                        if (form.稅率 != null)
-                        {
-                            decimal taxRate = decimal.Parse(form.稅率?.Replace("%", ""));
-                            lblTax.Text = (form.訂單總額加總() * taxRate).ToString();
-                            lblTotalAmount.Text = (form.訂單總額加總() * (1 + taxRate)).ToString();
-                        }
-                        else
-                        {
-                            lblTax.Text = "0";
-                            lblTotalAmount.Text = form.訂單總額加總().ToString();
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        throw;
-                    }
-                }
-                else
-                {
-                    lblTax.Text = "0";
-                    lblTotalAmount.Text = form.訂單總額加總().ToString();
-                }
+                
                 lblAudit.Text = form.核准;
                 lblSales.Text = form.業務人員;
                 lblModifyDate.Text = form.修改日;

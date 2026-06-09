@@ -1,6 +1,6 @@
 ﻿namespace DigiERP.Forms.Customer.SalesOrder
 {
-    partial class FrmPrintSalesOrderCT
+    partial class FrmPrintSalesOrderPT
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrintSalesOrderCT));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrintSalesOrderIT));
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             label1 = new Label();
@@ -57,17 +57,6 @@
             lblETDRequest = new Label();
             label14 = new Label();
             dataGridView1 = new DataGridView();
-            No = new DataGridViewTextBoxColumn();
-            Product = new DataGridViewTextBoxColumn();
-            Description = new DataGridViewTextBoxColumn();
-            Qty = new DataGridViewTextBoxColumn();
-            Unit = new DataGridViewTextBoxColumn();
-            UnitPrice = new DataGridViewTextBoxColumn();
-            Amount = new DataGridViewTextBoxColumn();
-            lblTotalAmount = new Label();
-            label16 = new Label();
-            lblTax = new Label();
-            label18 = new Label();
             lblAmountSum = new Label();
             label20 = new Label();
             label15 = new Label();
@@ -90,6 +79,16 @@
             lblAudit = new TextBox();
             lblSales = new TextBox();
             btnPreviewPrint = new Button();
+            label3 = new Label();
+            lblCurrency = new Label();
+            No = new DataGridViewTextBoxColumn();
+            Product = new DataGridViewTextBoxColumn();
+            Description = new DataGridViewTextBoxColumn();
+            Qty = new DataGridViewTextBoxColumn();
+            Unit = new DataGridViewTextBoxColumn();
+            UnitPrice = new DataGridViewTextBoxColumn();
+            Amount = new DataGridViewTextBoxColumn();
+            Remark = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -123,9 +122,9 @@
             label1.AutoSize = true;
             label1.Location = new Point(8, 84);
             label1.Name = "label1";
-            label1.Size = new Size(86, 24);
+            label1.Size = new Size(99, 24);
             label1.TabIndex = 2;
-            label1.Text = "客戶名稱";
+            label1.Text = "Customer";
             // 
             // lblCustomerName
             // 
@@ -140,11 +139,11 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 136);
-            label2.Location = new Point(928, 79);
+            label2.Location = new Point(880, 80);
             label2.Name = "label2";
-            label2.Size = new Size(61, 30);
+            label2.Size = new Size(113, 30);
             label2.TabIndex = 4;
-            label2.Text = "訂單";
+            label2.Text = "INVOICE";
             // 
             // lblContact
             // 
@@ -160,14 +159,14 @@
             label4.AutoSize = true;
             label4.Location = new Point(8, 116);
             label4.Name = "label4";
-            label4.Size = new Size(67, 24);
+            label4.Size = new Size(53, 24);
             label4.TabIndex = 5;
-            label4.Text = "聯絡人";
+            label4.Text = "Attn.";
             // 
             // lblEmail
             // 
             lblEmail.AutoSize = true;
-            lblEmail.Location = new Point(483, 114);
+            lblEmail.Location = new Point(498, 114);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(80, 24);
             lblEmail.TabIndex = 8;
@@ -179,14 +178,14 @@
             label5.AutoSize = true;
             label5.Location = new Point(431, 114);
             label5.Name = "label5";
-            label5.Size = new Size(48, 24);
+            label5.Size = new Size(58, 24);
             label5.TabIndex = 7;
-            label5.Text = "電郵";
+            label5.Text = "Email";
             // 
             // lblDate
             // 
             lblDate.AutoSize = true;
-            lblDate.Location = new Point(846, 114);
+            lblDate.Location = new Point(882, 114);
             lblDate.Name = "lblDate";
             lblDate.Size = new Size(74, 24);
             lblDate.TabIndex = 10;
@@ -195,16 +194,16 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(795, 116);
+            label6.Location = new Point(765, 116);
             label6.Name = "label6";
-            label6.Size = new Size(48, 24);
+            label6.Size = new Size(113, 24);
             label6.TabIndex = 9;
-            label6.Text = "日期";
+            label6.Text = "Origin Date";
             // 
             // lblSONo
             // 
             lblSONo.AutoSize = true;
-            lblSONo.Location = new Point(846, 146);
+            lblSONo.Location = new Point(855, 146);
             lblSONo.Name = "lblSONo";
             lblSONo.Size = new Size(85, 24);
             lblSONo.TabIndex = 16;
@@ -213,16 +212,16 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(795, 148);
+            label7.Location = new Point(766, 148);
             label7.Name = "label7";
-            label7.Size = new Size(48, 24);
+            label7.Size = new Size(75, 24);
             label7.TabIndex = 15;
-            label7.Text = "單號";
+            label7.Text = "Ref. No";
             // 
             // lblFax
             // 
             lblFax.AutoSize = true;
-            lblFax.Location = new Point(483, 146);
+            lblFax.Location = new Point(499, 146);
             lblFax.Name = "lblFax";
             lblFax.Size = new Size(61, 24);
             lblFax.TabIndex = 14;
@@ -233,9 +232,9 @@
             label9.AutoSize = true;
             label9.Location = new Point(431, 146);
             label9.Name = "label9";
-            label9.Size = new Size(48, 24);
+            label9.Size = new Size(45, 24);
             label9.TabIndex = 13;
-            label9.Text = "傳真";
+            label9.Text = "FAX";
             // 
             // lblTel
             // 
@@ -251,9 +250,9 @@
             label11.AutoSize = true;
             label11.Location = new Point(8, 148);
             label11.Name = "label11";
-            label11.Size = new Size(48, 24);
+            label11.Size = new Size(41, 24);
             label11.TabIndex = 11;
-            label11.Text = "電話";
+            label11.Text = "TEL";
             // 
             // lblAddress
             // 
@@ -269,14 +268,14 @@
             label10.AutoSize = true;
             label10.Location = new Point(8, 178);
             label10.Name = "label10";
-            label10.Size = new Size(86, 24);
+            label10.Size = new Size(83, 24);
             label10.TabIndex = 17;
-            label10.Text = "交貨地址";
+            label10.Text = "Address";
             // 
             // lblPriceCond
             // 
             lblPriceCond.AutoSize = true;
-            lblPriceCond.Location = new Point(100, 209);
+            lblPriceCond.Location = new Point(175, 209);
             lblPriceCond.Name = "lblPriceCond";
             lblPriceCond.Size = new Size(124, 24);
             lblPriceCond.TabIndex = 20;
@@ -287,14 +286,14 @@
             label13.AutoSize = true;
             label13.Location = new Point(8, 209);
             label13.Name = "label13";
-            label13.Size = new Size(86, 24);
+            label13.Size = new Size(103, 24);
             label13.TabIndex = 19;
-            label13.Text = "價格條件";
+            label13.Text = "Price Basis";
             // 
             // lblShipMethod
             // 
             lblShipMethod.AutoSize = true;
-            lblShipMethod.Location = new Point(100, 240);
+            lblShipMethod.Location = new Point(174, 240);
             lblShipMethod.Name = "lblShipMethod";
             lblShipMethod.Size = new Size(144, 24);
             lblShipMethod.TabIndex = 22;
@@ -305,14 +304,14 @@
             label8.AutoSize = true;
             label8.Location = new Point(8, 240);
             label8.Name = "label8";
-            label8.Size = new Size(86, 24);
+            label8.Size = new Size(160, 24);
             label8.TabIndex = 21;
-            label8.Text = "交貨方式";
+            label8.Text = "Delivery Method";
             // 
             // lblPaymentTerm
             // 
             lblPaymentTerm.AutoSize = true;
-            lblPaymentTerm.Location = new Point(100, 270);
+            lblPaymentTerm.Location = new Point(173, 270);
             lblPaymentTerm.Name = "lblPaymentTerm";
             lblPaymentTerm.Size = new Size(158, 24);
             lblPaymentTerm.TabIndex = 24;
@@ -323,14 +322,14 @@
             label12.AutoSize = true;
             label12.Location = new Point(8, 270);
             label12.Name = "label12";
-            label12.Size = new Size(86, 24);
+            label12.Size = new Size(141, 24);
             label12.TabIndex = 23;
-            label12.Text = "付款條件";
+            label12.Text = "Payment Term";
             // 
             // lblETDRequest
             // 
             lblETDRequest.AutoSize = true;
-            lblETDRequest.Location = new Point(100, 300);
+            lblETDRequest.Location = new Point(173, 300);
             lblETDRequest.Name = "lblETDRequest";
             lblETDRequest.Size = new Size(141, 24);
             lblETDRequest.TabIndex = 26;
@@ -341,9 +340,9 @@
             label14.AutoSize = true;
             label14.Location = new Point(8, 300);
             label14.Name = "label14";
-            label14.Size = new Size(86, 24);
+            label14.Size = new Size(130, 24);
             label14.TabIndex = 25;
-            label14.Text = "交貨日期";
+            label14.Text = "Delivery Date";
             // 
             // dataGridView1
             // 
@@ -351,97 +350,17 @@
             dataGridView1.BackgroundColor = SystemColors.ControlLightLight;
             dataGridView1.BorderStyle = BorderStyle.None;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { No, Product, Description, Qty, Unit, UnitPrice, Amount });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { No, Product, Description, Qty, Unit, UnitPrice, Amount, Remark });
             dataGridView1.Location = new Point(12, 336);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(977, 228);
             dataGridView1.TabIndex = 27;
             // 
-            // No
-            // 
-            No.HeaderText = "序號";
-            No.Name = "No";
-            No.ReadOnly = true;
-            No.Width = 73;
-            // 
-            // Product
-            // 
-            Product.HeaderText = "產品編號";
-            Product.Name = "Product";
-            Product.Width = 111;
-            // 
-            // Description
-            // 
-            Description.HeaderText = "品名規格";
-            Description.Name = "Description";
-            Description.Width = 111;
-            // 
-            // Qty
-            // 
-            Qty.HeaderText = "數量";
-            Qty.Name = "Qty";
-            Qty.Width = 73;
-            // 
-            // Unit
-            // 
-            Unit.HeaderText = "單位";
-            Unit.Name = "Unit";
-            Unit.Width = 73;
-            // 
-            // UnitPrice
-            // 
-            UnitPrice.HeaderText = "總價";
-            UnitPrice.Name = "UnitPrice";
-            UnitPrice.Width = 73;
-            // 
-            // Amount
-            // 
-            Amount.HeaderText = "總價";
-            Amount.Name = "Amount";
-            Amount.ReadOnly = true;
-            Amount.Width = 73;
-            // 
-            // lblTotalAmount
-            // 
-            lblTotalAmount.AutoSize = true;
-            lblTotalAmount.Location = new Point(800, 638);
-            lblTotalAmount.Name = "lblTotalAmount";
-            lblTotalAmount.Size = new Size(151, 24);
-            lblTotalAmount.TabIndex = 33;
-            lblTotalAmount.Text = "lblTotalAmount";
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Location = new Point(708, 638);
-            label16.Name = "label16";
-            label16.Size = new Size(67, 24);
-            label16.TabIndex = 32;
-            label16.Text = "總金額";
-            // 
-            // lblTax
-            // 
-            lblTax.AutoSize = true;
-            lblTax.Location = new Point(800, 606);
-            lblTax.Name = "lblTax";
-            lblTax.Size = new Size(62, 24);
-            lblTax.TabIndex = 31;
-            lblTax.Text = "lblTax";
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Location = new Point(708, 606);
-            label18.Name = "label18";
-            label18.Size = new Size(48, 24);
-            label18.TabIndex = 30;
-            label18.Text = "稅額";
-            // 
             // lblAmountSum
             // 
             lblAmountSum.AutoSize = true;
-            lblAmountSum.Location = new Point(800, 574);
+            lblAmountSum.Location = new Point(820, 572);
             lblAmountSum.Name = "lblAmountSum";
             lblAmountSum.Size = new Size(147, 24);
             lblAmountSum.TabIndex = 29;
@@ -450,28 +369,28 @@
             // label20
             // 
             label20.AutoSize = true;
-            label20.Location = new Point(708, 574);
+            label20.Location = new Point(680, 572);
             label20.Name = "label20";
-            label20.Size = new Size(86, 24);
+            label20.Size = new Size(134, 24);
             label20.TabIndex = 28;
-            label20.Text = "金額總計";
+            label20.Text = "Total Amount";
             // 
             // label15
             // 
             label15.AutoSize = true;
             label15.Location = new Point(12, 571);
             label15.Name = "label15";
-            label15.Size = new Size(48, 24);
+            label15.Size = new Size(78, 24);
             label15.TabIndex = 34;
-            label15.Text = "備註";
+            label15.Text = "Remark";
             // 
             // lblRemark
             // 
-            lblRemark.Location = new Point(60, 571);
+            lblRemark.Location = new Point(92, 572);
             lblRemark.Multiline = true;
             lblRemark.Name = "lblRemark";
-            lblRemark.PlaceholderText = "備註";
-            lblRemark.Size = new Size(631, 92);
+            lblRemark.PlaceholderText = "Remark";
+            lblRemark.Size = new Size(587, 92);
             lblRemark.TabIndex = 35;
             // 
             // label17
@@ -640,11 +559,82 @@
             btnPreviewPrint.UseVisualStyleBackColor = false;
             btnPreviewPrint.Click += btnPreviewPrint_Click;
             // 
-            // FrmPrintSalesOrderCT
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(766, 176);
+            label3.Name = "label3";
+            label3.Size = new Size(91, 24);
+            label3.TabIndex = 54;
+            label3.Text = "Currency";
+            // 
+            // lblCurrency
+            // 
+            lblCurrency.AutoSize = true;
+            lblCurrency.Location = new Point(864, 176);
+            lblCurrency.Name = "lblCurrency";
+            lblCurrency.Size = new Size(113, 24);
+            lblCurrency.TabIndex = 55;
+            lblCurrency.Text = "lblCurrency";
+            // 
+            // No
+            // 
+            No.HeaderText = "No";
+            No.Name = "No";
+            No.ReadOnly = true;
+            No.Width = 62;
+            // 
+            // Product
+            // 
+            Product.HeaderText = "No";
+            Product.Name = "Product";
+            Product.Width = 62;
+            // 
+            // Description
+            // 
+            Description.HeaderText = "Description";
+            Description.Name = "Description";
+            Description.Width = 138;
+            // 
+            // Qty
+            // 
+            Qty.HeaderText = "Qty";
+            Qty.Name = "Qty";
+            Qty.Width = 67;
+            // 
+            // Unit
+            // 
+            Unit.HeaderText = "Unit";
+            Unit.Name = "Unit";
+            Unit.Width = 73;
+            // 
+            // UnitPrice
+            // 
+            UnitPrice.HeaderText = "Unit Price";
+            UnitPrice.Name = "UnitPrice";
+            UnitPrice.Width = 121;
+            // 
+            // Amount
+            // 
+            Amount.HeaderText = "Amount";
+            Amount.Name = "Amount";
+            Amount.ReadOnly = true;
+            Amount.Width = 109;
+            // 
+            // Remark
+            // 
+            Remark.HeaderText = "Remark";
+            Remark.Name = "Remark";
+            Remark.ReadOnly = true;
+            Remark.Width = 103;
+            // 
+            // FrmPrintSalesOrderIT
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = SystemColors.ControlLightLight;
             ClientSize = new Size(1001, 1031);
+            Controls.Add(lblCurrency);
+            Controls.Add(label3);
             Controls.Add(label27);
             Controls.Add(lblModifyDate);
             Controls.Add(btnPreviewPrint);
@@ -665,10 +655,6 @@
             Controls.Add(label17);
             Controls.Add(lblRemark);
             Controls.Add(label15);
-            Controls.Add(lblTotalAmount);
-            Controls.Add(label16);
-            Controls.Add(lblTax);
-            Controls.Add(label18);
             Controls.Add(lblAmountSum);
             Controls.Add(label20);
             Controls.Add(dataGridView1);
@@ -702,7 +688,7 @@
             Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(5);
-            Name = "FrmPrintSalesOrderCT";
+            Name = "FrmPrintSalesOrderIT";
             Text = "中文訂單T";
             Load += FrmPrintSalesOrderCT_Load;
             Click += FrmPrintSalesOrderCT_Click;
@@ -743,17 +729,6 @@
         private Label lblETDRequest;
         private Label label14;
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn No;
-        private DataGridViewTextBoxColumn Product;
-        private DataGridViewTextBoxColumn Description;
-        private DataGridViewTextBoxColumn Qty;
-        private DataGridViewTextBoxColumn Unit;
-        private DataGridViewTextBoxColumn UnitPrice;
-        private DataGridViewTextBoxColumn Amount;
-        private Label lblTotalAmount;
-        private Label label16;
-        private Label lblTax;
-        private Label label18;
         private Label lblAmountSum;
         private Label label20;
         private Label label15;
@@ -776,5 +751,15 @@
         private TextBox lblAudit;
         private TextBox lblSales;
         private Button btnPreviewPrint;
+        private Label label3;
+        private Label lblCurrency;
+        private DataGridViewTextBoxColumn No;
+        private DataGridViewTextBoxColumn Product;
+        private DataGridViewTextBoxColumn Description;
+        private DataGridViewTextBoxColumn Qty;
+        private DataGridViewTextBoxColumn Unit;
+        private DataGridViewTextBoxColumn UnitPrice;
+        private DataGridViewTextBoxColumn Amount;
+        private DataGridViewTextBoxColumn Remark;
     }
 }

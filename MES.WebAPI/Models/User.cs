@@ -14,6 +14,84 @@ namespace MES.WebAPI.Models
         public string? position { get; set; }
         public string? empNo { get; set; }
         public string lastModifier { get; set; }
+        public bool is高管(Guid? guid)
+        {
+            bool result = false;
+            var priv = (from c in privilegeList where c.授權子表單 == guid select c).ToList().FirstOrDefault();
+            if (priv != null)
+            {
+                if (priv.高管??false)
+                {
+                    return true;
+                }
+            }
+            return result;
+        }
+        public bool is核准(Guid? guid)
+        {
+            bool result = false;
+            var priv = (from c in privilegeList where c.授權子表單 == guid select c).ToList().FirstOrDefault();
+            if (priv != null)
+            {
+                if (priv.核准 ?? false)
+                {
+                    return true;
+                }
+            }
+            return result;
+        }
+        public bool is報表(Guid? guid)
+        {
+            bool result = false;
+            var priv = (from c in privilegeList where c.授權子表單 == guid select c).ToList().FirstOrDefault();
+            if (priv != null)
+            {
+                if (priv.報表 ?? false)
+                {
+                    return true;
+                }
+            }
+            return result;
+        }
+        public bool is編修(Guid? guid)
+        {
+            bool result = false;
+            var priv = (from c in privilegeList where c.授權子表單 == guid select c).ToList().FirstOrDefault();
+            if (priv != null)
+            {
+                if (priv.編修 ?? false)
+                {
+                    return true;
+                }
+            }
+            return result;
+        }
+        public bool is輸出(Guid? guid)
+        {
+            bool result = false;
+            var priv = (from c in privilegeList where c.授權子表單 == guid select c).ToList().FirstOrDefault();
+            if (priv != null)
+            {
+                if (priv.輸出 ?? false)
+                {
+                    return true;
+                }
+            }
+            return result;
+        }
+        public bool is查詢(Guid? guid)
+        {
+            bool result = false;
+            var priv = (from c in privilegeList where c.授權子表單 == guid select c).ToList().FirstOrDefault();
+            if (priv != null)
+            {
+                if (priv.查詢 ?? false)
+                {
+                    return true;
+                }
+            }
+            return result;
+        }
 
         public Authenticate ToAuthenticate()
         {

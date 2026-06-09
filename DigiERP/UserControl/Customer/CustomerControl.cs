@@ -21,7 +21,7 @@ namespace DigiERP.UserControl
 {
     public partial class CustomerControl : CommonUserControl
     {
-        private static string id = "92CFA0F4-839D-4505-B51A-7B72D7B840F1";
+        public static string id = "92CFA0F4-839D-4505-B51A-7B72D7B840F1";
         public CustomerControl()
         {
             if (!chkPrivilege(id))

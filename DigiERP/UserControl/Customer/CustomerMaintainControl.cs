@@ -106,6 +106,11 @@ namespace DigiERP.UserControl
                 button2.Visible = false;
                 disableAllControls(false);
             }
+            btnCompanyChange.Visible = AppSession.User.is高管(Guid.Parse(CustomerControl.id));
+            button2.Visible = AppSession.User.is編修(Guid.Parse(CustomerControl.id));
+            btnIndustryCodeManage.Visible = AppSession.User.is高管(Guid.Parse(CustomerControl.id));
+            btnInactivate.Visible = AppSession.User.is高管(Guid.Parse(CustomerControl.id));
+            btnActivate.Visible = AppSession.User.is高管(Guid.Parse(CustomerControl.id));
         }
 
         private void disableAllControls(bool isDisable)
