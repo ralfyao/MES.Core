@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrintSalesOrderIT));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrintSalesOrderPT));
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             label1 = new Label();
@@ -57,6 +57,14 @@
             lblETDRequest = new Label();
             label14 = new Label();
             dataGridView1 = new DataGridView();
+            No = new DataGridViewTextBoxColumn();
+            Product = new DataGridViewTextBoxColumn();
+            Description = new DataGridViewTextBoxColumn();
+            Qty = new DataGridViewTextBoxColumn();
+            Unit = new DataGridViewTextBoxColumn();
+            UnitPrice = new DataGridViewTextBoxColumn();
+            Amount = new DataGridViewTextBoxColumn();
+            Remark = new DataGridViewTextBoxColumn();
             lblAmountSum = new Label();
             label20 = new Label();
             label15 = new Label();
@@ -81,14 +89,6 @@
             btnPreviewPrint = new Button();
             label3 = new Label();
             lblCurrency = new Label();
-            No = new DataGridViewTextBoxColumn();
-            Product = new DataGridViewTextBoxColumn();
-            Description = new DataGridViewTextBoxColumn();
-            Qty = new DataGridViewTextBoxColumn();
-            Unit = new DataGridViewTextBoxColumn();
-            UnitPrice = new DataGridViewTextBoxColumn();
-            Amount = new DataGridViewTextBoxColumn();
-            Remark = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -139,11 +139,11 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 136);
-            label2.Location = new Point(880, 80);
+            label2.Location = new Point(740, 80);
             label2.Name = "label2";
-            label2.Size = new Size(113, 30);
+            label2.Size = new Size(253, 30);
             label2.TabIndex = 4;
-            label2.Text = "INVOICE";
+            label2.Text = "PERFORMA INVOICE";
             // 
             // lblContact
             // 
@@ -356,6 +356,57 @@
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(977, 228);
             dataGridView1.TabIndex = 27;
+            // 
+            // No
+            // 
+            No.HeaderText = "No";
+            No.Name = "No";
+            No.ReadOnly = true;
+            No.Width = 62;
+            // 
+            // Product
+            // 
+            Product.HeaderText = "No";
+            Product.Name = "Product";
+            Product.Width = 62;
+            // 
+            // Description
+            // 
+            Description.HeaderText = "Description";
+            Description.Name = "Description";
+            Description.Width = 138;
+            // 
+            // Qty
+            // 
+            Qty.HeaderText = "Qty";
+            Qty.Name = "Qty";
+            Qty.Width = 67;
+            // 
+            // Unit
+            // 
+            Unit.HeaderText = "Unit";
+            Unit.Name = "Unit";
+            Unit.Width = 73;
+            // 
+            // UnitPrice
+            // 
+            UnitPrice.HeaderText = "Unit Price";
+            UnitPrice.Name = "UnitPrice";
+            UnitPrice.Width = 121;
+            // 
+            // Amount
+            // 
+            Amount.HeaderText = "Amount";
+            Amount.Name = "Amount";
+            Amount.ReadOnly = true;
+            Amount.Width = 109;
+            // 
+            // Remark
+            // 
+            Remark.HeaderText = "Remark";
+            Remark.Name = "Remark";
+            Remark.ReadOnly = true;
+            Remark.Width = 103;
             // 
             // lblAmountSum
             // 
@@ -577,58 +628,7 @@
             lblCurrency.TabIndex = 55;
             lblCurrency.Text = "lblCurrency";
             // 
-            // No
-            // 
-            No.HeaderText = "No";
-            No.Name = "No";
-            No.ReadOnly = true;
-            No.Width = 62;
-            // 
-            // Product
-            // 
-            Product.HeaderText = "No";
-            Product.Name = "Product";
-            Product.Width = 62;
-            // 
-            // Description
-            // 
-            Description.HeaderText = "Description";
-            Description.Name = "Description";
-            Description.Width = 138;
-            // 
-            // Qty
-            // 
-            Qty.HeaderText = "Qty";
-            Qty.Name = "Qty";
-            Qty.Width = 67;
-            // 
-            // Unit
-            // 
-            Unit.HeaderText = "Unit";
-            Unit.Name = "Unit";
-            Unit.Width = 73;
-            // 
-            // UnitPrice
-            // 
-            UnitPrice.HeaderText = "Unit Price";
-            UnitPrice.Name = "UnitPrice";
-            UnitPrice.Width = 121;
-            // 
-            // Amount
-            // 
-            Amount.HeaderText = "Amount";
-            Amount.Name = "Amount";
-            Amount.ReadOnly = true;
-            Amount.Width = 109;
-            // 
-            // Remark
-            // 
-            Remark.HeaderText = "Remark";
-            Remark.Name = "Remark";
-            Remark.ReadOnly = true;
-            Remark.Width = 103;
-            // 
-            // FrmPrintSalesOrderIT
+            // FrmPrintSalesOrderPT
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = SystemColors.ControlLightLight;
@@ -688,7 +688,7 @@
             Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(5);
-            Name = "FrmPrintSalesOrderIT";
+            Name = "FrmPrintSalesOrderPT";
             Text = "中文訂單T";
             Load += FrmPrintSalesOrderCT_Load;
             Click += FrmPrintSalesOrderCT_Click;

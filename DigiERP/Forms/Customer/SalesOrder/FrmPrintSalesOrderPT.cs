@@ -22,6 +22,7 @@ namespace DigiERP.Forms.Customer.SalesOrder
     {
         public C訂單 form { get; set; }
         private CustomerController _customerController;
+        public decimal percent = 1;
         private C客戶設定 _customer { get; set; }
         public FrmPrintSalesOrderPT()
         {
@@ -100,7 +101,8 @@ namespace DigiERP.Forms.Customer.SalesOrder
                 lblSales.Text = form.業務人員;
                 lblModifyDate.Text = form.修改日;
                 int rowIdx = 1;
-                foreach (var item in form.orderListDetail)
+                decimal totalAmount = 0;
+                foreach (var item in form.orderPrintListDetail)
                 {
                     int index = 1;
                     DataGridViewRow row = new DataGridViewRow();
@@ -110,24 +112,28 @@ namespace DigiERP.Forms.Customer.SalesOrder
                     row.Cells[index++].Value = item.品名規格;
                     row.Cells[index++].Value = item.數量1;
                     row.Cells[index++].Value = item.單位;
-                    row.Cells[index++].Value = item.單價1;
-                    row.Cells[index++].Value = item.單價1 * item.數量1;
+                    row.Cells[index++].Value = item.單價1 * percent;
+                    row.Cells[index++].Value = item.單價1 * percent * item.數量1;
+                    row.Cells[index++].Value = item.專案序號;
+                    totalAmount += (decimal)(item.單價1 * percent * item.數量1);
                     dataGridView1.Rows.Add(row);
                     rowIdx++;
                 }
+                lblAmountSum.Text = totalAmount.ToString(); 
+                if (_customer == null)
+                    return;
+                var bankInfo = _customerController.GetBankInfo(_customer.CREDIBILITY);
+                if (!string.IsNullOrEmpty(bankInfo.ErrorMessage))
+                {
+                    MessageBox.Show(bankInfo.ErrorMessage);
+                    return;
+                }
+                lblAccountWithBank.Text = bankInfo.result?.Bankname;
+                lblBankAddress.Text = bankInfo.result?.銀行地址;
+                lblBankSwiftCode.Text = bankInfo.result?.SwiftCode;
+                lblAccountNumber.Text = bankInfo.result?.帳號;
             }
-            if (_customer == null)
-                return;
-            var bankInfo = _customerController.GetBankInfo(_customer.CREDIBILITY);
-            if (!string.IsNullOrEmpty(bankInfo.ErrorMessage)) 
-            {
-                MessageBox.Show(bankInfo.ErrorMessage);
-                return;
-            }
-            lblAccountWithBank.Text = bankInfo.result?.Bankname;
-            lblBankAddress.Text = bankInfo.result?.銀行地址;
-            lblBankSwiftCode.Text = bankInfo.result?.SwiftCode;
-            lblAccountNumber.Text = bankInfo.result?.帳號;
+           
             //throw new NotImplementedException();
         }
 

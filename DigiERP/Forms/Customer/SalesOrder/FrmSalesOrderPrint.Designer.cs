@@ -202,6 +202,7 @@
             btnPerformaInvoiceT.TabIndex = 12;
             btnPerformaInvoiceT.Text = "Performa InvoiceT";
             btnPerformaInvoiceT.UseVisualStyleBackColor = false;
+            btnPerformaInvoiceT.Click += btnPerformaInvoiceT_Click;
             // 
             // btnPerformaInvoiceP
             // 
@@ -212,6 +213,7 @@
             btnPerformaInvoiceP.TabIndex = 11;
             btnPerformaInvoiceP.Text = "Performa Invoice%";
             btnPerformaInvoiceP.UseVisualStyleBackColor = false;
+            btnPerformaInvoiceP.Click += btnPerformaInvoiceP_Click;
             // 
             // button1
             // 
@@ -220,8 +222,9 @@
             button1.Name = "button1";
             button1.Size = new Size(148, 32);
             button1.TabIndex = 14;
-            button1.Text = "中文訂單T";
+            button1.Text = "Invoice T";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // btnInvoiceP
             // 
@@ -232,19 +235,20 @@
             btnInvoiceP.TabIndex = 13;
             btnInvoiceP.Text = "Invoice %";
             btnInvoiceP.UseVisualStyleBackColor = false;
+            btnInvoiceP.Click += btnInvoiceP_Click;
             // 
             // FrmSalesOrderPrint
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(539, 565);
+            Controls.Add(dataGridView1);
             Controls.Add(button1);
             Controls.Add(btnInvoiceP);
             Controls.Add(btnPerformaInvoiceT);
             Controls.Add(btnPerformaInvoiceP);
             Controls.Add(btnCorderT);
             Controls.Add(btnCorderP);
-            Controls.Add(dataGridView1);
             Controls.Add(txtComment);
             Controls.Add(lblCompany);
             Controls.Add(label4);
@@ -267,12 +271,12 @@
         #endregion
 
         private Label label1;
-        private Label lblSalesOrderNo;
-        private Label lblCustNo;
+        public Label lblSalesOrderNo;
+        public Label lblCustNo;
         private Label label3;
         private Label label2;
         private Label label4;
-        private Label lblCompany;
+        public Label lblCompany;
         private TextBox txtComment;
         private DataGridView dataGridView1;
         private Button btnCorderP;

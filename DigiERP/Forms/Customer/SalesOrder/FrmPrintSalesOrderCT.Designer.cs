@@ -57,13 +57,6 @@
             lblETDRequest = new Label();
             label14 = new Label();
             dataGridView1 = new DataGridView();
-            No = new DataGridViewTextBoxColumn();
-            Product = new DataGridViewTextBoxColumn();
-            Description = new DataGridViewTextBoxColumn();
-            Qty = new DataGridViewTextBoxColumn();
-            Unit = new DataGridViewTextBoxColumn();
-            UnitPrice = new DataGridViewTextBoxColumn();
-            Amount = new DataGridViewTextBoxColumn();
             lblTotalAmount = new Label();
             label16 = new Label();
             lblTax = new Label();
@@ -90,6 +83,12 @@
             lblAudit = new TextBox();
             lblSales = new TextBox();
             btnPreviewPrint = new Button();
+            No = new DataGridViewTextBoxColumn();
+            Product = new DataGridViewTextBoxColumn();
+            Description = new DataGridViewTextBoxColumn();
+            Qty = new DataGridViewTextBoxColumn();
+            Unit = new DataGridViewTextBoxColumn();
+            UnitPrice = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -351,56 +350,12 @@
             dataGridView1.BackgroundColor = SystemColors.ControlLightLight;
             dataGridView1.BorderStyle = BorderStyle.None;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { No, Product, Description, Qty, Unit, UnitPrice, Amount });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { No, Product, Description, Qty, Unit, UnitPrice });
             dataGridView1.Location = new Point(12, 336);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(977, 228);
             dataGridView1.TabIndex = 27;
-            // 
-            // No
-            // 
-            No.HeaderText = "序號";
-            No.Name = "No";
-            No.ReadOnly = true;
-            No.Width = 73;
-            // 
-            // Product
-            // 
-            Product.HeaderText = "產品編號";
-            Product.Name = "Product";
-            Product.Width = 111;
-            // 
-            // Description
-            // 
-            Description.HeaderText = "品名規格";
-            Description.Name = "Description";
-            Description.Width = 111;
-            // 
-            // Qty
-            // 
-            Qty.HeaderText = "數量";
-            Qty.Name = "Qty";
-            Qty.Width = 73;
-            // 
-            // Unit
-            // 
-            Unit.HeaderText = "單位";
-            Unit.Name = "Unit";
-            Unit.Width = 73;
-            // 
-            // UnitPrice
-            // 
-            UnitPrice.HeaderText = "總價";
-            UnitPrice.Name = "UnitPrice";
-            UnitPrice.Width = 73;
-            // 
-            // Amount
-            // 
-            Amount.HeaderText = "總價";
-            Amount.Name = "Amount";
-            Amount.ReadOnly = true;
-            Amount.Width = 73;
             // 
             // lblTotalAmount
             // 
@@ -640,6 +595,43 @@
             btnPreviewPrint.UseVisualStyleBackColor = false;
             btnPreviewPrint.Click += btnPreviewPrint_Click;
             // 
+            // No
+            // 
+            No.HeaderText = "序號";
+            No.Name = "No";
+            No.ReadOnly = true;
+            No.Width = 73;
+            // 
+            // Product
+            // 
+            Product.HeaderText = "產品編號";
+            Product.Name = "Product";
+            Product.Width = 111;
+            // 
+            // Description
+            // 
+            Description.HeaderText = "品名規格";
+            Description.Name = "Description";
+            Description.Width = 111;
+            // 
+            // Qty
+            // 
+            Qty.HeaderText = "數量";
+            Qty.Name = "Qty";
+            Qty.Width = 73;
+            // 
+            // Unit
+            // 
+            Unit.HeaderText = "單位";
+            Unit.Name = "Unit";
+            Unit.Width = 73;
+            // 
+            // UnitPrice
+            // 
+            UnitPrice.HeaderText = "總價";
+            UnitPrice.Name = "UnitPrice";
+            UnitPrice.Width = 73;
+            // 
             // FrmPrintSalesOrderCT
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -743,13 +735,6 @@
         private Label lblETDRequest;
         private Label label14;
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn No;
-        private DataGridViewTextBoxColumn Product;
-        private DataGridViewTextBoxColumn Description;
-        private DataGridViewTextBoxColumn Qty;
-        private DataGridViewTextBoxColumn Unit;
-        private DataGridViewTextBoxColumn UnitPrice;
-        private DataGridViewTextBoxColumn Amount;
         private Label lblTotalAmount;
         private Label label16;
         private Label lblTax;
@@ -776,5 +761,11 @@
         private TextBox lblAudit;
         private TextBox lblSales;
         private Button btnPreviewPrint;
+        private DataGridViewTextBoxColumn No;
+        private DataGridViewTextBoxColumn Product;
+        private DataGridViewTextBoxColumn Description;
+        private DataGridViewTextBoxColumn Qty;
+        private DataGridViewTextBoxColumn Unit;
+        private DataGridViewTextBoxColumn UnitPrice;
     }
 }

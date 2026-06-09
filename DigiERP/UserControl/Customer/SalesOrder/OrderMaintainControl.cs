@@ -57,6 +57,51 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         {
             initSalesCbo(form);
             initCurrency(form);
+            initGridContextMenuStrip();
+        }
+
+        private void initGridContextMenuStrip()
+        {
+            ContextMenuStrip cms = new ContextMenuStrip();
+            ToolStripMenuItem itemDetailIP =
+                new ToolStripMenuItem("顯示訂單列印");
+            itemDetailIP.Click += ItemDetail_Click;
+            //ToolStripMenuItem itemDetailPIP =
+            //    new ToolStripMenuItem("Performa Invoice %");
+            //itemDetailPIP.Click += ItemDetailPIP_Click;
+            cms.Items.Add(itemDetailIP);
+            //cms.Items.Add(itemDetailPIP);
+            dataGridView1.ContextMenuStrip = cms;
+        }
+
+        private void ItemDetailPIP_Click(object? sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void ItemDetail_Click(object? sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+            if (dataGridView1.SelectedRows.Count == 0)
+                return;
+
+            DataGridViewRow row =
+                dataGridView1.SelectedRows[0];
+
+            string percent =
+                row.Cells[2].Value?.ToString();
+
+            FrmSalesOrderPrint form =
+                new FrmSalesOrderPrint(this.form);
+            //form.customerOrder = ;
+            form.lblCompany.Text = txtCompany.Text;
+            form.lblCustNo.Text = cboCustId.Text;
+            form.lblSalesOrderNo.Text = txtOrderNo.Text;
+            form.percent = decimal.Parse(percent) / 100.0m;
+            form.initGrid();
+            //form.initControls();
+            //form.initData();
+            form.ShowDialog();
         }
 
         private void initCurrency(C訂單 form)
@@ -121,7 +166,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 {
                     cboCustId.Items.Add(custId);
                     cboCustId.Text = custId;
-                    C客戶設定 customer = _customerController.getCustomerList().resultList.Where(x=>x.正航編號 == custId).FirstOrDefault();
+                    C客戶設定 customer = _customerController.getCustomerList().resultList.Where(x => x.正航編號 == custId).FirstOrDefault();
                     if (customer != null)
                     {
                         txtCompany.Text = customer.COMPANY;
@@ -741,7 +786,8 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 int index = 0;
                 f.識別 = int.Parse(item.Cells[index++].Value.ToString());
                 f.款項期別 = item.Cells[index++].Value.ToString();
-                f.金額 = item.Cells[index++].Value == null ? 0m : decimal.Parse(item.Cells[index++].Value.ToString());//decimal.Parse((string)item.Cells[index++].Value ??"0");
+                f.成數 = item.Cells[index].Value == null ? 0m : decimal.Parse(item.Cells[index].Value.ToString()); index++;//decimal.Parse((string)item.Cells[index++].Value ??"0");
+                f.金額 = item.Cells[index].Value == null ? 0m : decimal.Parse(item.Cells[index].Value.ToString()); index++;//decimal.Parse((string)item.Cells[index++].Value ??"0");
                 f.請款單號 = item.Cells[index++].Value?.ToString();
                 f.單號 = txtOrderNo.Text;
                 if (form.arListDetail == null)
@@ -883,6 +929,9 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         private void btnPrint_Click(object sender, EventArgs e)
         {
             FrmSalesOrderPrint frmSalesOrderPrint = new FrmSalesOrderPrint(form);
+            frmSalesOrderPrint.lblCompany.Text = this.txtCompany.Text;
+            frmSalesOrderPrint.lblCustNo.Text = cboCustId.Text; 
+            frmSalesOrderPrint.lblSalesOrderNo.Text = txtOrderNo.Text;
             frmSalesOrderPrint.ShowDialog(this);
         }
 
@@ -897,6 +946,20 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             frmTransToShippingOrder.custId = cboCustId.Text;
             frmTransToShippingOrder.loadData();
             frmTransToShippingOrder.ShowDialog(this);
+        }
+
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dataGridView1.ClearSelection();
+
+                dataGridView1.Rows[e.RowIndex].Selected = true;
+
+                dataGridView1.CurrentCell =
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                //MessageBox.Show(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
+            }
         }
     }
 }

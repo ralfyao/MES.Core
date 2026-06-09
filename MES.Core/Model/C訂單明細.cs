@@ -27,5 +27,6 @@ namespace MES.Core.Model
         public decimal? 報價單價 { get; set; }
         public decimal? 折數 { get; set; }
         public decimal? 出貨數量 { get; set; }
+        public bool? 是否列印 { get; set; }
     }
 }

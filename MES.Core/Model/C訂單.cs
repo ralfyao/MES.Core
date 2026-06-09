@@ -53,6 +53,7 @@ namespace MES.Core.Model
             return result;
         }
         public List<C訂單明細> orderListDetail { get; set; }
+        public List<C訂單明細> orderPrintListDetail { get; set; }
         public List<F收款分期> arListDetail { get; set; }
     }
 }

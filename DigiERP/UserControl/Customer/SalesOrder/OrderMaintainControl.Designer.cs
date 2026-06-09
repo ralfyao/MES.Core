@@ -259,6 +259,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             dataGridView1.Size = new Size(540, 312);
             dataGridView1.TabIndex = 232;
             dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.CellMouseDown += dataGridView1_CellMouseDown;
             // 
             // 識別
             // 
