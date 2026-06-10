@@ -22,6 +22,13 @@ namespace DigiERP.UserControl.Common
             initPriceCondList();
             TabStop = true;
         }
+        public PriceCondControl(string txType)
+        {
+            InitializeComponent();
+            this.txType = txType;
+            initPriceCondList();
+            TabStop = true;
+        }
         public CommonComboBox InnerComboBox
         {
             get { return cboPriceCond; }
@@ -32,7 +39,7 @@ namespace DigiERP.UserControl.Common
         public string GetPriceCondTxt() {
             return lblPriceCond.Text;
         }
-
+        public List<F訂單交易條件> selectionItems { get; set; }
         private void initPriceCondList()
         {
             // throw new NotImplementedException();
@@ -47,6 +54,7 @@ namespace DigiERP.UserControl.Common
                 return;
             }
             commonRep.resultList.Insert(0, new F訂單交易條件() { 條文名稱 = "", 條文編號 = "", 識別碼 = -1 });
+            selectionItems = commonRep.resultList;
             cboPriceCond.DataSource = commonRep.resultList;
             cboPriceCond.DisplayMember = "條文編號";
             cboPriceCond.ValueMember = "條文編號";

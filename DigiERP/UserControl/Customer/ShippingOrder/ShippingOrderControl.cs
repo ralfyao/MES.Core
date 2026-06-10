@@ -1,5 +1,6 @@
 ﻿using DigiERP.Common;
 using DigiERP.Models;
+using DigiERP.UserControl.Customer.SalesOrder;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
@@ -56,7 +57,7 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
             }
             int index = 0;
             dataGridView1.Rows.Clear();
-            foreach(var item in shippingOrderList.resultList)
+            foreach (var item in shippingOrderList.resultList)
             {
                 index = 0;
                 DataGridViewRow row = new DataGridViewRow();
@@ -78,6 +79,82 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
                 dataGridView1.Rows.Add(row);
             }
             //throw new NotImplementedException();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 避免點到標題列
+            if (e.RowIndex < 0)
+                return;
+            //panel2.AutoScroll = true;
+            //panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            var dataGridView = (DataGridView)(from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+            if (dataGridView != null)
+            {
+                var row1 = dataGridView.Rows[e.RowIndex];
+
+                C出貨單 data = new C出貨單();
+                int index = row1.Cells.Count - 1;
+                data.單號 = row1.Cells[1].Value?.ToString();
+                var tmpdata = new CustomerController().GetShippingOrderList(data.單號).resultList;
+                if (tmpdata.Count() > 0)
+                {
+                    data = tmpdata[0];
+                }
+                var customerMaintainControl = (ShippingOrderMaintainControl)(from c in panel1.Controls.Cast<Control>() where c.GetType() == typeof(ShippingOrderMaintainControl) select c).FirstOrDefault();
+                if (customerMaintainControl == null)
+                {
+                    customerMaintainControl = new ShippingOrderMaintainControl();
+                    customerMaintainControl.Dock = DockStyle.Fill;
+                    panel2.Controls.Add(customerMaintainControl);
+                }
+                var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
+                if (lblMode != null)
+                {
+                    lblMode.Text = "修改";
+                }
+                ((ShippingOrderMaintainControl)customerMaintainControl).form = data;
+                ((ShippingOrderMaintainControl)customerMaintainControl).initForm();
+                customerMaintainControl.Visible = true;
+                if (dataGridView != null)
+                {
+                    dataGridView.Visible = false;
+                }
+            }
+        }
+        public C出貨單 form;
+        public string custId;
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            var customerMaintainControl = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(ShippingOrderMaintainControl) select c).FirstOrDefault();
+            var dataGridView = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+            //if (customerMaintainControl == null)
+            //{
+            if (form != null)
+            {
+                customerMaintainControl = new ShippingOrderMaintainControl(form);
+                //((QuotationMaintain)customerMaintainControl).form = form;
+            }
+            else
+            {
+                customerMaintainControl = new ShippingOrderMaintainControl();
+            }
+            customerMaintainControl.Dock = DockStyle.Fill;
+            panel2.Controls.Add(customerMaintainControl);
+            //}
+            var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
+            if (lblMode != null)
+            {
+                lblMode.Text = "新增";
+            }
+            ((ShippingOrderMaintainControl)customerMaintainControl).form = new C出貨單();
+            ((ShippingOrderMaintainControl)customerMaintainControl).custId = custId;
+            ((ShippingOrderMaintainControl)customerMaintainControl).initForm();
+            customerMaintainControl.Visible = true;
+            if (dataGridView != null)
+            {
+                dataGridView.Visible = false;
+            }
         }
     }
 }

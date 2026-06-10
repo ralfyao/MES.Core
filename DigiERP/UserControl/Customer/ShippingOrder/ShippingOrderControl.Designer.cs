@@ -85,6 +85,7 @@
             btnAdd.TabIndex = 9;
             btnAdd.Text = "新增";
             btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnQuery
             // 
@@ -173,6 +174,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(1484, 741);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.VisibleChanged += dataGridView1_VisibleChanged;
             // 
             // 識別

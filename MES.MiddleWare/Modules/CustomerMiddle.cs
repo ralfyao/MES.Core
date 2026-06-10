@@ -1169,7 +1169,7 @@ namespace MES.MiddleWare.Modules
             return execCnt;
         }
 
-        public List<C出貨單> getShippingOrderList()
+        public List<C出貨單> getShippingOrderList(string orderNo)
         {
             List<C出貨單> list = new List<C出貨單>();
             try
@@ -1178,7 +1178,14 @@ namespace MES.MiddleWare.Modules
                 ShipOrderDetailRepository shipOrderDetailRepository = new ShipOrderDetailRepository();
                 CustomerMiddle customerMiddle = new CustomerMiddle();
                 HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
-                list = shipOrderRepository.GetList((C出貨單)null).ToList();
+                if (!string.IsNullOrEmpty(orderNo))
+                {
+                    list = shipOrderRepository.GetListBy(new C出貨單() { 單號 = orderNo }, "單號");
+                }
+                else
+                {
+                    list = shipOrderRepository.GetList((C出貨單)null).ToList();
+                }
                 foreach(var item in list)
                 {
                     C出貨單明細 obj = new C出貨單明細();

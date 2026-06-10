@@ -295,10 +295,13 @@ namespace MES.WebAPI.Controllers
         public CommonRep<C客戶設定> GetCustomer([FromBody] C客戶設定 cust)
         {
             CommonRep<C客戶設定> commonRep = new CommonRep<C客戶設定>();
+            CustomerRepository customerRepository = new CustomerRepository();
             try
             {
                 CustomerMiddle custMiddle = new CustomerMiddle();
-                commonRep.result = custMiddle.getCustomerList().Where(x => x.識別 == cust.識別).ToList().FirstOrDefault() ;
+                commonRep.result = custMiddle.getCustomerList().Where(x => x.識別 == cust.識別).ToList().FirstOrDefault() ?? new C客戶設定() ;
+                if (commonRep.result == null)
+                    commonRep.result = customerRepository.GetListBy(cust, "正航編號")?.FirstOrDefault() ?? new C客戶設定();
             }
             catch (Exception ex)
             {
@@ -1651,13 +1654,13 @@ namespace MES.WebAPI.Controllers
         #endregion
         #region 出貨單
         [Route("api/GetShippingOrderList"), HttpGet]
-        public CommonRep<C出貨單> GetShippingOrderList()
+        public CommonRep<C出貨單> GetShippingOrderList(string orderNo = "")
         {
             CommonRep<C出貨單> commonRep = new CommonRep<C出貨單>();
             CustomerMiddle customerMiddle = new CustomerMiddle();
             try
             {
-                commonRep.resultList = customerMiddle.getShippingOrderList();
+                commonRep.resultList = customerMiddle.getShippingOrderList(orderNo);
             }
             catch (Exception ex)
             {
