@@ -157,6 +157,7 @@
             btnModify.TabIndex = 227;
             btnModify.Text = "修改";
             btnModify.UseVisualStyleBackColor = false;
+            btnModify.Click += btnModify_Click;
             // 
             // label2
             // 
@@ -201,6 +202,7 @@
             // cboCustId
             // 
             cboCustId.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboCustId.Enabled = false;
             cboCustId.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboCustId.FormattingEnabled = true;
             cboCustId.Location = new Point(544, 39);

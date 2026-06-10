@@ -55,9 +55,9 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
             {
                 initController();
                 initCustomer();
-                dtORDERDATE.Value =DateTime.Parse( form.日期 == null ? "1900-01-01" : form.日期);
+                dtORDERDATE.Value = DateTime.Parse(form.日期 == null ? "1900-01-01" : form.日期);
                 txtOrderNo.Text = form.單號;
-                cboCustId.Items.Add(form.客戶編號??""); cboCustId.Text = form.客戶編號;
+                cboCustId.Items.Add(form.客戶編號 ?? ""); cboCustId.Text = form.客戶編號;
                 lblCustAlias.Text = _customer?.欄位2;
                 txtCustName.Text = _customer?.COMPANY;
                 txtCommission.Text = form.佣金?.ToString();
@@ -65,13 +65,13 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
                 cboTaxType.Items.Add(form.稅別 ?? ""); cboTaxType.Text = form.稅別 ?? "";
                 cboTaxRate.Items.Add(form.稅率 ?? ""); cboTaxRate.Text = form.稅率 ?? "";
                 cboCurrency.Items.Add(form.幣別 ?? ""); cboCurrency.Text = form.幣別 ?? "";
-                var exRateRep = _customerController.GetExRateList(form.幣別??"");
+                var exRateRep = _customerController.GetExRateList(form.幣別 ?? "");
                 if (!string.IsNullOrEmpty(exRateRep.ErrorMessage))
                 {
                     MessageBox.Show(exRateRep.ErrorMessage);
                     return;
                 }
-                var exRate = exRateRep.resultList.FirstOrDefault()??new F匯率();
+                var exRate = exRateRep.resultList.FirstOrDefault() ?? new F匯率();
                 txtExRate.Text = (exRate.匯率 == null ? "0" : exRate.匯率);
                 txtAmountSum.Text = form.總額?.ToString();
                 txtAddress.Text = form.交貨地址;
@@ -80,7 +80,7 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
                 txtDestination.Text = form.目的港;
                 //cboShipMethod.Items.Add(form.交貨方式 ?? ""); cboShipMethod.Text = form.交貨方式?.Trim() ?? "";
                 //cboTradeCond.Items.Add(form.價格條件 ?? ""); cboTradeCond.Text = form.價格條件?.Trim() ?? "";
-                cboSales.Items.Add(form?.業務員??"");
+                cboSales.Items.Add(form?.業務員 ?? "");
                 lblSalesName.Text = form.業務人員;
                 txtRemark.Text = form.Remark;
                 //cboPaymentTerm.Items.Add(form.付款方式 ?? ""); cboPaymentTerm.Text = form.付款方式 ?? "";
@@ -142,6 +142,37 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
 
                 initGrid();
             }
+            disableControls(true);
+            //throw new NotImplementedException();
+        }
+
+        private void disableControls(bool enable)
+        {
+            bool isDisable = !enable;
+            btnSODistribute.Enabled = isDisable;
+            btnVerify.Enabled = isDisable;
+            btnCancelVerify.Enabled = isDisable;
+            btnPrint.Enabled = isDisable;
+            btnSubmit.Enabled = isDisable;
+            txtCommission.Enabled = isDisable;
+            dtShippingDate.Enabled = isDisable;
+            cboTaxType.Enabled = isDisable;
+            cboTaxRate.Enabled = isDisable;
+            txtCustName.Enabled = isDisable;
+            cboCurrency.Enabled = isDisable;
+            txtExRate.Enabled = isDisable;
+            txtAmountSum.Enabled = isDisable;
+            txtAddress.Enabled = isDisable;
+            txtBankCode.Enabled = isDisable;
+            btnCheck.Enabled = isDisable;
+            txtCountry.Enabled = isDisable;
+            txtDestination.Enabled = isDisable;
+            cboTradeCond.Enabled = isDisable;
+            cboSales.Enabled = isDisable;
+            txtRemark.Enabled = isDisable;
+            cboShipMethod.Enabled = isDisable;
+            cboPaymentTerm.Enabled = isDisable;
+            dataGridView1.Enabled = isDisable;
             //throw new NotImplementedException();
         }
 
@@ -152,7 +183,7 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
             decimal totalSum = 0.0m;
             if (form.shipOrderLists == null)
                 return;
-            foreach(var item in form.shipOrderLists)
+            foreach (var item in form.shipOrderLists)
             {
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dataGridView1);
@@ -163,11 +194,11 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
                 row.Cells[index++].Value = item.數量2;
                 row.Cells[index++].Value = item.單價2;
                 row.Cells[index++].Value = item.金額2;
-                row.Cells[index++].Value = item.描述 ;
+                row.Cells[index++].Value = item.描述;
                 row.Cells[index++].Value = item.樣品別;
                 row.Cells[index++].Value = item.倉庫別;
                 row.Cells[index++].Value = item.ORDNO;
-                totalSum += item.金額2??0;
+                totalSum += item.金額2 ?? 0;
                 dataGridView1.Rows.Add(row);
             }
             lblTotalSum.Text = totalSum.ToString();
@@ -191,6 +222,11 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
         private void lblCustAlias_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+            disableControls(false);
         }
     }
 }
