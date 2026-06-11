@@ -60,5 +60,36 @@ namespace DigiERP.Util
             List<C客戶動態> cs = new CustomerController().GetCustStatusList().resultList;
             cboStatusSelect.SetDataSource(cs);
         }
+
+        public static decimal decimalParse(string txtToParse)
+        {
+            decimal d = 0.0m;
+            try
+            {
+                decimal.TryParse(txtToParse, out d);
+            }
+            catch { }
+            return d;
+        }
+        public static int intParse(string txtToParse)
+        {
+            int d = 0;
+            try
+            {
+                int.TryParse(txtToParse, out d);
+            }
+            catch { }
+            return d;
+        }
+        public static float floatParse(string txtToParse)
+        {
+            float d = 0.0f;
+            try
+            {
+                float.TryParse(txtToParse, out d);
+            }
+            catch { }
+            return d;
+        }
     }
 }

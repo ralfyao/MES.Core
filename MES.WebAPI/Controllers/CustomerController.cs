@@ -300,7 +300,7 @@ namespace MES.WebAPI.Controllers
             {
                 CustomerMiddle custMiddle = new CustomerMiddle();
                 commonRep.result = custMiddle.getCustomerList().Where(x => x.識別 == cust.識別).ToList().FirstOrDefault() ?? new C客戶設定() ;
-                if (commonRep.result == null)
+                if (commonRep.result == null || commonRep.result.識別 == 0)
                     commonRep.result = customerRepository.GetListBy(cust, "正航編號")?.FirstOrDefault() ?? new C客戶設定();
             }
             catch (Exception ex)
@@ -2109,6 +2109,23 @@ namespace MES.WebAPI.Controllers
                 commonRep.WorkStatus = WorkStatus.Fail.ToString();
             }
             return commonRep;
+        }
+        [Route("api/SalesOrderLinesForShipping"), HttpGet]
+        public CommonRep<C訂單明細> getSalesOrderLinesForShipping(string custId = "")
+        {
+            //throw new NotImplementedException();
+            CommonRep<C訂單明細> common = new CommonRep<C訂單明細>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                common.resultList = customerMiddle.getSalesOrderForShipping(custId);
+            }
+            catch (Exception ex)
+            {
+                common.ErrorMessage = ex + ex.StackTrace;
+                common.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return common;
         }
         #endregion
     }

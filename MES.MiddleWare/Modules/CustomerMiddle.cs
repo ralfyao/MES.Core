@@ -32,7 +32,7 @@ namespace MES.MiddleWare.Modules
                 Lst = customerRepository.GetList(null, "", "").OrderBy(x=>x.正航編號).ToList();
                 if (!string.IsNullOrEmpty(cond))
                 {
-                    Lst = Lst.Where(x => x.COMPANY.ToUpper().IndexOf(cond) != -1).ToList();
+                    Lst = Lst.Where(x => x.COMPANY.ToUpper().IndexOf(cond.ToUpper()) != -1).ToList();
                 }
                 foreach(var cust in  Lst)
                 {
@@ -2389,6 +2389,26 @@ namespace MES.MiddleWare.Modules
 
                 throw;
             }
+        }
+
+        public List<C訂單明細> getSalesOrderForShipping(string custId)
+        {
+            //throw new NotImplementedException();
+            List<C訂單明細> list = new List<C訂單明細>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = "";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
         }
     }
     public class QueryCustListByConditionReq

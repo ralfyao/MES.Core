@@ -64,7 +64,7 @@ namespace DigiERP.UserControl.Common
             initPriceCondList();
             foreach (var item in cboPriceCond.Items)
             {
-                if (((F訂單交易條件)item).條文編號 == priceCond)
+                if (((F訂單交易條件)item).條文編號.Trim() == priceCond.Trim())
                 {
                     cboPriceCond.SelectedItem = item;
                     cboPriceCond.Text = ((F訂單交易條件)item).條文編號;
@@ -76,7 +76,7 @@ namespace DigiERP.UserControl.Common
         }
         public string GetPriceCond()
         {
-            return cboPriceCond.Text;
+            return lblPriceCond.Text;
         }
 
         private void lblPriceCond_Click(object sender, EventArgs e)

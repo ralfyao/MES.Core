@@ -82,10 +82,12 @@ namespace MES.Core.Repository.Impl
                     using (var tran = conn.BeginTransaction())
                     {
                         execCnt += conn.Execute(strSQL, dp, tran);
-                        foreach (var item in t.shipOrderLists)
+                        if (t.shipOrderLists != null)
                         {
-                            item.單號 = t.單號;
-                            strSQL = $@"INSERT INTO dbo.C出貨單明細
+                            foreach (var item in t.shipOrderLists)
+                            {
+                                item.單號 = t.單號;
+                                strSQL = $@"INSERT INTO dbo.C出貨單明細
                                 (
                                     單號,
                                     產品編號,
@@ -113,8 +115,9 @@ namespace MES.Core.Repository.Impl
                                     @ORDNO,
                                     @倉庫別
                                     )";
-                            dp = new DynamicParameters(item);
-                            execCnt += conn.Execute(strSQL, dp, tran);
+                                dp = new DynamicParameters(item);
+                                execCnt += conn.Execute(strSQL, dp, tran);
+                            }
                         }
                         tran.Commit();
                     }

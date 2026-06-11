@@ -26,7 +26,7 @@ namespace DigiERP.UserControl.Common.Customer
             this.BackColor = backColor;
         }
 
-        private List<F幣別> currencyList { get; set; }
+        public List<F幣別> currencyList { get; set; }
         private CustomerController _customerController;
         public CurrencySelect()
         {

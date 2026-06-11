@@ -230,6 +230,7 @@
             btnSearch.Size = new Size(40, 32);
             btnSearch.TabIndex = 234;
             btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
             // 
             // lblCustAlias
             // 
@@ -351,6 +352,7 @@
             cboCurrency.Name = "cboCurrency";
             cboCurrency.Size = new Size(92, 32);
             cboCurrency.TabIndex = 248;
+            cboCurrency.SelectedIndexChanged += cboCurrency_SelectedIndexChanged;
             // 
             // label9
             // 
@@ -447,6 +449,7 @@
             btnCheck.TabIndex = 257;
             btnCheck.Text = "核對";
             btnCheck.UseVisualStyleBackColor = true;
+            btnCheck.Click += btnCheck_Click;
             // 
             // txtCountry
             // 
@@ -495,6 +498,7 @@
             cboShipMethod.Name = "cboShipMethod";
             cboShipMethod.Size = new Size(84, 32);
             cboShipMethod.TabIndex = 263;
+            cboShipMethod.SelectedIndexChanged += cboShipMethod_SelectedIndexChanged;
             // 
             // label17
             // 
@@ -515,6 +519,7 @@
             cboTradeCond.Name = "cboTradeCond";
             cboTradeCond.Size = new Size(84, 32);
             cboTradeCond.TabIndex = 265;
+            cboTradeCond.SelectedIndexChanged += cboTradeCond_SelectedIndexChanged;
             // 
             // label18
             // 
@@ -531,16 +536,17 @@
             cboSales.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboSales.FormattingEnabled = true;
             cboSales.Items.AddRange(new object[] { "", "海運", "空運", "貨運指派", "客戶自取" });
-            cboSales.Location = new Point(102, 202);
+            cboSales.Location = new Point(856, 280);
             cboSales.Name = "cboSales";
             cboSales.Size = new Size(84, 32);
             cboSales.TabIndex = 267;
+            cboSales.SelectedIndexChanged += cboSales_SelectedIndexChanged;
             // 
             // label19
             // 
             label19.AutoSize = true;
             label19.Font = new Font("Microsoft JhengHei UI", 14.25F);
-            label19.Location = new Point(14, 206);
+            label19.Location = new Point(768, 284);
             label19.Name = "label19";
             label19.Size = new Size(86, 24);
             label19.TabIndex = 266;
@@ -550,7 +556,7 @@
             // 
             lblSalesName.AutoSize = true;
             lblSalesName.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            lblSalesName.Location = new Point(192, 206);
+            lblSalesName.Location = new Point(946, 284);
             lblSalesName.Name = "lblSalesName";
             lblSalesName.Size = new Size(132, 24);
             lblSalesName.TabIndex = 268;
@@ -559,9 +565,10 @@
             // txtRemark
             // 
             txtRemark.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            txtRemark.Location = new Point(426, 202);
+            txtRemark.Location = new Point(110, 204);
+            txtRemark.Multiline = true;
             txtRemark.Name = "txtRemark";
-            txtRemark.Size = new Size(334, 32);
+            txtRemark.Size = new Size(650, 116);
             txtRemark.TabIndex = 270;
             // 
             // label20
@@ -569,7 +576,7 @@
             label20.AutoSize = true;
             label20.Font = new Font("Microsoft JhengHei UI", 14.25F);
             label20.LiveSetting = System.Windows.Forms.Automation.AutomationLiveSetting.Polite;
-            label20.Location = new Point(336, 206);
+            label20.Location = new Point(12, 200);
             label20.Name = "label20";
             label20.Size = new Size(86, 24);
             label20.TabIndex = 269;
@@ -580,16 +587,17 @@
             cboPaymentTerm.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboPaymentTerm.FormattingEnabled = true;
             cboPaymentTerm.Items.AddRange(new object[] { "", "海運", "空運", "貨運指派", "客戶自取" });
-            cboPaymentTerm.Location = new Point(104, 240);
+            cboPaymentTerm.Location = new Point(856, 240);
             cboPaymentTerm.Name = "cboPaymentTerm";
             cboPaymentTerm.Size = new Size(112, 32);
             cboPaymentTerm.TabIndex = 272;
+            cboPaymentTerm.SelectedIndexChanged += cboPaymentTerm_SelectedIndexChanged;
             // 
             // label21
             // 
             label21.AutoSize = true;
             label21.Font = new Font("Microsoft JhengHei UI", 14.25F);
-            label21.Location = new Point(16, 244);
+            label21.Location = new Point(768, 244);
             label21.Name = "label21";
             label21.Size = new Size(86, 24);
             label21.TabIndex = 271;
@@ -599,7 +607,7 @@
             // 
             lblPaymentTerm.AutoSize = true;
             lblPaymentTerm.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            lblPaymentTerm.Location = new Point(224, 244);
+            lblPaymentTerm.Location = new Point(976, 244);
             lblPaymentTerm.Name = "lblPaymentTerm";
             lblPaymentTerm.Size = new Size(158, 24);
             lblPaymentTerm.TabIndex = 273;
@@ -612,10 +620,11 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, ProductNo, ProductName, SalesUnit, Qty, UnitPrice, UnTaxedAmount, Remark, ProjectNo, WareHouse, SalesOrderNo });
-            dataGridView1.Location = new Point(20, 288);
+            dataGridView1.Location = new Point(20, 328);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1128, 324);
+            dataGridView1.Size = new Size(1128, 284);
             dataGridView1.TabIndex = 274;
+            dataGridView1.VisibleChanged += dataGridView1_VisibleChanged;
             // 
             // ID
             // 
@@ -814,6 +823,7 @@
             btnSubmit.TabIndex = 287;
             btnSubmit.Text = "送出";
             btnSubmit.UseVisualStyleBackColor = false;
+            btnSubmit.Click += btnSubmit_Click;
             // 
             // btnVerify
             // 
@@ -825,6 +835,7 @@
             btnVerify.TabIndex = 288;
             btnVerify.Text = "覆核";
             btnVerify.UseVisualStyleBackColor = false;
+            btnVerify.Click += btnVerify_Click;
             // 
             // btnCancelVerify
             // 
@@ -836,6 +847,7 @@
             btnCancelVerify.TabIndex = 289;
             btnCancelVerify.Text = "取消覆核";
             btnCancelVerify.UseVisualStyleBackColor = false;
+            btnCancelVerify.Click += btnCancelVerify_Click;
             // 
             // btnPrint
             // 
@@ -942,6 +954,7 @@
             Controls.Add(label1);
             Name = "ShippingOrderMaintainControl";
             Size = new Size(1180, 685);
+            Load += ShippingOrderMaintainControl_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
