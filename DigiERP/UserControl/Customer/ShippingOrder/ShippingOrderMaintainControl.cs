@@ -1,5 +1,6 @@
 ﻿using DigiERP.Common;
 using DigiERP.Forms.Customer.SalesOrder;
+using DigiERP.Forms.Customer.ShippingOrder;
 using DigiERP.Models;
 using DigiERP.UserControl.Common;
 using DigiERP.UserControl.Common.Customer;
@@ -420,6 +421,51 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
                 form.建檔 = lblCreator.Text;
                 form.建檔日 = lblCreateDate.Text;
             }
+            if (form.shipOrderLists == null)
+                form.shipOrderLists = new List<C出貨單明細>();
+            form.shipOrderLists.Clear();
+            int index = 0;
+            foreach(DataGridViewRow row in dataGridView1.Rows)
+            {
+                C出貨單明細 item = new C出貨單明細();
+                index = 1;
+                //DataGridViewRow row = new DataGridViewRow();
+                //row.CreateCells(dataGridView1);
+                //index++;
+                item.產品編號 = row.Cells[index++].Value?.ToString();
+                item.品名規格 = row.Cells[index++].Value?.ToString();
+                try
+                {
+                    item.數量2 = decimal.Parse( row.Cells[index++].Value?.ToString());
+                }
+                catch (Exception)
+                {
+                    item.數量2 = 0;
+                }
+                item.單位 = row.Cells[index++].Value.ToString();
+                try
+                {
+                    item.單價2 = decimal.Parse(row.Cells[index++].Value.ToString());
+                }
+                catch (Exception)
+                {
+                    item.單價2 = 0;
+                }
+                try
+                {
+                    item.金額2 = decimal.Parse(row.Cells[index++].Value.ToString());
+                }
+                catch (Exception)
+                {
+                    item.金額2 = 0;
+                }
+                item.描述 = row.Cells[index++].Value?.ToString();
+                item.樣品別 = row.Cells[index++].Value?.ToString();
+                item.倉庫別 = row.Cells[index++].Value?.ToString();
+                item.ORDNO = row.Cells[index++].Value?.ToString();
+                form.shipOrderLists.Add(item);
+                //dataGridView1.Rows.Add(row);
+            }
         }
 
         private void btnVerify_Click(object sender, EventArgs e)
@@ -616,6 +662,30 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
         private void dataGridView1_VisibleChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnSODistribute_Click(object sender, EventArgs e)
+        {
+            FrmSalesOrderSelect frmSalesOrderSelect = new FrmSalesOrderSelect();
+            frmSalesOrderSelect.custId = cboCustId.Text;
+            frmSalesOrderSelect.initDataGrid();
+            if (frmSalesOrderSelect.ShowDialog(this) == DialogResult.OK)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                int index = 1;
+                row.CreateCells(dataGridView1);
+                row.Cells[index++].Value = frmSalesOrderSelect.selectedOrderLine.產品編號;
+                row.Cells[index++].Value = frmSalesOrderSelect.selectedOrderLine.品名規格;
+                row.Cells[index++].Value = frmSalesOrderSelect.selectedOrderLine.數量1;
+                row.Cells[index++].Value = frmSalesOrderSelect.selectedOrderLine.單位;
+                row.Cells[index++].Value = frmSalesOrderSelect.selectedOrderLine.單價1;
+                row.Cells[index++].Value = frmSalesOrderSelect.selectedOrderLine.數量1 * frmSalesOrderSelect.selectedOrderLine.單價1;
+                index++;
+                index++;
+                index++;
+                row.Cells[index++].Value = frmSalesOrderSelect.selectedOrderLine.單號;
+                dataGridView1.Rows.Add(row);
+            }
         }
     }
 }

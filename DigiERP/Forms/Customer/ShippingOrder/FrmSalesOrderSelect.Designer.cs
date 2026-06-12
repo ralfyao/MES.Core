@@ -52,6 +52,7 @@
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(947, 343);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // ID
             // 
@@ -103,7 +104,7 @@
             Controls.Add(dataGridView1);
             Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Margin = new Padding(5, 5, 5, 5);
+            Margin = new Padding(5);
             Name = "FrmSalesOrderSelect";
             Text = "訂單分配";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

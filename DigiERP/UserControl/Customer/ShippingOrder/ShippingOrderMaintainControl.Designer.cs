@@ -78,17 +78,6 @@
             label21 = new Label();
             lblPaymentTerm = new Label();
             dataGridView1 = new DataGridView();
-            ID = new DataGridViewTextBoxColumn();
-            ProductNo = new DataGridViewTextBoxColumn();
-            ProductName = new DataGridViewTextBoxColumn();
-            SalesUnit = new DataGridViewTextBoxColumn();
-            Qty = new DataGridViewTextBoxColumn();
-            UnitPrice = new DataGridViewTextBoxColumn();
-            UnTaxedAmount = new DataGridViewTextBoxColumn();
-            Remark = new DataGridViewTextBoxColumn();
-            ProjectNo = new DataGridViewTextBoxColumn();
-            WareHouse = new DataGridViewTextBoxColumn();
-            SalesOrderNo = new DataGridViewTextBoxColumn();
             label22 = new Label();
             lblTotalSum = new Label();
             lblAuditor = new Label();
@@ -107,6 +96,17 @@
             btnPrint = new Button();
             lblTradeCond = new Label();
             lblShippingMethod = new Label();
+            ID = new DataGridViewTextBoxColumn();
+            ProductNo = new DataGridViewTextBoxColumn();
+            ProductName = new DataGridViewTextBoxColumn();
+            SalesUnit = new DataGridViewTextBoxColumn();
+            Qty = new DataGridViewTextBoxColumn();
+            UnitPrice = new DataGridViewTextBoxColumn();
+            UnTaxedAmount = new DataGridViewTextBoxColumn();
+            Remark = new DataGridViewTextBoxColumn();
+            ProjectNo = new DataGridViewTextBoxColumn();
+            WareHouse = new DataGridViewTextBoxColumn();
+            SalesOrderNo = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -626,72 +626,6 @@
             dataGridView1.TabIndex = 274;
             dataGridView1.VisibleChanged += dataGridView1_VisibleChanged;
             // 
-            // ID
-            // 
-            ID.HeaderText = "識別";
-            ID.Name = "ID";
-            ID.Visible = false;
-            // 
-            // ProductNo
-            // 
-            ProductNo.HeaderText = "產品編號";
-            ProductNo.Name = "ProductNo";
-            ProductNo.ReadOnly = true;
-            // 
-            // ProductName
-            // 
-            ProductName.HeaderText = "品名";
-            ProductName.Name = "ProductName";
-            ProductName.ReadOnly = true;
-            // 
-            // SalesUnit
-            // 
-            SalesUnit.HeaderText = "銷售單位";
-            SalesUnit.Name = "SalesUnit";
-            SalesUnit.ReadOnly = true;
-            // 
-            // Qty
-            // 
-            Qty.HeaderText = "數量";
-            Qty.Name = "Qty";
-            Qty.ReadOnly = true;
-            // 
-            // UnitPrice
-            // 
-            UnitPrice.HeaderText = "訂金單價";
-            UnitPrice.Name = "UnitPrice";
-            UnitPrice.ReadOnly = true;
-            // 
-            // UnTaxedAmount
-            // 
-            UnTaxedAmount.HeaderText = "未稅金額";
-            UnTaxedAmount.Name = "UnTaxedAmount";
-            UnTaxedAmount.ReadOnly = true;
-            // 
-            // Remark
-            // 
-            Remark.HeaderText = "註記";
-            Remark.Name = "Remark";
-            Remark.ReadOnly = true;
-            // 
-            // ProjectNo
-            // 
-            ProjectNo.HeaderText = "專案序號";
-            ProjectNo.Name = "ProjectNo";
-            ProjectNo.ReadOnly = true;
-            // 
-            // WareHouse
-            // 
-            WareHouse.HeaderText = "倉庫別";
-            WareHouse.Name = "WareHouse";
-            WareHouse.ReadOnly = true;
-            // 
-            // SalesOrderNo
-            // 
-            SalesOrderNo.HeaderText = "訂單單號";
-            SalesOrderNo.Name = "SalesOrderNo";
-            SalesOrderNo.ReadOnly = true;
-            // 
             // label22
             // 
             label22.AutoSize = true;
@@ -812,6 +746,7 @@
             btnSODistribute.TabIndex = 286;
             btnSODistribute.Text = "訂單分配";
             btnSODistribute.UseVisualStyleBackColor = false;
+            btnSODistribute.Click += btnSODistribute_Click;
             // 
             // btnSubmit
             // 
@@ -879,6 +814,70 @@
             lblShippingMethod.Size = new Size(185, 24);
             lblShippingMethod.TabIndex = 292;
             lblShippingMethod.Text = "lblShippingMethod";
+            // 
+            // ID
+            // 
+            ID.HeaderText = "識別";
+            ID.Name = "ID";
+            ID.Visible = false;
+            // 
+            // ProductNo
+            // 
+            ProductNo.HeaderText = "產品編號";
+            ProductNo.Name = "ProductNo";
+            ProductNo.ReadOnly = true;
+            // 
+            // ProductName
+            // 
+            ProductName.HeaderText = "品名";
+            ProductName.Name = "ProductName";
+            ProductName.ReadOnly = true;
+            // 
+            // SalesUnit
+            // 
+            SalesUnit.HeaderText = "銷售單位";
+            SalesUnit.Name = "SalesUnit";
+            SalesUnit.ReadOnly = true;
+            // 
+            // Qty
+            // 
+            Qty.HeaderText = "數量";
+            Qty.Name = "Qty";
+            Qty.ReadOnly = true;
+            // 
+            // UnitPrice
+            // 
+            UnitPrice.HeaderText = "訂單單價";
+            UnitPrice.Name = "UnitPrice";
+            UnitPrice.ReadOnly = true;
+            // 
+            // UnTaxedAmount
+            // 
+            UnTaxedAmount.HeaderText = "未稅金額";
+            UnTaxedAmount.Name = "UnTaxedAmount";
+            UnTaxedAmount.ReadOnly = true;
+            // 
+            // Remark
+            // 
+            Remark.HeaderText = "註記";
+            Remark.Name = "Remark";
+            // 
+            // ProjectNo
+            // 
+            ProjectNo.HeaderText = "專案序號";
+            ProjectNo.Name = "ProjectNo";
+            // 
+            // WareHouse
+            // 
+            WareHouse.HeaderText = "倉庫別";
+            WareHouse.Name = "WareHouse";
+            WareHouse.Resizable = DataGridViewTriState.True;
+            // 
+            // SalesOrderNo
+            // 
+            SalesOrderNo.HeaderText = "訂單單號";
+            SalesOrderNo.Name = "SalesOrderNo";
+            SalesOrderNo.ReadOnly = true;
             // 
             // ShippingOrderMaintainControl
             // 
@@ -1028,6 +1027,8 @@
         private Button btnVerify;
         private Button btnCancelVerify;
         private Button btnPrint;
+        private Label lblTradeCond;
+        private Label lblShippingMethod;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn ProductNo;
         private DataGridViewTextBoxColumn ProductName;
@@ -1039,7 +1040,5 @@
         private DataGridViewTextBoxColumn ProjectNo;
         private DataGridViewTextBoxColumn WareHouse;
         private DataGridViewTextBoxColumn SalesOrderNo;
-        private Label lblTradeCond;
-        private Label lblShippingMethod;
     }
 }

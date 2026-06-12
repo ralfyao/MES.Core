@@ -2400,7 +2400,13 @@ namespace MES.MiddleWare.Modules
                 using(var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();
-                    string strSQL = "";
+                    string strSQL = @$" SELECT C.* 
+                                          FROM dbo.C訂單明細 AS C
+                                          LEFT OUTER JOIN dbo.C訂單 AS C2 ON C.單號 = C2.單號
+                                          LEFT OUTER JOIN dbo.C出貨單明細 AS C3 ON C2.單號=C3.ORDNO
+                                         WHERE C2.客戶編號='{custId}'
+                                           AND (C3.ORDNO IS NULL OR C3.ORDNO = '') ";
+                    list = conn.Query<C訂單明細>(strSQL).ToList();
                 }
             }
             catch (Exception)
