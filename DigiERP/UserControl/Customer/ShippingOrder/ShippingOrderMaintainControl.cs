@@ -425,7 +425,7 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
                 form.shipOrderLists = new List<C出貨單明細>();
             form.shipOrderLists.Clear();
             int index = 0;
-            foreach(DataGridViewRow row in dataGridView1.Rows)
+            foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 C出貨單明細 item = new C出貨單明細();
                 index = 1;
@@ -436,7 +436,7 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
                 item.品名規格 = row.Cells[index++].Value?.ToString();
                 try
                 {
-                    item.數量2 = decimal.Parse( row.Cells[index++].Value?.ToString());
+                    item.數量2 = decimal.Parse(row.Cells[index++].Value?.ToString());
                 }
                 catch (Exception)
                 {
@@ -686,6 +686,15 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
                 row.Cells[index++].Value = frmSalesOrderSelect.selectedOrderLine.單號;
                 dataGridView1.Rows.Add(row);
             }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            FrmShippingOrderPrint frm = new FrmShippingOrderPrint();
+            frm.custId = cboCustId.Text;
+            frm.shippingOrder = form;
+            frm.initData();
+            frm.ShowDialog();
         }
     }
 }
