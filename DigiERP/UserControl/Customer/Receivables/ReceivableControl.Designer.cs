@@ -120,6 +120,7 @@
             btnUnClosed.TabIndex = 2;
             btnUnClosed.Text = "未結案";
             btnUnClosed.UseVisualStyleBackColor = false;
+            btnUnClosed.Click += btnUnClosed_Click;
             // 
             // label1
             // 

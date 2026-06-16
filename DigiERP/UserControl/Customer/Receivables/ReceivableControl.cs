@@ -31,13 +31,18 @@ namespace DigiERP.UserControl.Customer.Receivables
             //initGrid();
         }
 
-        private void initGrid()
+        private void initGrid(List<F收款> list = null)
         {
             initController();
             initData();
             int index = 0;
             dataGridView1.Rows.Clear();
-            foreach (var item in arList)
+            var aList = arList;
+            if (list != null)
+            {
+                aList = list;
+            }
+            foreach (var item in aList)
             {
                 index = 0;
                 DataGridViewRow row = new DataGridViewRow();
@@ -100,7 +105,7 @@ namespace DigiERP.UserControl.Customer.Receivables
                 F收款 data = new F收款();
                 int index = row1.Cells.Count - 1;
                 data.單號 = row1.Cells[0].Value?.ToString();
-                var tmpdata = new ARController().GetArList().resultList.Where(x=>x.單號 == data.單號).ToList();
+                var tmpdata = new ARController().GetArList().resultList.Where(x => x.單號 == data.單號).ToList();
                 if (tmpdata.Count() > 0)
                 {
                     data = tmpdata[0];
@@ -125,6 +130,12 @@ namespace DigiERP.UserControl.Customer.Receivables
                     dataGridView.Visible = false;
                 }
             }
+        }
+
+        private void btnUnClosed_Click(object sender, EventArgs e)
+        {
+            var arListClosed = arList.Where(x=>x.結案 == true).ToList();
+            initGrid(arListClosed);
         }
     }
 }
