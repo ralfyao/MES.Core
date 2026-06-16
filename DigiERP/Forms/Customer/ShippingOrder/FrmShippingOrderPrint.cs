@@ -56,6 +56,10 @@ namespace DigiERP.Forms.Customer.ShippingOrder
         private void btnPreview_Click(object sender, EventArgs e)
         {
             FrmPrintShippingOrder frmPrintShippingOrder = new FrmPrintShippingOrder();
+            frmPrintShippingOrder.customer = customer;
+            frmPrintShippingOrder.shippingOrder = shippingOrder;
+            frmPrintShippingOrder.remark = txtRemark.Text;
+            frmPrintShippingOrder.initData();
             frmPrintShippingOrder.ShowDialog();
         }
     }
