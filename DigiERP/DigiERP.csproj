@@ -68,6 +68,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Forms\Customer\Receivables\" />
     <Folder Include="UserControl\Order\" />
   </ItemGroup>
 

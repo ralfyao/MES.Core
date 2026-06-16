@@ -216,7 +216,7 @@ namespace MES.MiddleWare.Modules
                     list = conn.Query<F收款>($@"SELECT {topn}  a.識別碼, a.日期,
                                                         a.單號,
                                                         a.客戶編號,
-                                                        b.COMPANY 客戶名稱,
+                                                        (SELECT TOP 1 COMPANY FROM C客戶設定 WHERE 正航編號=a.客戶編號) 客戶名稱,
                                                         a.幣別,
                                                         a.匯率,
                                                         a.請款人員,
@@ -240,8 +240,7 @@ namespace MES.MiddleWare.Modules
                                                         a.核准日,
                                                         a.傳票,
                                                         CASE WHEN RTRIM(a.結案) = '1' THEN 1 ELSE 0 END AS 結案
-                                                   FROM F收款 a
-                                                   LEFT OUTER JOIN C客戶設定 b on a.客戶編號=b.正航編號").ToList();
+                                                   FROM F收款 a").ToList();
                     foreach (var item in list)
                     {
                         item.日期 = Utility.ConvertDate(item.日期);

@@ -15,6 +15,7 @@ using MES.Core.Model;
 using DigiERP.UserControl.SalesOrder;
 using DigiERP.UserControl.Customer;
 using DigiERP.UserControl.Customer.ShippingOrder;
+using DigiERP.UserControl.Customer.Receivables;
 
 namespace DigiERP
 {
@@ -119,6 +120,7 @@ namespace DigiERP
                 "Quotation" => new QuotationControl() { Width = tab.Width },
                 "SalesOrder" => new OrderControl() { Width = tab.Width },
                 "ShippingOrder" => new ShippingOrderControl() { Width = tab.Width },
+                "AccountsReceivables" => new ReceivableControl() { Width = tab.Width },
                 _ => null
             }; ;
             if (ctrl == null || ctrl.IsDisposed)

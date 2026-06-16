@@ -106,5 +106,26 @@ namespace DigiERP
             FrmAuth frmAuth = new FrmAuth();
             frmAuth.ShowDialog();
         }
+
+        private void pnlFinancial_Click(object sender, EventArgs e)
+        {
+            //FrmFinancial frmFinancial = new FrmFinancial();
+            //frmFinancial.ShowDialog(this);
+        }
+
+        private void panel2_MouseLeave(object sender, EventArgs e)
+        {
+            panel1_MouseLeave(null, null);
+        }
+
+        private void panel2_MouseMove(object sender, MouseEventArgs e)
+        {
+            panel1_MouseMove(null, null);
+        }
+
+        private void panel2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

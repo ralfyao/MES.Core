@@ -38,7 +38,7 @@
             btnClose = new Button();
             btnPasswordManage = new Button();
             btnPassworkChange = new Button();
-            panelSettings = new Panel();
+            panel2 = new Panel();
             SuspendLayout();
             // 
             // panel1
@@ -155,16 +155,17 @@
             btnPassworkChange.UseVisualStyleBackColor = true;
             btnPassworkChange.Click += btnPassworkChange_Click;
             // 
-            // panelSettings
+            // panel2
             // 
-            panelSettings.BackColor = Color.FromArgb(1, 0, 0, 0);
-            panelSettings.Cursor = Cursors.Hand;
-            panelSettings.Location = new Point(632, 250);
-            panelSettings.Margin = new Padding(2);
-            panelSettings.Name = "panelSettings";
-            panelSettings.Size = new Size(152, 141);
-            panelSettings.TabIndex = 9;
-            panelSettings.Click += panelSettings_Click;
+            panel2.BackgroundImage = Properties.Resources._2026_06_16_09_39_51;
+            panel2.BackgroundImageLayout = ImageLayout.Zoom;
+            panel2.Location = new Point(436, 60);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(152, 160);
+            panel2.TabIndex = 9;
+            panel2.Click += panel2_Click;
+            panel2.MouseLeave += panel2_MouseLeave;
+            panel2.MouseMove += panel2_MouseMove;
             // 
             // FrmMain
             // 
@@ -174,7 +175,7 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(835, 452);
             ControlBox = false;
-            Controls.Add(panelSettings);
+            Controls.Add(panel2);
             Controls.Add(btnPassworkChange);
             Controls.Add(btnPasswordManage);
             Controls.Add(btnClose);
@@ -206,6 +207,6 @@
         private Button btnClose;
         private Button btnPasswordManage;
         private Button btnPassworkChange;
-        private Panel panelSettings;
+        private Panel panel2;
     }
 }
