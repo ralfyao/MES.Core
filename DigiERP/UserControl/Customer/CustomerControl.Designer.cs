@@ -84,9 +84,10 @@ namespace DigiERP.UserControl
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.DefaultCellStyle.Font = new Font("新細明體", 14.1428576F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            dataGridView1.Size = new Size(1769, 859);
+            dataGridView1.Size = new Size(1376, 678);
             dataGridView1.TabIndex = 3;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellClick;
@@ -188,29 +189,26 @@ namespace DigiERP.UserControl
             panel1.Controls.Add(dataGridView1);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1769, 978);
+            panel1.Size = new Size(1376, 772);
             panel1.TabIndex = 5;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label1.Location = new Point(132, 25);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(103, 20);
             label1.Name = "label1";
-            label1.Size = new Size(109, 30);
+            label1.Size = new Size(86, 24);
             label1.TabIndex = 5;
             label1.Text = "客戶維護";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(27, 13);
-            pictureBox1.Margin = new Padding(4);
+            pictureBox1.Location = new Point(21, 10);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(80, 65);
+            pictureBox1.Size = new Size(62, 51);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 6;
             pictureBox1.TabStop = false;
@@ -218,10 +216,9 @@ namespace DigiERP.UserControl
             // button1
             // 
             button1.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button1.Location = new Point(343, 13);
-            button1.Margin = new Padding(4);
+            button1.Location = new Point(267, 10);
             button1.Name = "button1";
-            button1.Size = new Size(161, 62);
+            button1.Size = new Size(125, 49);
             button1.TabIndex = 7;
             button1.Text = "新增客戶";
             button1.UseVisualStyleBackColor = true;
@@ -241,17 +238,18 @@ namespace DigiERP.UserControl
             panel2.Controls.Add(label1);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
-            panel2.Margin = new Padding(5);
+            panel2.Margin = new Padding(4, 4, 4, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1769, 77);
+            panel2.Size = new Size(1376, 61);
             panel2.TabIndex = 6;
             // 
             // button2
             // 
             button2.Font = new Font("Microsoft JhengHei UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button2.Location = new Point(1416, 16);
+            button2.Location = new Point(1101, 13);
+            button2.Margin = new Padding(2, 2, 2, 2);
             button2.Name = "button2";
-            button2.Size = new Size(168, 40);
+            button2.Size = new Size(131, 32);
             button2.TabIndex = 13;
             button2.Text = "匯出勾選資料";
             button2.UseVisualStyleBackColor = true;
@@ -260,9 +258,10 @@ namespace DigiERP.UserControl
             // btnCancelCheck
             // 
             btnCancelCheck.Font = new Font("Microsoft JhengHei UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            btnCancelCheck.Location = new Point(1272, 16);
+            btnCancelCheck.Location = new Point(989, 13);
+            btnCancelCheck.Margin = new Padding(2, 2, 2, 2);
             btnCancelCheck.Name = "btnCancelCheck";
-            btnCancelCheck.Size = new Size(128, 40);
+            btnCancelCheck.Size = new Size(100, 32);
             btnCancelCheck.TabIndex = 12;
             btnCancelCheck.Text = "取消勾選";
             btnCancelCheck.UseVisualStyleBackColor = true;
@@ -271,10 +270,9 @@ namespace DigiERP.UserControl
             // cboCountry
             // 
             cboCountry.FormattingEnabled = true;
-            cboCountry.Location = new Point(1049, 20);
-            cboCountry.Margin = new Padding(4);
+            cboCountry.Location = new Point(816, 16);
             cboCountry.Name = "cboCountry";
-            cboCountry.Size = new Size(193, 27);
+            cboCountry.Size = new Size(151, 23);
             cboCountry.TabIndex = 11;
             cboCountry.SelectedIndexChanged += cboCountry_SelectedIndexChanged;
             cboCountry.Leave += cboCountry_SelectedIndexChanged;
@@ -283,19 +281,17 @@ namespace DigiERP.UserControl
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label3.Location = new Point(895, 20);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(696, 16);
             label3.Name = "label3";
-            label3.Size = new Size(109, 30);
+            label3.Size = new Size(86, 24);
             label3.TabIndex = 10;
             label3.Text = "國別查詢";
             // 
             // txtCustQueryFIeld
             // 
-            txtCustQueryFIeld.Location = new Point(679, 22);
-            txtCustQueryFIeld.Margin = new Padding(4);
+            txtCustQueryFIeld.Location = new Point(528, 17);
             txtCustQueryFIeld.Name = "txtCustQueryFIeld";
-            txtCustQueryFIeld.Size = new Size(184, 27);
+            txtCustQueryFIeld.Size = new Size(144, 23);
             txtCustQueryFIeld.TabIndex = 9;
             txtCustQueryFIeld.Leave += txtCustQueryFIeld_Leave;
             // 
@@ -303,22 +299,22 @@ namespace DigiERP.UserControl
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label2.Location = new Point(525, 20);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(408, 16);
             label2.Name = "label2";
-            label2.Size = new Size(109, 30);
+            label2.Size = new Size(86, 24);
             label2.TabIndex = 8;
             label2.Text = "客戶查詢";
             // 
             // CustomerControl
             // 
-            AutoScaleDimensions = new SizeF(9F, 19F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             Controls.Add(panel2);
             Controls.Add(panel1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "CustomerControl";
-            Size = new Size(1769, 978);
+            Size = new Size(1376, 772);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
