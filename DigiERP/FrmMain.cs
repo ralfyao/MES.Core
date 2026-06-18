@@ -151,5 +151,20 @@ namespace DigiERP
         {
             panel2.Cursor = Cursors.Hand;
         }
+
+        private void pictureBox2_MouseEnter(object sender, EventArgs e)
+        {
+            pictureBox2.Cursor = Cursors.Hand;
+        }
+
+        private void pictureBox2_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox2.Cursor = Cursors.Default;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

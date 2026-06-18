@@ -388,7 +388,25 @@ namespace MES.WebAPI.Controllers
             ARMiddle arMiddle = new ARMiddle();
             try
             {
-                commonRep.resultList = arMiddle.getUnclsedARList();
+                commonRep.resultList = arMiddle.getReceiveWirteOffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        #endregion
+        #region 沖款收
+        [Route("api/RWirteOffList")]
+        public CommonRep<F沖款收> RWirteOffList(string custId = "")
+        {
+            CommonRep<F沖款收> commonRep = new CommonRep<F沖款收>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                commonRep.resultList = arMiddle.getRWirteOffList(custId);
             }
             catch (Exception ex)
             {

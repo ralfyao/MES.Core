@@ -414,7 +414,7 @@ namespace MES.MiddleWare.Modules
             return list;
         }
 
-        public List<F帳款管理> getUnclsedARList()
+        public List<F帳款管理> getReceiveWirteOffList()
         {
             List<F帳款管理> list = new List<F帳款管理>();
             try
@@ -532,6 +532,29 @@ namespace MES.MiddleWare.Modules
                 }
             }
             return execCnt;
+        }
+
+        public List<F沖款收> getRWirteOffList(string custId)
+        {
+            List<F沖款收> list = new List<F沖款收>();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<F沖款收>($@"SELECT * FROM F沖款收 WHERE 1=1 {(!string.IsNullOrEmpty(custId)?$" AND 客戶編號='{custId}'":"")}").ToList();
+                    foreach(var item in list)
+                    {
+                        item.writeOffDetailList = conn.Query<F收支沖帳明細>($@"SELECT * FROM F收支沖帳明細 WHERE 單號='{item.單號}'").ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return list;
         }
         #endregion
     }
