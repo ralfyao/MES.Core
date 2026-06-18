@@ -64,7 +64,8 @@ namespace MES.MiddleWare.Modules
             lock (arLock) 
             { 
                 form.建檔日 = DateTime.Now.ToString("yyyy-MM-dd");
-                form.單號 = getARNo();
+                //if (string.IsNullOrEmpty(form.單號))
+                //    form.單號 = getARNo();
                 string sql = $@"INSERT INTO dbo.F收款
                                 (
                                     日期,
@@ -205,7 +206,7 @@ namespace MES.MiddleWare.Modules
             return execCnt;
         }
 
-        public List<F收款> getARList(string topn = "TOP 1000")
+        public List<F收款> getARList(string topn = "TOP 1000", string whereCond = "")
         {
             List<F收款> list = new List<F收款>();
             try
@@ -240,7 +241,7 @@ namespace MES.MiddleWare.Modules
                                                         a.核准日,
                                                         a.傳票,
                                                         CASE WHEN RTRIM(a.結案) = '1' THEN 1 ELSE 0 END AS 結案
-                                                   FROM F收款 a").ToList();
+                                                   FROM F收款 a WHERE 1=1 {whereCond}").ToList();
                     foreach (var item in list)
                     {
                         item.日期 = Utility.ConvertDate(item.日期);

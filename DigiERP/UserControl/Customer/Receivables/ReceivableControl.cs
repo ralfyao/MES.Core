@@ -110,7 +110,7 @@ namespace DigiERP.UserControl.Customer.Receivables
                 F收款 data = new F收款();
                 int index = row1.Cells.Count - 1;
                 data.單號 = row1.Cells[0].Value?.ToString();
-                var tmpdata = new ARController().GetArList().resultList.Where(x => x.單號 == data.單號).ToList();
+                var tmpdata = new ARController().GetArList(data.單號).resultList;
                 if (tmpdata.Count() > 0)
                 {
                     data = tmpdata[0];

@@ -16,11 +16,13 @@ using DigiERP.UserControl.SalesOrder;
 using DigiERP.UserControl.Customer;
 using DigiERP.UserControl.Customer.ShippingOrder;
 using DigiERP.UserControl.Customer.Receivables;
+using MES.WebAPI.Controllers;
 
 namespace DigiERP
 {
     public partial class FrmCust : Form
     {
+        private static string moduleId = "0FDCB68D-91BE-48A4-9B21-E8E1C7C6A565";
         private bool isloaded = false;
         public FrmCust()
         {
@@ -32,9 +34,25 @@ namespace DigiERP
             ToggleDrawer(null, null);
             isloaded = true;
         }
-
+        Dictionary<string, string> menuMappingDict = new Dictionary<string, string>();
         private void initMenu()
         {
+            var menuList = new MenuController().GetModuleList(FrmCust.moduleId);
+            if (!string.IsNullOrEmpty(menuList.ErrorMessage))
+            {
+                MessageBox.Show(menuList.ErrorMessage);
+                return;
+            }
+            treeView.Nodes.Clear();
+            foreach(var menu in menuList.resultList)
+            {
+                foreach(var subMenu in menu.subModuleList)
+                {
+                    menuMappingDict.Add(subMenu.ModuleName, subMenu.ModuleClass.ToString());
+                    treeView.Nodes.Add(new TreeNode() { Name = subMenu.ModuleName, Text = subMenu.子選單名稱});
+                }
+            }
+            
             //throw new NotImplementedException();
         }
 
@@ -112,17 +130,17 @@ namespace DigiERP
             TabPage tab = new TabPage(e.Node.Text);
             tab.Name = key;
 
-            Control ctrl = key switch
+            string controlClass = string.Empty;
+            if (menuMappingDict.ContainsKey(key))
             {
-                "Customer" => new CustomerControl() { Width = tab.Width },
-                //"Order" => new OrderControl() { Width = tab.Width },
-                "RFQ" => new RFQControl() { Width = tab.Width },
-                "Quotation" => new QuotationControl() { Width = tab.Width },
-                "SalesOrder" => new OrderControl() { Width = tab.Width },
-                "ShippingOrder" => new ShippingOrderControl() { Width = tab.Width },
-                "AccountsReceivables" => new ReceivableControl() { Width = tab.Width },
-                _ => null
-            }; ;
+                controlClass = menuMappingDict[key];
+            }
+            if (string.IsNullOrEmpty(controlClass))
+            {
+                return;
+            }
+            Type type = Type.GetType(controlClass);
+            Control ctrl = (Control)Activator.CreateInstance(type);
             if (ctrl == null || ctrl.IsDisposed)
                 return;
             if (ctrl != null)

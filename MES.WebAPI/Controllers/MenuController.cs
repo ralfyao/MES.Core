@@ -88,12 +88,12 @@ namespace MES.WebAPI.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/GetModuleList")]
-        public CommonRep<模組選單> GetModuleList()
+        public CommonRep<模組選單> GetModuleList(string moduleId = "")
         {
             CommonRep<模組選單> rep = new Models.CommonRep<模組選單>();
             try
             {
-                rep.resultList = new AuthenticateMenu().GetModuleList();
+                rep.resultList = new AuthenticateMenu().GetModuleList(moduleId);
             }
             catch (Exception ex)
             {

@@ -175,7 +175,7 @@ namespace MES.MiddleWare
             }
             return menuList;
         }
-        public List<模組選單> GetModuleList() 
+        public List<模組選單> GetModuleList(string moduleId = "") 
         {
             List<模組選單> moduleList = new List<模組選單>();
             try
@@ -183,7 +183,7 @@ namespace MES.MiddleWare
                 using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();
-                    string strSQL = $@"SELECT ID, 模組名稱, 建立日期 FROM 模組選單";
+                    string strSQL = $@"SELECT ID, 模組名稱, 建立日期 FROM 模組選單 WHERE 1=1 {(!string.IsNullOrEmpty(moduleId)?$" AND ID='{moduleId}'" :"")}";
                     moduleList = conn.Query<模組選單>(strSQL).ToList();
                     foreach(var item in moduleList)
                     {

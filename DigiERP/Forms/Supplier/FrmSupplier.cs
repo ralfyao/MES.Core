@@ -16,12 +16,15 @@ using DigiERP.UserControl.SalesOrder;
 using DigiERP.UserControl.Customer;
 using DigiERP.UserControl.Customer.ShippingOrder;
 using DigiERP.UserControl.Customer.Receivables;
+using MES.WebAPI.Controllers;
 
 namespace DigiERP
 {
     public partial class FrmSupplier : Form
     {
         private bool isloaded = false;
+
+        private static string moduleId = "54406A92-A15C-4E20-90F2-57D7C033BF64";
         public FrmSupplier()
         {
             isloaded = false;
@@ -33,9 +36,25 @@ namespace DigiERP
             isloaded = true;
         }
 
+        Dictionary<string, string> menuMappingDict = new Dictionary<string, string>();
         private void initMenu()
         {
             //throw new NotImplementedException();
+            var menuList = new MenuController().GetModuleList(FrmSupplier.moduleId);
+            if (!string.IsNullOrEmpty(menuList.ErrorMessage))
+            {
+                MessageBox.Show(menuList.ErrorMessage);
+                return;
+            }
+            treeView.Nodes.Clear();
+            foreach (var menu in menuList.resultList)
+            {
+                foreach (var subMenu in menu.subModuleList)
+                {
+                    menuMappingDict.Add(subMenu.ModuleName, subMenu.ModuleClass.ToString());
+                    treeView.Nodes.Add(new TreeNode() { Name = subMenu.ModuleName, Text = subMenu.子選單名稱 });
+                }
+            }
         }
 
         private void FrmCust_Shown(object sender, EventArgs e)
@@ -63,17 +82,28 @@ namespace DigiERP
             TabPage tab = new TabPage(e.Node.Text);
             tab.Name = key;
 
-            Control ctrl = key switch
+            string controlClass = string.Empty;
+            if (menuMappingDict.ContainsKey(key))
             {
-                "Customer" => new CustomerControl() { Width = tab.Width },
-                //"Order" => new OrderControl() { Width = tab.Width },
-                "RFQ" => new RFQControl() { Width = tab.Width },
-                "Quotation" => new QuotationControl() { Width = tab.Width },
-                "SalesOrder" => new OrderControl() { Width = tab.Width },
-                "ShippingOrder" => new ShippingOrderControl() { Width = tab.Width },
-                "AccountsReceivables" => new ReceivableControl() { Width = tab.Width },
-                _ => null
-            }; ;
+                controlClass = menuMappingDict[key];
+            }
+            if (string.IsNullOrEmpty(controlClass))
+            {
+                return;
+            }
+            Type type = Type.GetType(controlClass);
+            Control ctrl = (Control)Activator.CreateInstance(type);
+            //    key switch
+            //{
+            //    "SupplierManage" => new CustomerControl() { Width = tab.Width },
+            //    //"Order" => new OrderControl() { Width = tab.Width },
+            //    //"RFQ" => new RFQControl() { Width = tab.Width },
+            //    //"Quotation" => new QuotationControl() { Width = tab.Width },
+            //    //"SalesOrder" => new OrderControl() { Width = tab.Width },
+            //    //"ShippingOrder" => new ShippingOrderControl() { Width = tab.Width },
+            //    //"AccountsReceivables" => new ReceivableControl() { Width = tab.Width },
+            //    _ => null
+            //}; ;
             if (ctrl == null || ctrl.IsDisposed)
                 return;
             if (ctrl != null)

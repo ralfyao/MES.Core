@@ -35,13 +35,14 @@ namespace MES.WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("api/GetArList"), HttpGet]
-        public CommonRep<F收款> GetArList()
+        public CommonRep<F收款> GetArList(string formNo = "")
         {
             CommonRep<F收款> commonRep = new CommonRep<F收款>();
             ARMiddle arMiddle = new ARMiddle();
             try
             {
-                commonRep.resultList = arMiddle.getARList();
+                string whereCond = (!string.IsNullOrEmpty(formNo) ? $" AND 單號='{formNo}'" : "");
+                commonRep.resultList = arMiddle.getARList("", whereCond);
             }
             catch (Exception ex)
             {
@@ -195,7 +196,7 @@ namespace MES.WebAPI.Controllers
             try
             {
                 ARMiddle aRMiddle = new ARMiddle();
-                F收款 f = aRMiddle.getARList().Where((x) => x.單號 == formNo).FirstOrDefault();
+                F收款 f = aRMiddle.getARList("", $" AND 單號='{formNo}'").FirstOrDefault();
                 f.結案 = !f.結案;
                 int execCnt = aRMiddle.doUpdateCloseFlag(f);
                 if (execCnt == 0)

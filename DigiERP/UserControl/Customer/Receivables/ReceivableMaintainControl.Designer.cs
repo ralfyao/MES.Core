@@ -521,6 +521,7 @@
             chk結案.Size = new Size(15, 14);
             chk結案.TabIndex = 201;
             chk結案.UseVisualStyleBackColor = true;
+            chk結案.CheckedChanged += chk結案_CheckedChanged;
             // 
             // txt備註
             // 

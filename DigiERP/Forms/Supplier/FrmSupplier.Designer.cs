@@ -45,6 +45,7 @@ namespace DigiERP
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            TreeNode treeNode1 = new TreeNode("廠商管理");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSupplier));
             sidebar = new Panel();
             splitContainer = new SplitContainer();
@@ -92,6 +93,9 @@ namespace DigiERP
             treeView.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             treeView.Location = new Point(0, 0);
             treeView.Name = "treeView";
+            treeNode1.Name = "SupplierManage";
+            treeNode1.Text = "廠商管理";
+            treeView.Nodes.AddRange(new TreeNode[] { treeNode1 });
             treeView.Size = new Size(387, 669);
             treeView.TabIndex = 0;
             treeView.AfterSelect += TreeView_AfterSelect;

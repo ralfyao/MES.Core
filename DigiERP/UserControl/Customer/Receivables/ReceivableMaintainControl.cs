@@ -166,6 +166,7 @@ namespace DigiERP.UserControl.Customer.Receivables
         private void disableAllControls(bool isDisable)
         {
             bool enabled = !isDisable;
+            btn送出.Enabled = enabled;
             btnReceive.Enabled = enabled;
             btnCustSearch.Enabled = enabled;
             btnDelete.Enabled = enabled;
@@ -547,6 +548,19 @@ namespace DigiERP.UserControl.Customer.Receivables
                 MessageBox.Show("刪除成功");
                 btnClose_Click(null, null);
             }
+        }
+
+        private void chk結案_CheckedChanged(object sender, EventArgs e)
+        {
+            var chkClosedRep = _arController.UpdateCloseFlag(txt單號.Text);
+            if (!string.IsNullOrEmpty(chkClosedRep.ErrorMessage))
+            {
+                MessageBox.Show(chkClosedRep.ErrorMessage);
+                return;
+            }
+            form.結案 = !form.結案;
+            //chk結案.Checked = !chk結案.Checked;
+            MessageBox.Show($@"{(chk結案.Checked?"結案":"取消結案")}成功");
         }
     }
 }

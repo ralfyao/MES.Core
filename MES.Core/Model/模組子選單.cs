@@ -15,6 +15,7 @@ namespace MES.Core.Model
         public string 子選單名稱 { get; set; }
         public string 建立日期 { get; set; }
         public string ModuleName { get; set; }
+        public string ModuleClass { get; set; }
 
     }
 }
