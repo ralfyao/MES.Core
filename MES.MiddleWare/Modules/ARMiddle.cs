@@ -556,6 +556,162 @@ namespace MES.MiddleWare.Modules
             }
             return list;
         }
+
+        public int writeOffAr(F收款 form)
+        {
+            int retInt = 0;
+            try
+            {
+                F沖款收 writeOffForm = formWriteOffFromAR(form);
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using(var tran = conn.BeginTransaction())
+                    {
+
+                        string insertWriteOffSQL = $@"INSERT INTO dbo.F沖款收
+                                                (
+                                                    日期,
+                                                    單號,
+                                                    客戶編號,
+                                                    幣別,
+                                                    匯率,
+                                                    請款人員,
+                                                    MACHINENO,
+                                                    備註,
+                                                    建檔,
+                                                    建檔日,
+                                                    修改,
+                                                    修改日,
+                                                    核准,
+                                                    核准日,
+                                                    傳票,
+                                                    收現金額,
+                                                    銀轉金額,
+                                                    匯費,
+                                                    銀存編碼,
+                                                    收票金額,
+                                                    票據號碼,
+                                                    收款總額
+                                                )
+                                                VALUES
+                                                (   
+	                                                @日期 -- smalldatetime
+                                                    ,@單號 -- nvarchar(20)
+                                                    ,@客戶編號 -- nvarchar(20)
+                                                    ,@幣別 -- nvarchar(10)
+                                                    ,@匯率 -- numeric(10, 2)
+                                                    ,@請款人員 -- nvarchar(20)
+                                                    ,@MACHINENO -- nvarchar(50)
+                                                    ,@備註 -- nvarchar(max)
+                                                    ,@建檔 -- nvarchar(20)
+                                                    ,@建檔日 -- smalldatetime
+                                                    ,@修改 -- nvarchar(20)
+                                                    ,@修改日 -- smalldatetime
+                                                    ,@核准 -- nvarchar(20)
+                                                    ,@核准日 -- smalldatetime
+                                                    ,@傳票 -- nvarchar(30)
+                                                    ,@收現金額 -- numeric(18, 2)
+                                                    ,@銀轉金額 -- numeric(18, 2)
+                                                    ,@匯費 -- numeric(18, 2)
+                                                    ,@銀存編碼 -- varchar(30)
+                                                    ,@收票金額 -- numeric(18, 2)
+                                                    ,@票據號碼 -- varchar(50)
+                                                    ,@收款總額 -- numeric(18, 2)
+                                                    )";
+                        DynamicParameters dynamicParameters = new DynamicParameters(writeOffForm);
+                        retInt += conn.Execute(insertWriteOffSQL, dynamicParameters, tran);
+                        foreach(var item in writeOffForm.writeOffDetailList)
+                        {
+                            //item.單號 = form.單號;
+                            dynamicParameters = new DynamicParameters(item);
+                            string insertWriteOffDetailSQL = $@"INSERT INTO dbo.F收支沖帳明細
+                                                                (
+                                                                    單號,
+                                                                    收付別,
+                                                                    帳款來源,
+                                                                    收款性質,
+                                                                    帳款日期,
+                                                                    沖帳碼,
+                                                                    原幣未稅,
+                                                                    台幣未稅,
+                                                                    稅,
+                                                                    金額,
+                                                                    原幣沖帳金額,
+                                                                    台幣沖帳金額,
+                                                                    折讓金額,
+                                                                    匯差,
+                                                                    備註,
+                                                                    帳務識別碼
+                                                                )
+                                                                VALUES
+                                                                (   
+	                                                                @單號 -- varchar(30)
+                                                                    ,@收付別 -- nchar(10)
+                                                                    ,@帳款來源 -- nchar(30)
+                                                                    ,@收款性質 -- nchar(20)
+                                                                    ,@帳款日期 -- smalldatetime
+                                                                    ,@沖帳碼 -- nchar(20)
+                                                                    ,@原幣未稅 -- numeric(18, 0)
+                                                                    ,@台幣未稅 -- numeric(18, 0)
+                                                                    ,@稅 -- numeric(18, 0)
+                                                                    ,@金額 -- numeric(18, 0)
+                                                                    ,@原幣沖帳金額 -- numeric(18, 0)
+                                                                    ,@台幣沖帳金額 -- numeric(18, 0)
+                                                                    ,@折讓金額 -- numeric(18, 0)
+                                                                    ,@匯差 -- numeric(18, 0)
+                                                                    ,@備註 -- nvarchar(50)
+                                                                    ,@帳務識別碼 -- int
+                                                                    )";
+                            retInt += conn.Execute(insertWriteOffDetailSQL, dynamicParameters, tran);
+                        }
+                        tran.Commit();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return retInt;
+            //throw new NotImplementedException();
+        }
+
+        private F沖款收 formWriteOffFromAR(F收款 form)
+        {
+            string writeOffNo = getARWriteOffNo();
+            F沖款收 retForm = new F沖款收(form);
+            retForm.單號 = writeOffNo;
+            foreach(var item in retForm.writeOffDetailList)
+            {
+                item.單號 = writeOffNo;
+            }
+            return retForm;
+        }
+
+        private string getARWriteOffNo()
+        {
+            string strRet = string.Empty;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"SELECT COUNT(0) FROM F沖款收 WHERE 單號 LIKE '{DateTime.Now.ToString("yyyyMM")}%'";
+                    int count = conn.QueryFirst<int>(strSQL);
+                    count++;
+                    strRet = $@"BR{DateTime.Now.ToString("yyyyMM")}{count.ToString("000")}";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return strRet;
+            //throw new NotImplementedException();
+        }
         #endregion
     }
 }

@@ -133,6 +133,7 @@
             btnReceive.TabIndex = 162;
             btnReceive.Text = "出納收款";
             btnReceive.UseVisualStyleBackColor = false;
+            btnReceive.Click += btnReceive_Click;
             // 
             // btnSubpoena
             // 
@@ -502,6 +503,7 @@
             btn單筆收款.TabIndex = 199;
             btn單筆收款.Text = "單筆收款";
             btn單筆收款.UseVisualStyleBackColor = false;
+            btn單筆收款.Click += btn單筆收款_Click;
             // 
             // label16
             // 

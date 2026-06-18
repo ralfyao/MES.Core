@@ -9,6 +9,7 @@ namespace MES.Core.Model
 {
     public class F收款
     {
+
         public F收款() { }
         public F收款(C訂單 form) 
         {
@@ -49,6 +50,7 @@ namespace MES.Core.Model
         public string? 核准日 { get; set; }
         public string? 傳票 { get; set; }
         public bool? 結案 { get; set; }
+        public string? 沖銷人員 { get; set; }
         public List<F收款明細> arListDetail { get; set; } = new List<F收款明細>();
     }
 }

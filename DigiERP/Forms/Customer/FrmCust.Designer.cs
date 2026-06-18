@@ -295,7 +295,7 @@ namespace DigiERP
             e.Graphics.DrawString(tab.Text, Font, Brushes.Black, rect.X, rect.Y);
 
             // Draw X
-            e.Graphics.DrawString("x", Font, Brushes.Red, rect.Right - 15, rect.Y);
+            e.Graphics.DrawString("X", Font, Brushes.Red, rect.Right - 15, rect.Y);
         }
 
         private void TabControl_MouseDown(object sender, MouseEventArgs e)

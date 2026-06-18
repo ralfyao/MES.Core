@@ -155,6 +155,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
             ETDRequest.txType = "R";
             shipMethod.txType = "D";
             payMethod.txType = "P,Y";
+
             if (lblMode.Text == "新增")
             {
                 CommonRep<string> soRep = _customerController.GetSalesOrderNo();
@@ -222,11 +223,13 @@ namespace DigiERP.UserControl.Customer.SalesOrder
                 {
                     btnActivate.Visible = true;
                     btnCancelActivate.Visible = false;
+                    btnPrint.Visible = false;
                 }
                 else
                 {
                     btnActivate.Visible = false;
                     btnCancelActivate.Visible = true;
+                    btnPrint.Visible = true;
                 }
             }
 

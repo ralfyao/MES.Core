@@ -31,6 +31,18 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             initGrid();
         }
 
+        public ARWriteOffControl(string custId)
+        {
+            if (!chkPrivilege(id))
+            {
+                MessageBox.Show("非授權使用者無法使用此功能!");
+                Dispose();
+            }
+            InitializeComponent();
+            initController();
+            initGrid();
+        }
+
         private void initGrid()
         {
             var rWoffList = _arControlle.RWirteOffList(custId);
@@ -43,6 +55,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             dataGridView1.Rows.Clear();
             foreach(var item in rWoffList.resultList)
             {
+                index = 0;
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dataGridView1);
                 row.Cells[index++].Value = item.單號;

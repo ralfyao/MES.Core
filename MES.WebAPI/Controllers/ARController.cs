@@ -415,6 +415,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/WriteOffAccounts"), HttpPost]
+        public CommonRep<int> WriteOffAccounts([FromBody] F收款 form)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                commonRep.result = arMiddle.writeOffAr(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         #endregion
     }
 }

@@ -9,6 +9,18 @@ namespace MES.Core.Model
 {
     public class F沖款收
     {
+        public F沖款收()
+        {
+
+        }
+        public F沖款收(F收款 ar)
+        {
+            this.日期 = ar.日期;
+            this.客戶編號 = ar.客戶編號;
+            this.幣別 = ar.幣別;
+            this.匯率 = ar.匯率;
+            this.建檔 = ar.沖銷人員;
+        }
         [Key]
         public string? 識別碼 { get; set; }
         public string? 日期 { get; set; }

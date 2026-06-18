@@ -1,6 +1,7 @@
 ﻿using DigiERP.Common;
 using DigiERP.Forms.Customer.SalesOrder;
 using DigiERP.Models;
+using DigiERP.UserControl.Objective.ARWriteOff;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using MES.WebAPI.Models;
@@ -109,12 +110,14 @@ namespace DigiERP.UserControl.Customer.Receivables
                     btnActivate.Visible = false;
                     btnCancelActivate.Visible = true;
                     btnPrint.Visible = true;
+                    btn單筆收款.Visible = true;
                 }
                 else
                 {
                     btnActivate.Visible = true;
                     btnCancelActivate.Visible = false;
                     btnPrint.Visible = false;
+                    btn單筆收款.Visible = false;
                 }
             }
             else
@@ -560,7 +563,39 @@ namespace DigiERP.UserControl.Customer.Receivables
             }
             form.結案 = !form.結案;
             //chk結案.Checked = !chk結案.Checked;
-            MessageBox.Show($@"{(chk結案.Checked?"結案":"取消結案")}成功");
+            MessageBox.Show($@"{(chk結案.Checked ? "結案" : "取消結案")}成功");
+        }
+
+        private void btnReceive_Click(object sender, EventArgs e)
+        {
+            ARWriteOffControl aRWriteOffControl = new ARWriteOffControl();
+            if (!aRWriteOffControl.IsDisposed)
+            {
+                aRWriteOffControl.Dock = DockStyle.Fill;
+                TabPage tab = new TabPage();
+                tab.Name = "應收沖帳";
+                tab.Text = tab.Name;
+                tab.Controls.Add(aRWriteOffControl);
+                //FrmCust frm = this.Parent.Parent.Parent.FindForm() as FrmCust;
+                TabControl tabControl = (TabControl)this.Parent.Parent.Parent.Parent;
+                try
+                {
+                    tabControl.TabPages.Add(tab);
+                    tabControl.SelectedTab = tab;
+                    tabControl.SizeMode = TabSizeMode.Fixed;
+                    tabControl.ItemSize = new Size(120, 30);
+                }
+                catch { }
+            }
+        }
+
+        private void btn單筆收款_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("您確定要對此憑證單筆收款?", "請選擇", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                form.沖銷人員 = AppSession.User.username;
+                var writeOffRep = _arController.WriteOffAccounts(form);
+            }
         }
     }
 }
