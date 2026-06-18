@@ -39,6 +39,8 @@
             btnPasswordManage = new Button();
             btnPassworkChange = new Button();
             panel2 = new Panel();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -164,8 +166,22 @@
             panel2.Size = new Size(152, 160);
             panel2.TabIndex = 9;
             panel2.Click += panel2_Click;
+            panel2.MouseEnter += panel2_MouseEnter;
             panel2.MouseLeave += panel2_MouseLeave;
             panel2.MouseMove += panel2_MouseMove;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(436, 244);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(156, 160);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 10;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            pictureBox1.MouseEnter += pictureBox1_MouseEnter;
+            pictureBox1.MouseLeave += pictureBox1_MouseLeave;
             // 
             // FrmMain
             // 
@@ -175,6 +191,7 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(835, 452);
             ControlBox = false;
+            Controls.Add(pictureBox1);
             Controls.Add(panel2);
             Controls.Add(btnPassworkChange);
             Controls.Add(btnPasswordManage);
@@ -192,6 +209,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmMain";
             Resize += FrmMain_Resize;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -208,5 +226,6 @@
         private Button btnPasswordManage;
         private Button btnPassworkChange;
         private Panel panel2;
+        private PictureBox pictureBox1;
     }
 }

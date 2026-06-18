@@ -115,17 +115,41 @@ namespace DigiERP
 
         private void panel2_MouseLeave(object sender, EventArgs e)
         {
-            panel1_MouseLeave(null, null);
+            panel2.Cursor = Cursors.Default;
+            //panel1_MouseLeave(null, null);
         }
 
         private void panel2_MouseMove(object sender, MouseEventArgs e)
         {
-            panel1_MouseMove(null, null);
+            //panel2.Cursor = Cursors.Default;
+            //panel1_MouseMove(null, null);
         }
 
         private void panel2_Click(object sender, EventArgs e)
         {
+            FrmSupplier frmSupplier = new FrmSupplier();
+            frmSupplier.ShowDialog(this);
+        }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void pictureBox1_MouseEnter(object sender, EventArgs e)
+        {
+            pictureBox1.Cursor = Cursors.Hand;
+            //panel1_MouseMove(null, null);
+        }
+
+        private void pictureBox1_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox1.Cursor = Cursors.Default;
+            //panel1_MouseLeave(null, null);
+        }
+
+        private void panel2_MouseEnter(object sender, EventArgs e)
+        {
+            panel2.Cursor = Cursors.Hand;
         }
     }
 }

@@ -5,6 +5,7 @@ using MES.Core.Repository;
 using MES.Core.Repository.Impl;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace MES.MiddleWare.Modules
                 Lst = customerRepository.GetList(null, "", "").OrderBy(x=>x.正航編號).ToList();
                 if (!string.IsNullOrEmpty(cond))
                 {
-                    Lst = Lst.Where(x => x.COMPANY.ToUpper().IndexOf(cond.ToUpper()) != -1).ToList();
+                    Lst = Lst.Where(x => x.COMPANY.ToUpper().IndexOf(cond.ToUpper()) != -1 || x.正航編號 == cond).ToList();
                 }
                 foreach(var cust in  Lst)
                 {
@@ -2415,6 +2416,53 @@ namespace MES.MiddleWare.Modules
                 throw;
             }
             return list;
+        }
+
+        public List<string> GetRcvAccountSource(string custId)
+        {
+            List<string> list = new List<string>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@" SELECT DISTINCT dbo_F帳款管理.帳款來源
+                                          FROM F帳款管理 dbo_F帳款管理 
+                                         WHERE 1=1 
+                                           AND dbo_F帳款管理.收付別='應收'
+                                           AND dbo_F帳款管理.對象='{custId}'
+                                           AND dbo_F帳款管理.結案!=1";
+                    list = conn.Query<string>(strSQL).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        public List<string> getWriteOffCode(string? accountSource)
+        {
+            List<string> writeOffCode = new List<string>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    writeOffCode = conn.Query<string>($@"SELECT DISTINCT dbo_F帳款管理.沖帳碼
+                                                                FROM F帳款管理 dbo_F帳款管理 
+                                                               WHERE dbo_F帳款管理.帳款來源 = '{accountSource}'; ").ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return writeOffCode;
+            //throw new NotImplementedException();
         }
     }
     public class QueryCustListByConditionReq

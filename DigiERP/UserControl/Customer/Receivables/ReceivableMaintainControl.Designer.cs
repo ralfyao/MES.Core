@@ -68,6 +68,35 @@
             txt收款單號 = new DigiERP.Common.CommonTextBox();
             label15 = new Label();
             btn單筆收款 = new Button();
+            label16 = new Label();
+            chk結案 = new CheckBox();
+            txt備註 = new DigiERP.Common.CommonTextBox();
+            label17 = new Label();
+            txtTotalAmount = new DigiERP.Common.CommonTextBox();
+            label18 = new Label();
+            dataGridView1 = new DataGridView();
+            AccountSource = new DataGridViewComboBoxColumn();
+            WriteOffCode = new DataGridViewComboBoxColumn();
+            OriCurrencyAmount = new DataGridViewTextBoxColumn();
+            NTDAmount = new DataGridViewTextBoxColumn();
+            Description = new DataGridViewTextBoxColumn();
+            ProjectNo = new DataGridViewTextBoxColumn();
+            label19 = new Label();
+            label20 = new Label();
+            lbl原幣收帳金額 = new Label();
+            lbl台幣換算金額 = new Label();
+            lbl財務覆核 = new Label();
+            label23 = new Label();
+            lbl財務覆核日 = new Label();
+            lbl修改日期 = new Label();
+            lbl修改人員 = new Label();
+            label25 = new Label();
+            lbl建立日期 = new Label();
+            lbl建立人員 = new Label();
+            label26 = new Label();
+            btnModify = new Button();
+            btn送出 = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // lblMode
@@ -98,7 +127,7 @@
             // 
             btnReceive.BackColor = Color.ForestGreen;
             btnReceive.ForeColor = SystemColors.ButtonHighlight;
-            btnReceive.Location = new Point(144, 4);
+            btnReceive.Location = new Point(552, 4);
             btnReceive.Name = "btnReceive";
             btnReceive.Size = new Size(80, 24);
             btnReceive.TabIndex = 162;
@@ -109,7 +138,7 @@
             // 
             btnSubpoena.BackColor = SystemColors.ControlDark;
             btnSubpoena.ForeColor = SystemColors.ButtonHighlight;
-            btnSubpoena.Location = new Point(232, 4);
+            btnSubpoena.Location = new Point(640, 4);
             btnSubpoena.Name = "btnSubpoena";
             btnSubpoena.Size = new Size(80, 24);
             btnSubpoena.TabIndex = 163;
@@ -120,7 +149,7 @@
             // 
             btnImportDetail.BackColor = Color.DodgerBlue;
             btnImportDetail.ForeColor = SystemColors.ButtonHighlight;
-            btnImportDetail.Location = new Point(404, 4);
+            btnImportDetail.Location = new Point(732, 4);
             btnImportDetail.Name = "btnImportDetail";
             btnImportDetail.Size = new Size(104, 24);
             btnImportDetail.TabIndex = 164;
@@ -131,18 +160,19 @@
             // 
             btnDelete.BackColor = Color.Red;
             btnDelete.ForeColor = SystemColors.ButtonHighlight;
-            btnDelete.Location = new Point(516, 4);
+            btnDelete.Location = new Point(844, 4);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(80, 24);
             btnDelete.TabIndex = 165;
             btnDelete.Text = "刪除紀錄";
             btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnActivate
             // 
             btnActivate.BackColor = SystemColors.ControlDark;
             btnActivate.ForeColor = SystemColors.ButtonHighlight;
-            btnActivate.Location = new Point(604, 4);
+            btnActivate.Location = new Point(932, 4);
             btnActivate.Name = "btnActivate";
             btnActivate.Size = new Size(80, 24);
             btnActivate.TabIndex = 166;
@@ -153,7 +183,7 @@
             // 
             btnCancelActivate.BackColor = SystemColors.ControlDark;
             btnCancelActivate.ForeColor = SystemColors.ButtonHighlight;
-            btnCancelActivate.Location = new Point(692, 4);
+            btnCancelActivate.Location = new Point(1020, 4);
             btnCancelActivate.Name = "btnCancelActivate";
             btnCancelActivate.Size = new Size(80, 24);
             btnCancelActivate.TabIndex = 167;
@@ -164,7 +194,7 @@
             // 
             btnPrint.BackColor = SystemColors.ControlDark;
             btnPrint.ForeColor = SystemColors.ButtonHighlight;
-            btnPrint.Location = new Point(780, 4);
+            btnPrint.Location = new Point(1108, 4);
             btnPrint.Name = "btnPrint";
             btnPrint.Size = new Size(80, 24);
             btnPrint.TabIndex = 168;
@@ -181,6 +211,7 @@
             btnClose.TabIndex = 169;
             btnClose.Text = "X";
             btnClose.UseVisualStyleBackColor = false;
+            btnClose.Click += btnClose_Click;
             // 
             // label2
             // 
@@ -195,6 +226,7 @@
             // dt收款日
             // 
             dt收款日.CalendarFont = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            dt收款日.Enabled = false;
             dt收款日.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             dt收款日.Location = new Point(64, 40);
             dt收款日.Name = "dt收款日";
@@ -216,6 +248,7 @@
             txt單號.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             txt單號.Location = new Point(304, 40);
             txt單號.Name = "txt單號";
+            txt單號.ReadOnly = true;
             txt單號.Size = new Size(168, 32);
             txt單號.TabIndex = 173;
             // 
@@ -283,6 +316,8 @@
             txt未稅金額.Name = "txt未稅金額";
             txt未稅金額.Size = new Size(132, 32);
             txt未稅金額.TabIndex = 181;
+            txt未稅金額.Text = "0";
+            txt未稅金額.Leave += txt未稅金額_Leave;
             // 
             // label7
             // 
@@ -309,6 +344,7 @@
             txt客戶編號.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             txt客戶編號.Location = new Point(104, 80);
             txt客戶編號.Name = "txt客戶編號";
+            txt客戶編號.ReadOnly = true;
             txt客戶編號.Size = new Size(132, 32);
             txt客戶編號.TabIndex = 183;
             // 
@@ -320,12 +356,14 @@
             btnCustSearch.Size = new Size(52, 36);
             btnCustSearch.TabIndex = 184;
             btnCustSearch.UseVisualStyleBackColor = true;
+            btnCustSearch.Click += btnCustSearch_Click;
             // 
             // txt客戶名稱
             // 
             txt客戶名稱.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             txt客戶名稱.Location = new Point(404, 80);
             txt客戶名稱.Name = "txt客戶名稱";
+            txt客戶名稱.ReadOnly = true;
             txt客戶名稱.Size = new Size(492, 32);
             txt客戶名稱.TabIndex = 186;
             // 
@@ -364,12 +402,14 @@
             txt收票金額.Name = "txt收票金額";
             txt收票金額.Size = new Size(136, 32);
             txt收票金額.TabIndex = 190;
+            txt收票金額.Text = "0";
+            txt收票金額.Leave += txt收票金額_Leave;
             // 
             // label11
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label11.Location = new Point(1192, 86);
+            label11.Location = new Point(1196, 84);
             label11.Name = "label11";
             label11.Size = new Size(48, 24);
             label11.TabIndex = 189;
@@ -412,14 +452,17 @@
             cbo幣別.Name = "cbo幣別";
             cbo幣別.Size = new Size(96, 32);
             cbo幣別.TabIndex = 194;
+            cbo幣別.SelectedIndexChanged += cbo幣別_SelectedIndexChanged;
             // 
             // txt匯率
             // 
             txt匯率.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             txt匯率.Location = new Point(468, 124);
             txt匯率.Name = "txt匯率";
+            txt匯率.ReadOnly = true;
             txt匯率.Size = new Size(96, 32);
             txt匯率.TabIndex = 196;
+            txt匯率.Text = "1";
             // 
             // label14
             // 
@@ -451,7 +494,7 @@
             // 
             // btn單筆收款
             // 
-            btn單筆收款.BackColor = SystemColors.ControlDark;
+            btn單筆收款.BackColor = Color.DarkOrange;
             btn單筆收款.ForeColor = SystemColors.ButtonHighlight;
             btn單筆收款.Location = new Point(816, 128);
             btn單筆收款.Name = "btn單筆收款";
@@ -460,10 +503,289 @@
             btn單筆收款.Text = "單筆收款";
             btn單筆收款.UseVisualStyleBackColor = false;
             // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label16.Location = new Point(912, 128);
+            label16.Name = "label16";
+            label16.Size = new Size(48, 24);
+            label16.TabIndex = 200;
+            label16.Text = "結案";
+            // 
+            // chk結案
+            // 
+            chk結案.AutoSize = true;
+            chk結案.Location = new Point(976, 132);
+            chk結案.Name = "chk結案";
+            chk結案.Size = new Size(15, 14);
+            chk結案.TabIndex = 201;
+            chk結案.UseVisualStyleBackColor = true;
+            // 
+            // txt備註
+            // 
+            txt備註.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            txt備註.Location = new Point(1052, 124);
+            txt備註.Name = "txt備註";
+            txt備註.Size = new Size(140, 32);
+            txt備註.TabIndex = 203;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label17.Location = new Point(1000, 128);
+            label17.Name = "label17";
+            label17.Size = new Size(48, 24);
+            label17.TabIndex = 202;
+            label17.Text = "帳期";
+            // 
+            // txtTotalAmount
+            // 
+            txtTotalAmount.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            txtTotalAmount.Location = new Point(1280, 124);
+            txtTotalAmount.Name = "txtTotalAmount";
+            txtTotalAmount.ReadOnly = true;
+            txtTotalAmount.Size = new Size(136, 32);
+            txtTotalAmount.TabIndex = 205;
+            txtTotalAmount.Text = "0";
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label18.Location = new Point(1196, 128);
+            label18.Name = "label18";
+            label18.Size = new Size(48, 24);
+            label18.TabIndex = 204;
+            label18.Text = "總額";
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { AccountSource, WriteOffCode, OriCurrencyAmount, NTDAmount, Description, ProjectNo });
+            dataGridView1.Location = new Point(16, 168);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.Size = new Size(1396, 480);
+            dataGridView1.TabIndex = 206;
+            dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
+            dataGridView1.DataError += dataGridView1_DataError;
+            // 
+            // AccountSource
+            // 
+            AccountSource.HeaderText = "帳款來源";
+            AccountSource.Name = "AccountSource";
+            // 
+            // WriteOffCode
+            // 
+            WriteOffCode.HeaderText = "沖銷碼";
+            WriteOffCode.Name = "WriteOffCode";
+            // 
+            // OriCurrencyAmount
+            // 
+            OriCurrencyAmount.HeaderText = "原幣金額";
+            OriCurrencyAmount.Name = "OriCurrencyAmount";
+            // 
+            // NTDAmount
+            // 
+            NTDAmount.HeaderText = "台幣換算金額";
+            NTDAmount.Name = "NTDAmount";
+            NTDAmount.ReadOnly = true;
+            // 
+            // Description
+            // 
+            Description.HeaderText = "說明";
+            Description.Name = "Description";
+            // 
+            // ProjectNo
+            // 
+            ProjectNo.HeaderText = "專案序號";
+            ProjectNo.Name = "ProjectNo";
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label19.Location = new Point(12, 664);
+            label19.Name = "label19";
+            label19.Size = new Size(124, 24);
+            label19.TabIndex = 207;
+            label19.Text = "原幣收帳金額";
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label20.Location = new Point(12, 700);
+            label20.Name = "label20";
+            label20.Size = new Size(124, 24);
+            label20.TabIndex = 208;
+            label20.Text = "台幣換算金額";
+            // 
+            // lbl原幣收帳金額
+            // 
+            lbl原幣收帳金額.AutoSize = true;
+            lbl原幣收帳金額.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lbl原幣收帳金額.Location = new Point(172, 664);
+            lbl原幣收帳金額.Name = "lbl原幣收帳金額";
+            lbl原幣收帳金額.Size = new Size(146, 24);
+            lbl原幣收帳金額.TabIndex = 209;
+            lbl原幣收帳金額.Text = "lbl原幣收帳金額";
+            // 
+            // lbl台幣換算金額
+            // 
+            lbl台幣換算金額.AutoSize = true;
+            lbl台幣換算金額.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lbl台幣換算金額.Location = new Point(172, 700);
+            lbl台幣換算金額.Name = "lbl台幣換算金額";
+            lbl台幣換算金額.Size = new Size(146, 24);
+            lbl台幣換算金額.TabIndex = 210;
+            lbl台幣換算金額.Text = "lbl台幣換算金額";
+            // 
+            // lbl財務覆核
+            // 
+            lbl財務覆核.AutoSize = true;
+            lbl財務覆核.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lbl財務覆核.Location = new Point(108, 820);
+            lbl財務覆核.Name = "lbl財務覆核";
+            lbl財務覆核.Size = new Size(108, 24);
+            lbl財務覆核.TabIndex = 212;
+            lbl財務覆核.Text = "lbl財務覆核";
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label23.Location = new Point(8, 820);
+            label23.Name = "label23";
+            label23.Size = new Size(86, 24);
+            label23.TabIndex = 211;
+            label23.Text = "財務覆核";
+            // 
+            // lbl財務覆核日
+            // 
+            lbl財務覆核日.AutoSize = true;
+            lbl財務覆核日.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lbl財務覆核日.Location = new Point(228, 820);
+            lbl財務覆核日.Name = "lbl財務覆核日";
+            lbl財務覆核日.Size = new Size(127, 24);
+            lbl財務覆核日.TabIndex = 213;
+            lbl財務覆核日.Text = "lbl財務覆核日";
+            // 
+            // lbl修改日期
+            // 
+            lbl修改日期.AutoSize = true;
+            lbl修改日期.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lbl修改日期.Location = new Point(768, 820);
+            lbl修改日期.Name = "lbl修改日期";
+            lbl修改日期.Size = new Size(108, 24);
+            lbl修改日期.TabIndex = 216;
+            lbl修改日期.Text = "lbl修改日期";
+            // 
+            // lbl修改人員
+            // 
+            lbl修改人員.AutoSize = true;
+            lbl修改人員.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lbl修改人員.Location = new Point(648, 820);
+            lbl修改人員.Name = "lbl修改人員";
+            lbl修改人員.Size = new Size(108, 24);
+            lbl修改人員.TabIndex = 215;
+            lbl修改人員.Text = "lbl修改人員";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label25.Location = new Point(548, 820);
+            label25.Name = "label25";
+            label25.Size = new Size(86, 24);
+            label25.TabIndex = 214;
+            label25.Text = "修改人員";
+            // 
+            // lbl建立日期
+            // 
+            lbl建立日期.AutoSize = true;
+            lbl建立日期.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lbl建立日期.Location = new Point(1296, 820);
+            lbl建立日期.Name = "lbl建立日期";
+            lbl建立日期.Size = new Size(108, 24);
+            lbl建立日期.TabIndex = 219;
+            lbl建立日期.Text = "lbl建立日期";
+            // 
+            // lbl建立人員
+            // 
+            lbl建立人員.AutoSize = true;
+            lbl建立人員.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            lbl建立人員.Location = new Point(1176, 820);
+            lbl建立人員.Name = "lbl建立人員";
+            lbl建立人員.Size = new Size(108, 24);
+            lbl建立人員.TabIndex = 218;
+            lbl建立人員.Text = "lbl建立人員";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label26.Location = new Point(1076, 820);
+            label26.Name = "label26";
+            label26.Size = new Size(86, 24);
+            label26.TabIndex = 217;
+            label26.Text = "建立人員";
+            // 
+            // btnModify
+            // 
+            btnModify.BackColor = Color.Red;
+            btnModify.ForeColor = SystemColors.ButtonHighlight;
+            btnModify.Location = new Point(136, 5);
+            btnModify.Name = "btnModify";
+            btnModify.Size = new Size(80, 24);
+            btnModify.TabIndex = 220;
+            btnModify.Text = "修改";
+            btnModify.UseVisualStyleBackColor = false;
+            btnModify.Click += btnModify_Click;
+            // 
+            // btn送出
+            // 
+            btn送出.BackColor = Color.Goldenrod;
+            btn送出.ForeColor = SystemColors.ButtonHighlight;
+            btn送出.Location = new Point(1300, 8);
+            btn送出.Name = "btn送出";
+            btn送出.Size = new Size(80, 24);
+            btn送出.TabIndex = 221;
+            btn送出.Text = "送出";
+            btn送出.UseVisualStyleBackColor = false;
+            btn送出.Click += btn送出_Click;
+            // 
             // ReceivableMaintainControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(btn送出);
+            Controls.Add(btnModify);
+            Controls.Add(lbl建立日期);
+            Controls.Add(lbl建立人員);
+            Controls.Add(label26);
+            Controls.Add(lbl修改日期);
+            Controls.Add(lbl修改人員);
+            Controls.Add(label25);
+            Controls.Add(lbl財務覆核日);
+            Controls.Add(lbl財務覆核);
+            Controls.Add(label23);
+            Controls.Add(lbl台幣換算金額);
+            Controls.Add(lbl原幣收帳金額);
+            Controls.Add(label20);
+            Controls.Add(label19);
+            Controls.Add(dataGridView1);
+            Controls.Add(txtTotalAmount);
+            Controls.Add(label18);
+            Controls.Add(txt備註);
+            Controls.Add(label17);
+            Controls.Add(chk結案);
+            Controls.Add(label16);
             Controls.Add(btn單筆收款);
             Controls.Add(txt收款單號);
             Controls.Add(label15);
@@ -506,6 +828,7 @@
             Controls.Add(label1);
             Name = "ReceivableMaintainControl";
             Size = new Size(1432, 868);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -552,5 +875,33 @@
         private DigiERP.Common.CommonTextBox txt收款單號;
         private Label label15;
         private Button btn單筆收款;
+        private Label label16;
+        private CheckBox chk結案;
+        private DigiERP.Common.CommonTextBox txt備註;
+        private Label label17;
+        private DigiERP.Common.CommonTextBox txtTotalAmount;
+        private Label label18;
+        private DataGridView dataGridView1;
+        private Label label19;
+        private Label label20;
+        private Label lbl原幣收帳金額;
+        private Label lbl台幣換算金額;
+        private Label lbl財務覆核;
+        private Label label23;
+        private Label lbl財務覆核日;
+        private Label lbl修改日期;
+        private Label lbl修改人員;
+        private Label label25;
+        private Label lbl建立日期;
+        private Label lbl建立人員;
+        private Label label26;
+        private Button btnModify;
+        private Button btn送出;
+        private DataGridViewComboBoxColumn AccountSource;
+        private DataGridViewComboBoxColumn WriteOffCode;
+        private DataGridViewTextBoxColumn OriCurrencyAmount;
+        private DataGridViewTextBoxColumn NTDAmount;
+        private DataGridViewTextBoxColumn Description;
+        private DataGridViewTextBoxColumn ProjectNo;
     }
 }

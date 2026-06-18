@@ -53,7 +53,7 @@ namespace DigiERP
             TreeNode treeNode6 = new TreeNode("訂單維護");
             TreeNode treeNode7 = new TreeNode("出貨單據");
             TreeNode treeNode8 = new TreeNode("應收立帳");
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCust));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSupplier));
             sidebar = new Panel();
             splitContainer = new SplitContainer();
             treeView = new System.Windows.Forms.TreeView();

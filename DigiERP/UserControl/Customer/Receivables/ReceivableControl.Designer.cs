@@ -30,8 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReceivableControl));
             panel1 = new Panel();
-            button2 = new Button();
-            button1 = new Button();
+            btnAdd = new Button();
             btnClosed = new Button();
             btnUnClosed = new Button();
             label1 = new Label();
@@ -61,8 +60,7 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(button1);
+            panel1.Controls.Add(btnAdd);
             panel1.Controls.Add(btnClosed);
             panel1.Controls.Add(btnUnClosed);
             panel1.Controls.Add(label1);
@@ -73,29 +71,18 @@
             panel1.Size = new Size(1355, 100);
             panel1.TabIndex = 0;
             // 
-            // button2
+            // btnAdd
             // 
-            button2.BackColor = Color.Gray;
-            button2.Font = new Font("Microsoft JhengHei UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button2.ForeColor = SystemColors.Control;
-            button2.Location = new Point(940, 32);
-            button2.Name = "button2";
-            button2.Size = new Size(128, 36);
-            button2.TabIndex = 5;
-            button2.Text = "關閉";
-            button2.UseVisualStyleBackColor = false;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.Gray;
-            button1.Font = new Font("Microsoft JhengHei UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button1.ForeColor = SystemColors.Control;
-            button1.Location = new Point(796, 32);
-            button1.Name = "button1";
-            button1.Size = new Size(128, 36);
-            button1.TabIndex = 4;
-            button1.Text = "新增";
-            button1.UseVisualStyleBackColor = false;
+            btnAdd.BackColor = Color.Gray;
+            btnAdd.Font = new Font("Microsoft JhengHei UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            btnAdd.ForeColor = SystemColors.Control;
+            btnAdd.Location = new Point(796, 32);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(128, 36);
+            btnAdd.TabIndex = 4;
+            btnAdd.Text = "新增";
+            btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnClosed
             // 
@@ -108,6 +95,7 @@
             btnClosed.TabIndex = 3;
             btnClosed.Text = "已結案";
             btnClosed.UseVisualStyleBackColor = false;
+            btnClosed.Click += btnClosed_Click;
             // 
             // btnUnClosed
             // 
@@ -283,8 +271,7 @@
         private Label label1;
         private Button btnUnClosed;
         private Button btnClosed;
-        private Button button2;
-        private Button button1;
+        private Button btnAdd;
         private DataGridViewTextBoxColumn OrderNo;
         private DataGridViewTextBoxColumn Date;
         private DataGridViewTextBoxColumn CustNo;

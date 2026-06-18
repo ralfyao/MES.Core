@@ -1,7 +1,9 @@
 ﻿using DigiERP.Common;
+using DigiERP.UserControl.Customer.Quotation;
 using DigiERP.UserControl.Customer.SalesOrder;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
+using MES.WebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,9 +29,12 @@ namespace DigiERP.UserControl.Customer.Receivables
                 Dispose();
             }
             InitializeComponent();
+            //initContros();
             //initController();
             //initGrid();
         }
+
+      
 
         private void initGrid(List<F收款> list = null)
         {
@@ -134,7 +139,45 @@ namespace DigiERP.UserControl.Customer.Receivables
 
         private void btnUnClosed_Click(object sender, EventArgs e)
         {
-            var arListClosed = arList.Where(x=>x.結案 == true).ToList();
+            var arListClosed = arList.Where(x => x.結案 == false).ToList();
+            initGrid(arListClosed);
+        }
+        F收款 form;
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            var customerMaintainControl = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(QuotationMaintain) select c).FirstOrDefault();
+            var dataGridView = (from c in panel2.Controls.Cast<Control>() where c.GetType() == typeof(DataGridView) select c).FirstOrDefault();
+            //if (customerMaintainControl == null)
+            //{
+            if (form != null)
+            {
+                customerMaintainControl = new ReceivableMaintainControl(form);
+                //((QuotationMaintain)customerMaintainControl).form = form;
+            }
+            else
+            {
+                customerMaintainControl = new ReceivableMaintainControl();
+            }
+            customerMaintainControl.Dock = DockStyle.Fill;
+            panel2.Controls.Add(customerMaintainControl);
+            //}
+            var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
+            if (lblMode != null)
+            {
+                lblMode.Text = "新增";
+            }
+            ((ReceivableMaintainControl)customerMaintainControl).form = new F收款();
+            ((ReceivableMaintainControl)customerMaintainControl).initForm();
+            customerMaintainControl.Visible = true;
+            if (dataGridView != null)
+            {
+                dataGridView.Visible = false;
+            }
+        }
+
+        private void btnClosed_Click(object sender, EventArgs e)
+        {
+            var arListClosed = arList.Where(x => x.結案 == true).ToList();
             initGrid(arListClosed);
         }
     }

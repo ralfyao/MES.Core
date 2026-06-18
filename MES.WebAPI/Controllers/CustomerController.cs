@@ -2127,6 +2127,39 @@ namespace MES.WebAPI.Controllers
             }
             return common;
         }
+        [Route("api/GetAccountSource"), HttpGet]
+        public CommonRep<string> GetAccountSource(string custId)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.GetRcvAccountSource(custId);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetWriteOffCode"), HttpGet]
+        public CommonRep<string> GetWriteOffCode(string? accountSource)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getWriteOffCode(accountSource);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+            //throw new NotImplementedException();
+        }
         #endregion
     }
 
