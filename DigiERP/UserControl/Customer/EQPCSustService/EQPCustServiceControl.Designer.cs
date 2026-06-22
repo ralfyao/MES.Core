@@ -30,11 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EQPCustServiceControl));
             panel1 = new Panel();
-            panel2 = new Panel();
-            pictureBox1 = new PictureBox();
-            label1 = new Label();
-            dataGridView1 = new DataGridView();
             btnAdd = new Button();
+            label1 = new Label();
+            pictureBox1 = new PictureBox();
+            panel2 = new Panel();
+            dataGridView1 = new DataGridView();
             OrderNo = new DataGridViewTextBoxColumn();
             Date = new DataGridViewTextBoxColumn();
             CustNo = new DataGridViewTextBoxColumn();
@@ -43,8 +43,8 @@
             EQPNo = new DataGridViewTextBoxColumn();
             Events = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
-            panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -60,14 +60,25 @@
             panel1.Size = new Size(1451, 100);
             panel1.TabIndex = 0;
             // 
-            // panel2
+            // btnAdd
             // 
-            panel2.Controls.Add(dataGridView1);
-            panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 100);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1451, 655);
-            panel2.TabIndex = 1;
+            btnAdd.Location = new Point(1072, 28);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(160, 52);
+            btnAdd.TabIndex = 2;
+            btnAdd.Text = "ADD";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft JhengHei UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label1.Location = new Point(124, 28);
+            label1.Name = "label1";
+            label1.Size = new Size(133, 37);
+            label1.TabIndex = 1;
+            label1.Text = "機台客服";
             // 
             // pictureBox1
             // 
@@ -79,15 +90,14 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // label1
+            // panel2
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft JhengHei UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label1.Location = new Point(124, 28);
-            label1.Name = "label1";
-            label1.Size = new Size(133, 37);
-            label1.TabIndex = 1;
-            label1.Text = "機台客服";
+            panel2.Controls.Add(dataGridView1);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 100);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1451, 655);
+            panel2.TabIndex = 1;
             // 
             // dataGridView1
             // 
@@ -102,15 +112,7 @@
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(1451, 655);
             dataGridView1.TabIndex = 0;
-            // 
-            // btnAdd
-            // 
-            btnAdd.Location = new Point(1072, 28);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(160, 52);
-            btnAdd.TabIndex = 2;
-            btnAdd.Text = "ADD";
-            btnAdd.UseVisualStyleBackColor = true;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // OrderNo
             // 
@@ -165,8 +167,8 @@
             Size = new Size(1451, 755);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }

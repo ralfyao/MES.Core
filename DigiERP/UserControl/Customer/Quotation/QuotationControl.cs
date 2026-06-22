@@ -136,12 +136,6 @@ namespace DigiERP.UserControl.Customer.Quotation
             dataGridView1.Cursor = Cursors.Default;
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            queryDetail = true;
-            dataGridView1_CellContentClick(sender, e);
-            queryDetail = false;
-        }
 
         private void dataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {

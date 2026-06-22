@@ -2310,11 +2310,6 @@ namespace MES.MiddleWare.Modules
                                       LEFT OUTER JOIN C訂單 a1 ON a.單號=a1.單號
                                       LEFT OUTER JOIN C出貨單明細 b ON a.單號 = b.ORDNO  AND a.產品編號=b.產品編號 AND a.品名規格=b.品名規格
                                      WHERE _a.客戶編號 = '{custNo}'";
-                        //$@"SELECT a.*, CONVERT(VARCHAR, a1.日期, 120) 日期, a1.建檔, ISNULL(b.數量2,0) 出貨數量
-                        //              FROM C訂單明細 a
-                        //              LEFT OUTER JOIN C訂單 a1 ON a.單號=a1.單號
-                        //              LEFT OUTER JOIN C出貨單明細 b ON a.單號 = b.ORDNO 
-                        //             WHERE b.ORDNO='{salesOrderId}'";
                     list = conn.Query<C訂單明細>(sql).ToList();
                 }
             }
@@ -2326,7 +2321,7 @@ namespace MES.MiddleWare.Modules
             return list;
         }
 
-        public List<C機台客服> getEqpCustServiceList(string custNo)
+        public List<C機台客服> getEqpCustServiceList(string custNo, string 單號)
         {
             List<C機台客服> eqpServiceList = new List<C機台客服>();
             try
@@ -2335,6 +2330,10 @@ namespace MES.MiddleWare.Modules
                 if (!string.IsNullOrEmpty(custNo))
                 {
                     strSQL += $@" AND 客戶簡稱='{custNo}'";
+                }
+                if (!string.IsNullOrEmpty(單號))
+                {
+                    strSQL += $@" AND 單號='{單號}'";
                 }
                 using(var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
@@ -2458,10 +2457,54 @@ namespace MES.MiddleWare.Modules
             }
             catch (Exception)
             {
-
                 throw;
             }
             return writeOffCode;
+            //throw new NotImplementedException();
+        }
+
+        public List<C客戶連絡人清單> getCustContactById(string? custId)
+        {
+            List<C客戶連絡人清單> list = new List<C客戶連絡人清單>();
+            try
+            {
+                string strSQL = $@" SELECT dbo_CONTACT.姓名, dbo_CONTACT.職稱, dbo_CUST.正航編號 
+                                      FROM C客戶設定 dbo_CUST 
+                                     INNER JOIN dbo.C客戶連絡人清單 dbo_CONTACT ON dbo_CUST.COMPANY = dbo_CONTACT.COMPANY 
+                                     WHERE dbo_CUST.正航編號='{custId}' ";
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<C客戶連絡人清單>(strSQL).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return list;
+        }
+
+        public string getEqpCustServiceNo()
+        {
+            int maxSerial = 0;
+            try
+            {
+                string strSQL = $@" SELECT *
+                                      FROM C機台客服 
+                                     WHERE 單號 LIKE 'MS{DateTime.Now.ToString("yyyyMM")}' ";
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    maxSerial = conn.Query<C機台客服>(strSQL).ToList().Count();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return $"MS{DateTime.Now.ToString("yyyyMM")}{(++maxSerial).ToString("00")}"; ;
             //throw new NotImplementedException();
         }
     }

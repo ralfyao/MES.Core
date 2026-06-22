@@ -30,6 +30,7 @@ namespace DigiERP.UserControl.Customer.SalesOrder
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrderMaintainControl));
             chkClosed = new CommonCheckBox();
             lblMode = new Label();
             label1 = new Label();

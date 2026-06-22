@@ -81,6 +81,92 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetWorkOrdersByCustId"), HttpGet]
+        public CommonRep<工令單> GetWorkOrdersByCustId(string custId)
+        {
+            CommonRep<工令單> commonRep = new CommonRep<工令單>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try
+            {
+                commonRep.resultList = productionMiddle.getWorkOrdersByCustId(custId);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(commonRep.ErrorMessage);
+            }
+            return commonRep;
+            //throw new NotImplementedException();
+        }
+        [Route("api/GetProjectShippingOrder"), HttpGet]
+        public CommonRep<專案機台交貨單> GetProjectShippingOrder(string projectSerial)
+        {
+            CommonRep<專案機台交貨單> commonRep = new CommonRep<專案機台交貨單>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try
+            {
+                commonRep.resultList = productionMiddle.getProjectShippingOrderBySerial(projectSerial);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(commonRep.ErrorMessage);
+            }
+            return commonRep;
+        }
+        [Route("api/GetKeyword"), HttpGet]
+        public CommonRep<string> GetKeyword(string kyType)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try
+            {
+                commonRep.resultList = productionMiddle.getKeyword(kyType);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(commonRep.ErrorMessage);
+            }
+            return commonRep;
+        }
+        [Route("api/GetKeywordDetail"), HttpGet]
+        public CommonRep<string> GetKeywordDetail(string kyType)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try
+            {
+                commonRep.resultList = productionMiddle.getKeywordDetail(kyType);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(commonRep.ErrorMessage);
+            }
+            return commonRep;
+        }
+        [Route("api/GetKeywordDetailByCategory"), HttpGet]
+        public CommonRep<string> GetKeywordDetailByCategory(string category)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try
+            {
+                commonRep.resultList = productionMiddle.getKeywordDetailByCategory(category);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(commonRep.ErrorMessage);
+            }
+            return commonRep;
+        }
         #endregion
     }
 }

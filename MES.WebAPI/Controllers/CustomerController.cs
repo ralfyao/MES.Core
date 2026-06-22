@@ -2078,13 +2078,13 @@ namespace MES.WebAPI.Controllers
         #endregion
         #region 機台客服
         [Route("api/GetEqpCustServiceList"), HttpGet]
-        public CommonRep<C機台客服> GetEqpCustServiceList(string? custNo = "")
+        public CommonRep<C機台客服> GetEqpCustServiceList(string? custNo = "", string 單號 = "")
         {
             CommonRep<C機台客服> commonRep = new CommonRep<C機台客服>();
             CustomerMiddle customerMiddle = new CustomerMiddle();
             try
             {
-                commonRep.resultList = customerMiddle.getEqpCustServiceList(custNo);
+                commonRep.resultList = customerMiddle.getEqpCustServiceList(custNo, 單號);
             }
             catch (Exception ex)
             {
@@ -2159,6 +2159,38 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
             //throw new NotImplementedException();
+        }
+        [Route("api/GetCustContactList"), HttpGet]
+        public CommonRep<C客戶連絡人清單> GetCustContactList(string? custId)
+        {
+            CommonRep<C客戶連絡人清單> commonRep = new CommonRep<C客戶連絡人清單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.getCustContactById(custId);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetEqpCustServiceNo"), HttpGet]
+        public CommonRep<string> GetEqpCustServiceNo()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.getEqpCustServiceNo();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
         }
         #endregion
     }
