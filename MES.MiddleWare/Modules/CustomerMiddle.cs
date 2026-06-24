@@ -2512,7 +2512,7 @@ namespace MES.MiddleWare.Modules
             {
                 string strSQL = $@" SELECT *
                                       FROM C機台客服 
-                                     WHERE 單號 LIKE 'MS{DateTime.Now.ToString("yyyyMM")}' ";
+                                     WHERE 單號 LIKE 'MS{DateTime.Now.ToString("yyyyMM")}%' ";
                 using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();

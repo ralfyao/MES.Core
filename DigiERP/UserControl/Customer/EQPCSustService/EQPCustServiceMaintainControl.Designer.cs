@@ -119,6 +119,7 @@
             cboCustId.Name = "cboCustId";
             cboCustId.Size = new Size(121, 32);
             cboCustId.TabIndex = 232;
+            cboCustId.SelectedIndexChanged += cboCustId_SelectedIndexChanged;
             cboCustId.Enter += cboCustId_Enter;
             cboCustId.Leave += cboCustId_Leave;
             cboCustId.MouseClick += cboCustId_MouseClick;

@@ -195,6 +195,10 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
         private void initCustContact()
         {
             CommonRep<C客戶連絡人清單> commonRep = _customerController.GetCustContactList(form.客戶簡稱);
+            if (!string.IsNullOrEmpty(cboCustId.Text))
+            {
+                commonRep = _customerController.GetCustContactList(cboCustId.Text);
+            }
             if (!string.IsNullOrEmpty(commonRep.ErrorMessage))
             {
                 MessageBox.Show(commonRep.ErrorMessage);
@@ -207,6 +211,10 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
             }
             if (!string.IsNullOrEmpty(form?.專案人員))
             {
+                if (cboCustContact.Items.IndexOf(form?.專案人員) == -1)
+                {
+                    cboCustContact.Items.Add(form?.專案人員);
+                }
                 cboCustContact.Text = form?.專案人員;
             }
             //throw new NotImplementedException();
@@ -376,6 +384,7 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
                 }
             }
             MessageBox.Show(lblMode.Text + "成功!");
+            btnClose_Click(null, null);
         }
 
         private void CollectUserInput()
@@ -463,12 +472,21 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
                         {
                             MessageBox.Show("新增完成");
                         }
+                        var theCustRep = _customerController.getCustomerList(form.客戶簡稱??"");
+                        if (!string.IsNullOrEmpty(theCustRep.ErrorMessage))
+                        {
+                            MessageBox.Show(theCustRep.ErrorMessage);
+                            return;
+                        }
+                        var cust = theCustRep.resultList.FirstOrDefault() ?? new C客戶設定();
                         dataGridView1.Rows[e.RowIndex]
                                             .Cells[e.ColumnIndex]
                                             .Value = quotationFormRep.result.QUONO;
                         QuotationMaintain quotationMaintain = new QuotationMaintain();
                         quotationMaintain.form = quotationFormRep.result;
-                        quotationMaintain.lblMode.Text = "新增";
+                        quotationMaintain.SetCustNo(cust.正航編號??"");
+                        quotationMaintain.SetCustAlias(cust.欄位2??"");
+                        quotationMaintain.lblMode.Text = "修改";
                         quotationMaintain.initForm();
                         quotationMaintain.Dock = DockStyle.Fill;
                         TabPage tabPage = new TabPage();
@@ -518,6 +536,11 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
         private void EQPCustServiceMaintainControl_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void cboCustId_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            initCustContact();
         }
     }
 }

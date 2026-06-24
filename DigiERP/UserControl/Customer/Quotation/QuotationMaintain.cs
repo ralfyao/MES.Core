@@ -168,9 +168,21 @@ namespace DigiERP.UserControl.Customer.Quotation
                 initCustFromRfq(form.RFQNO);
                 dtQUODATE.Value = !string.IsNullOrEmpty(form.QUODATE) ? DateTime.Parse(form.QUODATE) : DateTime.Parse("1900-01-01");
                 txtQUONO.Text = form.QUONO;
-                txtCustNo.Text = _customer?.正航編號;
+                if (!string.IsNullOrEmpty(_customer?.正航編號))
+                    txtCustNo.Text = _customer?.正航編號;
+                else if (!string.IsNullOrEmpty(txtCustNo.Text))
+                {
+                    var _customerRep = _customerController.getCustomerList(txtCustNo.Text);
+                    if (!string.IsNullOrEmpty(_customerRep.ErrorMessage))
+                    {
+                        MessageBox.Show(_customerRep.ErrorMessage);
+                        return;
+                    }
+                    _customer = _customerRep.resultList.FirstOrDefault();
+                }
                 txtRFQNO.Text = form.RFQNO;
-                txtCustAlias.Text = _customer?.欄位2;
+                if (!string.IsNullOrEmpty(_customer?.欄位2))
+                    txtCustAlias.Text = _customer?.欄位2;
                 dtAvailableDate.Value = !string.IsNullOrEmpty(form.CONDATE) ? DateTime.Parse(form.CONDATE) : DateTime.Parse("1900-01-01");
                 txtCompany.Text = string.IsNullOrEmpty(_customer?.COMPANY) ? rfq?.COMPANY : _customer?.COMPANY;
                 // 幣別
