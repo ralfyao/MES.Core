@@ -1,6 +1,7 @@
 ﻿using DigiERP.Common;
 using DigiERP.Forms.Customer;
 using DigiERP.Models;
+using DigiERP.UserControl.Customer.ShippingOrder;
 using DigiERP.Util;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
@@ -101,6 +102,24 @@ namespace DigiERP.UserControl
                     customerMaintainControl = new CustomerMaintainControl();
                     customerMaintainControl.Dock = DockStyle.Fill;
                     panel1.Controls.Add(customerMaintainControl);
+                }
+                else
+                {
+                    int ctrlRemoveIndex = 0;
+                    int index1 = 0;
+                    foreach (var ctrl in panel2.Controls)
+                    {
+                        if (ctrl.GetType().Name.IndexOf("CustomerMaintainControl") != -1)
+                        {
+                            ctrlRemoveIndex = index1;
+                            break;
+                        }
+                        index1++;
+                    }
+                    panel2.Controls.RemoveAt(ctrlRemoveIndex);
+                    customerMaintainControl = new CustomerMaintainControl();
+                    customerMaintainControl.Dock = DockStyle.Fill;
+                    panel2.Controls.Add(customerMaintainControl);
                 }
                 var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
                 if (lblMode != null)

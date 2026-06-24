@@ -1,5 +1,6 @@
 ﻿using DigiERP.Common;
 using DigiERP.Models;
+using DigiERP.UserControl.Customer.EQPCSustService;
 using DigiERP.UserControl.Customer.Quotation;
 using DigiERP.UserControl.Customer.SalesOrder;
 using MES.Core.Model;
@@ -169,6 +170,24 @@ namespace DigiERP.UserControl.SalesOrder
                 var customerMaintainControl = (OrderMaintainControl)(from c in panel1.Controls.Cast<Control>() where c.GetType() == typeof(OrderMaintainControl) select c).FirstOrDefault();
                 if (customerMaintainControl == null)
                 {
+                    customerMaintainControl = new OrderMaintainControl();
+                    customerMaintainControl.Dock = DockStyle.Fill;
+                    panel2.Controls.Add(customerMaintainControl);
+                }
+                else
+                {
+                    int ctrlRemoveIndex = 0;
+                    int index1 = 0;
+                    foreach (var ctrl in panel2.Controls)
+                    {
+                        if (ctrl.GetType().Name.IndexOf("OrderMaintainControl") != -1)
+                        {
+                            ctrlRemoveIndex = index1;
+                            break;
+                        }
+                        index1++;
+                    }
+                    panel2.Controls.RemoveAt(ctrlRemoveIndex);
                     customerMaintainControl = new OrderMaintainControl();
                     customerMaintainControl.Dock = DockStyle.Fill;
                     panel2.Controls.Add(customerMaintainControl);

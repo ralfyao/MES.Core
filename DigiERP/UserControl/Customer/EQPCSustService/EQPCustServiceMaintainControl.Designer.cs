@@ -28,6 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             lblMode = new Label();
             label1 = new Label();
             cboCustId = new DigiERP.Common.CommonComboBox();
@@ -72,6 +80,9 @@
             businessRecord = new DataGridViewTextBoxColumn();
             repairNo = new DataGridViewTextBoxColumn();
             quotation = new DataGridViewTextBoxColumn();
+            btn修改 = new Button();
+            btn送出 = new Button();
+            btn新增機台服務紀錄 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -124,6 +135,7 @@
             // 
             // txtCompany
             // 
+            txtCompany.Enabled = false;
             txtCompany.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             txtCompany.Location = new Point(112, 88);
             txtCompany.Name = "txtCompany";
@@ -211,7 +223,6 @@
             // 
             // cboProjectSerial
             // 
-            cboProjectSerial.DropDownStyle = ComboBoxStyle.DropDownList;
             cboProjectSerial.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             cboProjectSerial.FormattingEnabled = true;
             cboProjectSerial.Location = new Point(844, 88);
@@ -428,6 +439,7 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { date, customerFeedback, questionFeedback, reason, technical, businessRecord, repairNo, quotation });
             dataGridView1.Location = new Point(20, 232);
@@ -435,59 +447,123 @@
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(1484, 472);
             dataGridView1.TabIndex = 270;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             // 
             // date
             // 
+            date.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            date.DefaultCellStyle = dataGridViewCellStyle1;
             date.HeaderText = "日期";
             date.Name = "date";
             date.ReadOnly = true;
             // 
             // customerFeedback
             // 
+            customerFeedback.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            customerFeedback.DefaultCellStyle = dataGridViewCellStyle2;
             customerFeedback.HeaderText = "客戶反映";
             customerFeedback.Name = "customerFeedback";
             customerFeedback.ReadOnly = true;
+            customerFeedback.Width = 111;
             // 
             // questionFeedback
             // 
+            questionFeedback.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            questionFeedback.DefaultCellStyle = dataGridViewCellStyle3;
             questionFeedback.HeaderText = "問題回覆";
             questionFeedback.Name = "questionFeedback";
             questionFeedback.ReadOnly = true;
             // 
             // reason
             // 
+            reason.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            reason.DefaultCellStyle = dataGridViewCellStyle4;
             reason.HeaderText = "原因分析";
             reason.Name = "reason";
             reason.ReadOnly = true;
             // 
             // technical
             // 
+            technical.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            technical.DefaultCellStyle = dataGridViewCellStyle5;
             technical.HeaderText = "技術判定人員";
             technical.Name = "technical";
             technical.ReadOnly = true;
             // 
             // businessRecord
             // 
+            businessRecord.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            businessRecord.DefaultCellStyle = dataGridViewCellStyle6;
             businessRecord.HeaderText = "業務記錄";
             businessRecord.Name = "businessRecord";
             businessRecord.ReadOnly = true;
             // 
             // repairNo
             // 
+            repairNo.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            repairNo.DefaultCellStyle = dataGridViewCellStyle7;
             repairNo.HeaderText = "維修單號";
             repairNo.Name = "repairNo";
             repairNo.ReadOnly = true;
             // 
             // quotation
             // 
+            quotation.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            quotation.DefaultCellStyle = dataGridViewCellStyle8;
             quotation.HeaderText = "報價單號";
             quotation.Name = "quotation";
             quotation.ReadOnly = true;
+            // 
+            // btn修改
+            // 
+            btn修改.BackColor = Color.DarkKhaki;
+            btn修改.ForeColor = SystemColors.ButtonHighlight;
+            btn修改.Location = new Point(160, 4);
+            btn修改.Name = "btn修改";
+            btn修改.Size = new Size(112, 32);
+            btn修改.TabIndex = 271;
+            btn修改.Text = "修改";
+            btn修改.UseVisualStyleBackColor = false;
+            btn修改.Click += btn修改_Click;
+            // 
+            // btn送出
+            // 
+            btn送出.BackColor = Color.Gold;
+            btn送出.Location = new Point(1368, 8);
+            btn送出.Name = "btn送出";
+            btn送出.Size = new Size(92, 36);
+            btn送出.TabIndex = 272;
+            btn送出.Text = "送出";
+            btn送出.UseVisualStyleBackColor = false;
+            btn送出.Click += btn送出_Click;
+            // 
+            // btn新增機台服務紀錄
+            // 
+            btn新增機台服務紀錄.BackColor = SystemColors.ActiveCaption;
+            btn新增機台服務紀錄.ForeColor = SystemColors.ButtonHighlight;
+            btn新增機台服務紀錄.Location = new Point(292, 4);
+            btn新增機台服務紀錄.Name = "btn新增機台服務紀錄";
+            btn新增機台服務紀錄.Size = new Size(212, 32);
+            btn新增機台服務紀錄.TabIndex = 273;
+            btn新增機台服務紀錄.Text = "新增機台服務紀錄";
+            btn新增機台服務紀錄.UseVisualStyleBackColor = false;
+            btn新增機台服務紀錄.Click += btn新增機台服務紀錄_Click;
             // 
             // EQPCustServiceMaintainControl
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.SpringGreen;
+            Controls.Add(btn新增機台服務紀錄);
+            Controls.Add(btn送出);
+            Controls.Add(btn修改);
             Controls.Add(dataGridView1);
             Controls.Add(label17);
             Controls.Add(cbo狀況);
@@ -527,6 +603,7 @@
             Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             Name = "EQPCustServiceMaintainControl";
             Size = new Size(1528, 726);
+            Load += EQPCustServiceMaintainControl_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -570,6 +647,7 @@
         private Label label17;
         private DigiERP.Common.CommonComboBox cbo狀況;
         private DataGridView dataGridView1;
+        private Button btn修改;
         private DataGridViewTextBoxColumn date;
         private DataGridViewTextBoxColumn customerFeedback;
         private DataGridViewTextBoxColumn questionFeedback;
@@ -578,5 +656,7 @@
         private DataGridViewTextBoxColumn businessRecord;
         private DataGridViewTextBoxColumn repairNo;
         private DataGridViewTextBoxColumn quotation;
+        private Button btn送出;
+        private Button btn新增機台服務紀錄;
     }
 }

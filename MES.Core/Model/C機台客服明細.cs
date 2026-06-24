@@ -9,6 +9,10 @@ namespace MES.Core.Model
 {
     public class C機台客服明細
     {
+        public C機台客服明細()
+        {
+
+        }
         [Key]
         public int? 識別碼 { get; set; }
         public string? 單號 { get; set; }

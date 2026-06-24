@@ -999,7 +999,7 @@ namespace DigiERP.UserControl.Customer.Quotation
 
         #endregion
         private PriceCondControl priceCond;
-        private Label lblMode;
+        public Label lblMode;
         private Label label1;
         private Button button1;
         private DigiERP.Common.CommonDateTimePicker dtQUODATE;

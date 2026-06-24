@@ -1,4 +1,5 @@
 ﻿using DigiERP.Common;
+using DigiERP.UserControl.Customer.EQPCSustService;
 using DigiERP.UserControl.Customer.Quotation;
 using DigiERP.UserControl.Customer.SalesOrder;
 using MES.Core.Model;
@@ -118,6 +119,24 @@ namespace DigiERP.UserControl.Customer.Receivables
                 var customerMaintainControl = (ReceivableMaintainControl)(from c in panel1.Controls.Cast<Control>() where c.GetType() == typeof(ReceivableMaintainControl) select c).FirstOrDefault();
                 if (customerMaintainControl == null)
                 {
+                    customerMaintainControl = new ReceivableMaintainControl();
+                    customerMaintainControl.Dock = DockStyle.Fill;
+                    panel2.Controls.Add(customerMaintainControl);
+                }
+                else
+                {
+                    int ctrlRemoveIndex = 0;
+                    int index1 = 0;
+                    foreach (var ctrl in panel2.Controls)
+                    {
+                        if (ctrl.GetType().Name.IndexOf("ReceivableMaintainControl") != -1)
+                        {
+                            ctrlRemoveIndex = index1;
+                            break;
+                        }
+                        index1++;
+                    }
+                    panel2.Controls.RemoveAt(index1);
                     customerMaintainControl = new ReceivableMaintainControl();
                     customerMaintainControl.Dock = DockStyle.Fill;
                     panel2.Controls.Add(customerMaintainControl);

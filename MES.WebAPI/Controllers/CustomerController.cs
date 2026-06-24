@@ -2192,6 +2192,75 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GenerateQuotationFromRepair"), HttpGet]
+        public CommonRep<C報價單> GenerateQuotationFromRepair([FromBody] C機台客服 form, string custId, string repairFormNo)
+        {
+            CommonRep<C報價單> commonRep = new CommonRep<C報價單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.generateQuotationFromRepair(form, custId, repairFormNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GenerateQuotationFromRepair"), HttpPost]
+        public CommonRep<C機台客服> SaveEQPCustService([FromBody] C機台客服 form)
+        {
+            CommonRep<C機台客服> commonRep = new CommonRep<C機台客服>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.saveEQPCustService(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(ex);
+            }
+            return commonRep;
+        }
+
+        [Route("api/UpdateEQPCustService"), HttpPost]
+        public CommonRep<C機台客服> UpdateEQPCustService([FromBody]C機台客服 form)
+        {
+            CommonRep<C機台客服> commonRep = new CommonRep<C機台客服>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.updateEQPCustService(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(ex);
+            }
+            return commonRep;
+        }
+
+        public CommonRep<C機台客服明細> SaveEQPCustServiceDetail([FromBody] C機台客服明細 eqpServDetail)
+        {
+            CommonRep<C機台客服明細> commonRep = new CommonRep<C機台客服明細>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.saveEQPCustServiceDetails(eqpServDetail);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(ex);
+            }
+            return commonRep;
+        }
         #endregion
     }
 

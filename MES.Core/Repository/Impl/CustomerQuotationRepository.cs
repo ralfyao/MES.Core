@@ -88,9 +88,11 @@ namespace MES.Core.Repository.Impl
                         DynamicParameters dynamicParameters = new DynamicParameters(t);
                         retCode = conn.Execute(sql, dynamicParameters, tran);
                         retCode = conn.Execute($@"DELETE FROM C報價明細 WHERE QUONO=@QUONO;", dynamicParameters, tran);
-                        foreach (var item in t.quotationDetailFormList)
+                        if (t.quotationDetailFormList != null)
                         {
-                            sql = $@"INSERT INTO dbo.C報價明細
+                            foreach (var item in t.quotationDetailFormList)
+                            {
+                                sql = $@"INSERT INTO dbo.C報價明細
                                                         (
                                                             QUONO,
                                                             產品編號,
@@ -112,8 +114,9 @@ namespace MES.Core.Repository.Impl
                                                             @金額,
                                                             @描述
                                                             )";
-                            dynamicParameters = new DynamicParameters(item);
-                            retCode = conn.Execute(sql, dynamicParameters, tran);
+                                dynamicParameters = new DynamicParameters(item);
+                                retCode = conn.Execute(sql, dynamicParameters, tran);
+                            }
                         }
                         tran.Commit();
                     }

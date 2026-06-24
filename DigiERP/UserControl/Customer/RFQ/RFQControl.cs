@@ -1,6 +1,7 @@
 ﻿using DigiERP.Common;
 using DigiERP.Forms.Customer;
 using DigiERP.Models;
+using DigiERP.UserControl.Customer.Receivables;
 using DigiERP.Util;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
@@ -110,6 +111,24 @@ namespace DigiERP.UserControl.Customer.RFQ
                 var customerMaintainControl = (RFQMaintainControl)(from c in panel1.Controls.Cast<Control>() where c.GetType() == typeof(RFQMaintainControl) select c).FirstOrDefault();
                 if (customerMaintainControl == null)
                 {
+                    customerMaintainControl = new RFQMaintainControl();
+                    customerMaintainControl.Dock = DockStyle.Fill;
+                    panel2.Controls.Add(customerMaintainControl);
+                }
+                else
+                {
+                    int ctrlRemoveIndex = 0;
+                    int index1 = 0;
+                    foreach (var ctrl in panel2.Controls)
+                    {
+                        if (ctrl.GetType().Name.IndexOf("RFQMaintainControl") != -1)
+                        {
+                            ctrlRemoveIndex = index1;
+                            break;
+                        }
+                        index1++;
+                    }
+                    panel2.Controls.RemoveAt(index1);
                     customerMaintainControl = new RFQMaintainControl();
                     customerMaintainControl.Dock = DockStyle.Fill;
                     panel2.Controls.Add(customerMaintainControl);

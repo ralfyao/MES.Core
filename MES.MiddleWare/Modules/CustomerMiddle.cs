@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MES.MiddleWare.Modules
@@ -632,14 +633,21 @@ namespace MES.MiddleWare.Modules
             return fs;
         }
 
-        public int saveQuotation(C報價單 form)
+        public int saveQuotation(C報價單 form, string rfqno = "")
         {
             int retCode = 0;
             try
             {
                 lock (quotationLock)
                 {
-                    form.RFQNO = getRfqNo();
+                    if (!string.IsNullOrEmpty(rfqno))
+                    {
+                        form.RFQNO = rfqno;
+                    }
+                    else
+                    {
+                        form.RFQNO = getRfqNo();
+                    }
                     CustomerQuotationRepository quotationFormRepository = new CustomerQuotationRepository();
                     retCode = quotationFormRepository.Insert(form);
                 }
@@ -712,8 +720,8 @@ namespace MES.MiddleWare.Modules
             {
                 conn.Open();
                 retObj = conn.Query<C報價單>($"SELECT * FROM C報價單 WHERE QUONO='{quo.QUONO}'").FirstOrDefault();
-                retObj.CONDATE = !string.IsNullOrEmpty(retObj?.CONDATE) ? DateTime.ParseExact(retObj?.CONDATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
-                retObj.QUODATE = !string.IsNullOrEmpty(retObj?.QUODATE) ? DateTime.ParseExact(retObj?.QUODATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
+                retObj.CONDATE = !string.IsNullOrEmpty(retObj?.CONDATE) ? DateTime.ParseExact((retObj?.CONDATE ?? "1900-01-01"), "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
+                retObj.QUODATE = !string.IsNullOrEmpty(retObj?.QUODATE) ? DateTime.ParseExact((retObj?.QUODATE ?? "1900-01-01"), "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
                 retObj.SHIPDATE = !string.IsNullOrEmpty(retObj?.SHIPDATE) ? DateTime.ParseExact(retObj?.SHIPDATE, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd") : "";
                 retObj.quotationDetailFormList = conn.Query<C報價明細>($"SELECT * FROM C報價明細 WHERE QUONO='{quo.QUONO}'").ToList();
             }
@@ -2377,6 +2385,18 @@ namespace MES.MiddleWare.Modules
             return eqpServiceList;
         }
 
+        private string getQuonoFromRepair(SqlConnection conn, string? 單號)
+        {
+            string quono = string.Empty;
+            string strSQL = $@"SELECT QUONO FROM C報價單 WHERE RFQNO='{單號}'";
+            var result = conn.Query<string>(strSQL).ToList();
+            if (result.Count() > 0)
+            {
+                quono = conn.QueryFirst<string>(strSQL);
+            }
+            return quono;
+        }
+
         public void addIndustryCode(C產業代碼 add)
         {
             try
@@ -2506,6 +2526,272 @@ namespace MES.MiddleWare.Modules
             }
             return $"MS{DateTime.Now.ToString("yyyyMM")}{(++maxSerial).ToString("00")}"; ;
             //throw new NotImplementedException();
+        }
+
+        public C報價單 generateQuotationFromRepair(C機台客服 form, string custId, string repairFormNo)
+        {
+            C報價單 retObj = new C報價單();
+            C客戶設定 cust = new C客戶設定();
+            try
+            {
+                string quono = getQuono();
+                List < C客戶設定 > list = getCustomerList(custId);
+                if (list.Count() > 0)
+                {
+                    cust = list.FirstOrDefault() ?? new C客戶設定();
+                }
+                retObj.QUONO = quono;
+                retObj.QUODATE = DateTime.Now.ToString("yyyy-MM-dd");
+                retObj.COMPANY = cust?.COMPANY;
+                retObj.RFQNO = repairFormNo;
+                saveQuotation(retObj, repairFormNo);
+                update報價單In機台客服明細(repairFormNo, quono);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return retObj;
+            //throw new NotImplementedException();
+        }
+
+        private void update報價單In機台客服明細(string repairFormNo, string quono)
+        {
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"UPDATE C機台客服明細 SET 報價單號='{quono}' WHERE 單號='{repairFormNo}'";
+                    conn.Execute(strSQL);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            //throw new NotImplementedException();
+        }
+
+        public C機台客服 saveEQPCustService(C機台客服 form)
+        {
+            C機台客服 retObj = new C機台客服();
+            string strSQL = $@"INSERT INTO dbo.C機台客服
+                                (
+                                    日期,
+                                    單號,
+                                    客戶簡稱,
+                                    專案序號,
+                                    機台類型,
+                                    機台型號,
+                                    機台名稱,
+                                    事件Events,
+                                    描述,
+                                    Keywords1,
+                                    Keywords2,
+                                    Keywords3,
+                                    Keywords4,
+                                    Keywords5,
+                                    專案人員
+                                )
+                                VALUES
+                                (   @日期 -- smalldatetime
+                                    ,@單號 -- nchar(10)
+                                    ,@客戶簡稱 -- nvarchar(30)
+                                    ,@專案序號 -- nvarchar(20)
+                                    ,@機台類型 -- nvarchar(20)
+                                    ,@機台型號 -- nvarchar(255)
+                                    ,@機台名稱 -- nvarchar(255)
+                                    ,@事件Events -- nvarchar(max)
+                                    ,@描述 -- nvarchar(max)
+                                    ,@Keywords1 -- nvarchar(50)
+                                    ,@Keywords2 -- nvarchar(50)
+                                    ,@Keywords3 -- nvarchar(50)
+                                    ,@Keywords4 -- nvarchar(50)
+                                    ,@Keywords5 -- nvarchar(50)
+                                    ,@專案人員 -- nvarchar(15)
+                                    )";
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        conn.Execute(strSQL, dynamicParameters, tran);
+                        if (form.detailList != null)
+                        {
+                            foreach(var item in form.detailList)
+                            {
+                                strSQL = $@"INSERT INTO dbo.C機台客服明細
+                                            (
+                                                單號,
+                                                日期,
+                                                客戶反映,
+                                                聯絡者,
+                                                公司回覆,
+                                                執行者,
+                                                客訴單號,
+                                                業務紀錄,
+                                                報價單號
+                                            )
+                                            VALUES
+                                            (   @單號 -- nchar(10)
+                                                ,@日期 -- smalldatetime
+                                                ,@客戶反映 -- nvarchar(max)
+                                                ,@聯絡者 -- nvarchar(50)
+                                                ,@公司回覆 -- nvarchar(max)
+                                                ,@執行者 -- nvarchar(20)
+                                                ,@客訴單號 -- nchar(30)
+                                                ,@業務紀錄 -- nvarchar(20)
+                                                ,@報價單號 -- nchar(30)
+                                                )";
+                                item.單號 = form.單號;
+                                dynamicParameters = new DynamicParameters(item);
+                                conn.Execute(strSQL, dynamicParameters, tran);
+                            }
+                        }
+                        tran.Commit();
+                    } 
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return retObj;
+            //throw new NotImplementedException();
+        }
+        public C機台客服 updateEQPCustService(C機台客服 form)
+        {
+            C機台客服 retObj = new C機台客服();
+            string strSQL = $@" DELETE FROM C機台客服 WHERE 單號=@單號;
+                                INSERT INTO dbo.C機台客服
+                                (
+                                    日期,
+                                    單號,
+                                    客戶簡稱,
+                                    專案序號,
+                                    機台類型,
+                                    機台型號,
+                                    機台名稱,
+                                    事件Events,
+                                    描述,
+                                    Keywords1,
+                                    Keywords2,
+                                    Keywords3,
+                                    Keywords4,
+                                    Keywords5,
+                                    專案人員
+                                )
+                                VALUES
+                                (   @日期 -- smalldatetime
+                                    ,@單號 -- nchar(10)
+                                    ,@客戶簡稱 -- nvarchar(30)
+                                    ,@專案序號 -- nvarchar(20)
+                                    ,@機台類型 -- nvarchar(20)
+                                    ,@機台型號 -- nvarchar(255)
+                                    ,@機台名稱 -- nvarchar(255)
+                                    ,@事件Events -- nvarchar(max)
+                                    ,@描述 -- nvarchar(max)
+                                    ,@Keywords1 -- nvarchar(50)
+                                    ,@Keywords2 -- nvarchar(50)
+                                    ,@Keywords3 -- nvarchar(50)
+                                    ,@Keywords4 -- nvarchar(50)
+                                    ,@Keywords5 -- nvarchar(50)
+                                    ,@專案人員 -- nvarchar(15)
+                                    )";
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        conn.Execute(strSQL, dynamicParameters, tran);
+                        conn.Execute("DELETE FROM C機台客服明細 WHERE 單號=@單號", dynamicParameters, tran);
+                        if (form.detailList != null)
+                        {
+                            foreach (var item in form.detailList)
+                            {
+                                strSQL = $@"INSERT INTO dbo.C機台客服明細
+                                            (
+                                                單號,
+                                                日期,
+                                                客戶反映,
+                                                聯絡者,
+                                                公司回覆,
+                                                執行者,
+                                                客訴單號,
+                                                業務紀錄,
+                                                報價單號
+                                            )
+                                            VALUES
+                                            (   @單號 -- nchar(10)
+                                                ,@日期 -- smalldatetime
+                                                ,@客戶反映 -- nvarchar(max)
+                                                ,@聯絡者 -- nvarchar(50)
+                                                ,@公司回覆 -- nvarchar(max)
+                                                ,@執行者 -- nvarchar(20)
+                                                ,@客訴單號 -- nchar(30)
+                                                ,@業務紀錄 -- nvarchar(20)
+                                                ,@報價單號 -- nchar(30)
+                                                )";
+                                item.單號 = form.單號;
+                                dynamicParameters = new DynamicParameters(item);
+                                conn.Execute(strSQL, dynamicParameters, tran);
+                            }
+                        }
+                        tran.Commit();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return retObj;
+            //throw new NotImplementedException();
+        }
+
+        public C機台客服明細 saveEQPCustServiceDetails(C機台客服明細 eqpServDetail)
+        {
+            string strSQL = $@"INSERT INTO dbo.C機台客服明細
+                                            (
+                                                單號,
+                                                日期,
+                                                客戶反映,
+                                                聯絡者,
+                                                公司回覆,
+                                                執行者,
+                                                客訴單號,
+                                                業務紀錄,
+                                                報價單號
+                                            )
+                                            VALUES
+                                            (   @單號 -- nchar(10)
+                                                ,@日期 -- smalldatetime
+                                                ,@客戶反映 -- nvarchar(max)
+                                                ,@聯絡者 -- nvarchar(50)
+                                                ,@公司回覆 -- nvarchar(max)
+                                                ,@執行者 -- nvarchar(20)
+                                                ,@客訴單號 -- nchar(30)
+                                                ,@業務紀錄 -- nvarchar(20)
+                                                ,@報價單號 -- nchar(30)
+                                                )";
+            //item.單號 = form.單號;
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                DynamicParameters dynamicParameters = new DynamicParameters(eqpServDetail);
+                conn.Execute(strSQL, dynamicParameters);
+            }
+            return eqpServDetail;
         }
     }
     public class QueryCustListByConditionReq

@@ -1,5 +1,8 @@
-﻿using DigiERP.Common;
+﻿using Dapper;
+using DigiERP.Common;
+using DigiERP.Forms.Customer;
 using DigiERP.Forms.Customer.SalesOrder;
+using DigiERP.UserControl.Customer.Quotation;
 using MES.Core;
 using MES.Core.Model;
 using MES.MiddleWare;
@@ -91,6 +94,13 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
         {
             dataGridView1.Rows.Clear();
             int index = 0;
+            var formRep = _customerController.GetEqpCustServiceList("", form.單號);
+            if (!string.IsNullOrEmpty(formRep.ErrorMessage))
+            {
+                MessageBox.Show(formRep.ErrorMessage);
+                return;
+            }
+            form = formRep.resultList.FirstOrDefault() ?? new C機台客服();
             foreach (var item in form.detailList)
             {
                 index = 0;
@@ -114,7 +124,20 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
         private void disableAllControls(bool disable)
         {
             var enable = !disable;
-
+            cboCustId.Enabled = enable;
+            txtDescription.Enabled = enable;
+            cboProjectSerial.Enabled = enable;
+            dtEQPShippingDate.Enabled = enable;
+            cboCustContact.Enabled = enable;
+            cboMType.Enabled = enable;
+            txtEQPNo.Enabled = enable;
+            txtEQPName.Enabled = enable;
+            cbo機款.Enabled = enable;
+            cbo機種.Enabled = enable;
+            cbo機種分類.Enabled = enable;
+            cbo問題歸類.Enabled = enable;
+            cbo狀況.Enabled = enable;
+            dataGridView1.Enabled = enable;
             //throw new NotImplementedException();
         }
 
@@ -319,11 +342,182 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
                 MessageBox.Show(機種分類rep.ErrorMessage);
                 return;
             }
-            foreach(var item in 機種分類rep.resultList)
+            foreach (var item in 機種分類rep.resultList)
             {
                 cbo機種分類.Items.Add(item);
             }
             //throw new NotImplementedException();
+        }
+
+        private void btn修改_Click(object sender, EventArgs e)
+        {
+            disableAllControls(false);
+        }
+
+        private void btn送出_Click(object sender, EventArgs e)
+        {
+            CollectUserInput();
+            if (lblMode.Text == "新增")
+            {
+                var saveRep = _customerController.SaveEQPCustService(form);
+                if (!string.IsNullOrEmpty(saveRep.ErrorMessage))
+                {
+                    MessageBox.Show(saveRep.ErrorMessage);
+                    return;
+                }
+            }
+            else if (lblMode.Text == "修改")
+            {
+                var saveRep = _customerController.UpdateEQPCustService(form);
+                if (!string.IsNullOrEmpty(saveRep.ErrorMessage))
+                {
+                    MessageBox.Show(saveRep.ErrorMessage);
+                    return;
+                }
+            }
+            MessageBox.Show(lblMode.Text + "成功!");
+        }
+
+        private void CollectUserInput()
+        {
+            form.單號 = txtOrderNo.Text;
+            form.客戶簡稱 = cboCustId.Text;
+            form.日期 = dtORDERDATE.Value.ToString("yyyy.MM/dd");
+            form.描述 = txtDescription.Text;
+            form.專案序號 = cboProjectSerial.Text;
+            form.機台類型 = cboMType.SelectedValue?.ToString();
+            form.機台名稱 = txtEQPName.Text;
+            form.Keywords1 = cbo機款.Text;
+            form.Keywords2 = cbo機種.Text;
+            form.Keywords5 = cbo機種分類.Text;
+            form.Keywords3 = cbo問題歸類.Text;
+            form.Keywords4 = cbo狀況.Text;
+            if (form.detailList == null)
+                form.detailList = new List<C機台客服明細>();
+            form.detailList.Clear();
+            int index = 0;
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                index = 0;
+                C機台客服明細 detail = new C機台客服明細();
+                detail.日期 = row.Cells[index++].Value.ToString();
+                detail.客戶反映 = row.Cells[index++].Value.ToString();
+                detail.單號 = form.單號;
+                detail.公司回覆 = row.Cells[index++].Value.ToString();
+                detail.聯絡者 = row.Cells[index++].Value?.ToString();
+                detail.執行者 = row.Cells[index++].Value?.ToString();
+                detail.業務紀錄 = row.Cells[index++].Value?.ToString();
+                detail.客訴單號 = row.Cells[index++].Value?.ToString();
+                detail.報價單號 = row.Cells[index++].Value?.ToString();
+                form.detailList.Add(detail);
+            }
+            //throw new NotImplementedException();
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return; // 排除表頭
+
+            // 判斷是否為指定欄位
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "repairNo")
+            {
+                string value = dataGridView1.Rows[e.RowIndex]
+                                            .Cells[e.ColumnIndex]
+                                            .Value?.ToString();
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    if (MessageBox.Show("", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        //TO-DO 產生維修單
+                        //var repariNoRep = _customerController.GetRepairFormNo();
+                        //if (!string.IsNullOrEmpty(repariNoRep.ErrorMessage))
+                        //{
+                        //    MessageBox.Show(repariNoRep.ErrorMessage);
+                        //    return;
+                        //}
+                        //dataGridView1.Rows[e.RowIndex]
+                        //                    .Cells[e.ColumnIndex]
+                        //                    .Value = repariNoRep.result;
+                    }
+                }
+            }
+            else if (dataGridView1.Columns[e.ColumnIndex].Name == "quotation")
+            {
+                string value = dataGridView1.Rows[e.RowIndex]
+                                            .Cells[e.ColumnIndex]
+                                            .Value?.ToString();
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    if (MessageBox.Show("是否確認產生報價單?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        //TO-DO 產生報價單
+                        var quotationFormRep = _customerController.GenerateQuotationFromRepair(form, cboCustId.Text, txtOrderNo.Text);
+                        if (!string.IsNullOrEmpty(quotationFormRep.ErrorMessage))
+                        {
+                            MessageBox.Show(quotationFormRep.ErrorMessage);
+                            return;
+                        }
+                        else
+                        {
+                            MessageBox.Show("新增完成");
+                        }
+                        dataGridView1.Rows[e.RowIndex]
+                                            .Cells[e.ColumnIndex]
+                                            .Value = quotationFormRep.result.QUONO;
+                        QuotationMaintain quotationMaintain = new QuotationMaintain();
+                        quotationMaintain.form = quotationFormRep.result;
+                        quotationMaintain.lblMode.Text = "新增";
+                        quotationMaintain.initForm();
+                        quotationMaintain.Dock = DockStyle.Fill;
+                        TabPage tabPage = new TabPage();
+                        tabPage.Controls.Add(quotationMaintain);
+                        tabPage.Name = "產品報價";
+                        tabPage.Text = "產品報價";
+                        tabPage.Dock = DockStyle.Fill;
+                        findParendTabControlAdd(this.Parent, tabPage);
+                    }
+                }
+            }
+        }
+
+        private void findParendTabControlAdd(Control thisCtrl, TabPage tabPage)
+        {
+            if (thisCtrl == null)
+                return;
+            if (thisCtrl.GetType().Name.IndexOf("TabControl") != -1)
+            {
+                thisCtrl.Controls.Add(tabPage);
+            }
+            else
+            {
+                findParendTabControlAdd(thisCtrl.Parent, tabPage);
+            }
+            //throw new NotImplementedException();
+        }
+
+        private void btn新增機台服務紀錄_Click(object sender, EventArgs e)
+        {
+            var custRep = _customerController.getCustomerList(cboCustId.Text);
+            if (!string.IsNullOrEmpty(custRep.ErrorMessage))
+            {
+                MessageBox.Show(custRep.ErrorMessage);
+                return;
+            }
+            var customer = custRep.resultList.FirstOrDefault() ?? new C客戶設定();
+            FrmRfqWorkRecord frmRfqWorkRecord = new FrmRfqWorkRecord();
+            frmRfqWorkRecord.source = "機台客服明細";
+            frmRfqWorkRecord.SetProjSerial(cboProjectSerial.Text);
+            frmRfqWorkRecord.SetModuleName(txtOrderNo.Text);
+            frmRfqWorkRecord.SetCustomer(customer);
+            frmRfqWorkRecord.ShowDialog();
+            initGrid();
+        }
+
+        private void EQPCustServiceMaintainControl_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

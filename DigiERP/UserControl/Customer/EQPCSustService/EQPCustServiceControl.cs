@@ -96,6 +96,24 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
                     customerMaintainControl.Dock = DockStyle.Fill;
                     panel2.Controls.Add(customerMaintainControl);
                 }
+                else
+                {
+                    int ctrlRemoveIndex = 0;
+                    int index1 = 0;
+                    foreach(var ctrl in panel2.Controls)
+                    {
+                        if (ctrl.GetType().Name.IndexOf("EQPCustServiceMaintainControl") != -1)
+                        {
+                            ctrlRemoveIndex = index1;
+                            break;
+                        }
+                        index1++;
+                    }
+                    panel2.Controls.RemoveAt(index1);
+                    customerMaintainControl = new EQPCustServiceMaintainControl();
+                    customerMaintainControl.Dock = DockStyle.Fill;
+                    panel2.Controls.Add(customerMaintainControl);
+                }
                 var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
                 if (lblMode != null)
                 {

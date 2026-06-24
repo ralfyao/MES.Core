@@ -86,7 +86,7 @@ namespace DigiERP.Forms.Customer
                 //}
             }
         }
-
+        public string source { get; set; }
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             //A工作紀錄
@@ -99,6 +99,7 @@ namespace DigiERP.Forms.Customer
                 a.專案序號 = txtProjSerial.Text;
                 a.進度 = float.Parse(successPropability.Value.ToString());
                 a.模組編碼 = txtModuleCode.Text;
+                a.工作項目 = txtInterviewPoints.Text;
                 a.模組名稱 = txtModuleName.Text;
                 a.任務分類 = cboMissionCiass.SelectedValue?.ToString();
                 a.成效點數 = float.Parse(points.Value.ToString());
@@ -112,6 +113,19 @@ namespace DigiERP.Forms.Customer
                     Dispose();
                     Close(); return;
                 }
+                if (!string.IsNullOrEmpty(source))
+                {
+                    if (source == "機台客服明細")
+                    {
+                        C機台客服明細 eqpServDetail = new C機台客服明細();
+                        eqpServDetail.單號 = txtModuleName.Text;
+                        eqpServDetail.日期 = DateTime.Now.ToString("yyyy/MM/dd");
+                        eqpServDetail.客戶反映 = txtInterviewPoints.Text;
+                        eqpServDetail.公司回覆 = txtComments.Text;
+                        eqpServDetail.業務紀錄 = AppSession.User.username;
+                        customerController.SaveEQPCustServiceDetail(eqpServDetail);
+                    }
+                }
                 MessageBox.Show("執行成功");
                 Dispose();
                 Close();
@@ -120,6 +134,12 @@ namespace DigiERP.Forms.Customer
             {
                 MessageBox.Show(ex.ToString());
             }
+            
+        }
+
+        internal void SetProcedureSource(string text)
+        {
+            throw new NotImplementedException();
         }
     }
 }
