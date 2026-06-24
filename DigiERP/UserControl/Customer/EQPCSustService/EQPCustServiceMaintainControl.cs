@@ -472,7 +472,7 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
                         {
                             MessageBox.Show("新增完成");
                         }
-                        var theCustRep = _customerController.getCustomerList(form.客戶簡稱??"");
+                        var theCustRep = _customerController.getCustomerList(form.客戶簡稱 ?? "");
                         if (!string.IsNullOrEmpty(theCustRep.ErrorMessage))
                         {
                             MessageBox.Show(theCustRep.ErrorMessage);
@@ -484,8 +484,8 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
                                             .Value = quotationFormRep.result.QUONO;
                         QuotationMaintain quotationMaintain = new QuotationMaintain();
                         quotationMaintain.form = quotationFormRep.result;
-                        quotationMaintain.SetCustNo(cust.正航編號??"");
-                        quotationMaintain.SetCustAlias(cust.欄位2??"");
+                        quotationMaintain.SetCustNo(cust.正航編號 ?? "");
+                        quotationMaintain.SetCustAlias(cust.欄位2 ?? "");
                         quotationMaintain.lblMode.Text = "修改";
                         quotationMaintain.initForm();
                         quotationMaintain.Dock = DockStyle.Fill;
@@ -541,6 +541,33 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
         private void cboCustId_SelectedIndexChanged(object sender, EventArgs e)
         {
             initCustContact();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            TabPage tabPage = new TabPage();
+            tabPage.Name = "機台服務歷程";
+            tabPage.Text = tabPage.Name;
+
+            CommonRep<工令單> workOrderRep = _productionController.GetWorkOrdersByProjSerial( cboProjectSerial.Text);
+            工令單 workOrder = new 工令單();
+            if (!string.IsNullOrEmpty(workOrderRep.ErrorMessage))
+            {
+                MessageBox.Show(workOrderRep.ErrorMessage);
+                return;
+            }
+            workOrder = workOrderRep.result;
+            if (string.IsNullOrEmpty(workOrder.專案序號))
+            {
+                MessageBox.Show($"找不到與此專案序號:{cboProjectSerial.Text} 相關之工令單");
+                return;
+            }
+            EQPServiceHistoryControl eQPServiceHistoryControl = new EQPServiceHistoryControl();
+            eQPServiceHistoryControl.Dock = DockStyle.Fill;
+            eQPServiceHistoryControl.form = workOrder;
+            eQPServiceHistoryControl.initForm();
+            tabPage.Controls.Add(eQPServiceHistoryControl);
+            findParendTabControlAdd(this.Parent, tabPage);
         }
     }
 }

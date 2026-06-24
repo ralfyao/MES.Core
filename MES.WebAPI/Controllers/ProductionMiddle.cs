@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using MES.Core.Model;
 using MES.Core.Repository;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace MES.WebAPI.Controllers
@@ -23,6 +24,31 @@ namespace MES.WebAPI.Controllers
                                     FROM 工令單 dbo_工令單 
                                     WHERE dbo_工令單.客戶簡稱='{custId}'";
                     list = conn.Query<工令單>(strSql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+            //throw new NotImplementedException();
+        }
+
+        internal List<C機台客服> getEqpServiceListByProjSerial(string? 專案序號)
+        {
+            List<C機台客服> list = new List<C機台客服>();
+            try
+            {
+                string strSQL = $@"SELECT * FROM C機台客服 WHERE 專案序號 = '{專案序號}'";
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<C機台客服>(strSQL).ToList();
+                    foreach (var item in list)
+                    {
+                        item.detailList = conn.Query<C機台客服明細>($@"SELECT * FROM C機台客服明細 WHERE 單號='{item.單號}'").ToList();
+                    }
                 }
             }
             catch (Exception)
@@ -152,6 +178,28 @@ namespace MES.WebAPI.Controllers
             }
             return list;
             //throw new NotImplementedException();
+        }
+
+        internal 工令單 getWorkOrdersByProjSerial(string projSerial)
+        {
+            工令單 workOrder = new 工令單();
+            try
+            {
+                string strSQL = $@" SELECT dbo_工令單.專案序號, dbo_工令單.客戶簡稱, dbo_工令單.機台類型, dbo_工令單.機台型號, dbo_工令單.機台名稱 
+                                      FROM 工令單 dbo_工令單
+                                     WHERE dbo_工令單.專案序號='{projSerial}'";
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    workOrder = conn.QueryFirst<工令單>(strSQL);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return workOrder;
         }
     }
 }

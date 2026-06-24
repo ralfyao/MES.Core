@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
             lblMode = new Label();
             label1 = new Label();
             cboCustId = new DigiERP.Common.CommonComboBox();
@@ -83,6 +83,7 @@
             btn修改 = new Button();
             btn送出 = new Button();
             btn新增機台服務紀錄 = new Button();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -453,8 +454,8 @@
             // date
             // 
             date.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            date.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            date.DefaultCellStyle = dataGridViewCellStyle9;
             date.HeaderText = "日期";
             date.Name = "date";
             date.ReadOnly = true;
@@ -462,8 +463,8 @@
             // customerFeedback
             // 
             customerFeedback.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            customerFeedback.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
+            customerFeedback.DefaultCellStyle = dataGridViewCellStyle10;
             customerFeedback.HeaderText = "客戶反映";
             customerFeedback.Name = "customerFeedback";
             customerFeedback.ReadOnly = true;
@@ -472,8 +473,8 @@
             // questionFeedback
             // 
             questionFeedback.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            questionFeedback.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            questionFeedback.DefaultCellStyle = dataGridViewCellStyle11;
             questionFeedback.HeaderText = "問題回覆";
             questionFeedback.Name = "questionFeedback";
             questionFeedback.ReadOnly = true;
@@ -481,8 +482,8 @@
             // reason
             // 
             reason.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            reason.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.True;
+            reason.DefaultCellStyle = dataGridViewCellStyle12;
             reason.HeaderText = "原因分析";
             reason.Name = "reason";
             reason.ReadOnly = true;
@@ -490,8 +491,8 @@
             // technical
             // 
             technical.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            technical.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
+            technical.DefaultCellStyle = dataGridViewCellStyle13;
             technical.HeaderText = "技術判定人員";
             technical.Name = "technical";
             technical.ReadOnly = true;
@@ -499,8 +500,8 @@
             // businessRecord
             // 
             businessRecord.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            businessRecord.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
+            businessRecord.DefaultCellStyle = dataGridViewCellStyle14;
             businessRecord.HeaderText = "業務記錄";
             businessRecord.Name = "businessRecord";
             businessRecord.ReadOnly = true;
@@ -508,8 +509,8 @@
             // repairNo
             // 
             repairNo.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            repairNo.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
+            repairNo.DefaultCellStyle = dataGridViewCellStyle15;
             repairNo.HeaderText = "維修單號";
             repairNo.Name = "repairNo";
             repairNo.ReadOnly = true;
@@ -517,8 +518,8 @@
             // quotation
             // 
             quotation.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
-            quotation.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle16.WrapMode = DataGridViewTriState.True;
+            quotation.DefaultCellStyle = dataGridViewCellStyle16;
             quotation.HeaderText = "報價單號";
             quotation.Name = "quotation";
             quotation.ReadOnly = true;
@@ -558,10 +559,23 @@
             btn新增機台服務紀錄.UseVisualStyleBackColor = false;
             btn新增機台服務紀錄.Click += btn新增機台服務紀錄_Click;
             // 
+            // button1
+            // 
+            button1.BackColor = Color.ForestGreen;
+            button1.ForeColor = SystemColors.ButtonHighlight;
+            button1.Location = new Point(520, 4);
+            button1.Name = "button1";
+            button1.Size = new Size(212, 32);
+            button1.TabIndex = 274;
+            button1.Text = "查詢機台服務歷程";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
             // EQPCustServiceMaintainControl
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.SpringGreen;
+            Controls.Add(button1);
             Controls.Add(btn新增機台服務紀錄);
             Controls.Add(btn送出);
             Controls.Add(btn修改);
@@ -659,5 +673,6 @@
         private DataGridViewTextBoxColumn quotation;
         private Button btn送出;
         private Button btn新增機台服務紀錄;
+        private Button button1;
     }
 }

@@ -167,6 +167,42 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+
+        [Route("api/GetWorkOrdersByCustIdAndProjSerial"), HttpGet]
+        public CommonRep<工令單> GetWorkOrdersByProjSerial(string projSerial)
+        {
+            CommonRep<工令單> commonRep = new CommonRep<工令單>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try
+            {
+                commonRep.result = productionMiddle.getWorkOrdersByProjSerial(projSerial);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(commonRep.ErrorMessage);
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetWorkOrdersByCustIdAndProjSerial"), HttpGet]
+        public CommonRep<C機台客服> GetEqpServiceListByProjSerial(string? 專案序號)
+        {
+            CommonRep<C機台客服> commonRep = new CommonRep<C機台客服>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try
+            {
+                commonRep.resultList = productionMiddle.getEqpServiceListByProjSerial(專案序號);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(commonRep.ErrorMessage);
+            }
+            return commonRep;
+        }
         #endregion
     }
 }
