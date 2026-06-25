@@ -41,29 +41,29 @@ namespace MES.Core.Repository.Impl
                                     客戶編號
                                 )
                                 VALUES
-                                (   
-	                                @單號		    -- nvarchar(30)
-                                    @申請日期		-- smalldatetime
-                                    @申請人		    -- nvarchar(30)
-                                    @客戶簡稱		-- nvarchar(150)
-                                    @專案序號		-- nvarchar(20)
-                                    @機台型號		-- nvarchar(255)
-                                    @機台類型		-- nvarchar(20)
-                                    @機台名稱		-- nvarchar(255)
-                                    @交貨日期		-- smalldatetime
-                                    @保固效期		-- smalldatetime
-                                    @收費機制		-- nvarchar(30)
-                                    @運送方式		-- nvarchar(30)
-                                    @建檔		    -- nvarchar(30)
-                                    @修改		    -- nvarchar(30)
-                                    @核准		    -- nvarchar(30)
-                                    GETDATE()	    -- smalldatetime
-                                    @修改日		    -- smalldatetime
-                                    @核准日		    -- smalldatetime
-                                    @主旨		    -- nvarchar(255)
-                                    @申請用途		-- nvarchar(150)
-                                    @客戶編號		-- nvarchar(50)
-                                    )";
+                                (
+                                    @單號,
+                                    @申請日期,
+                                    @申請人,
+                                    @客戶簡稱,
+                                    @專案序號,
+                                    @機台型號,
+                                    @機台類型,
+                                    @機台名稱,
+                                    @交貨日期,
+                                    @保固效期,
+                                    @收費機制,
+                                    @運送方式,
+                                    @建檔,
+                                    @修改,
+                                    @核准,
+                                    GETDATE(),
+                                    @修改日,
+                                    @核准日,
+                                    @主旨,
+                                    @申請用途,
+                                    @客戶編號
+                                )";
                 using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();

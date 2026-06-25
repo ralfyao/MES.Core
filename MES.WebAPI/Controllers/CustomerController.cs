@@ -449,6 +449,24 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+
+        [Route("api/Get組測維修人員List"), HttpGet]
+        public CommonRep<成本單位人員配置> get組測維修人員List()
+        {
+            CommonRep<成本單位人員配置> commonRep = new CommonRep<成本單位人員配置>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = customerMiddle.get組測維修人員List();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         /// <summary>
         /// 取得單一客戶資料
         /// </summary>
@@ -2044,13 +2062,7 @@ namespace MES.WebAPI.Controllers
             CustomerMiddle customerMiddle = new CustomerMiddle();
             try
             {
-                int retCode = 0;
-                retCode = customerMiddle.transferRepairTo零件申請單(form);
-                if (retCode == 0)
-                {
-                    commonRep.ErrorMessage = "寫入訂單資料失敗，請洽系統管理員";
-                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
-                }
+                commonRep.result = customerMiddle.transferRepairTo零件申請單(form);
             }
             catch (Exception ex)
             {

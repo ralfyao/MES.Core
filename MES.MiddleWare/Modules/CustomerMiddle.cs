@@ -1908,6 +1908,27 @@ namespace MES.MiddleWare.Modules
             return Lst;
         }
 
+        public List<成本單位人員配置> get組測維修人員List()
+        {
+            List<成本單位人員配置> lst = new List<成本單位人員配置>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    string strSQL = @"SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
+                                      FROM 成本單位人員配置 c
+                                      INNER JOIN H員工清冊 e ON c.員工編號 = e.工號
+                                      WHERE c.職務 = '組測'";
+                    lst = conn.Query<成本單位人員配置>(strSQL).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return lst;
+        }
+
         public List<維修服務單> getRepairTestList()
         {
             List<維修服務單> list = new List<維修服務單>();
@@ -1967,22 +1988,58 @@ namespace MES.MiddleWare.Modules
             return execCnt;
         }
 
-        public int transferRepairTo零件申請單(維修服務單 form)
+        public string get零件申請FormNo()
         {
-            int execCnt = 0;
-            WorkOrderMiscRepository workOrderMiscRepository = new WorkOrderMiscRepository();
+            string formNo = string.Empty;
             try
             {
-                lock (repairLock)
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
-                    
+                    conn.Open();
+                    string strSQL = $"SELECT COUNT(0) FROM 零件申請單 WHERE 單號 LIKE 'SP{DateTime.Now.ToString("yyyyMMdd")}%'";
+                    List<string> ls = conn.Query<string>(strSQL).ToList();
+                    if (ls.Count() > 0)
+                    {
+                        var count = int.Parse(ls[0]);
+                        count++;
+                        formNo = $"SP{DateTime.Now.ToString("yyyyMMdd")}{count.ToString("00")}";
+                    }
                 }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return execCnt;
+            return formNo;
+        }
+
+        public string transferRepairTo零件申請單(維修服務單 form)
+        {
+            WorkOrderMiscRepository workOrderMiscRepository = new WorkOrderMiscRepository();
+            RepairFormRepository repairFormRepository = new RepairFormRepository();
+            try
+            {
+                lock (repairLock)
+                {
+                    零件申請單 spForm = new 零件申請單(form);
+                    spForm.單號 = get零件申請FormNo();
+                    spForm.申請日期 = DateTime.Now.ToString("yyyy-MM-dd");
+                    spForm.建檔 = form.建檔;
+                    spForm.建檔日 = DateTime.Now.ToString("yyyy-MM-dd");
+                    int execCnt = workOrderMiscRepository.Insert(spForm);
+                    if (execCnt == 0)
+                        throw new Exception("寫入零件申請單失敗，請洽系統管理員");
+
+                    form.轉零件申請 = true;
+                    form.零件工令編號 = spForm.單號;
+                    repairFormRepository.Update(form);
+                    return spForm.單號;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<C訂單> queryOrderListByCondition(QueryOrderListByConditionReq req, string topn = "TOP 1000")
