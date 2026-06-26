@@ -215,13 +215,13 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             panelForm.Dock = DockStyle.Top;
             panelForm.Location = new Point(0, 60);
             panelForm.Name = "panelForm";
-            panelForm.Size = new Size(1654, 310);
+            panelForm.Size = new Size(1654, 392);
             panelForm.TabIndex = 1;
             // 
             // lbl日期
             // 
             lbl日期.AutoSize = true;
-            lbl日期.Location = new Point(12, 16);
+            lbl日期.Location = new Point(6, 16);
             lbl日期.Name = "lbl日期";
             lbl日期.Size = new Size(48, 24);
             lbl日期.TabIndex = 0;
@@ -239,7 +239,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl單號
             // 
             lbl單號.AutoSize = true;
-            lbl單號.Location = new Point(240, 16);
+            lbl單號.Location = new Point(231, 16);
             lbl單號.Name = "lbl單號";
             lbl單號.Size = new Size(48, 24);
             lbl單號.TabIndex = 2;
@@ -257,7 +257,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl客戶編號
             // 
             lbl客戶編號.AutoSize = true;
-            lbl客戶編號.Location = new Point(462, 16);
+            lbl客戶編號.Location = new Point(459, 16);
             lbl客戶編號.Name = "lbl客戶編號";
             lbl客戶編號.Size = new Size(86, 24);
             lbl客戶編號.TabIndex = 4;
@@ -275,7 +275,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl客戶簡稱
             // 
             lbl客戶簡稱.AutoSize = true;
-            lbl客戶簡稱.Location = new Point(742, 16);
+            lbl客戶簡稱.Location = new Point(739, 16);
             lbl客戶簡稱.Name = "lbl客戶簡稱";
             lbl客戶簡稱.Size = new Size(86, 24);
             lbl客戶簡稱.TabIndex = 6;
@@ -293,7 +293,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl傳票
             // 
             lbl傳票.AutoSize = true;
-            lbl傳票.Location = new Point(992, 16);
+            lbl傳票.Location = new Point(985, 16);
             lbl傳票.Name = "lbl傳票";
             lbl傳票.Size = new Size(48, 24);
             lbl傳票.TabIndex = 8;
@@ -336,7 +336,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl幣別
             // 
             lbl幣別.AutoSize = true;
-            lbl幣別.Location = new Point(390, 63);
+            lbl幣別.Location = new Point(380, 63);
             lbl幣別.Name = "lbl幣別";
             lbl幣別.Size = new Size(48, 24);
             lbl幣別.TabIndex = 13;
@@ -354,7 +354,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl匯率
             // 
             lbl匯率.AutoSize = true;
-            lbl匯率.Location = new Point(542, 63);
+            lbl匯率.Location = new Point(534, 63);
             lbl匯率.Name = "lbl匯率";
             lbl匯率.Size = new Size(48, 24);
             lbl匯率.TabIndex = 15;
@@ -370,7 +370,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl稅別
             // 
             lbl稅別.AutoSize = true;
-            lbl稅別.Location = new Point(696, 63);
+            lbl稅別.Location = new Point(685, 63);
             lbl稅別.Name = "lbl稅別";
             lbl稅別.Size = new Size(48, 24);
             lbl稅別.TabIndex = 17;
@@ -387,7 +387,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl稅率
             // 
             lbl稅率.AutoSize = true;
-            lbl稅率.Location = new Point(880, 63);
+            lbl稅率.Location = new Point(869, 63);
             lbl稅率.Name = "lbl稅率";
             lbl稅率.Size = new Size(48, 24);
             lbl稅率.TabIndex = 19;
@@ -404,7 +404,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl客戶全名
             // 
             lbl客戶全名.AutoSize = true;
-            lbl客戶全名.Location = new Point(1032, 63);
+            lbl客戶全名.Location = new Point(1026, 63);
             lbl客戶全名.Name = "lbl客戶全名";
             lbl客戶全名.Size = new Size(86, 24);
             lbl客戶全名.TabIndex = 21;
@@ -456,7 +456,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl貿易條件
             // 
             lbl貿易條件.AutoSize = true;
-            lbl貿易條件.Location = new Point(12, 160);
+            lbl貿易條件.Location = new Point(4, 160);
             lbl貿易條件.Name = "lbl貿易條件";
             lbl貿易條件.Size = new Size(86, 24);
             lbl貿易條件.TabIndex = 27;
@@ -464,16 +464,16 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // 
             // priceCondControl1
             // 
-            priceCondControl1.Location = new Point(98, 148);
+            priceCondControl1.Location = new Point(96, 156);
             priceCondControl1.Name = "priceCondControl1";
-            priceCondControl1.Size = new Size(280, 82);
+            priceCondControl1.Size = new Size(690, 128);
             priceCondControl1.TabIndex = 28;
             priceCondControl1.txType = "T";
             // 
             // lbl付款方式
             // 
             lbl付款方式.AutoSize = true;
-            lbl付款方式.Location = new Point(392, 160);
+            lbl付款方式.Location = new Point(830, 168);
             lbl付款方式.Name = "lbl付款方式";
             lbl付款方式.Size = new Size(86, 24);
             lbl付款方式.TabIndex = 29;
@@ -481,16 +481,16 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // 
             // payMethod
             // 
-            payMethod.Location = new Point(478, 148);
+            payMethod.Location = new Point(916, 156);
             payMethod.Name = "payMethod";
-            payMethod.Size = new Size(280, 82);
+            payMethod.Size = new Size(450, 128);
             payMethod.TabIndex = 30;
             payMethod.txType = "P,Y";
             // 
             // lbl備註
             // 
             lbl備註.AutoSize = true;
-            lbl備註.Location = new Point(12, 252);
+            lbl備註.Location = new Point(8, 316);
             lbl備註.Name = "lbl備註";
             lbl備註.Size = new Size(86, 24);
             lbl備註.TabIndex = 31;
@@ -498,7 +498,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // 
             // txtRemark
             // 
-            txtRemark.Location = new Point(98, 242);
+            txtRemark.Location = new Point(94, 306);
             txtRemark.Multiline = true;
             txtRemark.Name = "txtRemark";
             txtRemark.Size = new Size(800, 52);
@@ -508,9 +508,9 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // 
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 370);
+            panel2.Location = new Point(0, 452);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1654, 488);
+            panel2.Size = new Size(1654, 406);
             panel2.TabIndex = 2;
             // 
             // dataGridView1
@@ -523,7 +523,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
-            dataGridView1.Size = new Size(1654, 488);
+            dataGridView1.Size = new Size(1654, 406);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
             dataGridView1.DataError += dataGridView1_DataError;
@@ -595,7 +595,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl覆核人員
             // 
             lbl覆核人員.AutoSize = true;
-            lbl覆核人員.Location = new Point(12, 14);
+            lbl覆核人員.Location = new Point(2, 14);
             lbl覆核人員.Name = "lbl覆核人員";
             lbl覆核人員.Size = new Size(86, 24);
             lbl覆核人員.TabIndex = 0;
@@ -613,7 +613,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl核准
             // 
             lbl核准.AutoSize = true;
-            lbl核准.Location = new Point(188, 14);
+            lbl核准.Location = new Point(182, 14);
             lbl核准.Name = "lbl核准";
             lbl核准.Size = new Size(48, 24);
             lbl核准.TabIndex = 2;
@@ -631,7 +631,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl核准日
             // 
             lbl核准日.AutoSize = true;
-            lbl核准日.Location = new Point(360, 14);
+            lbl核准日.Location = new Point(351, 14);
             lbl核准日.Name = "lbl核准日";
             lbl核准日.Size = new Size(67, 24);
             lbl核准日.TabIndex = 4;
@@ -640,7 +640,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // txtApproveDate
             // 
             txtApproveDate.BackColor = Color.LightGray;
-            txtApproveDate.Location = new Point(412, 8);
+            txtApproveDate.Location = new Point(417, 8);
             txtApproveDate.Name = "txtApproveDate";
             txtApproveDate.ReadOnly = true;
             txtApproveDate.Size = new Size(120, 32);
@@ -649,7 +649,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl修改人員
             // 
             lbl修改人員.AutoSize = true;
-            lbl修改人員.Location = new Point(546, 14);
+            lbl修改人員.Location = new Point(540, 14);
             lbl修改人員.Name = "lbl修改人員";
             lbl修改人員.Size = new Size(86, 24);
             lbl修改人員.TabIndex = 6;
@@ -658,7 +658,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // txtModifier
             // 
             txtModifier.BackColor = Color.LightGray;
-            txtModifier.Location = new Point(624, 8);
+            txtModifier.Location = new Point(627, 8);
             txtModifier.Name = "txtModifier";
             txtModifier.ReadOnly = true;
             txtModifier.Size = new Size(90, 32);
@@ -667,7 +667,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // lbl修改
             // 
             lbl修改.AutoSize = true;
-            lbl修改.Location = new Point(722, 14);
+            lbl修改.Location = new Point(719, 14);
             lbl修改.Name = "lbl修改";
             lbl修改.Size = new Size(48, 24);
             lbl修改.TabIndex = 8;
@@ -676,10 +676,10 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // txtModify
             // 
             txtModify.BackColor = Color.LightGray;
-            txtModify.Location = new Point(760, 8);
+            txtModify.Location = new Point(768, 8);
             txtModify.Name = "txtModify";
             txtModify.ReadOnly = true;
-            txtModify.Size = new Size(120, 32);
+            txtModify.Size = new Size(112, 32);
             txtModify.TabIndex = 9;
             // 
             // lbl修改日
@@ -694,10 +694,10 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // txtModifyDate
             // 
             txtModifyDate.BackColor = Color.LightGray;
-            txtModifyDate.Location = new Point(940, 8);
+            txtModifyDate.Location = new Point(964, 8);
             txtModifyDate.Name = "txtModifyDate";
             txtModifyDate.ReadOnly = true;
-            txtModifyDate.Size = new Size(120, 32);
+            txtModifyDate.Size = new Size(96, 32);
             txtModifyDate.TabIndex = 11;
             // 
             // lbl建檔人員
@@ -712,16 +712,16 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // txtCreator
             // 
             txtCreator.BackColor = Color.LightGray;
-            txtCreator.Location = new Point(1152, 8);
+            txtCreator.Location = new Point(1168, 8);
             txtCreator.Name = "txtCreator";
             txtCreator.ReadOnly = true;
-            txtCreator.Size = new Size(90, 32);
+            txtCreator.Size = new Size(74, 32);
             txtCreator.TabIndex = 13;
             // 
             // lbl建檔
             // 
             lbl建檔.AutoSize = true;
-            lbl建檔.Location = new Point(1250, 14);
+            lbl建檔.Location = new Point(1248, 12);
             lbl建檔.Name = "lbl建檔";
             lbl建檔.Size = new Size(48, 24);
             lbl建檔.TabIndex = 14;
@@ -730,10 +730,10 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // txtCreate
             // 
             txtCreate.BackColor = Color.LightGray;
-            txtCreate.Location = new Point(1288, 8);
+            txtCreate.Location = new Point(1296, 8);
             txtCreate.Name = "txtCreate";
             txtCreate.ReadOnly = true;
-            txtCreate.Size = new Size(120, 32);
+            txtCreate.Size = new Size(112, 32);
             txtCreate.TabIndex = 15;
             // 
             // lbl建檔日
@@ -748,10 +748,10 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             // txtCreateDate
             // 
             txtCreateDate.BackColor = Color.LightGray;
-            txtCreateDate.Location = new Point(1466, 8);
+            txtCreateDate.Location = new Point(1480, 8);
             txtCreateDate.Name = "txtCreateDate";
             txtCreateDate.ReadOnly = true;
-            txtCreateDate.Size = new Size(120, 32);
+            txtCreateDate.Size = new Size(106, 32);
             txtCreateDate.TabIndex = 17;
             // 
             // OtherIncomeMaintainControl

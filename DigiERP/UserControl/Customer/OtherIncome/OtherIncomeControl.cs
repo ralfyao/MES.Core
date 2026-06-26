@@ -14,11 +14,17 @@ namespace DigiERP.UserControl.Customer.OtherIncome
     public partial class OtherIncomeControl : CommonUserControl
     {
         FrmCustSelect popup;
+        private static string id = "3344F4D3-18C6-49AD-BE21-6068618F4448";
         private ARController _arController { get; set; }
         List<F其他收入單> otherIncomeList { get; set; }
 
         public OtherIncomeControl()
         {
+            if (!chkPrivilege(id))
+            {
+                MessageBox.Show("非授權使用者無法使用此功能!");
+                Dispose();
+            }
             InitializeComponent();
             initController();
             initGrid();
