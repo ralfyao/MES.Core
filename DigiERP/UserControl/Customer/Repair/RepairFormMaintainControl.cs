@@ -132,14 +132,6 @@ namespace DigiERP.UserControl.Customer.Repair
             cboReason1.DataSource = new List<客訴及維修原因類別>(source);
             cboReason1.DisplayMember = "原因類別";
             cboReason1.ValueMember = "原因類別";
-
-            cboReason2.DataSource = new List<客訴及維修原因類別>(source);
-            cboReason2.DisplayMember = "原因類別";
-            cboReason2.ValueMember = "原因類別";
-
-            cboReason3.DataSource = new List<客訴及維修原因類別>(source);
-            cboReason3.DisplayMember = "原因類別";
-            cboReason3.ValueMember = "原因類別";
         }
 
         private static string FmtDate(string s)
@@ -176,10 +168,6 @@ namespace DigiERP.UserControl.Customer.Repair
             txtDiagnosis1.Text = form.原因鑑定1 ?? "";
             cboReason1.Text = form.原因類別1 ?? "";
             txtDesc1.Text = form.簡要描述1 ?? "";
-            cboReason2.Text = form.原因類別2 ?? "";
-            //txtDesc2.Text = form.簡要描述2 ?? "";
-            cboReason3.Text = form.原因類別3 ?? "";
-            //txtDesc3.Text = form.簡要描述3 ?? "";
         }
 
         private void CollectUserInput()
@@ -208,10 +196,6 @@ namespace DigiERP.UserControl.Customer.Repair
             form.原因鑑定1 = txtDiagnosis1.Text;
             form.原因類別1 = cboReason1.Text;
             form.簡要描述1 = txtDesc1.Text;
-            form.原因類別2 = cboReason2.Text;
-            form.簡要描述2 = string.Empty;
-            form.原因類別3 = cboReason3.Text;
-            form.簡要描述3 = string.Empty;
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)

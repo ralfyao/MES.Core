@@ -72,8 +72,6 @@ namespace DigiERP.UserControl.Customer.Repair
             labelR3 = new Label();
             labelR4 = new Label();
             cboReason1 = new DigiERP.Common.CommonComboBox();
-            cboReason2 = new DigiERP.Common.CommonComboBox();
-            cboReason3 = new DigiERP.Common.CommonComboBox();
             labelR5 = new Label();
             txtRecommendation = new DigiERP.Common.CommonTextBox();
             labelR6 = new Label();
@@ -84,7 +82,7 @@ namespace DigiERP.UserControl.Customer.Repair
             // 
             // panelHeader
             // 
-            panelHeader.BackColor = Color.LightSteelBlue;
+            panelHeader.BackColor = Color.FromArgb(192, 255, 192);
             panelHeader.Controls.Add(lblTitle);
             panelHeader.Controls.Add(lblMode);
             panelHeader.Controls.Add(btnSave);
@@ -196,7 +194,7 @@ namespace DigiERP.UserControl.Customer.Repair
             // panelMain
             // 
             panelMain.AutoScroll = true;
-            panelMain.BackColor = Color.WhiteSmoke;
+            panelMain.BackColor = Color.FromArgb(192, 255, 192);
             panelMain.Controls.Add(label1);
             panelMain.Controls.Add(dtApplyDate);
             panelMain.Controls.Add(label2);
@@ -244,8 +242,6 @@ namespace DigiERP.UserControl.Customer.Repair
             panelMain.Controls.Add(labelR3);
             panelMain.Controls.Add(labelR4);
             panelMain.Controls.Add(cboReason1);
-            panelMain.Controls.Add(cboReason2);
-            panelMain.Controls.Add(cboReason3);
             panelMain.Controls.Add(labelR5);
             panelMain.Controls.Add(txtRecommendation);
             panelMain.Controls.Add(labelR6);
@@ -259,7 +255,7 @@ namespace DigiERP.UserControl.Customer.Repair
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(8, 16);
+            label1.Location = new Point(-1, 16);
             label1.Name = "label1";
             label1.Size = new Size(86, 24);
             label1.TabIndex = 0;
@@ -338,7 +334,7 @@ namespace DigiERP.UserControl.Customer.Repair
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(8, 56);
+            label5.Location = new Point(-1, 56);
             label5.Name = "label5";
             label5.Size = new Size(86, 24);
             label5.TabIndex = 9;
@@ -431,7 +427,7 @@ namespace DigiERP.UserControl.Customer.Repair
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(8, 94);
+            label10.Location = new Point(-1, 94);
             label10.Name = "label10";
             label10.Size = new Size(86, 24);
             label10.TabIndex = 20;
@@ -465,7 +461,7 @@ namespace DigiERP.UserControl.Customer.Repair
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(8, 132);
+            label12.Location = new Point(-1, 132);
             label12.Name = "label12";
             label12.Size = new Size(86, 24);
             label12.TabIndex = 24;
@@ -497,7 +493,7 @@ namespace DigiERP.UserControl.Customer.Repair
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(8, 170);
+            label14.Location = new Point(-1, 170);
             label14.Name = "label14";
             label14.Size = new Size(86, 24);
             label14.TabIndex = 28;
@@ -628,7 +624,7 @@ namespace DigiERP.UserControl.Customer.Repair
             // 
             labelR2.AutoSize = true;
             labelR2.ForeColor = Color.DimGray;
-            labelR2.Location = new Point(8, 486);
+            labelR2.Location = new Point(0, 486);
             labelR2.Name = "labelR2";
             labelR2.Size = new Size(86, 24);
             labelR2.TabIndex = 42;
@@ -657,7 +653,7 @@ namespace DigiERP.UserControl.Customer.Repair
             // 
             labelR4.AutoSize = true;
             labelR4.ForeColor = Color.DimGray;
-            labelR4.Location = new Point(556, 462);
+            labelR4.Location = new Point(556, 484);
             labelR4.Name = "labelR4";
             labelR4.Size = new Size(86, 24);
             labelR4.TabIndex = 47;
@@ -666,26 +662,10 @@ namespace DigiERP.UserControl.Customer.Repair
             // cboReason1
             // 
             cboReason1.FormattingEnabled = true;
-            cboReason1.Location = new Point(556, 486);
+            cboReason1.Location = new Point(556, 512);
             cboReason1.Name = "cboReason1";
             cboReason1.Size = new Size(412, 31);
             cboReason1.TabIndex = 48;
-            // 
-            // cboReason2
-            // 
-            cboReason2.FormattingEnabled = true;
-            cboReason2.Location = new Point(556, 524);
-            cboReason2.Name = "cboReason2";
-            cboReason2.Size = new Size(412, 31);
-            cboReason2.TabIndex = 49;
-            // 
-            // cboReason3
-            // 
-            cboReason3.FormattingEnabled = true;
-            cboReason3.Location = new Point(556, 562);
-            cboReason3.Name = "cboReason3";
-            cboReason3.Size = new Size(412, 31);
-            cboReason3.TabIndex = 50;
             // 
             // labelR5
             // 
@@ -710,7 +690,7 @@ namespace DigiERP.UserControl.Customer.Repair
             // labelR6
             // 
             labelR6.AutoSize = true;
-            labelR6.Location = new Point(8, 728);
+            labelR6.Location = new Point(-1, 728);
             labelR6.Name = "labelR6";
             labelR6.Size = new Size(86, 24);
             labelR6.TabIndex = 53;
@@ -727,8 +707,9 @@ namespace DigiERP.UserControl.Customer.Repair
             // 
             // RepairFormMaintainControl
             // 
-            AutoScaleMode = AutoScaleMode.None;
-            BackColor = Color.WhiteSmoke;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            BackColor = Color.FromArgb(192, 255, 192);
             Controls.Add(panelMain);
             Controls.Add(panelHeader);
             Font = new Font("Microsoft JhengHei UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 136);
@@ -807,8 +788,6 @@ namespace DigiERP.UserControl.Customer.Repair
         private Label labelR3;
         private Label labelR4;
         private DigiERP.Common.CommonComboBox cboReason1;
-        private DigiERP.Common.CommonComboBox cboReason2;
-        private DigiERP.Common.CommonComboBox cboReason3;
         private Label labelR5;
         private DigiERP.Common.CommonTextBox txtRecommendation;
         private Label labelR6;
