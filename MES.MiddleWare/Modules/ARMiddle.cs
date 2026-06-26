@@ -283,7 +283,7 @@ namespace MES.MiddleWare.Modules
             {
                 using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
-                    string strSQL = $"SELECT COUNT(0) FROM F收款 WHERE 單號 LIKE 'SV{DateTime.Now.ToString("yyyyMM")}%'";
+                    string strSQL = $"SELECT COUNT(0) FROM F其他收入單 WHERE 單號 LIKE 'SV{DateTime.Now.ToString("yyyyMM")}%'";
                     List<string> ls = conn.Query<string>(strSQL).ToList();
                     if (ls.Count() > 0)
                     {

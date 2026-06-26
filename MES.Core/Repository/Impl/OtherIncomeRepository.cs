@@ -175,11 +175,11 @@ namespace MES.Core.Repository.Impl
                         conn.Open();
                         DynamicParameters dynamicParameters = new DynamicParameters(t);
                         execCnt += conn.Execute(sql, dynamicParameters);
+                        conn.Execute("DELETE FROM F其他收支明細 WHERE 單號=@單號", new { t.單號 });
                         foreach (var item in t.detailList)
                         {
                             item.單號 = t.單號;
-                            sql = @"DELETE FROM F其他收支明細 WHERE 識別=@識別;
-                                    INSERT INTO dbo.F其他收支明細
+                            sql = @"INSERT INTO dbo.F其他收支明細
                                     (
                                         單號,
                                         項目編號,
