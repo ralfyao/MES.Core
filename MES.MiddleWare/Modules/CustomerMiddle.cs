@@ -2850,6 +2850,31 @@ namespace MES.MiddleWare.Modules
             }
             return eqpServDetail;
         }
+
+        public 專案機台交貨單 getEquShippingOrder(string? orderNo)
+        {
+            專案機台交貨單 retObj = new 專案機台交貨單();
+            try
+            {
+                using(var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = $@"SELECT * FROM 專案機台交貨單 WHERE 單號=@單號";
+                    DynamicParameters dynamicParameters = new DynamicParameters(new 專案機台交貨單() { 單號 = orderNo });
+                    retObj = conn.QueryFirst<專案機台交貨單>(strSQL, dynamicParameters);
+                    DynamicParameters dynamicParameters_專案序號 = new DynamicParameters(new 專案機台交貨單() { 專案序號 = retObj.專案序號 });
+                    retObj.專案機台裝箱明細.AddRange(conn.Query<專案機台裝箱明細>($@"SELECT * FROM 專案機台裝箱明細 WHERE 單號 = @單號", dynamicParameters).ToList());
+                    retObj.專案應收沖款明細.AddRange(conn.Query<專案應收沖款明細>($@"SELECT * FROM 專案應收沖款明細 WHERE 專案序號 = @專案序號", dynamicParameters_專案序號).ToList());
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return retObj;
+            //throw new NotImplementedException();
+        }
     }
     public class QueryCustListByConditionReq
     {

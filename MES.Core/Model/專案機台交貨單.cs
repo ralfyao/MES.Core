@@ -48,5 +48,7 @@ namespace MES.Core.Model
         public string? Mark { get; set; }
         public string? Ship { get; set; }
         public string? Voyage { get; set; }
+        public List<專案機台裝箱明細> 專案機台裝箱明細 { get; set; } = new List<專案機台裝箱明細>();
+        public List<專案應收沖款明細> 專案應收沖款明細 { get; set; } = new List<專案應收沖款明細>();
     }
 }

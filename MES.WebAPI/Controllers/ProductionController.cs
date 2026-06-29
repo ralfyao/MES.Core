@@ -116,6 +116,93 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetAllWorkOrderSerials"), HttpGet]
+        public CommonRep<工令單> GetAllWorkOrderSerials()
+        {
+            CommonRep<工令單> commonRep = new CommonRep<工令單>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try { commonRep.resultList = productionMiddle.getAllWorkOrderSerials(); }
+            catch (Exception ex) { commonRep.ErrorMessage = ex.Message; commonRep.WorkStatus = WorkStatus.Fail.ToString(); }
+            return commonRep;
+        }
+
+        [Route("api/GetNewEQPShippingNo"), HttpGet]
+        public CommonRep<string> GetNewEQPShippingNo()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try { commonRep.result = productionMiddle.getNewEQPShippingNo(); }
+            catch (Exception ex) { commonRep.ErrorMessage = ex.Message; commonRep.WorkStatus = WorkStatus.Fail.ToString(); }
+            return commonRep;
+        }
+
+        [Route("api/GetEQPShippingByNo"), HttpGet]
+        public CommonRep<專案機台交貨單> GetEQPShippingByNo(string 單號)
+        {
+            CommonRep<專案機台交貨單> commonRep = new CommonRep<專案機台交貨單>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try { commonRep.result = productionMiddle.getEQPShippingByNo(單號); }
+            catch (Exception ex) { commonRep.ErrorMessage = ex.Message; commonRep.WorkStatus = WorkStatus.Fail.ToString(); }
+            return commonRep;
+        }
+
+        [Route("api/SaveEQPShipping"), HttpPost]
+        public CommonRep<int> SaveEQPShipping([FromBody] 專案機台交貨單 form)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try { commonRep.result = productionMiddle.saveEQPShipping(form); }
+            catch (Exception ex) { commonRep.ErrorMessage = ex.Message; commonRep.WorkStatus = WorkStatus.Fail.ToString(); }
+            return commonRep;
+        }
+
+        [Route("api/UpdateEQPShipping"), HttpPost]
+        public CommonRep<int> UpdateEQPShipping([FromBody] 專案機台交貨單 form)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try { commonRep.result = productionMiddle.updateEQPShipping(form); }
+            catch (Exception ex) { commonRep.ErrorMessage = ex.Message; commonRep.WorkStatus = WorkStatus.Fail.ToString(); }
+            return commonRep;
+        }
+
+        [Route("api/DeleteEQPShipping"), HttpGet]
+        public CommonRep<int> DeleteEQPShipping(string 單號)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try { commonRep.result = productionMiddle.deleteEQPShipping(單號); }
+            catch (Exception ex) { commonRep.ErrorMessage = ex.Message; commonRep.WorkStatus = WorkStatus.Fail.ToString(); }
+            return commonRep;
+        }
+
+        [Route("api/ValidateEQPShipping"), HttpGet]
+        public CommonRep<int> ValidateEQPShipping(string 單號, bool approve, string account)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try { commonRep.result = productionMiddle.validateEQPShipping(單號, approve, account); }
+            catch (Exception ex) { commonRep.ErrorMessage = ex.Message; commonRep.WorkStatus = WorkStatus.Fail.ToString(); }
+            return commonRep;
+        }
+
+        [Route("api/GetAllProjectShippingOrders"), HttpGet]
+        public CommonRep<專案機台交貨單> GetAllProjectShippingOrders()
+        {
+            CommonRep<專案機台交貨單> commonRep = new CommonRep<專案機台交貨單>();
+            ProductionMiddle productionMiddle = new ProductionMiddle();
+            try
+            {
+                commonRep.resultList = productionMiddle.getAllProjectShippingOrders();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/GetKeyword"), HttpGet]
         public CommonRep<string> GetKeyword(string kyType)
         {

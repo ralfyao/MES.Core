@@ -2256,7 +2256,7 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
-
+        [Route("api/SaveEQPCustServiceDetail"), HttpPost]
         public CommonRep<C機台客服明細> SaveEQPCustServiceDetail([FromBody] C機台客服明細 eqpServDetail)
         {
             CommonRep<C機台客服明細> commonRep = new CommonRep<C機台客服明細>();
@@ -2264,6 +2264,23 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.result = customerMiddle.saveEQPCustServiceDetails(eqpServDetail);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                logger.Error(ex);
+            }
+            return commonRep;
+        }
+
+        public CommonRep<專案機台交貨單> GetEQPShipping(string? orderNo)
+        {
+            CommonRep<專案機台交貨單> commonRep = new CommonRep<專案機台交貨單>();
+            CustomerMiddle customerMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = customerMiddle.getEquShippingOrder(orderNo);
             }
             catch (Exception ex)
             {
