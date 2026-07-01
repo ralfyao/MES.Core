@@ -1,4 +1,5 @@
 using DigiERP.Common;
+using DigiERP.Forms.Customer.EQPShipping;
 using DigiERP.Models;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
@@ -130,6 +131,16 @@ namespace DigiERP.UserControl.Customer.EQPShipping
             cboCurrency.Items.Add("");
             foreach (var c in _currencyList) cboCurrency.Items.Add(c.CURRENCY ?? "");
             cboCurrency.Text = form?.Trade ?? "";
+
+            colDollar1.Items.Clear();
+            colDollar2.Items.Clear();
+            colDollar1.Items.Add("");
+            colDollar2.Items.Add("");
+            foreach (var c in _currencyList)
+            {
+                colDollar1.Items.Add(c.CURRENCY ?? "");
+                colDollar2.Items.Add(c.CURRENCY ?? "");
+            }
         }
 
         private void initDropdownLists()
@@ -195,6 +206,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
             txtContainerType.Text = form.ContainerType ?? "";
             cboDeliveryTerm.Text = form.Trade ?? "";
             txtDestinationPort.Text = form.DestinationPort ?? "";
+            txtContainerPort.Text = form.ContainerPort ?? "";
             cboPacking.Text = form.Packing ?? "";
             cboInsurance.Text = form.Insurance ?? "";
             txtCutOff.Text = FmtDate(form.CustomsClose);
@@ -247,6 +259,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
                 row.Cells[colDim.Index].Value = d.Dimensioncm;
                 row.Cells[colHS.Index].Value = d.HSCode;
             }
+            CalcBoxTotals();
         }
 
         private void initPaymentGrid()
@@ -267,6 +280,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
                 row.Cells[colOperator.Index].Value = d.沖帳人員;
                 row.Cells[colReview.Index].Value = d.業務複審;
             }
+            CalcPaymentTotals();
         }
 
         private void CalcPaymentSummary()
@@ -274,6 +288,36 @@ namespace DigiERP.UserControl.Customer.EQPShipping
             decimal total = (form?.專案應收沖款明細 ?? new List<專案應收沖款明細>())
                 .Sum(x => x.實收金額 ?? 0m);
             txtReceivableTotal.Text = total.ToString("N2");
+        }
+
+        private void CalcBoxTotals()
+        {
+            decimal totalAmount = 0m, totalNW = 0m, totalGW = 0m;
+            foreach (DataGridViewRow row in dgvBox.Rows)
+            {
+                if (row.IsNewRow) continue;
+                decimal.TryParse(row.Cells[colAmount.Index].Value?.ToString(), out decimal a);
+                decimal.TryParse(row.Cells[colNW.Index].Value?.ToString(), out decimal nw);
+                decimal.TryParse(row.Cells[colGW.Index].Value?.ToString(), out decimal gw);
+                totalAmount += a; totalNW += nw; totalGW += gw;
+            }
+            txtBoxTotalAmount.Text = totalAmount.ToString("N2");
+            txtBoxTotalNW.Text = totalNW.ToString("N3");
+            txtBoxTotalGW.Text = totalGW.ToString("N3");
+        }
+
+        private void CalcPaymentTotals()
+        {
+            decimal totalWriteOff = 0m, totalReceived = 0m;
+            foreach (DataGridViewRow row in dgvPayment.Rows)
+            {
+                if (row.IsNewRow) continue;
+                decimal.TryParse(row.Cells[colWriteOff.Index].Value?.ToString(), out decimal wo);
+                decimal.TryParse(row.Cells[colReceived.Index].Value?.ToString(), out decimal rc);
+                totalWriteOff += wo; totalReceived += rc;
+            }
+            txtPayTotalWriteOff.Text = totalWriteOff.ToString("N2");
+            txtPayTotalReceived.Text = totalReceived.ToString("N2");
         }
 
         private void dgvBox_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -286,6 +330,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
                 decimal up = decimal.TryParse(row.Cells[colUnitPrice.Index].Value?.ToString(), out decimal u) ? u : 0m;
                 row.Cells[colAmount.Index].Value = (qty * up).ToString("N2");
             }
+            CalcBoxTotals();
         }
 
         private void dgvBox_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -308,6 +353,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
             form.ContainerType = txtContainerType.Text;
             form.Trade = cboDeliveryTerm.Text;
             form.DestinationPort = txtDestinationPort.Text;
+            form.ContainerPort = txtContainerPort.Text;
             form.Packing = cboPacking.Text;
             form.Insurance = cboInsurance.Text;
             form.CustomsClose = txtCutOff.Text;
@@ -372,6 +418,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
                 if (!string.IsNullOrEmpty(rep.ErrorMessage)) { MessageBox.Show(rep.ErrorMessage); return; }
                 MessageBox.Show("儲存成功!");
             }
+            btnBack_Click(null, null);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -430,6 +477,17 @@ namespace DigiERP.UserControl.Customer.EQPShipping
                 if (grid != null) grid.Visible = true;
                 parentPanel.Controls.Remove(this);
             }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            CollectUserInput();
+            var frm = new FrmEQPShippingPrint
+            {
+                DeliveryOrder = form,
+                Consignee = txtConsignee.Text
+            };
+            frm.Show();
         }
     }
 }

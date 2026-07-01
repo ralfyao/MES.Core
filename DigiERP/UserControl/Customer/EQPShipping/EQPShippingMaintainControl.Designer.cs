@@ -15,226 +15,275 @@ namespace DigiERP.UserControl.Customer.EQPShipping
 
         private void InitializeComponent()
         {
-            panel1 = new System.Windows.Forms.Panel();
-            lblMode = new System.Windows.Forms.Label();
-            btnUpdateBox = new System.Windows.Forms.Button();
-            btnSave = new System.Windows.Forms.Button();
-            btnDelete = new System.Windows.Forms.Button();
-            btnApprove = new System.Windows.Forms.Button();
-            btnCancelApprove = new System.Windows.Forms.Button();
-            btnBack = new System.Windows.Forms.Button();
-            panelForm = new System.Windows.Forms.Panel();
-            lbl日期 = new System.Windows.Forms.Label();
-            dtDate = new System.Windows.Forms.DateTimePicker();
-            lbl單號 = new System.Windows.Forms.Label();
-            txtFormNo = new System.Windows.Forms.TextBox();
-            lbl序號 = new System.Windows.Forms.Label();
-            cboSerialNo = new System.Windows.Forms.ComboBox();
-            lblClient = new System.Windows.Forms.Label();
-            txtClient = new System.Windows.Forms.TextBox();
-            lblConsignee = new System.Windows.Forms.Label();
-            txtConsignee = new System.Windows.Forms.TextBox();
-            lblModel = new System.Windows.Forms.Label();
-            txtModel = new System.Windows.Forms.TextBox();
-            lblMachine = new System.Windows.Forms.Label();
-            txtMachine = new System.Windows.Forms.TextBox();
-            lblPostalAdd = new System.Windows.Forms.Label();
-            txtPostalAdd = new System.Windows.Forms.TextBox();
-            lblAttn = new System.Windows.Forms.Label();
-            cboAttn = new System.Windows.Forms.ComboBox();
-            lblDeliveryAdd = new System.Windows.Forms.Label();
-            txtDeliveryAdd = new System.Windows.Forms.TextBox();
-            lblTel = new System.Windows.Forms.Label();
-            cboTel = new System.Windows.Forms.ComboBox();
-            lblPO = new System.Windows.Forms.Label();
-            txtPONumber = new System.Windows.Forms.TextBox();
-            lblPI = new System.Windows.Forms.Label();
-            txtPINumber = new System.Windows.Forms.TextBox();
-            lblContainer = new System.Windows.Forms.Label();
-            cboContainer = new System.Windows.Forms.ComboBox();
-            lblContainerType = new System.Windows.Forms.Label();
-            txtContainerType = new System.Windows.Forms.TextBox();
-            lblDeliveryTerm = new System.Windows.Forms.Label();
-            cboDeliveryTerm = new System.Windows.Forms.ComboBox();
-            lblDestPort = new System.Windows.Forms.Label();
-            txtDestinationPort = new System.Windows.Forms.TextBox();
-            lblPacking = new System.Windows.Forms.Label();
-            cboPacking = new System.Windows.Forms.ComboBox();
-            lblInsurance = new System.Windows.Forms.Label();
-            cboInsurance = new System.Windows.Forms.ComboBox();
-            lblCutOff = new System.Windows.Forms.Label();
-            txtCutOff = new System.Windows.Forms.TextBox();
-            lblETD = new System.Windows.Forms.Label();
-            txtETD = new System.Windows.Forms.TextBox();
-            lblETA = new System.Windows.Forms.Label();
-            txtETA = new System.Windows.Forms.TextBox();
-            lblTypesOfBL = new System.Windows.Forms.Label();
-            cboTypesOfBL = new System.Windows.Forms.ComboBox();
-            lblShipName = new System.Windows.Forms.Label();
-            txtShipName = new System.Windows.Forms.TextBox();
-            lblForwarder = new System.Windows.Forms.Label();
-            txtForwarder = new System.Windows.Forms.TextBox();
-            lblCertOfOrigin = new System.Windows.Forms.Label();
-            cboCertOfOrigin = new System.Windows.Forms.ComboBox();
-            lblSurrenderBL = new System.Windows.Forms.Label();
-            cboSurrenderBL = new System.Windows.Forms.ComboBox();
-            lblVoyage = new System.Windows.Forms.Label();
-            txtVoyage = new System.Windows.Forms.TextBox();
-            lblDoc = new System.Windows.Forms.Label();
-            cboDoc = new System.Windows.Forms.ComboBox();
-            lblMark = new System.Windows.Forms.Label();
-            cboMark = new System.Windows.Forms.ComboBox();
-            txtMark2 = new System.Windows.Forms.TextBox();
-            lblShippingMark = new System.Windows.Forms.Label();
-            lblDestination = new System.Windows.Forms.Label();
-            txtDestination = new System.Windows.Forms.TextBox();
-            lblCaseNo = new System.Windows.Forms.Label();
-            txtCaseNo = new System.Windows.Forms.TextBox();
-            lblTotal = new System.Windows.Forms.Label();
-            txtTotal = new System.Windows.Forms.TextBox();
-            lbl幣別 = new System.Windows.Forms.Label();
-            cboCurrency = new System.Windows.Forms.ComboBox();
-            lblReceivable = new System.Windows.Forms.Label();
-            txtReceivableTotal = new System.Windows.Forms.TextBox();
-            lblPaymentRatio = new System.Windows.Forms.Label();
-            txtPaymentRatio = new System.Windows.Forms.TextBox();
-            lblPayCode = new System.Windows.Forms.Label();
-            txtPaymentCode = new System.Windows.Forms.TextBox();
-            txtPaymentTerm = new System.Windows.Forms.TextBox();
-            panelFooter = new System.Windows.Forms.Panel();
-            lblApproverLbl = new System.Windows.Forms.Label();
-            txtApprover = new System.Windows.Forms.TextBox();
-            txtApproveDate = new System.Windows.Forms.TextBox();
-            lblModifierLbl = new System.Windows.Forms.Label();
-            txtModifier = new System.Windows.Forms.TextBox();
-            txtModifyDate = new System.Windows.Forms.TextBox();
-            lblCreatorLbl = new System.Windows.Forms.Label();
-            txtCreator = new System.Windows.Forms.TextBox();
-            txtCreateDate = new System.Windows.Forms.TextBox();
-            panelDetail = new System.Windows.Forms.Panel();
-            splitContainer1 = new System.Windows.Forms.SplitContainer();
-            lblBoxTitle = new System.Windows.Forms.Label();
-            dgvBox = new System.Windows.Forms.DataGridView();
-            colDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colQTY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colDollar1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colUnitPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colDollar2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colNW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colGW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colDim = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colHS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            lblPaymentTitle = new System.Windows.Forms.Label();
-            dgvPayment = new System.Windows.Forms.DataGridView();
-            colPayDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colPayItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colPayType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colWriteOff = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colReceived = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colFee = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colOtherDeduct = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colDeductReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colOperator = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            colReview = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
+            panel1 = new Panel();
+            btnBack = new Button();
+            btnCancelApprove = new Button();
+            btnApprove = new Button();
+            btnDelete = new Button();
+            btnSave = new Button();
+            btnUpdateBox = new Button();
+            btnPrint = new Button();
+            lblMode = new Label();
+            panelForm = new Panel();
+            txtPaymentTerm = new TextBox();
+            txtPaymentCode = new TextBox();
+            lblPayCode = new Label();
+            txtPaymentRatio = new TextBox();
+            lblPaymentRatio = new Label();
+            txtReceivableTotal = new TextBox();
+            lblReceivable = new Label();
+            cboCurrency = new ComboBox();
+            lbl幣別 = new Label();
+            txtTotal = new TextBox();
+            lblTotal = new Label();
+            txtCaseNo = new TextBox();
+            lblCaseNo = new Label();
+            txtDestination = new TextBox();
+            lblDestination = new Label();
+            lblShippingMark = new Label();
+            txtMark2 = new TextBox();
+            cboMark = new ComboBox();
+            lblMark = new Label();
+            cboDoc = new ComboBox();
+            lblDoc = new Label();
+            txtVoyage = new TextBox();
+            lblVoyage = new Label();
+            cboSurrenderBL = new ComboBox();
+            lblSurrenderBL = new Label();
+            cboCertOfOrigin = new ComboBox();
+            lblCertOfOrigin = new Label();
+            txtForwarder = new TextBox();
+            lblForwarder = new Label();
+            txtShipName = new TextBox();
+            lblShipName = new Label();
+            cboTypesOfBL = new ComboBox();
+            lblTypesOfBL = new Label();
+            txtETA = new TextBox();
+            lblETA = new Label();
+            txtETD = new TextBox();
+            lblETD = new Label();
+            txtCutOff = new TextBox();
+            lblCutOff = new Label();
+            cboInsurance = new ComboBox();
+            lblInsurance = new Label();
+            txtContainerPort = new TextBox();
+            lblContainerPort = new Label();
+            cboPacking = new ComboBox();
+            lblPacking = new Label();
+            txtDestinationPort = new TextBox();
+            lblDestPort = new Label();
+            cboDeliveryTerm = new ComboBox();
+            lblDeliveryTerm = new Label();
+            txtContainerType = new TextBox();
+            lblContainerType = new Label();
+            cboContainer = new ComboBox();
+            lblContainer = new Label();
+            txtPINumber = new TextBox();
+            lblPI = new Label();
+            txtPONumber = new TextBox();
+            lblPO = new Label();
+            cboTel = new ComboBox();
+            lblTel = new Label();
+            txtDeliveryAdd = new TextBox();
+            lblDeliveryAdd = new Label();
+            cboAttn = new ComboBox();
+            lblAttn = new Label();
+            txtPostalAdd = new TextBox();
+            lblPostalAdd = new Label();
+            txtMachine = new TextBox();
+            lblMachine = new Label();
+            txtModel = new TextBox();
+            lblModel = new Label();
+            txtConsignee = new TextBox();
+            lblConsignee = new Label();
+            txtClient = new TextBox();
+            lblClient = new Label();
+            cboSerialNo = new ComboBox();
+            lbl序號 = new Label();
+            txtFormNo = new TextBox();
+            lbl單號 = new Label();
+            dtDate = new DateTimePicker();
+            lbl日期 = new Label();
+            panelFooter = new Panel();
+            txtCreateDate = new TextBox();
+            txtCreator = new TextBox();
+            lblCreatorLbl = new Label();
+            txtModifyDate = new TextBox();
+            txtModifier = new TextBox();
+            lblModifierLbl = new Label();
+            txtApproveDate = new TextBox();
+            txtApprover = new TextBox();
+            lblApproverLbl = new Label();
+            panelDetail = new Panel();
+            splitContainer1 = new SplitContainer();
+            dgvBox = new DataGridView();
+            colDesc = new DataGridViewTextBoxColumn();
+            colQTY = new DataGridViewTextBoxColumn();
+            colUnit = new DataGridViewTextBoxColumn();
+            colDollar1 = new DataGridViewComboBoxColumn();
+            colUnitPrice = new DataGridViewTextBoxColumn();
+            colDollar2 = new DataGridViewComboBoxColumn();
+            colAmount = new DataGridViewTextBoxColumn();
+            colNW = new DataGridViewTextBoxColumn();
+            colGW = new DataGridViewTextBoxColumn();
+            colDim = new DataGridViewTextBoxColumn();
+            colHS = new DataGridViewTextBoxColumn();
+            panelBoxTotal = new Panel();
+            txtBoxTotalGW = new TextBox();
+            lblBoxGWLbl = new Label();
+            txtBoxTotalNW = new TextBox();
+            lblBoxNWLbl = new Label();
+            txtBoxTotalAmount = new TextBox();
+            lblBoxAmountLbl = new Label();
+            lblBoxTotalHeader = new Label();
+            lblBoxTitle = new Label();
+            dgvPayment = new DataGridView();
+            colPayDate = new DataGridViewTextBoxColumn();
+            colPayItem = new DataGridViewTextBoxColumn();
+            colPayType = new DataGridViewTextBoxColumn();
+            colWriteOff = new DataGridViewTextBoxColumn();
+            colReceived = new DataGridViewTextBoxColumn();
+            colFee = new DataGridViewTextBoxColumn();
+            colOtherDeduct = new DataGridViewTextBoxColumn();
+            colDeductReason = new DataGridViewTextBoxColumn();
+            colOperator = new DataGridViewTextBoxColumn();
+            colReview = new DataGridViewTextBoxColumn();
+            panelPaymentTotal = new Panel();
+            txtPayTotalReceived = new TextBox();
+            lblPayReceivedLbl = new Label();
+            txtPayTotalWriteOff = new TextBox();
+            lblPayWriteOffLbl = new Label();
+            lblPayTotalHeader = new Label();
+            lblPaymentTitle = new Label();
             panel1.SuspendLayout();
             panelForm.SuspendLayout();
             panelFooter.SuspendLayout();
+            panelDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvBox).BeginInit();
+            panelBoxTotal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPayment).BeginInit();
+            panelPaymentTotal.SuspendLayout();
             SuspendLayout();
-
-            // ── panel1 (toolbar) ──────────────────────────────────────────
-            panel1.BackColor = System.Drawing.Color.FromArgb(255, 224, 192);
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(255, 224, 192);
             panel1.Controls.Add(btnBack);
             panel1.Controls.Add(btnCancelApprove);
             panel1.Controls.Add(btnApprove);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnSave);
             panel1.Controls.Add(btnUpdateBox);
+            panel1.Controls.Add(btnPrint);
             panel1.Controls.Add(lblMode);
-            panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            panel1.Location = new System.Drawing.Point(0, 0);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(1654, 60);
+            panel1.Size = new Size(1654, 60);
             panel1.TabIndex = 0;
-
-            lblMode.AutoSize = true;
-            lblMode.Font = new System.Drawing.Font("Microsoft JhengHei UI", 14F, System.Drawing.FontStyle.Bold);
-            lblMode.Location = new System.Drawing.Point(8, 16);
-            lblMode.Name = "lblMode";
-            lblMode.Size = new System.Drawing.Size(56, 24);
-            lblMode.TabIndex = 0;
-            lblMode.Text = "新增";
-
-            btnUpdateBox.BackColor = System.Drawing.Color.MediumSeaGreen;
-            btnUpdateBox.ForeColor = System.Drawing.Color.White;
-            btnUpdateBox.Location = new System.Drawing.Point(80, 8);
-            btnUpdateBox.Name = "btnUpdateBox";
-            btnUpdateBox.Size = new System.Drawing.Size(120, 44);
-            btnUpdateBox.TabIndex = 1;
-            btnUpdateBox.Text = "更新裝箱明細";
-            btnUpdateBox.UseVisualStyleBackColor = false;
-            btnUpdateBox.Click += btnUpdateBox_Click;
-
-            btnSave.BackColor = System.Drawing.Color.CornflowerBlue;
-            btnSave.ForeColor = System.Drawing.Color.White;
-            btnSave.Location = new System.Drawing.Point(210, 8);
-            btnSave.Name = "btnSave";
-            btnSave.Size = new System.Drawing.Size(100, 44);
-            btnSave.TabIndex = 2;
-            btnSave.Text = "儲存";
-            btnSave.UseVisualStyleBackColor = false;
-            btnSave.Click += btnSave_Click;
-
-            btnDelete.BackColor = System.Drawing.Color.IndianRed;
-            btnDelete.ForeColor = System.Drawing.Color.White;
-            btnDelete.Location = new System.Drawing.Point(320, 8);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new System.Drawing.Size(100, 44);
-            btnDelete.TabIndex = 3;
-            btnDelete.Text = "刪除";
-            btnDelete.UseVisualStyleBackColor = false;
-            btnDelete.Click += btnDelete_Click;
-
-            btnApprove.BackColor = System.Drawing.Color.CornflowerBlue;
-            btnApprove.ForeColor = System.Drawing.Color.White;
-            btnApprove.Location = new System.Drawing.Point(430, 8);
-            btnApprove.Name = "btnApprove";
-            btnApprove.Size = new System.Drawing.Size(100, 44);
-            btnApprove.TabIndex = 4;
-            btnApprove.Text = "生效";
-            btnApprove.UseVisualStyleBackColor = false;
-            btnApprove.Click += btnApprove_Click;
-
-            btnCancelApprove.BackColor = System.Drawing.Color.CornflowerBlue;
-            btnCancelApprove.ForeColor = System.Drawing.Color.White;
-            btnCancelApprove.Location = new System.Drawing.Point(540, 8);
-            btnCancelApprove.Name = "btnCancelApprove";
-            btnCancelApprove.Size = new System.Drawing.Size(100, 44);
-            btnCancelApprove.TabIndex = 5;
-            btnCancelApprove.Text = "取消生效";
-            btnCancelApprove.UseVisualStyleBackColor = false;
-            btnCancelApprove.Click += btnCancelApprove_Click;
-
-            btnBack.BackColor = System.Drawing.Color.DimGray;
-            btnBack.ForeColor = System.Drawing.Color.White;
-            btnBack.Location = new System.Drawing.Point(650, 8);
+            // 
+            // btnBack
+            // 
+            btnBack.BackColor = Color.DimGray;
+            btnBack.ForeColor = Color.White;
+            btnBack.Location = new Point(650, 8);
             btnBack.Name = "btnBack";
-            btnBack.Size = new System.Drawing.Size(100, 44);
+            btnBack.Size = new Size(100, 44);
             btnBack.TabIndex = 6;
             btnBack.Text = "關閉";
             btnBack.UseVisualStyleBackColor = false;
             btnBack.Click += btnBack_Click;
-
-            // ── panelForm ────────────────────────────────────────────────
-            panelForm.BackColor = System.Drawing.Color.FromArgb(255, 248, 240);
+            // 
+            // btnCancelApprove
+            // 
+            btnCancelApprove.BackColor = Color.CornflowerBlue;
+            btnCancelApprove.ForeColor = Color.White;
+            btnCancelApprove.Location = new Point(540, 8);
+            btnCancelApprove.Name = "btnCancelApprove";
+            btnCancelApprove.Size = new Size(100, 44);
+            btnCancelApprove.TabIndex = 5;
+            btnCancelApprove.Text = "取消生效";
+            btnCancelApprove.UseVisualStyleBackColor = false;
+            btnCancelApprove.Click += btnCancelApprove_Click;
+            // 
+            // btnApprove
+            // 
+            btnApprove.BackColor = Color.CornflowerBlue;
+            btnApprove.ForeColor = Color.White;
+            btnApprove.Location = new Point(430, 8);
+            btnApprove.Name = "btnApprove";
+            btnApprove.Size = new Size(100, 44);
+            btnApprove.TabIndex = 4;
+            btnApprove.Text = "生效";
+            btnApprove.UseVisualStyleBackColor = false;
+            btnApprove.Click += btnApprove_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.BackColor = Color.IndianRed;
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(320, 8);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(100, 44);
+            btnDelete.TabIndex = 3;
+            btnDelete.Text = "刪除";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnSave
+            // 
+            btnSave.BackColor = Color.CornflowerBlue;
+            btnSave.ForeColor = Color.White;
+            btnSave.Location = new Point(210, 8);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(100, 44);
+            btnSave.TabIndex = 2;
+            btnSave.Text = "儲存";
+            btnSave.UseVisualStyleBackColor = false;
+            btnSave.Click += btnSave_Click;
+            // 
+            // btnUpdateBox
+            // 
+            btnUpdateBox.BackColor = Color.MediumSeaGreen;
+            btnUpdateBox.ForeColor = Color.White;
+            btnUpdateBox.Location = new Point(80, 8);
+            btnUpdateBox.Name = "btnUpdateBox";
+            btnUpdateBox.Size = new Size(120, 44);
+            btnUpdateBox.TabIndex = 1;
+            btnUpdateBox.Text = "更新裝箱明細";
+            btnUpdateBox.UseVisualStyleBackColor = false;
+            btnUpdateBox.Visible = false;
+            btnUpdateBox.Click += btnUpdateBox_Click;
+            //
+            // btnPrint
+            //
+            btnPrint.BackColor = Color.DarkOrange;
+            btnPrint.ForeColor = Color.White;
+            btnPrint.Location = new Point(760, 8);
+            btnPrint.Name = "btnPrint";
+            btnPrint.Size = new Size(120, 44);
+            btnPrint.TabIndex = 7;
+            btnPrint.Text = "列印";
+            btnPrint.UseVisualStyleBackColor = false;
+            btnPrint.Click += btnPrint_Click;
+            // 
+            // lblMode
+            // 
+            lblMode.AutoSize = true;
+            lblMode.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Bold);
+            lblMode.Location = new Point(8, 16);
+            lblMode.Name = "lblMode";
+            lblMode.Size = new Size(48, 24);
+            lblMode.TabIndex = 0;
+            lblMode.Text = "新增";
+            // 
+            // panelForm
+            // 
+            panelForm.BackColor = Color.FromArgb(255, 248, 240);
             panelForm.Controls.Add(txtPaymentTerm);
             panelForm.Controls.Add(txtPaymentCode);
             panelForm.Controls.Add(lblPayCode);
@@ -276,6 +325,8 @@ namespace DigiERP.UserControl.Customer.EQPShipping
             panelForm.Controls.Add(lblCutOff);
             panelForm.Controls.Add(cboInsurance);
             panelForm.Controls.Add(lblInsurance);
+            panelForm.Controls.Add(txtContainerPort);
+            panelForm.Controls.Add(lblContainerPort);
             panelForm.Controls.Add(cboPacking);
             panelForm.Controls.Add(lblPacking);
             panelForm.Controls.Add(txtDestinationPort);
@@ -312,117 +363,679 @@ namespace DigiERP.UserControl.Customer.EQPShipping
             panelForm.Controls.Add(lbl單號);
             panelForm.Controls.Add(dtDate);
             panelForm.Controls.Add(lbl日期);
-            panelForm.Dock = System.Windows.Forms.DockStyle.Top;
-            panelForm.Location = new System.Drawing.Point(0, 60);
+            panelForm.Dock = DockStyle.Top;
+            panelForm.Location = new Point(0, 60);
             panelForm.Name = "panelForm";
-            panelForm.Size = new System.Drawing.Size(1654, 432);
+            panelForm.Size = new Size(1654, 432);
             panelForm.TabIndex = 1;
-
-            // Row 0 (y=8): DATE | D/O No | Serial No. | Client | Consignee
-            lbl日期.AutoSize = false; lbl日期.Location = new System.Drawing.Point(8, 12); lbl日期.Size = new System.Drawing.Size(50, 22); lbl日期.Text = "DATE"; lbl日期.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lbl日期.Name = "lbl日期";
-            dtDate.Format = System.Windows.Forms.DateTimePickerFormat.Short; dtDate.Location = new System.Drawing.Point(62, 8); dtDate.Size = new System.Drawing.Size(120, 26); dtDate.Name = "dtDate";
-            lbl單號.AutoSize = false; lbl單號.Location = new System.Drawing.Point(190, 12); lbl單號.Size = new System.Drawing.Size(56, 22); lbl單號.Text = "D/O No"; lbl單號.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lbl單號.Name = "lbl單號";
-            txtFormNo.Location = new System.Drawing.Point(250, 8); txtFormNo.Size = new System.Drawing.Size(130, 26); txtFormNo.ReadOnly = true; txtFormNo.BackColor = System.Drawing.Color.WhiteSmoke; txtFormNo.Name = "txtFormNo";
-            lbl序號.AutoSize = false; lbl序號.Location = new System.Drawing.Point(390, 12); lbl序號.Size = new System.Drawing.Size(68, 22); lbl序號.Text = "Serial No."; lbl序號.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lbl序號.Name = "lbl序號";
-            cboSerialNo.Location = new System.Drawing.Point(462, 8); cboSerialNo.Size = new System.Drawing.Size(160, 26); cboSerialNo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown; cboSerialNo.Name = "cboSerialNo"; cboSerialNo.SelectedIndexChanged += cboSerialNo_SelectedIndexChanged;
-            lblClient.AutoSize = false; lblClient.Location = new System.Drawing.Point(632, 12); lblClient.Size = new System.Drawing.Size(44, 22); lblClient.Text = "Client"; lblClient.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblClient.Name = "lblClient";
-            txtClient.Location = new System.Drawing.Point(680, 8); txtClient.Size = new System.Drawing.Size(120, 26); txtClient.ReadOnly = true; txtClient.BackColor = System.Drawing.Color.WhiteSmoke; txtClient.Name = "txtClient";
-            lblConsignee.AutoSize = false; lblConsignee.Location = new System.Drawing.Point(810, 12); lblConsignee.Size = new System.Drawing.Size(76, 22); lblConsignee.Text = "Consignee"; lblConsignee.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblConsignee.Name = "lblConsignee";
-            txtConsignee.Location = new System.Drawing.Point(890, 8); txtConsignee.Size = new System.Drawing.Size(752, 26); txtConsignee.Name = "txtConsignee";
-
-            // Row 1 (y=40): Model | Machine
-            lblModel.AutoSize = false; lblModel.Location = new System.Drawing.Point(8, 44); lblModel.Size = new System.Drawing.Size(46, 22); lblModel.Text = "Model"; lblModel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblModel.Name = "lblModel";
-            txtModel.Location = new System.Drawing.Point(58, 40); txtModel.Size = new System.Drawing.Size(200, 26); txtModel.ReadOnly = true; txtModel.BackColor = System.Drawing.Color.WhiteSmoke; txtModel.Name = "txtModel";
-            lblMachine.AutoSize = false; lblMachine.Location = new System.Drawing.Point(268, 44); lblMachine.Size = new System.Drawing.Size(60, 22); lblMachine.Text = "Machine"; lblMachine.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblMachine.Name = "lblMachine";
-            txtMachine.Location = new System.Drawing.Point(332, 40); txtMachine.Size = new System.Drawing.Size(1310, 26); txtMachine.ReadOnly = true; txtMachine.BackColor = System.Drawing.Color.WhiteSmoke; txtMachine.Name = "txtMachine";
-
-            // Row 2 (y=72): Postal Add | ATTN
-            lblPostalAdd.AutoSize = false; lblPostalAdd.Location = new System.Drawing.Point(8, 76); lblPostalAdd.Size = new System.Drawing.Size(76, 22); lblPostalAdd.Text = "Postal Add"; lblPostalAdd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblPostalAdd.Name = "lblPostalAdd";
-            txtPostalAdd.Location = new System.Drawing.Point(88, 72); txtPostalAdd.Size = new System.Drawing.Size(880, 26); txtPostalAdd.Name = "txtPostalAdd";
-            lblAttn.AutoSize = false; lblAttn.Location = new System.Drawing.Point(980, 76); lblAttn.Size = new System.Drawing.Size(40, 22); lblAttn.Text = "ATTN"; lblAttn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblAttn.Name = "lblAttn";
-            cboAttn.Location = new System.Drawing.Point(1024, 72); cboAttn.Size = new System.Drawing.Size(618, 26); cboAttn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown; cboAttn.Name = "cboAttn";
-
-            // Row 3 (y=104): Delivery Add | TEL
-            lblDeliveryAdd.AutoSize = false; lblDeliveryAdd.Location = new System.Drawing.Point(8, 108); lblDeliveryAdd.Size = new System.Drawing.Size(86, 22); lblDeliveryAdd.Text = "Delivery Add"; lblDeliveryAdd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblDeliveryAdd.Name = "lblDeliveryAdd";
-            txtDeliveryAdd.Location = new System.Drawing.Point(98, 104); txtDeliveryAdd.Size = new System.Drawing.Size(870, 26); txtDeliveryAdd.Name = "txtDeliveryAdd";
-            lblTel.AutoSize = false; lblTel.Location = new System.Drawing.Point(980, 108); lblTel.Size = new System.Drawing.Size(32, 22); lblTel.Text = "TEL"; lblTel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblTel.Name = "lblTel";
-            cboTel.Location = new System.Drawing.Point(1016, 104); cboTel.Size = new System.Drawing.Size(626, 26); cboTel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown; cboTel.Name = "cboTel";
-
-            // Row 4 (y=136): P/O | P/I | Container | Container Type
-            lblPO.AutoSize = false; lblPO.Location = new System.Drawing.Point(8, 140); lblPO.Size = new System.Drawing.Size(84, 22); lblPO.Text = "P/O Number"; lblPO.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblPO.Name = "lblPO";
-            txtPONumber.Location = new System.Drawing.Point(96, 136); txtPONumber.Size = new System.Drawing.Size(180, 26); txtPONumber.Name = "txtPONumber";
-            lblPI.AutoSize = false; lblPI.Location = new System.Drawing.Point(284, 140); lblPI.Size = new System.Drawing.Size(80, 22); lblPI.Text = "P/I Number"; lblPI.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblPI.Name = "lblPI";
-            txtPINumber.Location = new System.Drawing.Point(368, 136); txtPINumber.Size = new System.Drawing.Size(160, 26); txtPINumber.Name = "txtPINumber";
-            lblContainer.AutoSize = false; lblContainer.Location = new System.Drawing.Point(536, 140); lblContainer.Size = new System.Drawing.Size(72, 22); lblContainer.Text = "Container"; lblContainer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblContainer.Name = "lblContainer";
-            cboContainer.Location = new System.Drawing.Point(612, 136); cboContainer.Size = new System.Drawing.Size(220, 26); cboContainer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList; cboContainer.Name = "cboContainer";
-            lblContainerType.AutoSize = false; lblContainerType.Location = new System.Drawing.Point(840, 140); lblContainerType.Size = new System.Drawing.Size(112, 22); lblContainerType.Text = "Container Type"; lblContainerType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblContainerType.Name = "lblContainerType";
-            txtContainerType.Location = new System.Drawing.Point(956, 136); txtContainerType.Size = new System.Drawing.Size(686, 26); txtContainerType.Name = "txtContainerType";
-
-            // Row 5 (y=168): Delivery Term | Destination Port | Packing | Insurance
-            lblDeliveryTerm.AutoSize = false; lblDeliveryTerm.Location = new System.Drawing.Point(8, 172); lblDeliveryTerm.Size = new System.Drawing.Size(96, 22); lblDeliveryTerm.Text = "Delivery Term"; lblDeliveryTerm.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblDeliveryTerm.Name = "lblDeliveryTerm";
-            cboDeliveryTerm.Location = new System.Drawing.Point(108, 168); cboDeliveryTerm.Size = new System.Drawing.Size(120, 26); cboDeliveryTerm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList; cboDeliveryTerm.Name = "cboDeliveryTerm";
-            lblDestPort.AutoSize = false; lblDestPort.Location = new System.Drawing.Point(236, 172); lblDestPort.Size = new System.Drawing.Size(120, 22); lblDestPort.Text = "Destination Port"; lblDestPort.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblDestPort.Name = "lblDestPort";
-            txtDestinationPort.Location = new System.Drawing.Point(360, 168); txtDestinationPort.Size = new System.Drawing.Size(160, 26); txtDestinationPort.Name = "txtDestinationPort";
-            lblPacking.AutoSize = false; lblPacking.Location = new System.Drawing.Point(528, 172); lblPacking.Size = new System.Drawing.Size(60, 22); lblPacking.Text = "Packing"; lblPacking.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblPacking.Name = "lblPacking";
-            cboPacking.Location = new System.Drawing.Point(592, 168); cboPacking.Size = new System.Drawing.Size(180, 26); cboPacking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList; cboPacking.Name = "cboPacking";
-            lblInsurance.AutoSize = false; lblInsurance.Location = new System.Drawing.Point(780, 172); lblInsurance.Size = new System.Drawing.Size(72, 22); lblInsurance.Text = "Insurance"; lblInsurance.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblInsurance.Name = "lblInsurance";
-            cboInsurance.Location = new System.Drawing.Point(856, 168); cboInsurance.Size = new System.Drawing.Size(786, 26); cboInsurance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList; cboInsurance.Name = "cboInsurance";
-
-            // Row 6 (y=200): Cut Off | ETD | ETA | Types of B/L
-            lblCutOff.AutoSize = false; lblCutOff.Location = new System.Drawing.Point(8, 204); lblCutOff.Size = new System.Drawing.Size(56, 22); lblCutOff.Text = "Cut Off"; lblCutOff.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblCutOff.Name = "lblCutOff";
-            txtCutOff.Location = new System.Drawing.Point(68, 200); txtCutOff.Size = new System.Drawing.Size(120, 26); txtCutOff.Name = "txtCutOff";
-            lblETD.AutoSize = false; lblETD.Location = new System.Drawing.Point(196, 204); lblETD.Size = new System.Drawing.Size(36, 22); lblETD.Text = "ETD"; lblETD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblETD.Name = "lblETD";
-            txtETD.Location = new System.Drawing.Point(236, 200); txtETD.Size = new System.Drawing.Size(120, 26); txtETD.Name = "txtETD";
-            lblETA.AutoSize = false; lblETA.Location = new System.Drawing.Point(364, 204); lblETA.Size = new System.Drawing.Size(36, 22); lblETA.Text = "ETA"; lblETA.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblETA.Name = "lblETA";
-            txtETA.Location = new System.Drawing.Point(404, 200); txtETA.Size = new System.Drawing.Size(120, 26); txtETA.Name = "txtETA";
-            lblTypesOfBL.AutoSize = false; lblTypesOfBL.Location = new System.Drawing.Point(532, 204); lblTypesOfBL.Size = new System.Drawing.Size(92, 22); lblTypesOfBL.Text = "Types of B/L"; lblTypesOfBL.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblTypesOfBL.Name = "lblTypesOfBL";
-            cboTypesOfBL.Location = new System.Drawing.Point(628, 200); cboTypesOfBL.Size = new System.Drawing.Size(200, 26); cboTypesOfBL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList; cboTypesOfBL.Name = "cboTypesOfBL";
-
-            // Row 7 (y=232): Ship Name | Forwarder | Cert Of Origin | Surrender B/L
-            lblShipName.AutoSize = false; lblShipName.Location = new System.Drawing.Point(8, 236); lblShipName.Size = new System.Drawing.Size(72, 22); lblShipName.Text = "Ship Name"; lblShipName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblShipName.Name = "lblShipName";
-            txtShipName.Location = new System.Drawing.Point(84, 232); txtShipName.Size = new System.Drawing.Size(200, 26); txtShipName.Name = "txtShipName";
-            lblForwarder.AutoSize = false; lblForwarder.Location = new System.Drawing.Point(292, 236); lblForwarder.Size = new System.Drawing.Size(72, 22); lblForwarder.Text = "Forwarder"; lblForwarder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblForwarder.Name = "lblForwarder";
-            txtForwarder.Location = new System.Drawing.Point(368, 232); txtForwarder.Size = new System.Drawing.Size(380, 26); txtForwarder.Name = "txtForwarder";
-            lblCertOfOrigin.AutoSize = false; lblCertOfOrigin.Location = new System.Drawing.Point(756, 236); lblCertOfOrigin.Size = new System.Drawing.Size(106, 22); lblCertOfOrigin.Text = "Cert Of Origin"; lblCertOfOrigin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblCertOfOrigin.Name = "lblCertOfOrigin";
-            cboCertOfOrigin.Location = new System.Drawing.Point(866, 232); cboCertOfOrigin.Size = new System.Drawing.Size(90, 26); cboCertOfOrigin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList; cboCertOfOrigin.Name = "cboCertOfOrigin";
-            lblSurrenderBL.AutoSize = false; lblSurrenderBL.Location = new System.Drawing.Point(964, 236); lblSurrenderBL.Size = new System.Drawing.Size(104, 22); lblSurrenderBL.Text = "Surrender B/L"; lblSurrenderBL.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblSurrenderBL.Name = "lblSurrenderBL";
-            cboSurrenderBL.Location = new System.Drawing.Point(1072, 232); cboSurrenderBL.Size = new System.Drawing.Size(570, 26); cboSurrenderBL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList; cboSurrenderBL.Name = "cboSurrenderBL";
-
-            // Row 8 (y=264): Voyage | Doc | Mark
-            lblVoyage.AutoSize = false; lblVoyage.Location = new System.Drawing.Point(8, 268); lblVoyage.Size = new System.Drawing.Size(108, 22); lblVoyage.Text = "Voyage Number"; lblVoyage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblVoyage.Name = "lblVoyage";
-            txtVoyage.Location = new System.Drawing.Point(120, 264); txtVoyage.Size = new System.Drawing.Size(150, 26); txtVoyage.Name = "txtVoyage";
-            lblDoc.AutoSize = false; lblDoc.Location = new System.Drawing.Point(278, 268); lblDoc.Size = new System.Drawing.Size(160, 22); lblDoc.Text = "Doc with Consignment:"; lblDoc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblDoc.Name = "lblDoc";
-            cboDoc.Location = new System.Drawing.Point(442, 264); cboDoc.Size = new System.Drawing.Size(100, 26); cboDoc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList; cboDoc.Name = "cboDoc";
-            lblMark.AutoSize = false; lblMark.Location = new System.Drawing.Point(550, 268); lblMark.Size = new System.Drawing.Size(154, 22); lblMark.Text = "Brand or Trade mark:"; lblMark.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblMark.Name = "lblMark";
-            cboMark.Location = new System.Drawing.Point(708, 264); cboMark.Size = new System.Drawing.Size(160, 26); cboMark.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList; cboMark.Name = "cboMark";
-            txtMark2.Location = new System.Drawing.Point(874, 264); txtMark2.Size = new System.Drawing.Size(768, 26); txtMark2.Name = "txtMark2";
-
-            // Row 9 (y=296): Shipping Mark | Destination
-            lblShippingMark.AutoSize = false; lblShippingMark.BackColor = System.Drawing.Color.Yellow; lblShippingMark.Font = new System.Drawing.Font("Microsoft JhengHei UI", 10F, System.Drawing.FontStyle.Bold); lblShippingMark.Location = new System.Drawing.Point(8, 296); lblShippingMark.Size = new System.Drawing.Size(108, 26); lblShippingMark.Text = "Shipping Mark"; lblShippingMark.TextAlign = System.Drawing.ContentAlignment.MiddleCenter; lblShippingMark.Name = "lblShippingMark";
-            lblDestination.AutoSize = false; lblDestination.Location = new System.Drawing.Point(124, 300); lblDestination.Size = new System.Drawing.Size(80, 22); lblDestination.Text = "Destination"; lblDestination.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblDestination.Name = "lblDestination";
-            txtDestination.Location = new System.Drawing.Point(208, 296); txtDestination.Size = new System.Drawing.Size(1434, 26); txtDestination.Name = "txtDestination";
-
-            // Row 10 (y=328): Case No | Total
-            lblCaseNo.AutoSize = false; lblCaseNo.Location = new System.Drawing.Point(8, 332); lblCaseNo.Size = new System.Drawing.Size(64, 22); lblCaseNo.Text = "Case No"; lblCaseNo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblCaseNo.Name = "lblCaseNo";
-            txtCaseNo.Location = new System.Drawing.Point(76, 328); txtCaseNo.Size = new System.Drawing.Size(120, 26); txtCaseNo.Name = "txtCaseNo";
-            lblTotal.AutoSize = false; lblTotal.Location = new System.Drawing.Point(564, 332); lblTotal.Size = new System.Drawing.Size(44, 22); lblTotal.Text = "Total"; lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblTotal.Name = "lblTotal";
-            txtTotal.Location = new System.Drawing.Point(612, 328); txtTotal.Size = new System.Drawing.Size(200, 26); txtTotal.Name = "txtTotal";
-
-            // Row 11 (y=360): 幣別 | 應收款合計 | 累計收款比例 | 收款條件 | 收款條文
-            lbl幣別.AutoSize = false; lbl幣別.Location = new System.Drawing.Point(8, 364); lbl幣別.Size = new System.Drawing.Size(36, 22); lbl幣別.Text = "幣別"; lbl幣別.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lbl幣別.Name = "lbl幣別";
-            cboCurrency.Location = new System.Drawing.Point(48, 360); cboCurrency.Size = new System.Drawing.Size(80, 26); cboCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList; cboCurrency.Name = "cboCurrency";
-            lblReceivable.AutoSize = false; lblReceivable.Location = new System.Drawing.Point(136, 364); lblReceivable.Size = new System.Drawing.Size(72, 22); lblReceivable.Text = "應收款合計"; lblReceivable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblReceivable.Name = "lblReceivable";
-            txtReceivableTotal.Location = new System.Drawing.Point(212, 360); txtReceivableTotal.Size = new System.Drawing.Size(120, 26); txtReceivableTotal.ReadOnly = true; txtReceivableTotal.BackColor = System.Drawing.Color.WhiteSmoke; txtReceivableTotal.Name = "txtReceivableTotal";
-            lblPaymentRatio.AutoSize = false; lblPaymentRatio.Location = new System.Drawing.Point(340, 364); lblPaymentRatio.Size = new System.Drawing.Size(92, 22); lblPaymentRatio.Text = "累計收款比例"; lblPaymentRatio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblPaymentRatio.Name = "lblPaymentRatio";
-            txtPaymentRatio.Location = new System.Drawing.Point(436, 360); txtPaymentRatio.Size = new System.Drawing.Size(80, 26); txtPaymentRatio.ReadOnly = true; txtPaymentRatio.BackColor = System.Drawing.Color.WhiteSmoke; txtPaymentRatio.Name = "txtPaymentRatio";
-            lblPayCode.AutoSize = false; lblPayCode.Location = new System.Drawing.Point(524, 364); lblPayCode.Size = new System.Drawing.Size(64, 22); lblPayCode.Text = "收款條件"; lblPayCode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblPayCode.Name = "lblPayCode";
-            txtPaymentCode.Location = new System.Drawing.Point(592, 360); txtPaymentCode.Size = new System.Drawing.Size(80, 26); txtPaymentCode.ReadOnly = true; txtPaymentCode.BackColor = System.Drawing.Color.WhiteSmoke; txtPaymentCode.Name = "txtPaymentCode";
-            txtPaymentTerm.Location = new System.Drawing.Point(680, 360); txtPaymentTerm.Size = new System.Drawing.Size(962, 26); txtPaymentTerm.ReadOnly = true; txtPaymentTerm.BackColor = System.Drawing.Color.WhiteSmoke; txtPaymentTerm.Name = "txtPaymentTerm";
-
-            // Row 12 (y=392): 備註 (spare row for panelForm height)
-
-            // ── panelFooter ───────────────────────────────────────────────
-            panelFooter.BackColor = System.Drawing.Color.FromArgb(230, 230, 250);
+            // 
+            // txtPaymentTerm
+            // 
+            txtPaymentTerm.BackColor = Color.WhiteSmoke;
+            txtPaymentTerm.Location = new Point(680, 360);
+            txtPaymentTerm.Name = "txtPaymentTerm";
+            txtPaymentTerm.ReadOnly = true;
+            txtPaymentTerm.Size = new Size(962, 25);
+            txtPaymentTerm.TabIndex = 0;
+            // 
+            // txtPaymentCode
+            // 
+            txtPaymentCode.BackColor = Color.WhiteSmoke;
+            txtPaymentCode.Location = new Point(592, 360);
+            txtPaymentCode.Name = "txtPaymentCode";
+            txtPaymentCode.ReadOnly = true;
+            txtPaymentCode.Size = new Size(80, 25);
+            txtPaymentCode.TabIndex = 1;
+            // 
+            // lblPayCode
+            // 
+            lblPayCode.Location = new Point(524, 364);
+            lblPayCode.Name = "lblPayCode";
+            lblPayCode.Size = new Size(64, 22);
+            lblPayCode.TabIndex = 2;
+            lblPayCode.Text = "收款條件";
+            lblPayCode.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtPaymentRatio
+            // 
+            txtPaymentRatio.BackColor = Color.WhiteSmoke;
+            txtPaymentRatio.Location = new Point(436, 360);
+            txtPaymentRatio.Name = "txtPaymentRatio";
+            txtPaymentRatio.ReadOnly = true;
+            txtPaymentRatio.Size = new Size(80, 25);
+            txtPaymentRatio.TabIndex = 3;
+            // 
+            // lblPaymentRatio
+            // 
+            lblPaymentRatio.Location = new Point(340, 364);
+            lblPaymentRatio.Name = "lblPaymentRatio";
+            lblPaymentRatio.Size = new Size(92, 22);
+            lblPaymentRatio.TabIndex = 4;
+            lblPaymentRatio.Text = "累計收款比例";
+            lblPaymentRatio.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtReceivableTotal
+            // 
+            txtReceivableTotal.BackColor = Color.WhiteSmoke;
+            txtReceivableTotal.Location = new Point(212, 360);
+            txtReceivableTotal.Name = "txtReceivableTotal";
+            txtReceivableTotal.ReadOnly = true;
+            txtReceivableTotal.Size = new Size(120, 25);
+            txtReceivableTotal.TabIndex = 5;
+            // 
+            // lblReceivable
+            // 
+            lblReceivable.Location = new Point(136, 364);
+            lblReceivable.Name = "lblReceivable";
+            lblReceivable.Size = new Size(72, 22);
+            lblReceivable.TabIndex = 6;
+            lblReceivable.Text = "應收款合計";
+            lblReceivable.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboCurrency
+            // 
+            cboCurrency.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboCurrency.Location = new Point(48, 360);
+            cboCurrency.Name = "cboCurrency";
+            cboCurrency.Size = new Size(80, 26);
+            cboCurrency.TabIndex = 7;
+            // 
+            // lbl幣別
+            // 
+            lbl幣別.Location = new Point(8, 364);
+            lbl幣別.Name = "lbl幣別";
+            lbl幣別.Size = new Size(36, 22);
+            lbl幣別.TabIndex = 8;
+            lbl幣別.Text = "幣別";
+            lbl幣別.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtTotal
+            // 
+            txtTotal.BackColor = Color.LemonChiffon;
+            txtTotal.Location = new Point(804, 309);
+            txtTotal.Name = "txtTotal";
+            txtTotal.Size = new Size(200, 25);
+            txtTotal.TabIndex = 9;
+            // 
+            // lblTotal
+            // 
+            lblTotal.Location = new Point(760, 301);
+            lblTotal.Name = "lblTotal";
+            lblTotal.Size = new Size(44, 22);
+            lblTotal.TabIndex = 10;
+            lblTotal.Text = "Total";
+            lblTotal.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtCaseNo
+            // 
+            txtCaseNo.BackColor = Color.LemonChiffon;
+            txtCaseNo.Location = new Point(628, 312);
+            txtCaseNo.Name = "txtCaseNo";
+            txtCaseNo.Size = new Size(120, 25);
+            txtCaseNo.TabIndex = 11;
+            // 
+            // lblCaseNo
+            // 
+            lblCaseNo.Location = new Point(560, 313);
+            lblCaseNo.Name = "lblCaseNo";
+            lblCaseNo.Size = new Size(64, 22);
+            lblCaseNo.TabIndex = 12;
+            lblCaseNo.Text = "Case No";
+            lblCaseNo.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtDestination
+            // 
+            txtDestination.BackColor = Color.LemonChiffon;
+            txtDestination.Location = new Point(316, 313);
+            txtDestination.Name = "txtDestination";
+            txtDestination.Size = new Size(228, 25);
+            txtDestination.TabIndex = 13;
+            // 
+            // lblDestination
+            // 
+            lblDestination.Location = new Point(192, 313);
+            lblDestination.Name = "lblDestination";
+            lblDestination.Size = new Size(124, 22);
+            lblDestination.TabIndex = 14;
+            lblDestination.Text = "Destination Port";
+            lblDestination.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblShippingMark
+            // 
+            lblShippingMark.BackColor = Color.Yellow;
+            lblShippingMark.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold);
+            lblShippingMark.Location = new Point(20, 312);
+            lblShippingMark.Name = "lblShippingMark";
+            lblShippingMark.Size = new Size(152, 26);
+            lblShippingMark.TabIndex = 15;
+            lblShippingMark.Text = "Shipping Mark";
+            lblShippingMark.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // txtMark2
+            // 
+            txtMark2.Location = new Point(336, 264);
+            txtMark2.Name = "txtMark2";
+            txtMark2.Size = new Size(768, 25);
+            txtMark2.TabIndex = 16;
+            // 
+            // cboMark
+            // 
+            cboMark.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboMark.Location = new Point(170, 264);
+            cboMark.Name = "cboMark";
+            cboMark.Size = new Size(160, 26);
+            cboMark.TabIndex = 17;
+            // 
+            // lblMark
+            // 
+            lblMark.Location = new Point(12, 268);
+            lblMark.Name = "lblMark";
+            lblMark.Size = new Size(154, 22);
+            lblMark.TabIndex = 18;
+            lblMark.Text = "Brand or Trade mark:";
+            lblMark.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboDoc
+            // 
+            cboDoc.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboDoc.Location = new Point(1248, 228);
+            cboDoc.Name = "cboDoc";
+            cboDoc.Size = new Size(100, 26);
+            cboDoc.TabIndex = 19;
+            // 
+            // lblDoc
+            // 
+            lblDoc.Location = new Point(1084, 232);
+            lblDoc.Name = "lblDoc";
+            lblDoc.Size = new Size(160, 22);
+            lblDoc.TabIndex = 20;
+            lblDoc.Text = "Doc with Consignee:";
+            lblDoc.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtVoyage
+            // 
+            txtVoyage.Location = new Point(924, 232);
+            txtVoyage.Name = "txtVoyage";
+            txtVoyage.Size = new Size(150, 25);
+            txtVoyage.TabIndex = 21;
+            // 
+            // lblVoyage
+            // 
+            lblVoyage.Location = new Point(812, 236);
+            lblVoyage.Name = "lblVoyage";
+            lblVoyage.Size = new Size(108, 22);
+            lblVoyage.TabIndex = 22;
+            lblVoyage.Text = "Voyage Number";
+            lblVoyage.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboSurrenderBL
+            // 
+            cboSurrenderBL.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSurrenderBL.Location = new Point(640, 232);
+            cboSurrenderBL.Name = "cboSurrenderBL";
+            cboSurrenderBL.Size = new Size(112, 26);
+            cboSurrenderBL.TabIndex = 23;
+            // 
+            // lblSurrenderBL
+            // 
+            lblSurrenderBL.Location = new Point(532, 236);
+            lblSurrenderBL.Name = "lblSurrenderBL";
+            lblSurrenderBL.Size = new Size(104, 22);
+            lblSurrenderBL.TabIndex = 24;
+            lblSurrenderBL.Text = "Surrender B/L";
+            lblSurrenderBL.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboCertOfOrigin
+            // 
+            cboCertOfOrigin.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboCertOfOrigin.Location = new Point(1246, 200);
+            cboCertOfOrigin.Name = "cboCertOfOrigin";
+            cboCertOfOrigin.Size = new Size(90, 26);
+            cboCertOfOrigin.TabIndex = 25;
+            // 
+            // lblCertOfOrigin
+            // 
+            lblCertOfOrigin.Location = new Point(1136, 204);
+            lblCertOfOrigin.Name = "lblCertOfOrigin";
+            lblCertOfOrigin.Size = new Size(106, 22);
+            lblCertOfOrigin.TabIndex = 26;
+            lblCertOfOrigin.Text = "Cert Of Origin";
+            lblCertOfOrigin.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtForwarder
+            // 
+            txtForwarder.Location = new Point(100, 232);
+            txtForwarder.Name = "txtForwarder";
+            txtForwarder.Size = new Size(364, 25);
+            txtForwarder.TabIndex = 27;
+            // 
+            // lblForwarder
+            // 
+            lblForwarder.Location = new Point(8, 236);
+            lblForwarder.Name = "lblForwarder";
+            lblForwarder.Size = new Size(92, 22);
+            lblForwarder.TabIndex = 28;
+            lblForwarder.Text = "Forwarder";
+            lblForwarder.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtShipName
+            // 
+            txtShipName.Location = new Point(916, 200);
+            txtShipName.Name = "txtShipName";
+            txtShipName.Size = new Size(172, 25);
+            txtShipName.TabIndex = 29;
+            // 
+            // lblShipName
+            // 
+            lblShipName.Location = new Point(812, 204);
+            lblShipName.Name = "lblShipName";
+            lblShipName.Size = new Size(100, 22);
+            lblShipName.TabIndex = 30;
+            lblShipName.Text = "Ship Name";
+            lblShipName.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboTypesOfBL
+            // 
+            cboTypesOfBL.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTypesOfBL.Location = new Point(636, 200);
+            cboTypesOfBL.Name = "cboTypesOfBL";
+            cboTypesOfBL.Size = new Size(160, 26);
+            cboTypesOfBL.TabIndex = 31;
+            // 
+            // lblTypesOfBL
+            // 
+            lblTypesOfBL.Location = new Point(532, 204);
+            lblTypesOfBL.Name = "lblTypesOfBL";
+            lblTypesOfBL.Size = new Size(92, 22);
+            lblTypesOfBL.TabIndex = 32;
+            lblTypesOfBL.Text = "Types of B/L";
+            lblTypesOfBL.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtETA
+            // 
+            txtETA.Location = new Point(404, 200);
+            txtETA.Name = "txtETA";
+            txtETA.Size = new Size(120, 25);
+            txtETA.TabIndex = 33;
+            // 
+            // lblETA
+            // 
+            lblETA.Location = new Point(364, 204);
+            lblETA.Name = "lblETA";
+            lblETA.Size = new Size(36, 22);
+            lblETA.TabIndex = 34;
+            lblETA.Text = "ETA";
+            lblETA.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtETD
+            // 
+            txtETD.Location = new Point(236, 200);
+            txtETD.Name = "txtETD";
+            txtETD.Size = new Size(120, 25);
+            txtETD.TabIndex = 35;
+            // 
+            // lblETD
+            // 
+            lblETD.Location = new Point(196, 204);
+            lblETD.Name = "lblETD";
+            lblETD.Size = new Size(36, 22);
+            lblETD.TabIndex = 36;
+            lblETD.Text = "ETD";
+            lblETD.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtCutOff
+            // 
+            txtCutOff.Location = new Point(68, 200);
+            txtCutOff.Name = "txtCutOff";
+            txtCutOff.Size = new Size(120, 25);
+            txtCutOff.TabIndex = 37;
+            // 
+            // lblCutOff
+            // 
+            lblCutOff.Location = new Point(8, 204);
+            lblCutOff.Name = "lblCutOff";
+            lblCutOff.Size = new Size(56, 22);
+            lblCutOff.TabIndex = 38;
+            lblCutOff.Text = "Cut Off";
+            lblCutOff.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboInsurance
+            // 
+            cboInsurance.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboInsurance.Location = new Point(1244, 168);
+            cboInsurance.Name = "cboInsurance";
+            cboInsurance.Size = new Size(398, 26);
+            cboInsurance.TabIndex = 39;
+            // 
+            // lblInsurance
+            // 
+            lblInsurance.Location = new Point(1136, 172);
+            lblInsurance.Name = "lblInsurance";
+            lblInsurance.Size = new Size(100, 22);
+            lblInsurance.TabIndex = 40;
+            lblInsurance.Text = "Insurance";
+            lblInsurance.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtContainerPort
+            // 
+            txtContainerPort.Location = new Point(360, 168);
+            txtContainerPort.Name = "txtContainerPort";
+            txtContainerPort.Size = new Size(152, 25);
+            txtContainerPort.TabIndex = 41;
+            // 
+            // lblContainerPort
+            // 
+            lblContainerPort.Location = new Point(240, 172);
+            lblContainerPort.Name = "lblContainerPort";
+            lblContainerPort.Size = new Size(116, 22);
+            lblContainerPort.TabIndex = 42;
+            lblContainerPort.Text = "Container Port";
+            lblContainerPort.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboPacking
+            // 
+            cboPacking.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboPacking.Location = new Point(920, 168);
+            cboPacking.Name = "cboPacking";
+            cboPacking.Size = new Size(164, 26);
+            cboPacking.TabIndex = 41;
+            // 
+            // lblPacking
+            // 
+            lblPacking.Location = new Point(808, 172);
+            lblPacking.Name = "lblPacking";
+            lblPacking.Size = new Size(76, 22);
+            lblPacking.TabIndex = 42;
+            lblPacking.Text = "Packing";
+            lblPacking.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtDestinationPort
+            // 
+            txtDestinationPort.Location = new Point(640, 168);
+            txtDestinationPort.Name = "txtDestinationPort";
+            txtDestinationPort.Size = new Size(160, 25);
+            txtDestinationPort.TabIndex = 43;
+            // 
+            // lblDestPort
+            // 
+            lblDestPort.Location = new Point(516, 172);
+            lblDestPort.Name = "lblDestPort";
+            lblDestPort.Size = new Size(120, 22);
+            lblDestPort.TabIndex = 44;
+            lblDestPort.Text = "Destination Port";
+            lblDestPort.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboDeliveryTerm
+            // 
+            cboDeliveryTerm.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboDeliveryTerm.Location = new Point(120, 168);
+            cboDeliveryTerm.Name = "cboDeliveryTerm";
+            cboDeliveryTerm.Size = new Size(108, 26);
+            cboDeliveryTerm.TabIndex = 45;
+            // 
+            // lblDeliveryTerm
+            // 
+            lblDeliveryTerm.Location = new Point(8, 172);
+            lblDeliveryTerm.Name = "lblDeliveryTerm";
+            lblDeliveryTerm.Size = new Size(116, 22);
+            lblDeliveryTerm.TabIndex = 46;
+            lblDeliveryTerm.Text = "Delivery Term";
+            lblDeliveryTerm.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtContainerType
+            // 
+            txtContainerType.Location = new Point(924, 136);
+            txtContainerType.Name = "txtContainerType";
+            txtContainerType.Size = new Size(686, 25);
+            txtContainerType.TabIndex = 47;
+            // 
+            // lblContainerType
+            // 
+            lblContainerType.Location = new Point(808, 140);
+            lblContainerType.Name = "lblContainerType";
+            lblContainerType.Size = new Size(112, 22);
+            lblContainerType.TabIndex = 48;
+            lblContainerType.Text = "Container Type";
+            lblContainerType.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboContainer
+            // 
+            cboContainer.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboContainer.Location = new Point(640, 136);
+            cboContainer.Name = "cboContainer";
+            cboContainer.Size = new Size(160, 26);
+            cboContainer.TabIndex = 49;
+            // 
+            // lblContainer
+            // 
+            lblContainer.Location = new Point(520, 140);
+            lblContainer.Name = "lblContainer";
+            lblContainer.Size = new Size(124, 22);
+            lblContainer.TabIndex = 50;
+            lblContainer.Text = "Container";
+            lblContainer.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtPINumber
+            // 
+            txtPINumber.Location = new Point(360, 136);
+            txtPINumber.Name = "txtPINumber";
+            txtPINumber.Size = new Size(152, 25);
+            txtPINumber.TabIndex = 51;
+            // 
+            // lblPI
+            // 
+            lblPI.Location = new Point(240, 136);
+            lblPI.Name = "lblPI";
+            lblPI.Size = new Size(96, 22);
+            lblPI.TabIndex = 52;
+            lblPI.Text = "P/I Number";
+            lblPI.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtPONumber
+            // 
+            txtPONumber.Location = new Point(124, 136);
+            txtPONumber.Name = "txtPONumber";
+            txtPONumber.Size = new Size(104, 25);
+            txtPONumber.TabIndex = 53;
+            // 
+            // lblPO
+            // 
+            lblPO.Location = new Point(8, 140);
+            lblPO.Name = "lblPO";
+            lblPO.Size = new Size(104, 22);
+            lblPO.TabIndex = 54;
+            lblPO.Text = "P/O Number";
+            lblPO.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboTel
+            // 
+            cboTel.Location = new Point(1016, 104);
+            cboTel.Name = "cboTel";
+            cboTel.Size = new Size(626, 26);
+            cboTel.TabIndex = 55;
+            // 
+            // lblTel
+            // 
+            lblTel.Location = new Point(980, 108);
+            lblTel.Name = "lblTel";
+            lblTel.Size = new Size(32, 22);
+            lblTel.TabIndex = 56;
+            lblTel.Text = "TEL";
+            lblTel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtDeliveryAdd
+            // 
+            txtDeliveryAdd.Location = new Point(98, 104);
+            txtDeliveryAdd.Name = "txtDeliveryAdd";
+            txtDeliveryAdd.Size = new Size(870, 25);
+            txtDeliveryAdd.TabIndex = 57;
+            // 
+            // lblDeliveryAdd
+            // 
+            lblDeliveryAdd.Location = new Point(8, 108);
+            lblDeliveryAdd.Name = "lblDeliveryAdd";
+            lblDeliveryAdd.Size = new Size(86, 22);
+            lblDeliveryAdd.TabIndex = 58;
+            lblDeliveryAdd.Text = "Delivery Add";
+            lblDeliveryAdd.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboAttn
+            // 
+            cboAttn.Location = new Point(1024, 72);
+            cboAttn.Name = "cboAttn";
+            cboAttn.Size = new Size(618, 26);
+            cboAttn.TabIndex = 59;
+            // 
+            // lblAttn
+            // 
+            lblAttn.Location = new Point(980, 76);
+            lblAttn.Name = "lblAttn";
+            lblAttn.Size = new Size(40, 22);
+            lblAttn.TabIndex = 60;
+            lblAttn.Text = "ATTN";
+            lblAttn.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtPostalAdd
+            // 
+            txtPostalAdd.Location = new Point(96, 72);
+            txtPostalAdd.Name = "txtPostalAdd";
+            txtPostalAdd.Size = new Size(872, 25);
+            txtPostalAdd.TabIndex = 61;
+            // 
+            // lblPostalAdd
+            // 
+            lblPostalAdd.Location = new Point(8, 76);
+            lblPostalAdd.Name = "lblPostalAdd";
+            lblPostalAdd.Size = new Size(76, 22);
+            lblPostalAdd.TabIndex = 62;
+            lblPostalAdd.Text = "Postal Add";
+            lblPostalAdd.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtMachine
+            // 
+            txtMachine.BackColor = Color.WhiteSmoke;
+            txtMachine.Location = new Point(404, 40);
+            txtMachine.Name = "txtMachine";
+            txtMachine.ReadOnly = true;
+            txtMachine.Size = new Size(1238, 25);
+            txtMachine.TabIndex = 63;
+            // 
+            // lblMachine
+            // 
+            lblMachine.Location = new Point(276, 40);
+            lblMachine.Name = "lblMachine";
+            lblMachine.Size = new Size(124, 22);
+            lblMachine.TabIndex = 64;
+            lblMachine.Text = "Machine";
+            lblMachine.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtModel
+            // 
+            txtModel.BackColor = Color.WhiteSmoke;
+            txtModel.Location = new Point(96, 40);
+            txtModel.Name = "txtModel";
+            txtModel.ReadOnly = true;
+            txtModel.Size = new Size(174, 25);
+            txtModel.TabIndex = 65;
+            // 
+            // lblModel
+            // 
+            lblModel.Location = new Point(8, 44);
+            lblModel.Name = "lblModel";
+            lblModel.Size = new Size(60, 22);
+            lblModel.TabIndex = 66;
+            lblModel.Text = "Model";
+            lblModel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtConsignee
+            // 
+            txtConsignee.Location = new Point(928, 8);
+            txtConsignee.Name = "txtConsignee";
+            txtConsignee.Size = new Size(714, 25);
+            txtConsignee.TabIndex = 67;
+            // 
+            // lblConsignee
+            // 
+            lblConsignee.Location = new Point(828, 8);
+            lblConsignee.Name = "lblConsignee";
+            lblConsignee.Size = new Size(90, 22);
+            lblConsignee.TabIndex = 68;
+            lblConsignee.Text = "Consignee";
+            lblConsignee.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtClient
+            // 
+            txtClient.BackColor = Color.WhiteSmoke;
+            txtClient.Location = new Point(700, 8);
+            txtClient.Name = "txtClient";
+            txtClient.ReadOnly = true;
+            txtClient.Size = new Size(120, 25);
+            txtClient.TabIndex = 69;
+            // 
+            // lblClient
+            // 
+            lblClient.Location = new Point(632, 12);
+            lblClient.Name = "lblClient";
+            lblClient.Size = new Size(56, 22);
+            lblClient.TabIndex = 70;
+            lblClient.Text = "Client";
+            lblClient.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cboSerialNo
+            // 
+            cboSerialNo.Location = new Point(480, 8);
+            cboSerialNo.Name = "cboSerialNo";
+            cboSerialNo.Size = new Size(142, 26);
+            cboSerialNo.TabIndex = 71;
+            cboSerialNo.SelectedIndexChanged += cboSerialNo_SelectedIndexChanged;
+            // 
+            // lbl序號
+            // 
+            lbl序號.Location = new Point(390, 12);
+            lbl序號.Name = "lbl序號";
+            lbl序號.Size = new Size(98, 22);
+            lbl序號.TabIndex = 72;
+            lbl序號.Text = "Serial No.";
+            lbl序號.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtFormNo
+            // 
+            txtFormNo.BackColor = Color.WhiteSmoke;
+            txtFormNo.Location = new Point(250, 8);
+            txtFormNo.Name = "txtFormNo";
+            txtFormNo.ReadOnly = true;
+            txtFormNo.Size = new Size(130, 25);
+            txtFormNo.TabIndex = 73;
+            // 
+            // lbl單號
+            // 
+            lbl單號.Location = new Point(190, 12);
+            lbl單號.Name = "lbl單號";
+            lbl單號.Size = new Size(56, 22);
+            lbl單號.TabIndex = 74;
+            lbl單號.Text = "D/O No";
+            lbl單號.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // dtDate
+            // 
+            dtDate.Format = DateTimePickerFormat.Short;
+            dtDate.Location = new Point(62, 8);
+            dtDate.Name = "dtDate";
+            dtDate.Size = new Size(120, 25);
+            dtDate.TabIndex = 75;
+            // 
+            // lbl日期
+            // 
+            lbl日期.Location = new Point(8, 12);
+            lbl日期.Name = "lbl日期";
+            lbl日期.Size = new Size(50, 22);
+            lbl日期.TabIndex = 76;
+            lbl日期.Text = "DATE";
+            lbl日期.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // panelFooter
+            // 
+            panelFooter.BackColor = Color.FromArgb(230, 230, 250);
             panelFooter.Controls.Add(txtCreateDate);
             panelFooter.Controls.Add(txtCreator);
             panelFooter.Controls.Add(lblCreatorLbl);
@@ -432,138 +1045,477 @@ namespace DigiERP.UserControl.Customer.EQPShipping
             panelFooter.Controls.Add(txtApproveDate);
             panelFooter.Controls.Add(txtApprover);
             panelFooter.Controls.Add(lblApproverLbl);
-            panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            panelFooter.Location = new System.Drawing.Point(0, 900);
+            panelFooter.Dock = DockStyle.Bottom;
+            panelFooter.Location = new Point(0, 900);
             panelFooter.Name = "panelFooter";
-            panelFooter.Size = new System.Drawing.Size(1654, 32);
+            panelFooter.Size = new Size(1654, 32);
             panelFooter.TabIndex = 3;
-
-            lblApproverLbl.AutoSize = false; lblApproverLbl.Location = new System.Drawing.Point(8, 6); lblApproverLbl.Size = new System.Drawing.Size(36, 22); lblApproverLbl.Text = "核准"; lblApproverLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblApproverLbl.Name = "lblApproverLbl";
-            txtApprover.Location = new System.Drawing.Point(48, 4); txtApprover.Size = new System.Drawing.Size(120, 24); txtApprover.ReadOnly = true; txtApprover.BackColor = System.Drawing.Color.WhiteSmoke; txtApprover.Name = "txtApprover";
-            txtApproveDate.Location = new System.Drawing.Point(172, 4); txtApproveDate.Size = new System.Drawing.Size(100, 24); txtApproveDate.ReadOnly = true; txtApproveDate.BackColor = System.Drawing.Color.WhiteSmoke; txtApproveDate.Name = "txtApproveDate";
-            lblModifierLbl.AutoSize = false; lblModifierLbl.Location = new System.Drawing.Point(280, 6); lblModifierLbl.Size = new System.Drawing.Size(36, 22); lblModifierLbl.Text = "修改"; lblModifierLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblModifierLbl.Name = "lblModifierLbl";
-            txtModifier.Location = new System.Drawing.Point(320, 4); txtModifier.Size = new System.Drawing.Size(120, 24); txtModifier.ReadOnly = true; txtModifier.BackColor = System.Drawing.Color.WhiteSmoke; txtModifier.Name = "txtModifier";
-            txtModifyDate.Location = new System.Drawing.Point(444, 4); txtModifyDate.Size = new System.Drawing.Size(100, 24); txtModifyDate.ReadOnly = true; txtModifyDate.BackColor = System.Drawing.Color.WhiteSmoke; txtModifyDate.Name = "txtModifyDate";
-            lblCreatorLbl.AutoSize = false; lblCreatorLbl.Location = new System.Drawing.Point(552, 6); lblCreatorLbl.Size = new System.Drawing.Size(36, 22); lblCreatorLbl.Text = "建檔"; lblCreatorLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft; lblCreatorLbl.Name = "lblCreatorLbl";
-            txtCreator.Location = new System.Drawing.Point(592, 4); txtCreator.Size = new System.Drawing.Size(120, 24); txtCreator.ReadOnly = true; txtCreator.BackColor = System.Drawing.Color.WhiteSmoke; txtCreator.Name = "txtCreator";
-            txtCreateDate.Location = new System.Drawing.Point(716, 4); txtCreateDate.Size = new System.Drawing.Size(100, 24); txtCreateDate.ReadOnly = true; txtCreateDate.BackColor = System.Drawing.Color.WhiteSmoke; txtCreateDate.Name = "txtCreateDate";
-
-            // ── panelDetail (Fill) ────────────────────────────────────────
+            // 
+            // txtCreateDate
+            // 
+            txtCreateDate.BackColor = Color.WhiteSmoke;
+            txtCreateDate.Location = new Point(716, 4);
+            txtCreateDate.Name = "txtCreateDate";
+            txtCreateDate.ReadOnly = true;
+            txtCreateDate.Size = new Size(100, 25);
+            txtCreateDate.TabIndex = 0;
+            // 
+            // txtCreator
+            // 
+            txtCreator.BackColor = Color.WhiteSmoke;
+            txtCreator.Location = new Point(592, 4);
+            txtCreator.Name = "txtCreator";
+            txtCreator.ReadOnly = true;
+            txtCreator.Size = new Size(120, 25);
+            txtCreator.TabIndex = 1;
+            // 
+            // lblCreatorLbl
+            // 
+            lblCreatorLbl.Location = new Point(552, 6);
+            lblCreatorLbl.Name = "lblCreatorLbl";
+            lblCreatorLbl.Size = new Size(36, 22);
+            lblCreatorLbl.TabIndex = 2;
+            lblCreatorLbl.Text = "建檔";
+            lblCreatorLbl.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtModifyDate
+            // 
+            txtModifyDate.BackColor = Color.WhiteSmoke;
+            txtModifyDate.Location = new Point(444, 4);
+            txtModifyDate.Name = "txtModifyDate";
+            txtModifyDate.ReadOnly = true;
+            txtModifyDate.Size = new Size(100, 25);
+            txtModifyDate.TabIndex = 3;
+            // 
+            // txtModifier
+            // 
+            txtModifier.BackColor = Color.WhiteSmoke;
+            txtModifier.Location = new Point(320, 4);
+            txtModifier.Name = "txtModifier";
+            txtModifier.ReadOnly = true;
+            txtModifier.Size = new Size(120, 25);
+            txtModifier.TabIndex = 4;
+            // 
+            // lblModifierLbl
+            // 
+            lblModifierLbl.Location = new Point(280, 6);
+            lblModifierLbl.Name = "lblModifierLbl";
+            lblModifierLbl.Size = new Size(36, 22);
+            lblModifierLbl.TabIndex = 5;
+            lblModifierLbl.Text = "修改";
+            lblModifierLbl.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtApproveDate
+            // 
+            txtApproveDate.BackColor = Color.WhiteSmoke;
+            txtApproveDate.Location = new Point(172, 4);
+            txtApproveDate.Name = "txtApproveDate";
+            txtApproveDate.ReadOnly = true;
+            txtApproveDate.Size = new Size(100, 25);
+            txtApproveDate.TabIndex = 6;
+            // 
+            // txtApprover
+            // 
+            txtApprover.BackColor = Color.WhiteSmoke;
+            txtApprover.Location = new Point(48, 4);
+            txtApprover.Name = "txtApprover";
+            txtApprover.ReadOnly = true;
+            txtApprover.Size = new Size(120, 25);
+            txtApprover.TabIndex = 7;
+            // 
+            // lblApproverLbl
+            // 
+            lblApproverLbl.Location = new Point(8, 6);
+            lblApproverLbl.Name = "lblApproverLbl";
+            lblApproverLbl.Size = new Size(36, 22);
+            lblApproverLbl.TabIndex = 8;
+            lblApproverLbl.Text = "核准";
+            lblApproverLbl.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // panelDetail
+            // 
             panelDetail.Controls.Add(splitContainer1);
-            panelDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            panelDetail.Location = new System.Drawing.Point(0, 492);
+            panelDetail.Dock = DockStyle.Fill;
+            panelDetail.Location = new Point(0, 492);
             panelDetail.Name = "panelDetail";
-            panelDetail.Size = new System.Drawing.Size(1654, 408);
+            panelDetail.Size = new Size(1654, 408);
             panelDetail.TabIndex = 2;
-
+            // 
             // splitContainer1
-            splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            splitContainer1.Location = new System.Drawing.Point(0, 0);
+            // 
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(0, 0);
             splitContainer1.Name = "splitContainer1";
-            splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            splitContainer1.Size = new System.Drawing.Size(1654, 408);
+            splitContainer1.Orientation = Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(dgvBox);
+            splitContainer1.Panel1.Controls.Add(panelBoxTotal);
+            splitContainer1.Panel1.Controls.Add(lblBoxTitle);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(dgvPayment);
+            splitContainer1.Panel2.Controls.Add(panelPaymentTotal);
+            splitContainer1.Panel2.Controls.Add(lblPaymentTitle);
+            splitContainer1.Size = new Size(1654, 408);
             splitContainer1.SplitterDistance = 240;
             splitContainer1.TabIndex = 0;
-
-            // splitContainer1.Panel1 (裝箱明細)
-            splitContainer1.Panel1.Controls.Add(dgvBox);
-            splitContainer1.Panel1.Controls.Add(lblBoxTitle);
-
-            lblBoxTitle.BackColor = System.Drawing.Color.FromArgb(180, 220, 255);
-            lblBoxTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            lblBoxTitle.Font = new System.Drawing.Font("Microsoft JhengHei UI", 10F, System.Drawing.FontStyle.Bold);
-            lblBoxTitle.Location = new System.Drawing.Point(0, 0);
-            lblBoxTitle.Name = "lblBoxTitle";
-            lblBoxTitle.Size = new System.Drawing.Size(1654, 22);
-            lblBoxTitle.Text = "專案機台裝箱明細";
-            lblBoxTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-
-            dgvBox.AllowUserToAddRows = true;
+            // 
+            // dgvBox
+            // 
             dgvBox.AllowUserToDeleteRows = false;
-            dgvBox.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dgvBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvBox.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { colDesc, colQTY, colUnit, colDollar1, colUnitPrice, colDollar2, colAmount, colNW, colGW, colDim, colHS });
-            dgvBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            dgvBox.Location = new System.Drawing.Point(0, 22);
+            dgvBox.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvBox.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvBox.Columns.AddRange(new DataGridViewColumn[] { colDesc, colQTY, colUnit, colDollar1, colUnitPrice, colDollar2, colAmount, colNW, colGW, colDim, colHS });
+            dgvBox.Dock = DockStyle.Fill;
+            dgvBox.Location = new Point(0, 22);
             dgvBox.Name = "dgvBox";
             dgvBox.RowHeadersVisible = false;
-            dgvBox.Size = new System.Drawing.Size(1654, 218);
+            dgvBox.Size = new Size(1654, 190);
             dgvBox.TabIndex = 1;
             dgvBox.CellValueChanged += dgvBox_CellValueChanged;
             dgvBox.DataError += dgvBox_DataError;
-
-            colDesc.HeaderText = "Description"; colDesc.Name = "colDesc"; colDesc.FillWeight = 200;
-            colQTY.HeaderText = "QTY"; colQTY.Name = "colQTY"; colQTY.FillWeight = 60;
-            colUnit.HeaderText = "Unit"; colUnit.Name = "colUnit"; colUnit.FillWeight = 60;
-            colDollar1.HeaderText = "Cy"; colDollar1.Name = "colDollar1"; colDollar1.FillWeight = 60;
-            colUnitPrice.HeaderText = "Unit Price"; colUnitPrice.Name = "colUnitPrice"; colUnitPrice.FillWeight = 100;
-            colDollar2.HeaderText = "Cy"; colDollar2.Name = "colDollar2"; colDollar2.FillWeight = 60;
-            colAmount.HeaderText = "Amount"; colAmount.Name = "colAmount"; colAmount.FillWeight = 100; colAmount.ReadOnly = true;
-            colNW.HeaderText = "NW (kgs)"; colNW.Name = "colNW"; colNW.FillWeight = 80;
-            colGW.HeaderText = "GW (kgs)"; colGW.Name = "colGW"; colGW.FillWeight = 80;
-            colDim.HeaderText = "Dimension (cm)"; colDim.Name = "colDim"; colDim.FillWeight = 130;
-            colHS.HeaderText = "HS Code"; colHS.Name = "colHS"; colHS.FillWeight = 100;
-
-            // splitContainer1.Panel2 (沖款明細)
-            splitContainer1.Panel2.Controls.Add(dgvPayment);
-            splitContainer1.Panel2.Controls.Add(lblPaymentTitle);
-
-            lblPaymentTitle.BackColor = System.Drawing.Color.FromArgb(180, 255, 200);
-            lblPaymentTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            lblPaymentTitle.Font = new System.Drawing.Font("Microsoft JhengHei UI", 10F, System.Drawing.FontStyle.Bold);
-            lblPaymentTitle.Location = new System.Drawing.Point(0, 0);
-            lblPaymentTitle.Name = "lblPaymentTitle";
-            lblPaymentTitle.Size = new System.Drawing.Size(1654, 22);
-            lblPaymentTitle.Text = "專案應收沖款明細";
-            lblPaymentTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-
+            // 
+            // colDesc
+            // 
+            colDesc.FillWeight = 200F;
+            colDesc.HeaderText = "Description";
+            colDesc.Name = "colDesc";
+            // 
+            // colQTY
+            // 
+            colQTY.FillWeight = 60F;
+            colQTY.HeaderText = "QTY";
+            colQTY.Name = "colQTY";
+            // 
+            // colUnit
+            // 
+            colUnit.FillWeight = 60F;
+            colUnit.HeaderText = "Unit";
+            colUnit.Name = "colUnit";
+            // 
+            // colDollar1
+            // 
+            colDollar1.FillWeight = 60F;
+            colDollar1.HeaderText = "Cy";
+            colDollar1.Name = "colDollar1";
+            // 
+            // colUnitPrice
+            // 
+            colUnitPrice.HeaderText = "Unit Price";
+            colUnitPrice.Name = "colUnitPrice";
+            // 
+            // colDollar2
+            // 
+            colDollar2.FillWeight = 60F;
+            colDollar2.HeaderText = "Cy";
+            colDollar2.Name = "colDollar2";
+            // 
+            // colAmount
+            // 
+            colAmount.HeaderText = "Amount";
+            colAmount.Name = "colAmount";
+            colAmount.ReadOnly = true;
+            // 
+            // colNW
+            // 
+            colNW.FillWeight = 80F;
+            colNW.HeaderText = "NW (kgs)";
+            colNW.Name = "colNW";
+            // 
+            // colGW
+            // 
+            colGW.FillWeight = 80F;
+            colGW.HeaderText = "GW (kgs)";
+            colGW.Name = "colGW";
+            // 
+            // colDim
+            // 
+            colDim.FillWeight = 130F;
+            colDim.HeaderText = "Dimension (cm)";
+            colDim.Name = "colDim";
+            // 
+            // colHS
+            // 
+            colHS.HeaderText = "HS Code";
+            colHS.Name = "colHS";
+            // 
+            // panelBoxTotal
+            // 
+            panelBoxTotal.BackColor = Color.LightYellow;
+            panelBoxTotal.Controls.Add(txtBoxTotalGW);
+            panelBoxTotal.Controls.Add(lblBoxGWLbl);
+            panelBoxTotal.Controls.Add(txtBoxTotalNW);
+            panelBoxTotal.Controls.Add(lblBoxNWLbl);
+            panelBoxTotal.Controls.Add(txtBoxTotalAmount);
+            panelBoxTotal.Controls.Add(lblBoxAmountLbl);
+            panelBoxTotal.Controls.Add(lblBoxTotalHeader);
+            panelBoxTotal.Dock = DockStyle.Bottom;
+            panelBoxTotal.Location = new Point(0, 212);
+            panelBoxTotal.Name = "panelBoxTotal";
+            panelBoxTotal.Size = new Size(1654, 28);
+            panelBoxTotal.TabIndex = 3;
+            // 
+            // txtBoxTotalGW
+            // 
+            txtBoxTotalGW.BackColor = Color.LightYellow;
+            txtBoxTotalGW.Location = new Point(656, 2);
+            txtBoxTotalGW.Name = "txtBoxTotalGW";
+            txtBoxTotalGW.ReadOnly = true;
+            txtBoxTotalGW.Size = new Size(140, 25);
+            txtBoxTotalGW.TabIndex = 2;
+            txtBoxTotalGW.TextAlign = HorizontalAlignment.Right;
+            // 
+            // lblBoxGWLbl
+            // 
+            lblBoxGWLbl.Location = new Point(572, 4);
+            lblBoxGWLbl.Name = "lblBoxGWLbl";
+            lblBoxGWLbl.Size = new Size(80, 22);
+            lblBoxGWLbl.TabIndex = 3;
+            lblBoxGWLbl.Text = "GW (kgs):";
+            lblBoxGWLbl.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtBoxTotalNW
+            // 
+            txtBoxTotalNW.BackColor = Color.LightYellow;
+            txtBoxTotalNW.Location = new Point(420, 2);
+            txtBoxTotalNW.Name = "txtBoxTotalNW";
+            txtBoxTotalNW.ReadOnly = true;
+            txtBoxTotalNW.Size = new Size(140, 25);
+            txtBoxTotalNW.TabIndex = 1;
+            txtBoxTotalNW.TextAlign = HorizontalAlignment.Right;
+            // 
+            // lblBoxNWLbl
+            // 
+            lblBoxNWLbl.Location = new Point(336, 4);
+            lblBoxNWLbl.Name = "lblBoxNWLbl";
+            lblBoxNWLbl.Size = new Size(80, 22);
+            lblBoxNWLbl.TabIndex = 4;
+            lblBoxNWLbl.Text = "NW (kgs):";
+            lblBoxNWLbl.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtBoxTotalAmount
+            // 
+            txtBoxTotalAmount.BackColor = Color.LightYellow;
+            txtBoxTotalAmount.Location = new Point(184, 2);
+            txtBoxTotalAmount.Name = "txtBoxTotalAmount";
+            txtBoxTotalAmount.ReadOnly = true;
+            txtBoxTotalAmount.Size = new Size(140, 25);
+            txtBoxTotalAmount.TabIndex = 0;
+            txtBoxTotalAmount.TextAlign = HorizontalAlignment.Right;
+            // 
+            // lblBoxAmountLbl
+            // 
+            lblBoxAmountLbl.Location = new Point(100, 4);
+            lblBoxAmountLbl.Name = "lblBoxAmountLbl";
+            lblBoxAmountLbl.Size = new Size(80, 22);
+            lblBoxAmountLbl.TabIndex = 5;
+            lblBoxAmountLbl.Text = "Amount:";
+            lblBoxAmountLbl.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblBoxTotalHeader
+            // 
+            lblBoxTotalHeader.Font = new Font("Microsoft JhengHei UI", 10.5F, FontStyle.Bold);
+            lblBoxTotalHeader.Location = new Point(8, 4);
+            lblBoxTotalHeader.Name = "lblBoxTotalHeader";
+            lblBoxTotalHeader.Size = new Size(80, 22);
+            lblBoxTotalHeader.TabIndex = 6;
+            lblBoxTotalHeader.Text = "TOTAL";
+            lblBoxTotalHeader.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblBoxTitle
+            // 
+            lblBoxTitle.BackColor = Color.FromArgb(180, 220, 255);
+            lblBoxTitle.Dock = DockStyle.Top;
+            lblBoxTitle.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold);
+            lblBoxTitle.Location = new Point(0, 0);
+            lblBoxTitle.Name = "lblBoxTitle";
+            lblBoxTitle.Size = new Size(1654, 22);
+            lblBoxTitle.TabIndex = 2;
+            lblBoxTitle.Text = "專案機台裝箱明細";
+            lblBoxTitle.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // dgvPayment
+            // 
             dgvPayment.AllowUserToAddRows = false;
             dgvPayment.AllowUserToDeleteRows = false;
-            dgvPayment.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dgvPayment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvPayment.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { colPayDate, colPayItem, colPayType, colWriteOff, colReceived, colFee, colOtherDeduct, colDeductReason, colOperator, colReview });
-            dgvPayment.Dock = System.Windows.Forms.DockStyle.Fill;
-            dgvPayment.Location = new System.Drawing.Point(0, 22);
+            dgvPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPayment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvPayment.Columns.AddRange(new DataGridViewColumn[] { colPayDate, colPayItem, colPayType, colWriteOff, colReceived, colFee, colOtherDeduct, colDeductReason, colOperator, colReview });
+            dgvPayment.Dock = DockStyle.Fill;
+            dgvPayment.Location = new Point(0, 22);
             dgvPayment.Name = "dgvPayment";
             dgvPayment.ReadOnly = true;
             dgvPayment.RowHeadersVisible = false;
+            dgvPayment.Size = new Size(1654, 114);
             dgvPayment.TabIndex = 1;
-
-            colPayDate.HeaderText = "收款日期"; colPayDate.Name = "colPayDate"; colPayDate.FillWeight = 100;
-            colPayItem.HeaderText = "收款項目"; colPayItem.Name = "colPayItem"; colPayItem.FillWeight = 100;
-            colPayType.HeaderText = "交付形式"; colPayType.Name = "colPayType"; colPayType.FillWeight = 100;
-            colWriteOff.HeaderText = "沖帳金額"; colWriteOff.Name = "colWriteOff"; colWriteOff.FillWeight = 100;
-            colReceived.HeaderText = "實收金額"; colReceived.Name = "colReceived"; colReceived.FillWeight = 100;
-            colFee.HeaderText = "手續費"; colFee.Name = "colFee"; colFee.FillWeight = 80;
-            colOtherDeduct.HeaderText = "其他折減額"; colOtherDeduct.Name = "colOtherDeduct"; colOtherDeduct.FillWeight = 100;
-            colDeductReason.HeaderText = "折減科目"; colDeductReason.Name = "colDeductReason"; colDeductReason.FillWeight = 120;
-            colOperator.HeaderText = "沖帳人員"; colOperator.Name = "colOperator"; colOperator.FillWeight = 100;
-            colReview.HeaderText = "業務覆核"; colReview.Name = "colReview"; colReview.FillWeight = 100;
-
-            // ── EQPShippingMaintainControl ────────────────────────────────
-            AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            BackColor = System.Drawing.Color.White;
+            // 
+            // colPayDate
+            // 
+            colPayDate.HeaderText = "收款日期";
+            colPayDate.Name = "colPayDate";
+            colPayDate.ReadOnly = true;
+            // 
+            // colPayItem
+            // 
+            colPayItem.HeaderText = "收款項目";
+            colPayItem.Name = "colPayItem";
+            colPayItem.ReadOnly = true;
+            // 
+            // colPayType
+            // 
+            colPayType.HeaderText = "交付形式";
+            colPayType.Name = "colPayType";
+            colPayType.ReadOnly = true;
+            // 
+            // colWriteOff
+            // 
+            colWriteOff.HeaderText = "沖帳金額";
+            colWriteOff.Name = "colWriteOff";
+            colWriteOff.ReadOnly = true;
+            // 
+            // colReceived
+            // 
+            colReceived.HeaderText = "實收金額";
+            colReceived.Name = "colReceived";
+            colReceived.ReadOnly = true;
+            // 
+            // colFee
+            // 
+            colFee.FillWeight = 80F;
+            colFee.HeaderText = "手續費";
+            colFee.Name = "colFee";
+            colFee.ReadOnly = true;
+            // 
+            // colOtherDeduct
+            // 
+            colOtherDeduct.HeaderText = "其他折減額";
+            colOtherDeduct.Name = "colOtherDeduct";
+            colOtherDeduct.ReadOnly = true;
+            // 
+            // colDeductReason
+            // 
+            colDeductReason.FillWeight = 120F;
+            colDeductReason.HeaderText = "折減科目";
+            colDeductReason.Name = "colDeductReason";
+            colDeductReason.ReadOnly = true;
+            // 
+            // colOperator
+            // 
+            colOperator.HeaderText = "沖帳人員";
+            colOperator.Name = "colOperator";
+            colOperator.ReadOnly = true;
+            // 
+            // colReview
+            // 
+            colReview.HeaderText = "業務覆核";
+            colReview.Name = "colReview";
+            colReview.ReadOnly = true;
+            // 
+            // panelPaymentTotal
+            // 
+            panelPaymentTotal.BackColor = Color.FromArgb(220, 255, 230);
+            panelPaymentTotal.Controls.Add(txtPayTotalReceived);
+            panelPaymentTotal.Controls.Add(lblPayReceivedLbl);
+            panelPaymentTotal.Controls.Add(txtPayTotalWriteOff);
+            panelPaymentTotal.Controls.Add(lblPayWriteOffLbl);
+            panelPaymentTotal.Controls.Add(lblPayTotalHeader);
+            panelPaymentTotal.Dock = DockStyle.Bottom;
+            panelPaymentTotal.Location = new Point(0, 136);
+            panelPaymentTotal.Name = "panelPaymentTotal";
+            panelPaymentTotal.Size = new Size(1654, 28);
+            panelPaymentTotal.TabIndex = 3;
+            // 
+            // txtPayTotalReceived
+            // 
+            txtPayTotalReceived.BackColor = Color.FromArgb(220, 255, 230);
+            txtPayTotalReceived.Location = new Point(400, 2);
+            txtPayTotalReceived.Name = "txtPayTotalReceived";
+            txtPayTotalReceived.ReadOnly = true;
+            txtPayTotalReceived.Size = new Size(140, 25);
+            txtPayTotalReceived.TabIndex = 1;
+            txtPayTotalReceived.TextAlign = HorizontalAlignment.Right;
+            // 
+            // lblPayReceivedLbl
+            // 
+            lblPayReceivedLbl.Location = new Point(316, 4);
+            lblPayReceivedLbl.Name = "lblPayReceivedLbl";
+            lblPayReceivedLbl.Size = new Size(80, 22);
+            lblPayReceivedLbl.TabIndex = 2;
+            lblPayReceivedLbl.Text = "實收金額:";
+            lblPayReceivedLbl.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtPayTotalWriteOff
+            // 
+            txtPayTotalWriteOff.BackColor = Color.FromArgb(220, 255, 230);
+            txtPayTotalWriteOff.Location = new Point(164, 2);
+            txtPayTotalWriteOff.Name = "txtPayTotalWriteOff";
+            txtPayTotalWriteOff.ReadOnly = true;
+            txtPayTotalWriteOff.Size = new Size(140, 25);
+            txtPayTotalWriteOff.TabIndex = 0;
+            txtPayTotalWriteOff.TextAlign = HorizontalAlignment.Right;
+            // 
+            // lblPayWriteOffLbl
+            // 
+            lblPayWriteOffLbl.Location = new Point(80, 4);
+            lblPayWriteOffLbl.Name = "lblPayWriteOffLbl";
+            lblPayWriteOffLbl.Size = new Size(80, 22);
+            lblPayWriteOffLbl.TabIndex = 3;
+            lblPayWriteOffLbl.Text = "沖帳金額:";
+            lblPayWriteOffLbl.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblPayTotalHeader
+            // 
+            lblPayTotalHeader.Font = new Font("Microsoft JhengHei UI", 10.5F, FontStyle.Bold);
+            lblPayTotalHeader.Location = new Point(8, 4);
+            lblPayTotalHeader.Name = "lblPayTotalHeader";
+            lblPayTotalHeader.Size = new Size(60, 22);
+            lblPayTotalHeader.TabIndex = 4;
+            lblPayTotalHeader.Text = "合計";
+            lblPayTotalHeader.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblPaymentTitle
+            // 
+            lblPaymentTitle.BackColor = Color.FromArgb(180, 255, 200);
+            lblPaymentTitle.Dock = DockStyle.Top;
+            lblPaymentTitle.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold);
+            lblPaymentTitle.Location = new Point(0, 0);
+            lblPaymentTitle.Name = "lblPaymentTitle";
+            lblPaymentTitle.Size = new Size(1654, 22);
+            lblPaymentTitle.TabIndex = 2;
+            lblPaymentTitle.Text = "專案應收沖款明細";
+            lblPaymentTitle.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // EQPShippingMaintainControl
+            // 
+            AutoScaleMode = AutoScaleMode.None;
+            BackColor = Color.White;
             Controls.Add(panelDetail);
             Controls.Add(panelFooter);
             Controls.Add(panelForm);
             Controls.Add(panel1);
-            Font = new System.Drawing.Font("Microsoft JhengHei UI", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 136);
+            Font = new Font("Microsoft JhengHei UI", 10.5F, FontStyle.Regular, GraphicsUnit.Point, 136);
             Name = "EQPShippingMaintainControl";
-            Size = new System.Drawing.Size(1654, 932);
-
+            Size = new Size(1654, 932);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panelForm.ResumeLayout(false);
             panelForm.PerformLayout();
             panelFooter.ResumeLayout(false);
             panelFooter.PerformLayout();
+            panelDetail.ResumeLayout(false);
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvBox).EndInit();
+            panelBoxTotal.ResumeLayout(false);
+            panelBoxTotal.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPayment).EndInit();
+            panelPaymentTotal.ResumeLayout(false);
+            panelPaymentTotal.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -573,6 +1525,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblMode;
         private System.Windows.Forms.Button btnUpdateBox;
+        private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnApprove;
@@ -619,6 +1572,8 @@ namespace DigiERP.UserControl.Customer.EQPShipping
         private System.Windows.Forms.ComboBox cboPacking;
         private System.Windows.Forms.Label lblInsurance;
         private System.Windows.Forms.ComboBox cboInsurance;
+        private System.Windows.Forms.Label lblContainerPort;
+        private System.Windows.Forms.TextBox txtContainerPort;
         private System.Windows.Forms.Label lblCutOff;
         private System.Windows.Forms.TextBox txtCutOff;
         private System.Windows.Forms.Label lblETD;
@@ -679,9 +1634,9 @@ namespace DigiERP.UserControl.Customer.EQPShipping
         private System.Windows.Forms.DataGridViewTextBoxColumn colDesc;
         private System.Windows.Forms.DataGridViewTextBoxColumn colQTY;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUnit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDollar1;
+        private System.Windows.Forms.DataGridViewComboBoxColumn colDollar1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUnitPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDollar2;
+        private System.Windows.Forms.DataGridViewComboBoxColumn colDollar2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNW;
         private System.Windows.Forms.DataGridViewTextBoxColumn colGW;
@@ -699,5 +1654,21 @@ namespace DigiERP.UserControl.Customer.EQPShipping
         private System.Windows.Forms.DataGridViewTextBoxColumn colDeductReason;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOperator;
         private System.Windows.Forms.DataGridViewTextBoxColumn colReview;
+
+        // ── grid total footers ───────────────────────────────────────────────
+        private System.Windows.Forms.Panel panelBoxTotal;
+        private System.Windows.Forms.Label lblBoxTotalHeader;
+        private System.Windows.Forms.Label lblBoxAmountLbl;
+        private System.Windows.Forms.TextBox txtBoxTotalAmount;
+        private System.Windows.Forms.Label lblBoxNWLbl;
+        private System.Windows.Forms.TextBox txtBoxTotalNW;
+        private System.Windows.Forms.Label lblBoxGWLbl;
+        private System.Windows.Forms.TextBox txtBoxTotalGW;
+        private System.Windows.Forms.Panel panelPaymentTotal;
+        private System.Windows.Forms.Label lblPayTotalHeader;
+        private System.Windows.Forms.Label lblPayWriteOffLbl;
+        private System.Windows.Forms.TextBox txtPayTotalWriteOff;
+        private System.Windows.Forms.Label lblPayReceivedLbl;
+        private System.Windows.Forms.TextBox txtPayTotalReceived;
     }
 }
