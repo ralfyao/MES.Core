@@ -313,5 +313,30 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
         {
             disableControl(false);
         }
+
+        // ── 廠商評鑑：跳出新的頁籤，帶入廠商編號及相關資訊 ─────────────────
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string supplierNo = txtSupplierNo.Text.Trim();
+            if (string.IsNullOrEmpty(supplierNo))
+            {
+                MessageBox.Show("請先儲存廠商基本資料，取得廠商編號後再新增廠商評鑑");
+                return;
+            }
+
+            var frmSupplier = FindForm() as FrmSupplier;
+            if (frmSupplier == null)
+            {
+                MessageBox.Show("無法開啟廠商評鑑頁籤");
+                return;
+            }
+
+            var evalControl = new SupplierEvaluateMaintainControl();
+            evalControl.Mode = "新增";
+            evalControl.initForm();
+            evalControl.LockToSupplier(supplierNo);
+
+            frmSupplier.AddTab($"廠商評鑑", evalControl);
+        }
     }
 }

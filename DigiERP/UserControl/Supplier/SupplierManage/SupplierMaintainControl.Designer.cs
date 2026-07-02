@@ -15,6 +15,7 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            button1 = new Button();
             btnModify = new Button();
             btnBack = new Button();
             btnSaveQuotation = new Button();
@@ -93,7 +94,6 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
             txtApproveDate = new TextBox();
             txtApprover = new TextBox();
             lbl核准F = new Label();
-            button1 = new Button();
             panel1.SuspendLayout();
             panelForm.SuspendLayout();
             panelDetail.SuspendLayout();
@@ -121,6 +121,20 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
             panel1.Name = "panel1";
             panel1.Size = new Size(1497, 60);
             panel1.TabIndex = 0;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.SandyBrown;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(1020, 8);
+            button1.Name = "button1";
+            button1.Size = new Size(100, 44);
+            button1.TabIndex = 10;
+            button1.Text = "廠商評鑑";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // btnModify
             // 
@@ -916,19 +930,6 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
             lbl核准F.Size = new Size(31, 16);
             lbl核准F.TabIndex = 8;
             lbl核准F.Text = "核准";
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.SandyBrown;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(1020, 8);
-            button1.Name = "button1";
-            button1.Size = new Size(100, 44);
-            button1.TabIndex = 10;
-            button1.Text = "廠商評鑑";
-            button1.UseVisualStyleBackColor = false;
             // 
             // SupplierMaintainControl
             // 

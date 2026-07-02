@@ -158,6 +158,48 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/UpdateSupplierEvaluate"), HttpPost]
+        public CommonRep<string> UpdateSupplierEvaluate([FromBody] B廠商評鑑 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            SupplierMiddle supplierMiddle = new SupplierMiddle();
+            try
+            {
+                int execCnt = supplierMiddle.updateSupplierEvaluate(form);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "更新供應商評鑑失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteSupplierEvaluate"), HttpPost]
+        public CommonRep<string> DeleteSupplierEvaluate([FromBody] B廠商評鑑 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            SupplierMiddle supplierMiddle = new SupplierMiddle();
+            try
+            {
+                int execCnt = supplierMiddle.deleteSupplierEvaluate(form.單號);
+                if (execCnt == 0)
+                {
+                    commonRep.ErrorMessage = "刪除供應商評鑑失敗，請洽系統人員";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         [Route("api/EvaluateSupplier"), HttpGet]
         public CommonRep<string> EvaluateSupplier(string formNo, bool validate, string user)
         {

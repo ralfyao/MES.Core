@@ -1,4 +1,5 @@
 using DigiERP.Common;
+using DigiERP.UserControl.Supplier.SupplierManage;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 
@@ -95,6 +96,62 @@ namespace DigiERP.UserControl.Supplier.SupplierEvaluate
         private void dataGridView1_VisibleChanged(object sender, EventArgs e)
         {
             if (dataGridView1.Visible) initGrid();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        // ── 新增 ────────────────────────────────────────────────────────
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            openMaintainControl(null);
+        }
+
+        // ── 雙擊進入維護 ─────────────────────────────────────────────────
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            string no = dataGridView1.Rows[e.RowIndex].Cells[colNo.Index].Value?.ToString();
+            if (string.IsNullOrEmpty(no)) return;
+            var target = _evaluateList.FirstOrDefault(x => x.單號 == no);
+            if (target == null) return;
+            openMaintainControl(target);
+        }
+
+        private void openMaintainControl(B廠商評鑑? target)
+        {
+            RemoveExistingMaintainControl();
+            dataGridView1.Visible = false;
+
+            var maintain = new SupplierEvaluateMaintainControl();
+            maintain.Dock = DockStyle.Fill;
+
+            if (target == null)
+            {
+                maintain.Mode = "新增";
+            }
+            else
+            {
+                maintain.form = target;
+                maintain.Mode = "修改";
+            }
+
+            panel2.Controls.Add(maintain);
+            maintain.initForm();
+        }
+
+        private void RemoveExistingMaintainControl()
+        {
+            for (int i = panel2.Controls.Count - 1; i >= 0; i--)
+            {
+                if (panel2.Controls[i] is SupplierEvaluateMaintainControl m)
+                {
+                    panel2.Controls.RemoveAt(i);
+                    m.Dispose();
+                }
+            }
         }
     }
 }

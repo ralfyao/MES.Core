@@ -14,6 +14,7 @@ namespace DigiERP.UserControl.Supplier.SupplierEvaluate
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SupplierEvaluateControl));
             panel1 = new Panel();
             btnSearch = new Button();
             txtSearchSupplierNo = new TextBox();
@@ -32,14 +33,19 @@ namespace DigiERP.UserControl.Supplier.SupplierEvaluate
             colReviewDate = new DataGridViewTextBoxColumn();
             colApproved = new DataGridViewTextBoxColumn();
             colApproveDate = new DataGridViewTextBoxColumn();
+            pictureBox1 = new PictureBox();
+            btnAdd = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(255, 192, 128);
+            panel1.Controls.Add(btnAdd);
+            panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(btnSearch);
             panel1.Controls.Add(txtSearchSupplierNo);
             panel1.Controls.Add(lblSearchSupplierNo);
@@ -51,6 +57,7 @@ namespace DigiERP.UserControl.Supplier.SupplierEvaluate
             panel1.Name = "panel1";
             panel1.Size = new Size(1497, 112);
             panel1.TabIndex = 0;
+            panel1.Paint += panel1_Paint;
             // 
             // btnSearch
             // 
@@ -107,7 +114,7 @@ namespace DigiERP.UserControl.Supplier.SupplierEvaluate
             // lblTitle
             // 
             lblTitle.Font = new Font("微軟正黑體", 18F, FontStyle.Bold);
-            lblTitle.Location = new Point(16, 20);
+            lblTitle.Location = new Point(88, 20);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(200, 32);
             lblTitle.TabIndex = 5;
@@ -140,6 +147,7 @@ namespace DigiERP.UserControl.Supplier.SupplierEvaluate
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(1497, 564);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             dataGridView1.VisibleChanged += dataGridView1_VisibleChanged;
             // 
             // colNo
@@ -205,6 +213,30 @@ namespace DigiERP.UserControl.Supplier.SupplierEvaluate
             colApproveDate.Name = "colApproveDate";
             colApproveDate.ReadOnly = true;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(4, 12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(68, 52);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 6;
+            pictureBox1.TabStop = false;
+            // 
+            // btnAdd
+            // 
+            btnAdd.BackColor = Color.MediumSeaGreen;
+            btnAdd.FlatStyle = FlatStyle.Flat;
+            btnAdd.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
+            btnAdd.ForeColor = Color.White;
+            btnAdd.Location = new Point(680, 64);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(80, 40);
+            btnAdd.TabIndex = 7;
+            btnAdd.Text = "新增";
+            btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += btnAdd_Click;
+            //
             // SupplierEvaluateControl
             // 
             AutoScaleDimensions = new SizeF(8F, 17F);
@@ -219,6 +251,7 @@ namespace DigiERP.UserControl.Supplier.SupplierEvaluate
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -242,5 +275,7 @@ namespace DigiERP.UserControl.Supplier.SupplierEvaluate
         private DataGridViewTextBoxColumn colReviewDate;
         private DataGridViewTextBoxColumn colApproved;
         private DataGridViewTextBoxColumn colApproveDate;
+        private PictureBox pictureBox1;
+        private Button btnAdd;
     }
 }

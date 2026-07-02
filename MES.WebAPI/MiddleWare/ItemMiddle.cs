@@ -122,6 +122,32 @@ namespace MES.WebAPI.MiddleWare
             }
         }
 
+        public List<A材料庫存彙總> getStockSummaryList()
+        {
+            List<A材料庫存彙總> list = new List<A材料庫存彙總>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT 產品編號,
+                                          SUM(入庫) AS 入庫總計,
+                                          SUM(出庫) AS 出庫總計,
+                                          COUNT(0) AS 庫存卡筆數
+                                   FROM A材料庫存卡
+                                   GROUP BY 產品編號";
+                    list = conn.Query<A材料庫存彙總>(sql).ToList();
+                    list.ForEach(x => x.結餘 = (x.入庫總計 ?? 0) - (x.出庫總計 ?? 0));
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
         public void deleteItem(string itemNo)
         {
             try

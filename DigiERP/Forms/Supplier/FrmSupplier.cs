@@ -57,6 +57,20 @@ namespace DigiERP
             }
         }
 
+        // ── 供外部（如廠商維護頁的「廠商評鑑」按鈕）動態開啟新頁籤 ─────────────
+        public void AddTab(string title, Control content)
+        {
+            TabPage tab = new TabPage(title);
+            tab.Name = Guid.NewGuid().ToString();
+            content.Dock = DockStyle.Fill;
+            tab.Controls.Add(content);
+            tab.AutoScroll = true;
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.ItemSize = new Size(120, 30);
+        }
+
         private void FrmCust_Shown(object sender, EventArgs e)
         {
             treeView.SelectedNode = null;

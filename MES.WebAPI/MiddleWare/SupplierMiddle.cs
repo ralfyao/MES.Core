@@ -318,6 +318,41 @@ namespace MES.WebAPI.MiddleWare
             return execCnt;
         }
 
+        public int updateSupplierEvaluate(B廠商評鑑 form)
+        {
+            int execCnt = 0;
+            try
+            {
+                SupplierEvaluateRepository supplierEvaluateRepository = new SupplierEvaluateRepository();
+                execCnt = supplierEvaluateRepository.Update(form);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
+        }
+
+        public int deleteSupplierEvaluate(string? formNo)
+        {
+            int execCnt = 0;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    execCnt = conn.Execute("DELETE FROM B廠商評鑑 WHERE 單號=@單號", new { 單號 = formNo });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
+        }
+
         public int validateSupplierEvaluate(string formNo, bool validate, string user)
         {
             int execCnt = 0;

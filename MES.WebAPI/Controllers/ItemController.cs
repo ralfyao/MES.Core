@@ -65,6 +65,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetStockSummaryList"), HttpGet]
+        public CommonRep<A材料庫存彙總> GetStockSummaryList()
+        {
+            CommonRep<A材料庫存彙總> commonRep = new CommonRep<A材料庫存彙總>();
+            ItemMiddle itemMiddle = new ItemMiddle();
+            try
+            {
+                commonRep.resultList = itemMiddle.getStockSummaryList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         [Route("api/ToggleDisableItem"), HttpGet]
         public CommonRep<String> ToggleDisableItem(string itemNo)
         {
