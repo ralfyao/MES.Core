@@ -250,6 +250,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetPurchaseStaffList"), HttpGet]
+        public CommonRep<成本單位人員配置> GetPurchaseStaffList()
+        {
+            CommonRep<成本單位人員配置> commonRep = new CommonRep<成本單位人員配置>();
+            SupplierMiddle supplierMiddle = new SupplierMiddle();
+            try
+            {
+                commonRep.resultList = supplierMiddle.getPurchaseStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         [Route("api/QuotationByItem"), HttpGet]
         public CommonRep<廠商供料List> QuotationByItem(string itemNo)
         {
@@ -315,6 +331,43 @@ namespace MES.WebAPI.Controllers
                     commonRep.ErrorMessage = "刪除詢價失敗，請洽系統人員";
                     commonRep.WorkStatus = WorkStatus.Fail.ToString();
                 }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetContactList"), HttpGet]
+        public CommonRep<B廠商聯絡名冊> GetContactList(string supplierNo)
+        {
+            CommonRep<B廠商聯絡名冊> commonRep = new CommonRep<B廠商聯絡名冊>();
+            try
+            {
+                var repo   = new SupplierContactDataRepository();
+                var filter = new B廠商聯絡名冊 { 客廠編號 = supplierNo };
+                commonRep.resultList = repo.GetListBy(filter, "客廠編號");
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/ReplaceContactList"), HttpPost]
+        public CommonRep<string> ReplaceContactList([FromBody] List<B廠商聯絡名冊> list)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            try
+            {
+                string supplierNo = list.FirstOrDefault()?.客廠編號 ?? "";
+                // 過濾掉無聯絡人的 placeholder 列
+                var realList = list.Where(x => !string.IsNullOrWhiteSpace(x.聯絡人)).ToList();
+                new SupplierMiddle().replaceContactList(supplierNo, realList);
             }
             catch (Exception ex)
             {

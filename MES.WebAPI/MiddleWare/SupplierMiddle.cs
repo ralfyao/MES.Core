@@ -350,6 +350,27 @@ namespace MES.WebAPI.MiddleWare
             return list;
         }
 
+        public List<成本單位人員配置> getPurchaseStaffList()
+        {
+            List<成本單位人員配置> lst = new List<成本單位人員配置>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    string strSQL = @"SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
+                                      FROM 成本單位人員配置 c
+                                      INNER JOIN H員工清冊 e ON c.員工編號 = e.工號
+                                      WHERE c.職務 = '採購' AND c.編修 = 1";
+                    lst = conn.Query<成本單位人員配置>(strSQL).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return lst;
+        }
+
         internal string? get品名規格(string? 品項編號)
         {
             string 品名規格 = string.Empty;
@@ -433,6 +454,23 @@ namespace MES.WebAPI.MiddleWare
         {
             SupplierQuotationRepository supplierQuotationRepository = new SupplierQuotationRepository();
             return supplierQuotationRepository.Delete(form);
+        }
+
+        internal void replaceContactList(string supplierNo, List<B廠商聯絡名冊> list)
+        {
+            string deleteSql = "DELETE FROM B廠商聯絡名冊 WHERE 客廠編號 = @客廠編號";
+            string insertSql = @"INSERT INTO B廠商聯絡名冊
+                                 (客廠編號, 聯絡人, 職稱, 手機, 電話, 分機, 傳真, 電郵, 分支機構, 地址)
+                                 VALUES
+                                 (@客廠編號, @聯絡人, @職稱, @手機, @電話, @分機, @傳真, @電郵, @分支機構, @地址)";
+            using var conn = new SqlConnection(IRepository<string>.ConnStr);
+            conn.Open();
+            conn.Execute(deleteSql, new { 客廠編號 = supplierNo });
+            foreach (var item in list)
+            {
+                item.客廠編號 = supplierNo;
+                conn.Execute(insertSql, item);
+            }
         }
     }
 }
