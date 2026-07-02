@@ -286,6 +286,22 @@ namespace MES.WebAPI.MiddleWare
             return supplierNo;
         }
 
+        public List<B廠商評鑑> getSupplierEvaluateList()
+        {
+            List<B廠商評鑑> list = new List<B廠商評鑑>();
+            try
+            {
+                SupplierEvaluateRepository supplierEvaluateRepository = new SupplierEvaluateRepository();
+                list = supplierEvaluateRepository.GetList((B廠商評鑑)null);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
         internal int insertSupplierEvaluate(B廠商評鑑 form)
         {
             int execCnt = 0;

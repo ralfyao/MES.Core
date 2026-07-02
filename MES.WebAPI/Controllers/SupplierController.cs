@@ -120,6 +120,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetSupplierEvaluateList"), HttpGet]
+        public CommonRep<B廠商評鑑> GetSupplierEvaluateList()
+        {
+            CommonRep<B廠商評鑑> commonRep = new CommonRep<B廠商評鑑>();
+            SupplierMiddle supplierMiddle = new SupplierMiddle();
+            try
+            {
+                commonRep.resultList = supplierMiddle.getSupplierEvaluateList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         [Route("api/SaveSupplierEvaluate"), HttpPost]
         public CommonRep<string> SaveSupplierEvaluate([FromBody] B廠商評鑑 form)
         {
