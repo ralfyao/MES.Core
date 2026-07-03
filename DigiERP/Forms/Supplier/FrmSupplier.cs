@@ -107,6 +107,7 @@ namespace DigiERP
             }
             Type type = Type.GetType(controlClass);
             Control ctrl = (Control)Activator.CreateInstance(type);
+            ctrl.Name = tab.Name;
             //    key switch
             //{
             //    "SupplierManage" => new CustomerControl() { Width = tab.Width },

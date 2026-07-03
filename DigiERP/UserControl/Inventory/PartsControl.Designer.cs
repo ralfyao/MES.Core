@@ -16,6 +16,12 @@ namespace DigiERP.UserControl.Inventory
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PartsControl));
             panel1 = new Panel();
+            button1 = new Button();
+            btn新增同級料品支援 = new Button();
+            btn加工材料代號新增 = new Button();
+            btn未核准品項清單 = new Button();
+            btnQueryByPartDesc = new Button();
+            pictureBox1 = new PictureBox();
             lblTitle = new Label();
             panel2 = new Panel();
             dataGridView1 = new DataGridView();
@@ -35,16 +41,10 @@ namespace DigiERP.UserControl.Inventory
             colStockOutTotal = new DataGridViewTextBoxColumn();
             colCardCount = new DataGridViewTextBoxColumn();
             colBalance = new DataGridViewTextBoxColumn();
-            pictureBox1 = new PictureBox();
-            btnQueryByPartDesc = new Button();
-            btn未核准品項清單 = new Button();
-            btn加工材料代號新增 = new Button();
-            btn新增同級料品支援 = new Button();
-            button1 = new Button();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -63,12 +63,77 @@ namespace DigiERP.UserControl.Inventory
             panel1.Size = new Size(1497, 76);
             panel1.TabIndex = 0;
             // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(224, 224, 224);
+            button1.Location = new Point(884, 16);
+            button1.Name = "button1";
+            button1.Size = new Size(132, 36);
+            button1.TabIndex = 6;
+            button1.Text = "新增料品";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            //
+            // btn新增同級料品支援
+            // 
+            btn新增同級料品支援.BackColor = Color.FromArgb(0, 192, 0);
+            btn新增同級料品支援.ForeColor = SystemColors.ButtonHighlight;
+            btn新增同級料品支援.Location = new Point(711, 16);
+            btn新增同級料品支援.Name = "btn新增同級料品支援";
+            btn新增同級料品支援.Size = new Size(161, 36);
+            btn新增同級料品支援.TabIndex = 5;
+            btn新增同級料品支援.Text = "新增同級料品支援";
+            btn新增同級料品支援.UseVisualStyleBackColor = false;
+            // 
+            // btn加工材料代號新增
+            // 
+            btn加工材料代號新增.BackColor = Color.FromArgb(192, 255, 255);
+            btn加工材料代號新增.Location = new Point(548, 16);
+            btn加工材料代號新增.Name = "btn加工材料代號新增";
+            btn加工材料代號新增.Size = new Size(148, 36);
+            btn加工材料代號新增.TabIndex = 4;
+            btn加工材料代號新增.Text = "加工材料代號新增";
+            btn加工材料代號新增.UseVisualStyleBackColor = false;
+            btn加工材料代號新增.Click += btn加工材料代號新增_Click;
+            // 
+            // btn未核准品項清單
+            // 
+            btn未核准品項清單.BackColor = Color.FromArgb(192, 255, 192);
+            btn未核准品項清單.Location = new Point(404, 16);
+            btn未核准品項清單.Name = "btn未核准品項清單";
+            btn未核准品項清單.Size = new Size(132, 36);
+            btn未核准品項清單.TabIndex = 3;
+            btn未核准品項清單.Text = "未核准品項清單";
+            btn未核准品項清單.UseVisualStyleBackColor = false;
+            btn未核准品項清單.Click += btn未核准品項清單_Click;
+            // 
+            // btnQueryByPartDesc
+            // 
+            btnQueryByPartDesc.BackColor = Color.FromArgb(255, 192, 192);
+            btnQueryByPartDesc.Location = new Point(296, 16);
+            btnQueryByPartDesc.Name = "btnQueryByPartDesc";
+            btnQueryByPartDesc.Size = new Size(92, 36);
+            btnQueryByPartDesc.TabIndex = 2;
+            btnQueryByPartDesc.Text = "品名搜尋";
+            btnQueryByPartDesc.UseVisualStyleBackColor = false;
+            btnQueryByPartDesc.Click += btnQueryByPartDesc_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(8, 8);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(72, 60);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
             // lblTitle
             // 
             lblTitle.Font = new Font("微軟正黑體", 18F, FontStyle.Bold);
             lblTitle.Location = new Point(92, 20);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(172, 32);
+            lblTitle.Size = new Size(196, 32);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "材料庫存查詢";
             // 
@@ -99,6 +164,7 @@ namespace DigiERP.UserControl.Inventory
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(1497, 600);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             dataGridView1.VisibleChanged += dataGridView1_VisibleChanged;
             // 
             // colNo
@@ -213,67 +279,6 @@ namespace DigiERP.UserControl.Inventory
             colBalance.Name = "colBalance";
             colBalance.ReadOnly = true;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(8, 8);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(72, 60);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 1;
-            pictureBox1.TabStop = false;
-            // 
-            // btnQueryByPartDesc
-            // 
-            btnQueryByPartDesc.BackColor = Color.FromArgb(255, 192, 192);
-            btnQueryByPartDesc.Location = new Point(296, 16);
-            btnQueryByPartDesc.Name = "btnQueryByPartDesc";
-            btnQueryByPartDesc.Size = new Size(92, 36);
-            btnQueryByPartDesc.TabIndex = 2;
-            btnQueryByPartDesc.Text = "品名搜尋";
-            btnQueryByPartDesc.UseVisualStyleBackColor = false;
-            // 
-            // btn未核准品項清單
-            // 
-            btn未核准品項清單.BackColor = Color.FromArgb(192, 255, 192);
-            btn未核准品項清單.Location = new Point(404, 16);
-            btn未核准品項清單.Name = "btn未核准品項清單";
-            btn未核准品項清單.Size = new Size(132, 36);
-            btn未核准品項清單.TabIndex = 3;
-            btn未核准品項清單.Text = "未核准品項清單";
-            btn未核准品項清單.UseVisualStyleBackColor = false;
-            // 
-            // btn加工材料代號新增
-            // 
-            btn加工材料代號新增.BackColor = Color.FromArgb(192, 255, 255);
-            btn加工材料代號新增.Location = new Point(560, 16);
-            btn加工材料代號新增.Name = "btn加工材料代號新增";
-            btn加工材料代號新增.Size = new Size(132, 36);
-            btn加工材料代號新增.TabIndex = 4;
-            btn加工材料代號新增.Text = "加工材料代號新增";
-            btn加工材料代號新增.UseVisualStyleBackColor = false;
-            // 
-            // btn新增同級料品支援
-            // 
-            btn新增同級料品支援.BackColor = Color.FromArgb(0, 192, 0);
-            btn新增同級料品支援.ForeColor = SystemColors.ButtonHighlight;
-            btn新增同級料品支援.Location = new Point(708, 16);
-            btn新增同級料品支援.Name = "btn新增同級料品支援";
-            btn新增同級料品支援.Size = new Size(132, 36);
-            btn新增同級料品支援.TabIndex = 5;
-            btn新增同級料品支援.Text = "新增同級料品支援";
-            btn新增同級料品支援.UseVisualStyleBackColor = false;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.FromArgb(224, 224, 224);
-            button1.Location = new Point(856, 16);
-            button1.Name = "button1";
-            button1.Size = new Size(132, 36);
-            button1.TabIndex = 6;
-            button1.Text = "新增料品";
-            button1.UseVisualStyleBackColor = false;
-            // 
             // PartsControl
             // 
             AutoScaleDimensions = new SizeF(8F, 17F);
@@ -285,9 +290,9 @@ namespace DigiERP.UserControl.Inventory
             Name = "PartsControl";
             Size = new Size(1497, 676);
             panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 

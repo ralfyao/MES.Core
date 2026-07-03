@@ -105,6 +105,26 @@ namespace MES.WebAPI.MiddleWare
             }
         }
 
+        public int validateItem(string itemNo, bool validate, string user)
+        {
+            int execCnt = 0;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = "UPDATE A材料 SET 核准=@核准 WHERE 產品編號=@產品編號";
+                    execCnt = conn.Execute(sql, new { 核准 = validate ? user : "", 產品編號 = itemNo });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return execCnt;
+        }
+
         public void toggleDisableItem(string itemNo)
         {
             try
@@ -122,7 +142,7 @@ namespace MES.WebAPI.MiddleWare
             }
         }
 
-        public List<A材料庫存彙總> getStockSummaryList()
+        public List<A材料庫存彙總> getStockSummaryList(string keyword1 = "", string keyword2 = "", string keyword3 = "", string projSerial = "")
         {
             List<A材料庫存彙總> list = new List<A材料庫存彙總>();
             try
@@ -130,12 +150,16 @@ namespace MES.WebAPI.MiddleWare
                 using (var conn = new SqlConnection(IRepository<string>.ConnStr))
                 {
                     conn.Open();
-                    string sql = @"SELECT 產品編號,
+                    string sql = $@"SELECT 產品編號,
                                           SUM(入庫) AS 入庫總計,
                                           SUM(出庫) AS 出庫總計,
                                           COUNT(0) AS 庫存卡筆數
-                                   FROM A材料庫存卡
-                                   GROUP BY 產品編號";
+                                   FROM A材料庫存卡 
+                                  WHERE 1=1 
+                                  {(!string.IsNullOrEmpty(keyword1) ? $@" AND 產品編號 IN (SELECT 產品編號 FROM A材料 WHERE 品名規格 LIKE '{keyword1}%') " : "")} 
+                                  {(!string.IsNullOrEmpty(keyword2) ? $@" AND 產品編號 IN (SELECT 產品編號 FROM A材料 WHERE 品名規格 LIKE '{keyword2}%') " : "")} 
+                                  {(!string.IsNullOrEmpty(keyword3) ? $@" AND 產品編號 IN (SELECT 產品編號 FROM A材料 WHERE 品名規格 LIKE '{keyword3}%') " : "")} 
+                                  GROUP BY 產品編號";
                     list = conn.Query<A材料庫存彙總>(sql).ToList();
                     list.ForEach(x => x.結餘 = (x.入庫總計 ?? 0) - (x.出庫總計 ?? 0));
                 }
@@ -146,6 +170,112 @@ namespace MES.WebAPI.MiddleWare
                 throw;
             }
             return list;
+        }
+
+        public string getNextTempPartCode()
+        {
+            string code = string.Empty;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    string strSQL = "SELECT COUNT(0) FROM A材料 WHERE 產品編號 LIKE 'XPRE-%'";
+                    List<int> ls = conn.Query<int>(strSQL).ToList();
+                    int count = ls.Count > 0 ? ls[0] : 0;
+                    count++;
+                    code = $"XPRE-{count:000}";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return code;
+        }
+
+        public void insertStockCard(A材料庫存卡 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"INSERT INTO dbo.A材料庫存卡
+                                    (
+                                        產品編號,
+                                        異動日期,
+                                        摘要,
+                                        來源用途,
+                                        單位,
+                                        入庫,
+                                        出庫,
+                                        儲位,
+                                        異動人員,
+                                        備註
+                                    )
+                                    VALUES
+                                    (
+                                        @產品編號,
+                                        @異動日期,
+                                        @摘要,
+                                        @來源用途,
+                                        @單位,
+                                        @入庫,
+                                        @出庫,
+                                        @儲位,
+                                        @異動人員,
+                                        @備註
+                                    )";
+                    DynamicParameters dynamicParameters = new DynamicParameters(form);
+                    conn.Execute(sql, dynamicParameters);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void insertPartCode(A材料品項代號 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"INSERT INTO dbo.A材料品項代號
+                                    (
+                                        產品代號,
+                                        大分類,
+                                        小分類,
+                                        小分類名稱,
+                                        密度,
+                                        公式,
+                                        公式代號,
+                                        單價
+                                    )
+                                    VALUES
+                                    (
+                                        @產品代號,
+                                        @大分類,
+                                        @小分類,
+                                        @小分類名稱,
+                                        @密度,
+                                        @公式,
+                                        @公式代號,
+                                        @單價
+                                    )";
+                    DynamicParameters dynamicParameters = new DynamicParameters(form);
+                    conn.Execute(sql, dynamicParameters);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void deleteItem(string itemNo)
