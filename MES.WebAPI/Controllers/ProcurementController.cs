@@ -27,13 +27,13 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
         [Route("api/AllPurchasesList"), HttpGet]
-        public CommonRep<B採購單> AllPurchasesList(string purchaseOrderNo = "")
+        public CommonRep<B採購單> AllPurchasesList(string purchaseOrderNo = "", bool closed = false, bool onlyWithoutDetail = false)
         {
             CommonRep<B採購單> commonRep = new CommonRep<B採購單>();
             ProcurementMiddle procurement = new ProcurementMiddle();
             try
             {
-                commonRep.resultList = procurement.getPurchaseOrderList(purchaseOrderNo);
+                commonRep.resultList = procurement.getPurchaseOrderList(purchaseOrderNo, closed, onlyWithoutDetail);
             }
             catch (Exception ex)
             {

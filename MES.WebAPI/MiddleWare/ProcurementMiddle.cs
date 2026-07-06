@@ -69,7 +69,7 @@ namespace MES.WebAPI.MiddleWare
             return list;
         }
 
-        public List<B採購單> getPurchaseOrderList(string purchaseOrderNo)
+        public List<B採購單> getPurchaseOrderList(string purchaseOrderNo, bool closed = false, bool onlyWithoutDetail = false)
         {
             List<B採購單> list = new List<B採購單>();
             List<B採購單> tmplist = new List<B採購單>();
@@ -87,18 +87,26 @@ namespace MES.WebAPI.MiddleWare
                 {
                     B採購單 obj = new B採購單();
                     obj.單號 = purchaseOrderNo;
-                    list = procurementDataRepository.GetList(obj, "", "").Where(x => x.結案 == false).OrderBy(x => x.日期).ToList();
+                    list = procurementDataRepository.GetList(obj, "", "").Where(x => x.結案 == closed).OrderBy(x => x.日期).ToList();
                 }
                 else
                 {
-                    list = procurementDataRepository.GetList(null, "", "").Where(x => x.結案 == false).OrderBy(x => x.日期).ToList();
+                    list = procurementDataRepository.GetList(null, "", "").Where(x => x.結案 == closed).OrderBy(x => x.日期).ToList();
                 }
                 foreach (var item in list)
                 {
                     B採購明細 b = new B採購明細();
                     b.單號 = item.單號;
-                    item.procurementList = procurementDetailDataRepository.GetList(b).Where(x => x.結案 == false).ToList();
-                    if (item.procurementList.Count() > 0) 
+                    item.procurementList = procurementDetailDataRepository.GetList(b).Where(x => x.結案 == closed).ToList();
+                    if (onlyWithoutDetail)
+                    {
+                        if (item.procurementList.Count() == 0)
+                        {
+                            tmplist.Add(item);
+                        }
+                        continue;
+                    }
+                    if (item.procurementList.Count() > 0)
                     {
                         foreach(var  item2 in item.procurementList)
                         {

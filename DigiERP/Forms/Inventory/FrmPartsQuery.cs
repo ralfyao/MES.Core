@@ -35,7 +35,11 @@ namespace DigiERP.Forms.Inventory
                 MessageBox.Show(summaryRep.ErrorMessage);
                 return;
             }
-            summaryRepList = summaryRep.resultList;
+
+            using var frmSelect = new FrmSelectPartCode(summaryRep.resultList ?? new List<A材料>());
+            if (frmSelect.ShowDialog(this) != DialogResult.OK) return;
+
+            summaryRepList = frmSelect.SelectedItems;
             var summaryAggregateRep = _controller.GetStockSummaryList(txtKeyword1.Text, txtKeyword2.Text, txtKeyword3.Text, txtProjSerial.Text);
             if (!string.IsNullOrEmpty(summaryAggregateRep.ErrorMessage))
             {
@@ -46,7 +50,6 @@ namespace DigiERP.Forms.Inventory
                 .Where(x => !string.IsNullOrEmpty(x.產品編號))
                 .ToDictionary(x => x.產品編號!, x => x);
             this.DialogResult = DialogResult.OK;
-            //((PartsControl)this.Owner.Controls.Find("料品清單", true)).FillGrid(summaryRep.resultList, summaryMap);
         }
     }
 
