@@ -211,7 +211,7 @@ namespace MES.WebAPI.MiddleWare
                                         入庫,
                                         出庫,
                                         儲位,
-                                        異動人員,
+                                        領用人,
                                         備註
                                     )
                                     VALUES

@@ -32,5 +32,11 @@ namespace MES.Core.Model
         public string? 包裝單號 { get; set; }
         public string? 預交日期 { get; set; }
         public bool? 勾選 { get; set; }
+        // ── 以下為進貨單總覽清單查詢(getStockInListView)join帶出的欄位 ──────
+        public string? 日期 { get; set; }
+        public string? 倉管人員 { get; set; }
+        public string? 姓名 { get; set; }
+        public string? 採購覆核 { get; set; }
+        public string? 專案序號 { get; set; }
     }
 }

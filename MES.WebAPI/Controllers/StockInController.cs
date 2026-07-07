@@ -33,6 +33,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/StockInListView"), HttpGet]
+        public CommonRep<B進退貨驗收明細> StockInListView(DateTime? from = null, DateTime? to = null)
+        {
+            CommonRep<B進退貨驗收明細> commonRep = new CommonRep<B進退貨驗收明細>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                commonRep.resultList = stockInMiddle.getStockInListView(from, to);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         [Route("api/StockInDetailList"), HttpGet]
         public CommonRep<B進退貨驗收明細> StockInDetailList(string stockInNo)
         {

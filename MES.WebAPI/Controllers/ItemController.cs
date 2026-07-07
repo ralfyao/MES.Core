@@ -174,7 +174,7 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = new A材料庫存卡Repository()
-                    .GetListBy(new A材料庫存卡() { 產品編號 = productNo }, "產品編號");
+                    .GetListByItemNo(productNo);
             }
             catch (Exception ex)
             {

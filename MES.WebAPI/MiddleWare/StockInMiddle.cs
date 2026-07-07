@@ -139,6 +139,55 @@ namespace MES.WebAPI.MiddleWare
             return list;
         }
 
+        // ── 進貨單總覽清單：依日期區間查詢，未指定區間則不限制 ─────────────────
+        public List<B進退貨驗收明細> getStockInListView(DateTime? from, DateTime? to)
+        {
+            List<B進退貨驗收明細> list = new List<B進退貨驗收明細>();
+            try
+            {
+                string sql = $@"SELECT
+                                    dbo_B進退貨驗收明細.廠商編號,
+                                    dbo_B進退貨驗收明細.品項編號,
+                                    dbo_B進退貨驗收明細.品名規格,
+                                    dbo_B進退貨驗收明細.收貨數量,
+                                    dbo_B進退貨驗收明細.合格數量,
+                                    dbo_B進退貨驗收明細.特採數量,
+                                    dbo_B進退貨驗收明細.退回數量,
+                                    dbo_B進退貨驗收明細.勾選,
+                                    dbo_B進貨驗收單.單號,
+                                    dbo_B進貨驗收單.日期,
+                                    dbo_B進貨驗收單.倉管人員,
+                                    dbo_B進貨驗收單.採購覆核,
+                                    dbo_EMPL.姓名,
+                                    dbo_B進退貨驗收明細.包裝單號 AS 專案序號,
+                                    dbo_B廠商設定.廠商簡稱,
+                                    dbo_B進退貨驗收明細.退貨單號
+                                FROM
+                                    (
+                                        (
+                                            B進退貨驗收明細 dbo_B進退貨驗收明細
+                                            RIGHT JOIN B進貨驗收單 dbo_B進貨驗收單 ON dbo_B進退貨驗收明細.單號 = dbo_B進貨驗收單.單號
+                                        )
+                                        LEFT JOIN dbo.H員工清冊 dbo_EMPL ON dbo_B進貨驗收單.倉管人員 = dbo_EMPL.工號
+                                    )
+                                    LEFT JOIN B廠商設定 dbo_B廠商設定 ON dbo_B進退貨驗收明細.廠商編號 = dbo_B廠商設定.廠商編號
+                                WHERE (@From IS NULL OR dbo_B進貨驗收單.日期 >= @From)
+                                  AND (@To IS NULL OR dbo_B進貨驗收單.日期 <= @To)
+                                ORDER BY dbo_B進貨驗收單.日期 DESC";
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<B進退貨驗收明細>(sql, new { From = from, To = to }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
         public List<B進退貨驗收明細> getStockInDetail(string 單號)
         {
             List<B進退貨驗收明細> list = new List<B進退貨驗收明細>();

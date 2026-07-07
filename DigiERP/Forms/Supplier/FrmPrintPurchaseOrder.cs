@@ -107,5 +107,14 @@ namespace DigiERP.Forms.Supplier
         {
             Close();
         }
+
+        private void panelContent_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("請問是否要關閉視窗?", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Dispose();
+                Close();
+            }
+        }
     }
 }

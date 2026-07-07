@@ -143,6 +143,7 @@ namespace DigiERP.Forms.Supplier
             panelContent.Name = "panelContent";
             panelContent.Size = new Size(799, 594);
             panelContent.TabIndex = 2;
+            panelContent.Click += panelContent_Click;
             // 
             // lblPoTitle
             // 
