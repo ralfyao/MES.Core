@@ -259,7 +259,30 @@ namespace DigiERP.UserControl.Production
             tabControl.ItemSize = new System.Drawing.Size(120, 30);
         }
 
-        private void btnScheduleQuery_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
+        // ── 點擊專案排程查詢，開啟排程查詢頁籤 ────────────────────────────
+        private void btnScheduleQuery_Click(object sender, EventArgs e)
+        {
+            if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
+            TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
+            const string tabName = "ProjectScheduleQuery";
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == tabName)
+                {
+                    tabControl.SelectedTab = page;
+                    return;
+                }
+            }
+            var ctrl = new ProjectScheduleQueryControl();
+            if (ctrl.IsDisposed) return;
+            ctrl.Dock = DockStyle.Fill;
+            var tab = new TabPage("專案排程查詢") { Name = tabName };
+            tab.Controls.Add(ctrl);
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+        }
 
         // ── 關閉 — 回到列表，或若是獨立頁籤則直接關閉該頁籤 ───────────────
         private void btnExit_Click(object sender, EventArgs e)
