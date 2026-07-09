@@ -377,7 +377,11 @@ namespace DigiERP.UserControl.Inventory.StockIn
             btnClose_Click(null, null);
         }
 
-        // ── 刪除紀錄 ────────────────────────────────────────────────────
+        /// <summary>
+        /// 刪除紀錄
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDeleteRecord_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtNo.Text)) return;
@@ -392,7 +396,11 @@ namespace DigiERP.UserControl.Inventory.StockIn
             btnClose_Click(null, null);
         }
 
-        // ── 覆核／取消覆核 ──────────────────────────────────────────────
+        /// <summary>
+        /// 覆核／取消覆核
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnReview_Click(object sender, EventArgs e)
         {
             CollectUserInput();

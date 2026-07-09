@@ -28,7 +28,9 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             initGrid();
         }
 
-        // ── 廠商名稱對照表：依廠商編號帶出 ──────────────────────────────────
+        /// <summary>
+        /// 廠商名稱對照表：依廠商編號帶出
+        /// </summary>
         private void initSupplierMap()
         {
             var rep = new SupplierController().GetAllSupplierList();
@@ -88,23 +90,33 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             }
         }
 
-        // ── 未結案／已結案：切換式檢視 ─────────────────────────────────────
+        /// <summary>
+        /// 未結案／已結案：切換式檢視
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOpen_Click(object sender, EventArgs e)
         {
             _showClosed = false;
             initGrid();
+            lblTitle.Text = "進項憑證沖銷總覽-未結案";
         }
 
         private void btnClosed_Click(object sender, EventArgs e)
         {
             _showClosed = true;
             initGrid();
+            lblTitle.Text = "進項憑證沖銷總覽-已結案";
         }
 
         // ── 新增：尚未提供維護畫面 ─────────────────────────────────────────
         private void btnAdd_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
 
-        // ── 關閉 — 回到列表，或若是獨立頁籤則直接關閉該頁籤 ───────────────
+        /// <summary>
+        /// 關閉 — 回到列表，或若是獨立頁籤則直接關閉該頁籤
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExit_Click(object sender, EventArgs e)
         {
             var parentCtrl = Parent;
@@ -121,7 +133,11 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             Dispose();
         }
 
-        // ── Grid 回顯時重刷 ──────────────────────────────────────────────
+        /// <summary>
+        /// Grid 回顯時重刷
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_VisibleChanged(object sender, EventArgs e)
         {
             if (dataGridView1.Visible) initGrid();
