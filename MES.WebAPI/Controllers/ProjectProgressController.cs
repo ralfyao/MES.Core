@@ -177,5 +177,90 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+
+        [Route("api/GetDesignScheduleList"), HttpGet]
+        public CommonRep<設計週排程表> GetDesignScheduleList(DateTime 查詢起日, DateTime 第一週, DateTime 第二週, DateTime 第三週, DateTime 第四週, DateTime 第五週, DateTime 第六週)
+        {
+            CommonRep<設計週排程表> commonRep = new CommonRep<設計週排程表>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getDesignScheduleList(查詢起日, 第一週, 第二週, 第三週, 第四週, 第五週, 第六週);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetProcurementScheduleList"), HttpGet]
+        public CommonRep<採購週排程表> GetProcurementScheduleList(DateTime 基準日以前, DateTime 第一週, DateTime 第二週, DateTime 第三週, DateTime 第四週)
+        {
+            CommonRep<採購週排程表> commonRep = new CommonRep<採購週排程表>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getProcurementScheduleList(基準日以前, 第一週, 第二週, 第三週, 第四週);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetMachiningScheduleList"), HttpGet]
+        public CommonRep<加工週排程表> GetMachiningScheduleList(DateTime 基準日以前, DateTime 第一週, DateTime 第二週, DateTime 第三週, DateTime 第四週)
+        {
+            CommonRep<加工週排程表> commonRep = new CommonRep<加工週排程表>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getMachiningScheduleList(基準日以前, 第一週, 第二週, 第三週, 第四週);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetPostProcessScheduleList"), HttpGet]
+        public CommonRep<後製程週排程表> GetPostProcessScheduleList()
+        {
+            CommonRep<後製程週排程表> commonRep = new CommonRep<後製程週排程表>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getPostProcessScheduleList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetAssemTestScheduleList"), HttpGet]
+        public CommonRep<組測週排程表> GetAssemTestScheduleList(DateTime 基準日以前, DateTime 第一週, DateTime 第二週, DateTime 第三週, DateTime 第四週)
+        {
+            CommonRep<組測週排程表> commonRep = new CommonRep<組測週排程表>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getAssemTestScheduleList(基準日以前, 第一週, 第二週, 第三週, 第四週);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using Dapper;
 using MES.Core.Model;
 using MES.Core.Repository;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -470,6 +471,958 @@ ORDER BY
             {
                 conn.Open();
                 return conn.Query<電控排程進度表>(sql, new { 專案序號 = projectNo }).ToList();
+            }
+        }
+
+        // ── 週排程-設計：依設計派案之預計完工日將工時分配至查詢起日後六週的排程桶 ──
+        public List<設計週排程表> getDesignScheduleList(DateTime 查詢起日, DateTime 第一週, DateTime 第二週, DateTime 第三週, DateTime 第四週, DateTime 第五週, DateTime 第六週)
+        {
+            string sql = @"
+WITH [SKDL-設計] AS (
+SELECT
+    dbo_設計派案.專案序號,
+    dbo_設計派案.模組編碼,
+    dbo_設計派案.模組名稱,
+    dbo_設計派案.設計人員,
+    dbo_設計派案.製圖,
+    dbo_設計派案.預計完工日,
+    dbo_設計派案.圖檔發行日,
+    dbo_設計派案.設計識別碼
+FROM
+    設計派案 dbo_設計派案
+GROUP BY
+    dbo_設計派案.專案序號,
+    dbo_設計派案.模組編碼,
+    dbo_設計派案.模組名稱,
+    dbo_設計派案.設計人員,
+    dbo_設計派案.製圖,
+    dbo_設計派案.預計完工日,
+    dbo_設計派案.圖檔發行日,
+    dbo_設計派案.設計識別碼
+HAVING
+    (((dbo_設計派案.圖檔發行日) IS NULL))
+),
+[SKDL-設計1] AS (
+SELECT [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+FROM [SKDL-設計]
+GROUP BY [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+HAVING ((([SKDL-設計].預計完工日)>@查詢起日 And ([SKDL-設計].預計完工日)<=@第一週))
+),
+[SKDL-設計2] AS (
+SELECT [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+FROM [SKDL-設計]
+GROUP BY [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+HAVING ((([SKDL-設計].預計完工日)>@第一週 And ([SKDL-設計].預計完工日)<=@第二週))
+),
+[SKDL-設計3] AS (
+SELECT [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+FROM [SKDL-設計]
+GROUP BY [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+HAVING ((([SKDL-設計].預計完工日)>@第二週 And ([SKDL-設計].預計完工日)<=@第三週))
+),
+[SKDL-設計4] AS (
+SELECT [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+FROM [SKDL-設計]
+GROUP BY [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+HAVING ((([SKDL-設計].預計完工日)>@第三週 And ([SKDL-設計].預計完工日)<=@第四週))
+),
+[SKDL-設計5] AS (
+SELECT [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+FROM [SKDL-設計]
+GROUP BY [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+HAVING ((([SKDL-設計].預計完工日)>@第四週 And ([SKDL-設計].預計完工日)<=@第五週))
+),
+[SKDL-設計6] AS (
+SELECT [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+FROM [SKDL-設計]
+GROUP BY [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+HAVING ((([SKDL-設計].預計完工日)>@第五週 And ([SKDL-設計].預計完工日)<=@第六週))
+),
+[SKDL-設計0] AS (
+SELECT [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+FROM [SKDL-設計]
+GROUP BY [SKDL-設計].專案序號, [SKDL-設計].模組編碼, [SKDL-設計].模組名稱, [SKDL-設計].設計人員, [SKDL-設計].製圖, [SKDL-設計].預計完工日, [SKDL-設計].設計識別碼
+HAVING ((([SKDL-設計].預計完工日)<=@查詢起日))
+),
+[SKDL-設計N] AS (
+SELECT
+    [SKDL-設計].專案序號,
+    [SKDL-設計].模組編碼,
+    [SKDL-設計].模組名稱,
+    [SKDL-設計].設計人員,
+    [SKDL-設計].製圖,
+    [SKDL-設計].預計完工日,
+    [SKDL-設計].設計識別碼
+FROM
+    [SKDL-設計]
+GROUP BY
+    [SKDL-設計].專案序號,
+    [SKDL-設計].模組編碼,
+    [SKDL-設計].模組名稱,
+    [SKDL-設計].設計人員,
+    [SKDL-設計].製圖,
+    [SKDL-設計].預計完工日,
+    [SKDL-設計].設計識別碼
+HAVING
+    ((([SKDL-設計].預計完工日) IS NULL))
+)
+SELECT
+    [SKDL-設計].專案序號,
+    [SKDL-設計].模組編碼,
+    [SKDL-設計].模組名稱,
+    [SKDL-設計].設計人員,
+    [SKDL-設計1].製圖 AS 第一週,
+    [SKDL-設計2].製圖 AS 第二週,
+    [SKDL-設計3].製圖 AS 第三週,
+    [SKDL-設計4].製圖 AS 第四週,
+    [SKDL-設計5].製圖 AS 第五週,
+    [SKDL-設計6].製圖 AS 第六週,
+    [SKDL-設計0].製圖 AS 過期,
+    [SKDL-設計N].製圖 AS 未排,
+    dbo_工令單.結案
+FROM
+    (
+        (
+            (
+                (
+                    (
+                        (
+                            (
+                                (
+                                    [SKDL-設計]
+                                    LEFT JOIN [SKDL-設計1] ON [SKDL-設計].設計識別碼 = [SKDL-設計1].設計識別碼
+                                )
+                                LEFT JOIN [SKDL-設計2] ON [SKDL-設計].設計識別碼 = [SKDL-設計2].設計識別碼
+                            )
+                            LEFT JOIN [SKDL-設計3] ON [SKDL-設計].設計識別碼 = [SKDL-設計3].設計識別碼
+                        )
+                        LEFT JOIN [SKDL-設計4] ON [SKDL-設計].設計識別碼 = [SKDL-設計4].設計識別碼
+                    )
+                    LEFT JOIN [SKDL-設計5] ON [SKDL-設計].設計識別碼 = [SKDL-設計5].設計識別碼
+                )
+                LEFT JOIN [SKDL-設計6] ON [SKDL-設計].設計識別碼 = [SKDL-設計6].設計識別碼
+            )
+            LEFT JOIN [SKDL-設計0] ON [SKDL-設計].設計識別碼 = [SKDL-設計0].設計識別碼
+        )
+        LEFT JOIN [SKDL-設計N] ON [SKDL-設計].設計識別碼 = [SKDL-設計N].設計識別碼
+    )
+    LEFT JOIN 工令單 dbo_工令單 ON [SKDL-設計].專案序號 = dbo_工令單.專案序號
+WHERE
+    (
+        (
+            (dbo_工令單.結案) IS NULL
+            OR (dbo_工令單.結案) = 0
+        )
+    )
+	ORDER BY 專案序號 DESC, 模組編碼";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<設計週排程表>(sql, new { 查詢起日, 第一週, 第二週, 第三週, 第四週, 第五週, 第六週 }).ToList();
+            }
+        }
+
+        // ── 週排程-採購：依採購計畫之預計到貨日將待入庫零件分配至基準日以前後四週的排程桶 ──
+        public List<採購週排程表> getProcurementScheduleList(DateTime 基準日以前, DateTime 第一週, DateTime 第二週, DateTime 第三週, DateTime 第四週)
+        {
+            string sql = @"
+WITH [SKDL-採購] AS (
+SELECT
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.實際採購日,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.入庫移轉日,
+    dbo_採購計畫.採購識別碼,
+    dbo_採購計畫.零件分類
+FROM
+    採購計畫 dbo_採購計畫
+GROUP BY
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.實際採購日,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.入庫移轉日,
+    dbo_採購計畫.採購識別碼,
+    dbo_採購計畫.零件分類
+HAVING
+    (
+        ((dbo_採購計畫.模組編碼) IS NOT NULL)
+        AND ((dbo_採購計畫.入庫移轉日) IS NULL)
+        AND (
+            (dbo_採購計畫.零件分類) = '市購品'
+            OR (dbo_採購計畫.零件分類) = '自製/需購料'
+        )
+    )
+),
+[SKDL-採購0] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)<=@基準日以前
+))),
+[SKDL-採購1] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)>@基準日以前 And ([SKDL-採購].預計到貨日)<=@第一週))
+),
+[SKDL-採購2] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)>@第一週 And ([SKDL-採購].預計到貨日)<=@第二週))
+),
+[SKDL-採購3] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)>@第二週 And ([SKDL-採購].預計到貨日)<=@第三週))
+),
+[SKDL-採購4] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)>@第三週 And ([SKDL-採購].預計到貨日)<=@第四週))
+),
+[SKDL-採購N] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)>@第四週))
+)
+SELECT
+    [SKDL-採購].專案序號,
+    [SKDL-採購].模組編碼,
+    [SKDL-採購].模組名稱,
+    [SKDL-採購].零件號碼,
+    [SKDL-採購].實際採購日,
+    [SKDL-採購N].預計到貨日 AS 未排,
+    [SKDL-採購0].預計到貨日 AS 過期,
+    [SKDL-採購1].預計到貨日 AS 第一週,
+    [SKDL-採購2].預計到貨日 AS 第二週,
+    [SKDL-採購3].預計到貨日 AS 第三週,
+    [SKDL-採購4].預計到貨日 AS 第四週,
+    [SKDL-採購].採購識別碼,
+    [SKDL-採購].品名,
+    dbo_工令單.結案
+FROM
+    (
+        (
+            (
+                (
+                    (
+                        (
+                            [SKDL-採購]
+                            LEFT JOIN [SKDL-採購0] ON [SKDL-採購].採購識別碼 = [SKDL-採購0].採購識別碼
+                        )
+                        LEFT JOIN [SKDL-採購1] ON [SKDL-採購].採購識別碼 = [SKDL-採購1].採購識別碼
+                    )
+                    LEFT JOIN [SKDL-採購2] ON [SKDL-採購].採購識別碼 = [SKDL-採購2].採購識別碼
+                )
+                LEFT JOIN [SKDL-採購3] ON [SKDL-採購].採購識別碼 = [SKDL-採購3].採購識別碼
+            )
+            LEFT JOIN [SKDL-採購4] ON [SKDL-採購].採購識別碼 = [SKDL-採購4].採購識別碼
+        )
+        LEFT JOIN [SKDL-採購N] ON [SKDL-採購].採購識別碼 = [SKDL-採購N].採購識別碼
+    )
+    LEFT JOIN 工令單 dbo_工令單 ON [SKDL-採購].專案序號 = dbo_工令單.專案序號
+WHERE
+    (
+        (
+            (dbo_工令單.結案) IS NULL
+            OR (dbo_工令單.結案) = 0
+        )
+    ) ORDER BY 專案序號 DESC, 模組編碼";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<採購週排程表>(sql, new { 基準日以前, 第一週, 第二週, 第三週, 第四週 }).ToList();
+            }
+        }
+
+        // ── 週排程-機加工：依採購計畫之預交日期1將待加工零件分配至基準日以前後四週的排程桶 ──
+        public List<加工週排程表> getMachiningScheduleList(DateTime 基準日以前, DateTime 第一週, DateTime 第二週, DateTime 第三週, DateTime 第四週)
+        {
+            string sql = @"
+WITH [SKDL-加工] AS (
+SELECT
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.驗收日期,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期1,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.完工日期1,
+    dbo_採購計畫.採購識別碼
+FROM
+    採購計畫 dbo_採購計畫
+GROUP BY
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.驗收日期,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期1,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.完工日期1,
+    dbo_採購計畫.採購識別碼
+HAVING
+    (
+        ((dbo_採購計畫.模組編碼) IS NOT NULL)
+        AND (
+            (dbo_採購計畫.零件分類) = '自製/在庫料'
+            OR (dbo_採購計畫.零件分類) = '自製/需購料'
+        )
+        AND ((dbo_採購計畫.完工日期1) IS NULL)
+    )
+),
+[SKDL-加工0] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)<=@基準日以前))
+),
+[SKDL-加工1] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)>@基準日以前 And (dbo_採購計畫.預交日期1)<=@第一週))
+),
+[SKDL-加工2] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)>@第一週 And (dbo_採購計畫.預交日期1)<=@第二週))
+),
+[SKDL-加工3] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)>@第二週 And (dbo_採購計畫.預交日期1)<=@第三週))
+),
+[SKDL-加工4] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)>@第三週 And (dbo_採購計畫.預交日期1)<=@第四週))
+),
+[SKDL-加工N] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)>@第四週))
+)
+SELECT
+    [SKDL-加工].專案序號,
+    [SKDL-加工].模組編碼,
+    [SKDL-加工].模組名稱,
+    [SKDL-加工].零件號碼,
+    [SKDL-加工].品名,
+    [SKDL-加工].驗收日期,
+    [SKDL-加工].預計到貨日,
+    [SKDL-加工0].預交日期1 AS 過期,
+    [SKDL-加工1].預交日期1 AS 第一週,
+    [SKDL-加工2].預交日期1 AS 第二週,
+    [SKDL-加工3].預交日期1 AS 第三週,
+    [SKDL-加工4].預交日期1 AS 第四週,
+    [SKDL-加工N].預交日期1 AS 未排,
+    [SKDL-加工].採購識別碼,
+    dbo_工令單.結案
+FROM
+    (
+        (
+            (
+                (
+                    (
+                        (
+                            [SKDL-加工]
+                            LEFT JOIN [SKDL-加工0] ON [SKDL-加工].採購識別碼 = [SKDL-加工0].採購識別碼
+                        )
+                        LEFT JOIN [SKDL-加工1] ON [SKDL-加工].採購識別碼 = [SKDL-加工1].採購識別碼
+                    )
+                    LEFT JOIN [SKDL-加工2] ON [SKDL-加工].採購識別碼 = [SKDL-加工2].採購識別碼
+                )
+                LEFT JOIN [SKDL-加工3] ON [SKDL-加工].採購識別碼 = [SKDL-加工3].採購識別碼
+            )
+            LEFT JOIN [SKDL-加工N] ON [SKDL-加工].採購識別碼 = [SKDL-加工N].採購識別碼
+        )
+        LEFT JOIN [SKDL-加工4] ON [SKDL-加工].採購識別碼 = [SKDL-加工4].採購識別碼
+    )
+    LEFT JOIN 工令單 dbo_工令單 ON [SKDL-加工].專案序號 = dbo_工令單.專案序號
+WHERE
+    (
+        (
+            (dbo_工令單.結案) IS NULL
+            OR (dbo_工令單.結案) = 0
+        )
+    ) ORDER BY 專案序號 DESC, 模組編碼";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<加工週排程表>(sql, new { 基準日以前, 第一週, 第二週, 第三週, 第四週 }).ToList();
+            }
+        }
+
+        // ── 週排程-後製程：列出已開工(領料)但尚未完成委外製程(特殊塑型/精密加工/防變形/表面處理)之零件 ──
+        public List<後製程週排程表> getPostProcessScheduleList()
+        {
+            string sql = @"
+WITH [SKDL-委外] AS (
+SELECT
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.採購識別碼
+FROM
+    採購計畫 dbo_採購計畫
+GROUP BY
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.採購識別碼
+HAVING
+    (
+        ((dbo_採購計畫.模組編碼) IS NOT NULL)
+        AND (
+            (dbo_採購計畫.零件分類) = '自製/在庫料'
+            OR (dbo_採購計畫.零件分類) = '自製/需購料'
+        )
+        AND ((dbo_採購計畫.開工日期1) IS NOT NULL)
+    )
+),
+[SKDL-委外2] AS (
+SELECT
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期2,
+    dbo_採購計畫.開工日期2,
+    dbo_採購計畫.完工日期2,
+    dbo_採購計畫.採購識別碼
+FROM
+    採購計畫 dbo_採購計畫
+GROUP BY
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期2,
+    dbo_採購計畫.開工日期2,
+    dbo_採購計畫.完工日期2,
+    dbo_採購計畫.採購識別碼
+HAVING
+    (
+        ((dbo_採購計畫.模組編碼) IS NOT NULL)
+        AND (
+            (dbo_採購計畫.零件分類) = '自製/在庫料'
+            OR (dbo_採購計畫.零件分類) = '自製/需購料'
+        )
+        AND ((dbo_採購計畫.開工日期1) IS NOT NULL)
+        AND ((dbo_採購計畫.完工日期2) IS NULL)
+    )
+),
+[SKDL-委外3] AS (
+SELECT
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期3,
+    dbo_採購計畫.開工日期3,
+    dbo_採購計畫.完工日期3,
+    dbo_採購計畫.採購識別碼
+FROM
+    採購計畫 dbo_採購計畫
+GROUP BY
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期3,
+    dbo_採購計畫.開工日期3,
+    dbo_採購計畫.完工日期3,
+    dbo_採購計畫.採購識別碼
+HAVING
+    (
+        ((dbo_採購計畫.模組編碼) IS NOT NULL)
+        AND (
+            (dbo_採購計畫.零件分類) = '自製/在庫料'
+            OR (dbo_採購計畫.零件分類) = '自製/需購料'
+        )
+        AND ((dbo_採購計畫.開工日期1) IS NOT NULL)
+        AND ((dbo_採購計畫.完工日期3) IS NULL)
+    )
+),
+[SKDL-委外4] AS (
+SELECT
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期4,
+    dbo_採購計畫.開工日期4,
+    dbo_採購計畫.完工日期4,
+    dbo_採購計畫.採購識別碼
+FROM
+    採購計畫 dbo_採購計畫
+GROUP BY
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期4,
+    dbo_採購計畫.開工日期4,
+    dbo_採購計畫.完工日期4,
+    dbo_採購計畫.採購識別碼
+HAVING
+    (
+        ((dbo_採購計畫.模組編碼) IS NOT NULL)
+        AND (
+            (dbo_採購計畫.零件分類) = '自製/在庫料'
+            OR (dbo_採購計畫.零件分類) = '自製/需購料'
+        )
+        AND ((dbo_採購計畫.開工日期1) IS NOT NULL)
+        AND ((dbo_採購計畫.完工日期4) IS NULL)
+    )
+),
+[SKDL-委外5] AS (
+SELECT
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期5,
+    dbo_採購計畫.開工日期5,
+    dbo_採購計畫.完工日期5,
+    dbo_採購計畫.採購識別碼
+FROM
+    採購計畫 dbo_採購計畫
+GROUP BY
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期5,
+    dbo_採購計畫.開工日期5,
+    dbo_採購計畫.完工日期5,
+    dbo_採購計畫.採購識別碼
+HAVING
+    (
+        ((dbo_採購計畫.模組編碼) IS NOT NULL)
+        AND (
+            (dbo_採購計畫.零件分類) = '自製/在庫料'
+            OR (dbo_採購計畫.零件分類) = '自製/需購料'
+        )
+        AND ((dbo_採購計畫.開工日期1) IS NOT NULL)
+        AND ((dbo_採購計畫.完工日期5) IS NULL)
+    )
+)
+SELECT
+    [SKDL-委外].專案序號,
+    [SKDL-委外].模組編碼,
+    [SKDL-委外].模組名稱,
+    [SKDL-委外].零件號碼,
+    [SKDL-委外].品名,
+    [SKDL-委外].開工日期1 AS 領料日,
+    [SKDL-委外2].預交日期2,
+    [SKDL-委外2].開工日期2,
+    [SKDL-委外3].預交日期3,
+    [SKDL-委外3].開工日期3,
+    [SKDL-委外4].預交日期4,
+    [SKDL-委外4].開工日期4,
+    [SKDL-委外5].預交日期5,
+    [SKDL-委外5].開工日期5,
+    [SKDL-委外].採購識別碼,
+    dbo_工令單.結案
+FROM
+    (
+        (
+            (
+                (
+                    [SKDL-委外]
+                    LEFT JOIN [SKDL-委外2] ON [SKDL-委外].採購識別碼 = [SKDL-委外2].採購識別碼
+                )
+                LEFT JOIN [SKDL-委外3] ON [SKDL-委外].採購識別碼 = [SKDL-委外3].採購識別碼
+            )
+            LEFT JOIN [SKDL-委外4] ON [SKDL-委外].採購識別碼 = [SKDL-委外4].採購識別碼
+        )
+        LEFT JOIN [SKDL-委外5] ON [SKDL-委外].採購識別碼 = [SKDL-委外5].採購識別碼
+    )
+    LEFT JOIN 工令單 dbo_工令單 ON [SKDL-委外].專案序號 = dbo_工令單.專案序號
+WHERE
+    (
+        (
+            (dbo_工令單.結案) IS NULL
+            OR (dbo_工令單.結案) = 0
+        )
+    )";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<後製程週排程表>(sql).ToList();
+            }
+        }
+
+        // ── 週排程-組測：依採購計畫之預計到貨日(進料)/預交日期1(加工)將待組測零件分配至基準日以前後四週的排程桶 ──
+        public List<組測週排程表> getAssemTestScheduleList(DateTime 基準日以前, DateTime 第一週, DateTime 第二週, DateTime 第三週, DateTime 第四週)
+        {
+            string sql = @"
+WITH [SKDL-組測] AS (
+SELECT
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.驗收合格,
+    dbo_採購計畫.零件管制單號,
+    dbo_採購計畫.採購識別碼
+FROM
+    採購計畫 dbo_採購計畫
+WHERE
+    (
+        (
+            (dbo_採購計畫.驗收合格) <> '合格允收'
+            OR (dbo_採購計畫.驗收合格) IS NULL
+        )
+    )
+),
+[SKDL-採購] AS (
+SELECT
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.實際採購日,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.入庫移轉日,
+    dbo_採購計畫.採購識別碼,
+    dbo_採購計畫.零件分類
+FROM
+    採購計畫 dbo_採購計畫
+GROUP BY
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.實際採購日,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.入庫移轉日,
+    dbo_採購計畫.採購識別碼,
+    dbo_採購計畫.零件分類
+HAVING
+    (
+        ((dbo_採購計畫.模組編碼) IS NOT NULL)
+        AND ((dbo_採購計畫.入庫移轉日) IS NULL)
+        AND (
+            (dbo_採購計畫.零件分類) = '市購品'
+            OR (dbo_採購計畫.零件分類) = '自製/需購料'
+        )
+    )
+),
+[SKDL-採購0] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)<=@基準日以前
+))),
+[SKDL-採購1] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)>@基準日以前 And ([SKDL-採購].預計到貨日)<=@第一週))
+),
+[SKDL-採購2] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)>@第一週 And ([SKDL-採購].預計到貨日)<=@第二週))
+),
+[SKDL-採購3] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)>@第二週 And ([SKDL-採購].預計到貨日)<=@第三週))
+),
+[SKDL-採購4] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)>@第三週 And ([SKDL-採購].預計到貨日)<=@第四週))
+),
+[SKDL-採購N] AS (
+SELECT [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+FROM [SKDL-採購]
+GROUP BY [SKDL-採購].專案序號, [SKDL-採購].模組編碼, [SKDL-採購].模組名稱, [SKDL-採購].實際採購日, [SKDL-採購].零件號碼, [SKDL-採購].品名, [SKDL-採購].預計到貨日, [SKDL-採購].採購識別碼
+HAVING ((([SKDL-採購].預計到貨日)>@第四週))
+),
+[SKDL-採購排程] AS (
+SELECT
+    [SKDL-採購].專案序號,
+    [SKDL-採購].模組編碼,
+    [SKDL-採購].模組名稱,
+    [SKDL-採購].零件號碼,
+    [SKDL-採購].實際採購日,
+    [SKDL-採購N].預計到貨日 AS 未排,
+    [SKDL-採購0].預計到貨日 AS 過期,
+    [SKDL-採購1].預計到貨日 AS 第一週,
+    [SKDL-採購2].預計到貨日 AS 第二週,
+    [SKDL-採購3].預計到貨日 AS 第三週,
+    [SKDL-採購4].預計到貨日 AS 第四週,
+    [SKDL-採購].採購識別碼,
+    [SKDL-採購].品名,
+    dbo_工令單.結案
+FROM
+    (
+        (
+            (
+                (
+                    (
+                        (
+                            [SKDL-採購]
+                            LEFT JOIN [SKDL-採購0] ON [SKDL-採購].採購識別碼 = [SKDL-採購0].採購識別碼
+                        )
+                        LEFT JOIN [SKDL-採購1] ON [SKDL-採購].採購識別碼 = [SKDL-採購1].採購識別碼
+                    )
+                    LEFT JOIN [SKDL-採購2] ON [SKDL-採購].採購識別碼 = [SKDL-採購2].採購識別碼
+                )
+                LEFT JOIN [SKDL-採購3] ON [SKDL-採購].採購識別碼 = [SKDL-採購3].採購識別碼
+            )
+            LEFT JOIN [SKDL-採購4] ON [SKDL-採購].採購識別碼 = [SKDL-採購4].採購識別碼
+        )
+        LEFT JOIN [SKDL-採購N] ON [SKDL-採購].採購識別碼 = [SKDL-採購N].採購識別碼
+    )
+    LEFT JOIN 工令單 dbo_工令單 ON [SKDL-採購].專案序號 = dbo_工令單.專案序號
+WHERE
+    (
+        (
+            (dbo_工令單.結案) IS NULL
+            OR (dbo_工令單.結案) = 0
+        )
+    )),
+[SKDL-加工] AS (
+SELECT
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.驗收日期,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期1,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.完工日期1,
+    dbo_採購計畫.採購識別碼
+FROM
+    採購計畫 dbo_採購計畫
+GROUP BY
+    dbo_採購計畫.專案序號,
+    dbo_採購計畫.模組編碼,
+    dbo_採購計畫.模組名稱,
+    dbo_採購計畫.零件號碼,
+    dbo_採購計畫.品名,
+    dbo_採購計畫.零件分類,
+    dbo_採購計畫.驗收日期,
+    dbo_採購計畫.預計到貨日,
+    dbo_採購計畫.預交日期1,
+    dbo_採購計畫.開工日期1,
+    dbo_採購計畫.完工日期1,
+    dbo_採購計畫.採購識別碼
+HAVING
+    (
+        ((dbo_採購計畫.模組編碼) IS NOT NULL)
+        AND (
+            (dbo_採購計畫.零件分類) = '自製/在庫料'
+            OR (dbo_採購計畫.零件分類) = '自製/需購料'
+        )
+        AND ((dbo_採購計畫.完工日期1) IS NULL)
+    )
+),
+[SKDL-加工0] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)<=@基準日以前))
+),
+[SKDL-加工1] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)>@基準日以前 And (dbo_採購計畫.預交日期1)<=@第一週))
+),
+[SKDL-加工2] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)>@第一週 And (dbo_採購計畫.預交日期1)<=@第二週))
+),
+[SKDL-加工3] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)>@第二週 And (dbo_採購計畫.預交日期1)<=@第三週))
+),
+[SKDL-加工4] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)>@第三週 And (dbo_採購計畫.預交日期1)<=@第四週))
+),
+[SKDL-加工N] AS (
+SELECT dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+FROM 採購計畫 dbo_採購計畫
+GROUP BY dbo_採購計畫.專案序號, dbo_採購計畫.模組編碼, dbo_採購計畫.模組名稱, dbo_採購計畫.零件號碼, dbo_採購計畫.品名, dbo_採購計畫.驗收日期, dbo_採購計畫.預計到貨日, dbo_採購計畫.預交日期1, dbo_採購計畫.採購識別碼
+HAVING (((dbo_採購計畫.預交日期1)>@第四週))
+),
+[SKDL-加工排程] AS (
+SELECT
+    [SKDL-加工].專案序號,
+    [SKDL-加工].模組編碼,
+    [SKDL-加工].模組名稱,
+    [SKDL-加工].零件號碼,
+    [SKDL-加工].品名,
+    [SKDL-加工].驗收日期,
+    [SKDL-加工].預計到貨日,
+    [SKDL-加工0].預交日期1 AS 過期,
+    [SKDL-加工1].預交日期1 AS 第一週,
+    [SKDL-加工2].預交日期1 AS 第二週,
+    [SKDL-加工3].預交日期1 AS 第三週,
+    [SKDL-加工4].預交日期1 AS 第四週,
+    [SKDL-加工N].預交日期1 AS 未排,
+    [SKDL-加工].採購識別碼,
+    dbo_工令單.結案
+FROM
+    (
+        (
+            (
+                (
+                    (
+                        (
+                            [SKDL-加工]
+                            LEFT JOIN [SKDL-加工0] ON [SKDL-加工].採購識別碼 = [SKDL-加工0].採購識別碼
+                        )
+                        LEFT JOIN [SKDL-加工1] ON [SKDL-加工].採購識別碼 = [SKDL-加工1].採購識別碼
+                    )
+                    LEFT JOIN [SKDL-加工2] ON [SKDL-加工].採購識別碼 = [SKDL-加工2].採購識別碼
+                )
+                LEFT JOIN [SKDL-加工3] ON [SKDL-加工].採購識別碼 = [SKDL-加工3].採購識別碼
+            )
+            LEFT JOIN [SKDL-加工N] ON [SKDL-加工].採購識別碼 = [SKDL-加工N].採購識別碼
+        )
+        LEFT JOIN [SKDL-加工4] ON [SKDL-加工].採購識別碼 = [SKDL-加工4].採購識別碼
+    )
+    LEFT JOIN 工令單 dbo_工令單 ON [SKDL-加工].專案序號 = dbo_工令單.專案序號
+WHERE
+    (
+        (
+            (dbo_工令單.結案) IS NULL
+            OR (dbo_工令單.結案) = 0
+        )
+    ))
+SELECT
+    [SKDL-組測].專案序號,
+    [SKDL-組測].模組編碼,
+    [SKDL-組測].採購識別碼,
+    [SKDL-組測].零件號碼,
+    [SKDL-組測].品名,
+    [SKDL-組測].零件分類,
+    [SKDL-組測].零件管制單號,
+    [SKDL-組測].驗收合格,
+    [SKDL-採購排程].第一週 AS P1,
+    [SKDL-加工排程].第一週 AS W1,
+    [SKDL-採購排程].第二週 AS P2,
+    [SKDL-加工排程].第二週 AS W2,
+    [SKDL-採購排程].第三週 AS P3,
+    [SKDL-加工排程].第三週 AS W3,
+    [SKDL-採購排程].第四週 AS P4,
+    dbo_工令單.結案,
+    [SKDL-加工排程].第四週 AS W4
+FROM
+    (
+        (
+            [SKDL-組測]
+            LEFT JOIN [SKDL-採購排程] ON [SKDL-組測].採購識別碼 = [SKDL-採購排程].採購識別碼
+        )
+        LEFT JOIN [SKDL-加工排程] ON [SKDL-組測].採購識別碼 = [SKDL-加工排程].採購識別碼
+    )
+    LEFT JOIN 工令單 dbo_工令單 ON [SKDL-組測].專案序號 = dbo_工令單.專案序號
+WHERE
+    (
+        (
+            (dbo_工令單.結案) IS NULL
+            OR (dbo_工令單.結案) = 0
+        )
+    ) ORDER BY 專案序號 DESC, 模組編碼";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<組測週排程表>(sql, new { 基準日以前, 第一週, 第二週, 第三週, 第四週 }).ToList();
             }
         }
     }
