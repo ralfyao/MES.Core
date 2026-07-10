@@ -21,6 +21,7 @@ namespace DigiERP.UserControl.Production
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ElecControlProgressControl));
             panel1 = new Panel();
             lblTitle = new Label();
             btnExit = new Button();
@@ -36,14 +37,17 @@ namespace DigiERP.UserControl.Production
             colOverdueDays = new DataGridViewTextBoxColumn();
             colEfficiency = new DataGridViewTextBoxColumn();
             colWarning = new DataGridViewTextBoxColumn();
+            pictureBox1 = new PictureBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.Cornsilk;
+            panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(lblTitle);
             panel1.Controls.Add(btnExit);
             panel1.Dock = DockStyle.Top;
@@ -56,7 +60,7 @@ namespace DigiERP.UserControl.Production
             // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("微軟正黑體", 14F, FontStyle.Bold);
-            lblTitle.Location = new Point(20, 16);
+            lblTitle.Location = new Point(70, 16);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(143, 24);
             lblTitle.TabIndex = 0;
@@ -173,6 +177,16 @@ namespace DigiERP.UserControl.Production
             colWarning.Name = "colWarning";
             colWarning.ReadOnly = true;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(4, 4);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(52, 48);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 2;
+            pictureBox1.TabStop = false;
+            // 
             // ElecControlProgressControl
             // 
             AutoScaleDimensions = new SizeF(8F, 17F);
@@ -187,6 +201,7 @@ namespace DigiERP.UserControl.Production
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -207,5 +222,6 @@ namespace DigiERP.UserControl.Production
         private DataGridViewTextBoxColumn colOverdueDays;
         private DataGridViewTextBoxColumn colEfficiency;
         private DataGridViewTextBoxColumn colWarning;
+        private PictureBox pictureBox1;
     }
 }
