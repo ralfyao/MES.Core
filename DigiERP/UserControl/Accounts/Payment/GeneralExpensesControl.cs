@@ -66,7 +66,7 @@ namespace DigiERP.UserControl.Accounts.Payment
         private void ApplyFilter()
         {
             bool closed = _mode == ViewMode.Closed;
-            var list = _list.Where(x => (x.結案 ?? false) == closed).ToList();
+            var list = _list.Where(x => !string.IsNullOrEmpty(x.結案) == closed).ToList();
             FillGrid(list);
         }
 
@@ -85,7 +85,7 @@ namespace DigiERP.UserControl.Accounts.Payment
                 row.Cells[i++].Value = supplier?.廠商簡稱;
                 row.Cells[i++].Value = x.採購類別;
                 row.Cells[i++].Value = x.交易條件;
-                row.Cells[i++].Value = x.結案 ?? false;
+                row.Cells[i++].Value = !string.IsNullOrEmpty(x.結案);
                 row.Cells[i++].Value = x.項目編號;
                 row.Cells[i++].Value = x.項目名稱;
                 row.Cells[i++].Value = x.姓名;
@@ -108,7 +108,44 @@ namespace DigiERP.UserControl.Accounts.Payment
             lblTitle.Text = "總務支出單總覽-已結案";
         }
 
-        private void btnAdd_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            OpenMaintainTab(null, "新增");
+        }
+
+        // ── 點選單號欄位：於頁籤中開啟該筆總務支出單 ───────────────────────
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex != colNo.Index) return;
+            string no = dataGridView1.Rows[e.RowIndex].Cells[colNo.Index].Value?.ToString();
+            if (string.IsNullOrEmpty(no)) return;
+            OpenMaintainTab(no, "修改");
+        }
+
+        private void OpenMaintainTab(string no, string mode)
+        {
+            if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
+            TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
+            string tabName = mode == "新增" ? "GeneralExpensesMaintain_New" : $"GeneralExpensesMaintain_{no}";
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == tabName)
+                {
+                    tabControl.SelectedTab = page;
+                    return;
+                }
+            }
+            var ctrl = new GeneralExpensesMaintainControl();
+            ctrl.Dock = DockStyle.Fill;
+            ctrl.Saved += (s, args) => initGrid();
+            var tab = new TabPage(mode == "新增" ? "總務支出單-新增" : $"總務支出單-{no}") { Name = tabName };
+            tab.Controls.Add(ctrl);
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            ctrl.LoadData(mode, no);
+        }
 
         private void btnExit_Click(object sender, EventArgs e)
         {

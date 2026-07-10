@@ -16,7 +16,7 @@ namespace MES.Core.Model
         public string? 交易條件 { get; set; }
         public string? 項目編號 { get; set; }
         public string? 項目名稱 { get; set; }
-        public bool? 結案 { get; set; }
+        public string? 結案 { get; set; }
         public string? 核准 { get; set; }
         public string? 姓名 { get; set; }
     }

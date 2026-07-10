@@ -162,7 +162,8 @@ namespace DigiERP.UserControl.Accounts.Payment
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(1467, 600);
             dataGridView1.TabIndex = 0;
-            // 
+            dataGridView1.CellClick += dataGridView1_CellClick;
+            //
             // colNo
             // 
             colNo.FillWeight = 90F;

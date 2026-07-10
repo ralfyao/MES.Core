@@ -2,6 +2,7 @@
 using Dapper;
 using MES.Core.Model;
 using MES.Core.Repository;
+using MES.Core.Repository.Impl;
 using System.Data.SqlClient;
 
 namespace MES.WebAPI.MiddleWare
@@ -38,6 +39,79 @@ namespace MES.WebAPI.MiddleWare
             {
                 conn.Open();
                 return conn.Query<總務支出單列表>(sql).ToList();
+            }
+        }
+
+        // ── 產生下一個總務支出單單號：GE + 年月 + 3碼流水號 ──────────────────
+        public string getGeneralExpensesNo()
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                string prefix = $"GE{DateTime.Now:yyyyMM}";
+                string sql = "SELECT COUNT(0) FROM F總務支出單 WHERE 單號 LIKE @prefix + '%'";
+                int count = conn.Query<int>(sql, new { prefix }).First();
+                return $"{prefix}{(count + 1):000}";
+            }
+        }
+
+        // ── 依單號取得單頭與明細 ──────────────────────────────────────────
+        public F總務支出單 getGeneralExpensesByNo(string 單號)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                var header = conn.Query<F總務支出單>("SELECT * FROM F總務支出單 WHERE 單號 = @單號", new { 單號 }).FirstOrDefault();
+                if (header == null) return null;
+                header.detailList = conn.Query<F其他收支明細>("SELECT * FROM F其他收支明細 WHERE 單號 = @單號", new { 單號 }).ToList();
+                return header;
+            }
+        }
+
+        public int saveGeneralExpenses(F總務支出單 form)
+        {
+            return new GeneralExpensesDataRepository().Insert(form);
+        }
+
+        public int updateGeneralExpenses(F總務支出單 form)
+        {
+            return new GeneralExpensesDataRepository().Update(form);
+        }
+
+        // ── 覆核／取消覆核：設定核准人員與核准日 ──────────────────────────
+        public int doValidateGeneralExpenses(string 單號, bool validate, string account)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                string sql = @"UPDATE F總務支出單 SET 核准 = @核准, 核准日 = @核准日 WHERE 單號 = @單號";
+                return conn.Execute(sql, new
+                {
+                    核准 = validate ? account : "",
+                    核准日 = validate ? DateTime.Now.ToString("yyyy-MM-dd") : null,
+                    單號
+                });
+            }
+        }
+
+        // ── 採購人員下拉：狀況正常之員工 ──────────────────────────────────
+        public List<H員工清冊> getActiveEmployeeList()
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<H員工清冊>("SELECT * FROM dbo.H員工清冊 WHERE 狀況 = '正常'").ToList();
+            }
+        }
+
+        public int deleteGeneralExpenses(string 單號)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                string sql = @"DELETE FROM F其他收支明細 WHERE 單號 = @單號;
+                               DELETE FROM F總務支出單 WHERE 單號 = @單號";
+                return conn.Execute(sql, new { 單號 });
             }
         }
     }
