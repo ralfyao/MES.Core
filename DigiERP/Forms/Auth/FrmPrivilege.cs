@@ -83,7 +83,7 @@ namespace DigiERP.Forms.Auth
                     MessageBox.Show(hrRep.ErrorMessage);
                     return;
                 }
-                commonTextBox3.Text = hrRep.result.職能;
+                commonTextBox3.Text = hrRep.result?.職能;
                 CommonRep<A使用者授權> commonRep = _userPrivilegeController.GetUserPrivilegeByAccount(account.帳號);
                 if (!string.IsNullOrEmpty(commonRep.ErrorMessage))
                 {

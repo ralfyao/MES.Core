@@ -51,6 +51,9 @@
     <Compile Update="Forms\Customer\SalesOrder\FrmPrintSalesOrderIT.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\Objective\FrmObjective.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\Supplier\FrmSupplier.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,7 +77,9 @@
   <ItemGroup>
     <Folder Include="Forms\Customer\Receivables\" />
     <Folder Include="UserControl\Customer\OtherIncome\" />
+    <Folder Include="UserControl\Inventory\ProjectProcurement\" />
     <Folder Include="UserControl\Inventory\ToBuy\" />
+    <Folder Include="UserControl\Objective\ExRate\" />
     <Folder Include="UserControl\Order\" />
   </ItemGroup>
 

@@ -164,7 +164,8 @@ namespace DigiERP
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            
+            FrmObjective frmObjective = new FrmObjective();
+            frmObjective.ShowDialog(this);
         }
     }
 }
