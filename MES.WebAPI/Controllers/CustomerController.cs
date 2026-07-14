@@ -310,6 +310,23 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+
+        [Route("api/GetCustomerByName"), HttpGet]
+        public CommonRep<C客戶設定> GetCustomerByName(string company)
+        {
+            CommonRep<C客戶設定> commonRep = new CommonRep<C客戶設定>();
+            CustomerMiddle custMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.result = custMiddle.getCustomerByName(company);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         /// <summary>
         /// 銀行下拉選單資料
         /// </summary>

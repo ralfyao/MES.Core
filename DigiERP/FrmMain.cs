@@ -138,13 +138,11 @@ namespace DigiERP
         private void pictureBox1_MouseEnter(object sender, EventArgs e)
         {
             pictureBox1.Cursor = Cursors.Hand;
-            //panel1_MouseMove(null, null);
         }
 
         private void pictureBox1_MouseLeave(object sender, EventArgs e)
         {
             pictureBox1.Cursor = Cursors.Default;
-            //panel1_MouseLeave(null, null);
         }
 
         private void panel2_MouseEnter(object sender, EventArgs e)

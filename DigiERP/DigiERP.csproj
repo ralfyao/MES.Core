@@ -80,6 +80,7 @@
     <Folder Include="UserControl\Inventory\ProjectProcurement\" />
     <Folder Include="UserControl\Inventory\ToBuy\" />
     <Folder Include="UserControl\Objective\ExRate\" />
+    <Folder Include="UserControl\Objective\SalesTracking\" />
     <Folder Include="UserControl\Order\" />
   </ItemGroup>
 

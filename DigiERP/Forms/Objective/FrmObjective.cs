@@ -23,7 +23,6 @@ namespace DigiERP
     public partial class FrmObjective : Form
     {
         private bool isloaded = false;
-
         private static string moduleId = "a688ada1-1fa2-481a-9a2c-16a0cb90d664";
         public FrmObjective()
         {
@@ -35,11 +34,9 @@ namespace DigiERP
             ToggleDrawer(null, null);
             isloaded = true;
         }
-
         Dictionary<string, string> menuMappingDict = new Dictionary<string, string>();
         private void initMenu()
         {
-            //throw new NotImplementedException();
             var menuList = new MenuController().GetModuleList(FrmObjective.moduleId);
             if (!string.IsNullOrEmpty(menuList.ErrorMessage))
             {
@@ -56,8 +53,11 @@ namespace DigiERP
                 }
             }
         }
-
-        // ── 供外部（如廠商維護頁的「廠商評鑑」按鈕）動態開啟新頁籤 ─────────────
+        /// <summary>
+        /// 供外部（如廠商維護頁的「廠商評鑑」按鈕）動態開啟新頁籤
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
         public void AddTab(string title, Control content)
         {
             TabPage tab = new TabPage(title);
@@ -70,7 +70,6 @@ namespace DigiERP
             tabControl.SizeMode = TabSizeMode.Fixed;
             tabControl.ItemSize = new Size(120, 30);
         }
-
         private void FrmCust_Shown(object sender, EventArgs e)
         {
             treeView.SelectedNode = null;
@@ -79,7 +78,6 @@ namespace DigiERP
         private void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
         }
-
         private void treeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             string key = e.Node.Name;
@@ -108,17 +106,6 @@ namespace DigiERP
             Type type = Type.GetType(controlClass);
             Control ctrl = (Control)Activator.CreateInstance(type);
             ctrl.Name = tab.Name;
-            //    key switch
-            //{
-            //    "SupplierManage" => new CustomerControl() { Width = tab.Width },
-            //    //"Order" => new OrderControl() { Width = tab.Width },
-            //    //"RFQ" => new RFQControl() { Width = tab.Width },
-            //    //"Quotation" => new QuotationControl() { Width = tab.Width },
-            //    //"SalesOrder" => new OrderControl() { Width = tab.Width },
-            //    //"ShippingOrder" => new ShippingOrderControl() { Width = tab.Width },
-            //    //"AccountsReceivables" => new ReceivableControl() { Width = tab.Width },
-            //    _ => null
-            //}; ;
             if (ctrl == null || ctrl.IsDisposed)
                 return;
             if (ctrl != null)
@@ -136,6 +123,5 @@ namespace DigiERP
             }
             catch { }
         }
-
     }
 }
