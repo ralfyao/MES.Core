@@ -1,4 +1,4 @@
-# MES.Core 專案功能總覽
+# DigiERP 專案功能總覽
 
 > 最後更新：2026-07-02　　Branch：master　　Commit：001bbef
 
