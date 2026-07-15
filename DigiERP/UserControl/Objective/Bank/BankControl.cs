@@ -65,8 +65,11 @@ namespace DigiERP.UserControl.Objective.Bank
             frm.initData();
             frm.ShowDialog(this);
         }
-
-        // ── 點選單號欄位：於頁籤中開啟該筆銀行設定 ───────────────────────
+        /// <summary>
+        /// 點選單號欄位：於頁籤中開啟該筆銀行設定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex != colBankCode.Index) return;
@@ -74,12 +77,20 @@ namespace DigiERP.UserControl.Objective.Bank
             if (string.IsNullOrEmpty(bankCode)) return;
             OpenMaintainTab("修改", bankCode);
         }
-
+        /// <summary>
+        /// 新增銀行設定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             OpenMaintainTab("新增", null);
         }
-
+        /// <summary>
+        /// 開啟銀行設定維護的作業
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="bankCode"></param>
         private void OpenMaintainTab(string mode, string bankCode)
         {
             if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;

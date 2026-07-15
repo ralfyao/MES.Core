@@ -453,6 +453,11 @@ GROUP BY dbo_F銀行明細.銀存編碼
             }
             return 0;
         }
+        /// <summary>
+        /// 刪除客戶
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public int Delete(C客戶設定 t)
         {
             int retCode = 0;
@@ -478,7 +483,11 @@ GROUP BY dbo_F銀行明細.銀存編碼
             }
             return retCode;
         }
-
+        /// <summary>
+        /// 取得客戶聯絡人
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
         public List<C客戶連絡人清單> getCustomerContactList(string company)
         {
             try
@@ -493,7 +502,11 @@ GROUP BY dbo_F銀行明細.銀存編碼
                 throw ex;
             }
         }
-
+        /// <summary>
+        /// 取得客戶細節
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
         public List<C客戶聯絡明細> getCustomerDetails(string company)
         {
             try
@@ -518,7 +531,11 @@ GROUP BY dbo_F銀行明細.銀存編碼
                 throw ex;
             }
         }
-
+        /// <summary>
+        /// 設定客戶停用
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public int setCustomerExpiry(C客戶設定 t)
         {
             int retCode = 0;
