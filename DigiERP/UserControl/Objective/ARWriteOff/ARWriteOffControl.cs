@@ -53,7 +53,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             }
             int index = 0;
             dataGridView1.Rows.Clear();
-            foreach(var item in rWoffList.resultList)
+            foreach (var item in rWoffList.resultList)
             {
                 index = 0;
                 DataGridViewRow row = new DataGridViewRow();
@@ -81,6 +81,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
                 _arControlle = new ARController();
             }
             //throw new NotImplementedException();
+        }
+
+        private void btn新增_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -78,6 +78,7 @@
             btn新增.TabIndex = 9;
             btn新增.Text = "新增";
             btn新增.UseVisualStyleBackColor = false;
+            btn新增.Click += btn新增_Click;
             // 
             // btn超過60天
             // 

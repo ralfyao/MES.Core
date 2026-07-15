@@ -22,7 +22,9 @@ namespace DigiERP.UserControl.Objective.Bank
             InitializeComponent();
             LoadData();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void LoadData()
         {
             var rep = new CurrencyAdjustController().GetCurrencyAdjustList();
@@ -33,7 +35,10 @@ namespace DigiERP.UserControl.Objective.Bank
             }
             FillGrid(rep.resultList ?? new List<資金調節總覽>());
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         private void FillGrid(List<資金調節總覽> list)
         {
             dataGridView1.Rows.Clear();
@@ -57,8 +62,11 @@ namespace DigiERP.UserControl.Objective.Bank
         {
             OpenMaintainTab(null, "新增");
         }
-
-        // ── 點選單號欄位：於頁籤中開啟該筆資金調節單 ───────────────────────
+        /// <summary>
+        /// 點選單號欄位：於頁籤中開啟該筆資金調節單
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex != colNo.Index) return;
