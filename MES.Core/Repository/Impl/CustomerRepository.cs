@@ -91,7 +91,7 @@ SELECT DISTINCT dbo_F銀行明細.銀存編碼
 		) AS 餘額
 	   , '月結餘額' AS Expr1
        , dbo_F銀行明細.幣別
-	   ,LEFT(CONVERT(VARCHAR, DATEADD(MONTH,1, CONVERT(DATETIME,@monthEnd+'01',112)),112),6) AS Expr2
+	   ,CONVERT(VARCHAR, DATEADD(MONTH,1, CONVERT(DATETIME,@monthEnd+'01',112)),112) AS Expr2
 FROM F銀行明細 dbo_F銀行明細
 WHERE (((LEFT(CONVERT(VARCHAR, dbo_F銀行明細.[日期], 112) ,6))=@monthEnd))
 GROUP BY dbo_F銀行明細.銀存編碼
