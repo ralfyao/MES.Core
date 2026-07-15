@@ -143,6 +143,54 @@ namespace MES.MiddleWare.Modules
             }
             return retCode;
         }
+        public List<銀行月底餘額> getBankMonthSummaryList(string monthEnd)
+        {
+            try
+            {
+                CustomerRepository repository = new CustomerRepository();
+                return repository.getBankMonthSummaryList(monthEnd);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int confirmBankMonthEnd(string monthEnd)
+        {
+            try
+            {
+                CustomerRepository repository = new CustomerRepository();
+                return repository.confirmBankMonthEnd(monthEnd);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<F銀行明細> getBankLedgerList(string bankCode)
+        {
+            try
+            {
+                CustomerRepository repository = new CustomerRepository();
+                return repository.getBankLedgerList(bankCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int saveBankInfo(F銀行設定 form)
+        {
+            try
+            {
+                CustomerRepository repository = new CustomerRepository();
+                return repository.saveBankInfo(form);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public int updateCustomer(C客戶設定 cust)
         {
             int retCode = 0;

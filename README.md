@@ -1,6 +1,6 @@
 # DigiERP 專案功能總覽
 
-> 最後更新：2026-07-02　　Branch：master　　Commit：001bbef
+> 最後更新：2026-07-14　　Branch：master　　Commit：9a03622
 
 ---
 
@@ -41,10 +41,35 @@ DigiERP (WinForms UI)
 | FrmSelectMaterial | 品項（A材料）選取彈窗：可依產品編號/代號/品名規格搜尋，雙擊或選取鈕帶回品項編號、採購單位 |
 | FrmAddSupplierQuotation | 新增供料詢價彈窗（放在 `Forms/Supplier`）：廠商編號唯讀帶入、詢價/報價有效日期、幣別與詢價人員下拉（詢價人員來源為成本單位人員配置 職務="採購" AND 編修=1） |
 
+### 生產排程 (Production/Scheduling) — 新增
+| 模組 | 功能說明 |
+|------|---------|
+| ProjectScheduleQueryControl | 專案排程查詢頁：7 個日期（查詢起日＋第一~六週，自動遞增 7 天）+ 6 個類別按鈕（設計/採購/機加工/後製程/組測/程控），分別開啟對應排程頁籤 |
+| DesignScheduleControl | 週排程-設計：查詢起日+6週的 7 欄日期分桶樞紐表，含每週派案工時/應計工時(固定40)/負荷率統計列 |
+| ProcurementSchedulingControl | 週排程-採購：基準日以前+4週的 5 欄分桶（依預計到貨日），未入排程欄位固定排在最後一欄，footer 以筆數(COUNT)統計、負荷率固定40 |
+| MachiningSchedulingControl | 週排程-機加工：基準日以前+4週分桶（依預交日期1），末欄標示為「第五週(含)以後」（非單純未排入），負荷率固定40 |
+| PostProcessSchedulingControl | 週排程-後製程：無日期分桶，改以特殊塑型/精密加工/防變形/表面處理 4 個製程階段群組（各含預計排程日/委外派工日 2 欄），群組標題動態對齊欄寬，負荷率固定60 |
+| AssemTestSchedulingControl | 週排程-組裝測試：第一~四週各含進料排程/加工排程 2 欄，群組標題顯示「第N週：日期」，footer 每週筆數為進料或加工任一有值即算一筆，負荷率固定60 |
+
+### 庫存 / 採購 (Inventory) — 新增
+| 模組 | 功能說明 |
+|------|---------|
+| ToButListControl | 請購底稿：`B請購需求` 扁平化可編輯表格，一開始整表唯讀，按「修改」才能新增列/編輯，「儲存」只送出實際異動過的列（dirty-row 追蹤），項目編號/廠商/員工代碼皆有 Trim + 強制塞入下拉清單機制避免資料對不上而拋例外 |
+| ProjectProcurementControl | 採購計畫：`採購計畫` 表整批瀏覽與追蹤欄位（零件分類/採購人員/實際採購日/預計到貨日/倉管人員/入庫移轉日/驗收結果）維護，僅對這幾個欄位做 SQL UPDATE（不覆寫開工/完工日期等其他排程欄位，避免影響週排程系列畫面），含「複式篩選器」彈窗（專案序號/模組編碼/零件號碼）與清除篩選 |
+| FrmProjectProcurementFilter | 複式篩選彈窗：三個下拉條件（依目前清單資料取不重複值）+ 確定/離開 |
+
+### 會計 / 總務 (Accounts) — 新增
+| 模組 | 功能說明 |
+|------|---------|
+| GeneralExpensesControl | 總務支出單總覽：`F總務支出單` 列表，未結案/已結案篩選、點選單號於頁籤中開啟維護畫面、新增按鈕 |
+| GeneralExpensesMaintainControl | 總務支出單維護：廠商編號可用下拉或放大鏡開 `FrmSelectSupplier` 選取、採購人員/幣別匯率/付款條件/採購類別/營業稅率下拉、明細表輸入原幣未稅自動依匯率換算台幣未稅與稅額並加總為金額；新增模式下修改/覆核/取消覆核/列印按鈕隱藏，點開既有單據預設鎖定需按「修改」才能編輯，儲存成功後自動關閉頁籤並刷新列表 |
+
 ### 目標管理 (Objective)
 | 模組 | 功能說明 |
 |------|---------|
 | ARWriteOff | 應收帳款核銷作業 |
+| ExRateRegisterControl | 匯率設定：`F匯率` 依幣別瀏覽（◄/►切換），日期欄為 DateTimePicker，編輯完離開該列即自動存檔（有異動才新增或更新，未異動的列不會觸發） |
+| SalesTrackingControl | 客戶活動力分析（業績追蹤）：多層 CTE 統計客戶連絡/詢問/報價/訂單次數與成交率，起日/迄日查詢區間 + REVIEW/RESET，點選客戶欄位於頁籤中開啟該客戶的客戶維護畫面 |
 
 ### 共用元件 (Common)
 | 元件 | 功能說明 |
@@ -61,7 +86,7 @@ DigiERP (WinForms UI)
 ## 二、WebAPI Controllers (Business API 層)
 
 ### CustomerController
-- **客戶資料**：查詢/新增/修改/刪除、客戶聯絡明細、客戶國別、產業代碼
+- **客戶資料**：查詢/新增/修改/刪除、客戶聯絡明細、客戶國別、產業代碼、`GetCustomerByName`（依客戶名稱查詢，供業績追蹤點選客戶欄位開啟客戶維護使用）
 - **詢問函 (RFQ)**：查詢、建立、鎖定/解鎖、聯絡紀錄
 - **報價單**：查詢、新增、修改、品項明細維護
 - **訂單**：查詢、新增、修改、鎖定/解鎖、訂單明細
@@ -81,6 +106,22 @@ DigiERP (WinForms UI)
 
 ### ProcurementController
 - 請購需求、採購單 CRUD、進退貨驗收單、採購明細
+- `AllPurchaseRequestList`/`SavePurchaseRequest`：請購底稿 (ToButListControl) 沿用之單筆新增或更新（依請購序號是否存在判斷）
+
+### ProjectProgressController — 新增
+- 週排程系列：`GetDesignScheduleList`/`GetProcurementScheduleList`/`GetMachiningScheduleList`/`GetPostProcessScheduleList`/`GetAssemTestScheduleList`，皆以 `採購計畫`（部分含 `B請購需求`/`工令單`）多層 CTE 分桶查詢
+
+### GeneralExpensesController — 新增
+- 總務支出單 CRUD：`GetGeneralExpensesList`/`GetGeneralExpensesByNo`/`GetGeneralExpensesNo`/`SaveGeneralExpenses`/`UpdateGeneralExpenses`/`DeleteGeneralExpenses`/`ValidateGeneralExpenses`（覆核/取消覆核）/`GetActiveEmployeeList`（狀況正常之員工）
+
+### ProjectProcurementController — 新增
+- `GetProjectProcurementList`（`採購計畫` WHERE 入庫移轉日篩選）、`UpdateProjectProcurement`（僅更新採購追蹤欄位，不動排程用欄位）
+
+### ExRateController — 新增
+- `GetAllExRateList`/`SaveExRate`（識別=0 為新增，否則更新）
+
+### SalesTrackingController — 新增
+- `GetSalesTrackingList`：客戶活動力分析多層 CTE 統計（起日/迄日區間）
 
 ### ProductionController
 - 產品/規格管理、工令單 CRUD、工作紀錄、製令查詢
@@ -121,6 +162,11 @@ DigiERP (WinForms UI)
 | **CustomerMiddle** | 客戶/訂單/報價/出貨/客訴/維修服務單的所有業務邏輯，含流水號產生、鎖定機制、轉單作業 |
 | **ARMiddle** | 應收帳款計算、收款沖帳、帳款流水號產生 |
 | **SupplierMiddle** | 廠商主檔 CRUD、生效/停用、評鑑、聯絡名冊、供料詢價 CRUD、詢價人員查詢（Dapper + Raw SQL 直接組 SQL） |
+| **ProjectProgressMiddle** — 新增 | 週排程系列（設計/採購/機加工/後製程/組測）之多層 CTE 分桶查詢，皆以 `採購計畫` 為主資料源 |
+| **GeneralExpensesMiddle** — 新增 | 總務支出單 CRUD、單號產生、覆核/取消覆核、狀況正常員工查詢；新增/修改透過 `GeneralExpensesDataRepository`（交易內先刪除單頭+明細再重新寫入） |
+| **ProjectProcurementMiddle** — 新增 | 採購計畫清單查詢（含入庫移轉日篩選）、追蹤欄位之局部 SQL UPDATE（刻意不用刪除重建，避免波及週排程共用之其他欄位） |
+| **ExRateMiddle** — 新增 | 匯率清單查詢、新增或更新（依識別碼是否為 0 判斷） |
+| **SalesTrackingMiddle** — 新增 | 客戶活動力分析多層 CTE 統計（客戶訂單/報價/詢問函/連絡次數、成交率，已修正 COUNT 相除的整數除法截斷問題） |
 
 ---
 
@@ -166,8 +212,16 @@ DigiERP (WinForms UI)
 | B廠商評鑑 | 廠商評鑑記錄 |
 | B廠商供料 | 廠商供料詢價明細（品項、採購單位、最低/最大採購量、單價、幣別、詢價人員、報價有效日期、廠商品號） |
 | B採購單 / B採購明細 | 採購單主檔 / 明細 |
-| B請購需求 | 請購需求單 |
+| B請購需求 | 請購需求單（請購底稿資料來源） |
 | B進貨驗收單 / B進退貨驗收明細 | 進退貨驗收 |
+| 採購計畫 | 專案零件採購/入庫追蹤總表（週排程系列與採購計畫畫面共用資料源；新增 模組名稱/倉管人員/驗收合格/BOM表識別碼/採購識別碼 欄位） |
+
+### 週排程 (Scheduling) — 新增
+| 模型 | 說明 |
+|------|------|
+| 設計週排程表 / 採購週排程表 / 加工週排程表 | 各排程頁之日期分桶扁平化 DTO |
+| 後製程週排程表 | 特殊塑型/精密加工/防變形/表面處理 4 階段 x 2 欄位 DTO |
+| 組測週排程表 | 進料排程(P)/加工排程(W) 各週 2 欄 DTO |
 
 ### 財務
 | 模型 | 對應資料表 |
@@ -177,10 +231,13 @@ DigiERP (WinForms UI)
 | F付款 / F付款明細 | 付款單 |
 | F其他收入單 | 其他收支單 |
 | F沖款收 | 沖帳記錄 |
-| F幣別 / F匯率 | 幣別匯率設定 |
+| F幣別 / F匯率 | 幣別匯率設定（匯率設定頁維護） |
 | F銀行設定 | 銀行主檔 |
 | F庫別 | 倉庫別設定 |
 | F訂單交易條件 | 交易條件主檔 |
+| F總務支出單 / F其他收支明細 | 總務支出單主檔 / 明細（新增 detailList 導覽屬性） |
+| 總務支出單列表 | 總務支出單總覽列表用扁平化 DTO |
+| 客戶活動力分析 | 業績追蹤（客戶連絡/詢問/報價/訂單統計與成交率）扁平化 DTO |
 
 ### 製造 / 物料
 | 模型 | 對應資料表 |
@@ -269,7 +326,60 @@ DigiERP (WinForms UI)
 
 ---
 
-## 七、通用規範
+## 七、週排程 / 採購追蹤 / 總務支出單功能說明（本次開發重點）
+
+### 週排程系列流程
+```
+ProjectScheduleQueryControl（查詢起日 + 第一~六週自動遞增7天）
+    → 按 設計/採購/機加工/後製程/組測 按鈕
+    → 於頁籤開啟對應 XxxSchedulingControl，帶入日期參數
+    → 各頁以 過期(基準日以前)~未來週別 分桶樞紐呈現待處理零件
+    → footer 統計每週筆數/可承載量(固定值)/負荷率
+```
+後製程、組測兩頁不採「日期分桶」，改為「製程階段」或「進料/加工」群組（詳見上方模組表），群組標題以動態計算欄寬對齊。
+
+### 總務支出單流程
+```
+GeneralExpensesControl（未結案/已結案列表）
+    → 點選單號 或 按「新增」
+    → 於頁籤開啟 GeneralExpensesMaintainControl
+    → 既有單據預設鎖定（唯讀），需按「修改」才能編輯；新增單據直接可編輯
+    → 廠商編號：下拉或放大鏡開 FrmSelectSupplier 選取（不彈出跳窗以外的舊式選取視窗）
+    → 明細表輸入「原幣未稅」→ 自動帶出「台幣未稅」(×匯率)、「稅額」(×營業稅率)、「金額」(相加)
+    → 按「儲存」→ 新增或修改成功後自動關閉頁籤並刷新列表
+    → 「覆核」/「取消覆核」切換核准狀態，列印按鈕僅於已覆核後顯示
+```
+
+### 請購底稿 / 採購計畫流程
+```
+ToButListControl（B請購需求 扁平表格，預設整表唯讀）
+    → 按「修改」解鎖 → 可新增列或編輯既有列
+    → 按「儲存」→ 僅送出實際異動過的列（dirty-row 追蹤），未異動的列不會觸發任何寫入
+
+ProjectProcurementControl（採購計畫 整批瀏覽）
+    → 按「修改」解鎖 → 編輯 零件分類/採購人員/實際採購日/預計到貨日/倉管人員/入庫移轉日/驗收結果
+    → 按「儲存」→ 僅對上述追蹤欄位送出 SQL UPDATE（不覆寫開工/完工日期等排程共用欄位）
+    → 「複式篩選器」→ 開 FrmProjectProcurementFilter（專案序號/模組編碼/零件號碼）→ 確定後套用篩選
+```
+
+### 相關檔案
+| 檔案 | 位置 |
+|------|------|
+| ProjectScheduleQueryControl / DesignScheduleControl / ProcurementSchedulingControl / MachiningSchedulingControl / PostProcessSchedulingControl / AssemTestSchedulingControl | `DigiERP/UserControl/Production/`（後五者在 `Scheduling/` 子目錄） |
+| GeneralExpensesControl / GeneralExpensesMaintainControl | `DigiERP/UserControl/Accounts/Payment/` |
+| ToButListControl | `DigiERP/UserControl/Inventory/ToBuy/` |
+| ProjectProcurementControl / FrmProjectProcurementFilter | `DigiERP/UserControl/Inventory/ProjectProcurement/` |
+| ExRateRegisterControl | `DigiERP/UserControl/Objective/ExRate/` |
+| SalesTrackingControl | `DigiERP/UserControl/Objective/SalesTracking/` |
+| ProjectProgressController / ProjectProgressMiddle | `MES.WebAPI/Controllers/` `MES.WebAPI/MiddleWare/` |
+| GeneralExpensesController / GeneralExpensesMiddle / GeneralExpensesDataRepository | `MES.WebAPI/Controllers/` `MES.WebAPI/MiddleWare/` `MES.Core/Repository/Impl/` |
+| ProjectProcurementController / ProjectProcurementMiddle | `MES.WebAPI/Controllers/` `MES.WebAPI/MiddleWare/` |
+| ExRateController / ExRateMiddle | `MES.WebAPI/Controllers/` `MES.WebAPI/MiddleWare/` |
+| SalesTrackingController / SalesTrackingMiddle | `MES.WebAPI/Controllers/` `MES.WebAPI/MiddleWare/` |
+
+---
+
+## 八、通用規範
 
 - **日期格式**：所有日期顯示與存取均為 `yyyy/MM/dd`
 - **回傳物件**：所有 API 統一使用 `CommonRep<T>`，包含 `result`、`resultList`、`ErrorMessage`、`WorkStatus`
@@ -277,3 +387,8 @@ DigiERP (WinForms UI)
 - **流水號**：各類單號均透過 DB 查詢最大值後遞增產生（例外：廠商編號改為人工輸入，`GetSupplierNo` 自動產生已停用）
 - **修改模式**：客戶簡稱、客戶名稱、申請日期在修改模式下為唯讀
 - **廠商編號**：SupplierMaintainControl 新增模式下需人工輸入，儲存前會檢查不可為空（「請輸入廠商編號!」）；`disableControl()` 於檢視模式會鎖定包含供料詢價表格在內的所有欄位與按鈕
+- **列表型可編輯表格**（請購底稿、採購計畫等）：一律「唯讀 → 按修改解鎖 → 只送出實際異動過的列（dirty-row 追蹤）」，不是整表重新儲存
+- **DataGridViewComboBoxColumn 對應主檔代碼**：主檔欄位常為固定長度字串（含尾端空白），下拉選單的值與資料庫值須 `Trim()` 後比對，並在資料列入清單前檢查是否已存在於 Items、不存在則強制加入，避免「DataGridViewComboBoxCell 值無效」例外
+- **DataGridView 之 CellEndEdit 才觸發相依欄位重算**（如原幣未稅→台幣未稅/稅額/金額），需搭配 `CurrentCellDirtyStateChanged` 強制 `CommitEdit`，下拉選定後才會即時觸發 `CellValueChanged`
+- **WinForms 容器 Dock 順序**：同層 `Controls.Add` 的呼叫順序決定版面配置解析順序——後加入者的 Dock 先被解析（越晚加入越先卡位），因此 `Dock=Fill` 的控制項務必最先加入，其餘 Top/Bottom 控制項再依序加入
+- **共用查詢區域**：多筆列表查詢統一使用 `List<T>` 一次撈回後於前端 `Where` 篩選（未結案/已結案、複式篩選等），避免每次篩選都重新呼叫 API

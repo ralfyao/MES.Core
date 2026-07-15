@@ -175,6 +175,74 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+
+        [Route("api/GetBankMonthSummaryList"), HttpGet]
+        public CommonRep<銀行月底餘額> GetBankMonthSummaryList(string monthEnd)
+        {
+            CommonRep<銀行月底餘額> commonRep = new CommonRep<銀行月底餘額>();
+            CustomerMiddle custMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = custMiddle.getBankMonthSummaryList(monthEnd);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/ConfirmBankMonthEnd"), HttpGet]
+        public CommonRep<string> ConfirmBankMonthEnd(string monthEnd)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle custMiddle = new CustomerMiddle();
+            try
+            {
+                custMiddle.confirmBankMonthEnd(monthEnd);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetBankLedgerList"), HttpGet]
+        public CommonRep<F銀行明細> GetBankLedgerList(string bankCode)
+        {
+            CommonRep<F銀行明細> commonRep = new CommonRep<F銀行明細>();
+            CustomerMiddle custMiddle = new CustomerMiddle();
+            try
+            {
+                commonRep.resultList = custMiddle.getBankLedgerList(bankCode);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveBankInfo"), HttpPost]
+        public CommonRep<string> SaveBankInfo([FromBody] F銀行設定 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            CustomerMiddle custMiddle = new CustomerMiddle();
+            try
+            {
+                custMiddle.saveBankInfo(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         /// <summary>
         /// 寫入客戶資料
         /// </summary>

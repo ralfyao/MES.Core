@@ -76,10 +76,12 @@
 
   <ItemGroup>
     <Folder Include="Forms\Customer\Receivables\" />
+    <Folder Include="Forms\Bank\" />
     <Folder Include="UserControl\Customer\OtherIncome\" />
     <Folder Include="UserControl\Inventory\ProjectProcurement\" />
     <Folder Include="UserControl\Inventory\ToBuy\" />
     <Folder Include="UserControl\Objective\ExRate\" />
+    <Folder Include="UserControl\Objective\Bank\" />
     <Folder Include="UserControl\Objective\SalesTracking\" />
     <Folder Include="UserControl\Order\" />
   </ItemGroup>

@@ -38,6 +38,115 @@ namespace MES.Core.Repository.Impl
             return list;
         }
         /// <summary>
+        /// 依月底日(yyyyMM)取得各銀行帳戶當月存入/支出總計與餘額
+        /// </summary>
+        public List<銀行月底餘額> getBankMonthSummaryList(string monthEnd)
+        {
+            List<銀行月底餘額> list = new List<銀行月底餘額>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(IRepository<F銀行設定>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = @"
+SELECT DISTINCT dbo_F銀行明細.銀存編碼
+, LEFT(CONVERT(VARCHAR, dbo_F銀行明細.[日期], 112),6) AS [日期_月]
+, Sum(ISNULL([存入],0)) AS 存入總計
+, Sum(ISNULL([支出],0)) AS 支出總計
+, Count(*) AS 筆數, Sum(ISNULL([存入],0))-Sum(ISNULL([支出],0)) AS 餘額, dbo_F銀行設定.銀行名稱, dbo_F銀行設定.帳號, dbo_F銀行明細.幣別
+FROM F銀行明細 dbo_F銀行明細
+RIGHT JOIN F銀行設定 dbo_F銀行設定 ON dbo_F銀行明細.銀存編碼 = dbo_F銀行設定.銀存編碼
+GROUP BY dbo_F銀行明細.銀存編碼
+      , LEFT(CONVERT(VARCHAR, dbo_F銀行明細.[日期], 112),6)
+      , dbo_F銀行設定.銀行名稱
+      , dbo_F銀行設定.帳號
+      , dbo_F銀行明細.幣別, Year([dbo_F銀行明細].[日期])*12+DatePart(MONTH,[dbo_F銀行明細].[日期])-1
+HAVING (((LEFT(CONVERT(VARCHAR, dbo_F銀行明細.[日期], 112),6))=@monthEnd))";
+                    list = conn.Query<銀行月底餘額>(strSQL, new { monthEnd }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+        /// <summary>
+        /// 月結確定：將指定月底日各銀行帳戶之餘額，以「月結餘額」摘要寫入下個月第一筆存入
+        /// </summary>
+        public int confirmBankMonthEnd(string monthEnd)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(IRepository<F銀行設定>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = @"
+INSERT INTO F銀行明細 ( 銀存編碼, 存入, 摘要, 幣別, 日期 )
+SELECT DISTINCT dbo_F銀行明細.銀存編碼
+       , Sum(
+			CASE WHEN [存入] IS NULL THEN 0 ELSE [存入] end
+		)-Sum(
+			CASE WHEN 支出 IS NULL THEN 0 ELSE 支出 end
+		) AS 餘額
+	   , '月結餘額' AS Expr1
+       , dbo_F銀行明細.幣別
+	   ,LEFT(CONVERT(VARCHAR, DATEADD(MONTH,1, CONVERT(DATETIME,@monthEnd+'01',112)),112),6) AS Expr2
+FROM F銀行明細 dbo_F銀行明細
+WHERE (((LEFT(CONVERT(VARCHAR, dbo_F銀行明細.[日期], 112) ,6))=@monthEnd))
+GROUP BY dbo_F銀行明細.銀存編碼
+		 , dbo_F銀行明細.幣別";
+                    return conn.Execute(strSQL, new { monthEnd });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// 依銀存編碼取得銀行存簿明細
+        /// </summary>
+        public List<F銀行明細> getBankLedgerList(string bankCode)
+        {
+            List<F銀行明細> list = new List<F銀行明細>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(IRepository<F銀行設定>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = "SELECT * FROM F銀行明細 WHERE 銀存編碼=@bankCode ORDER BY 日期";
+                    list = conn.Query<F銀行明細>(strSQL, new { bankCode }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+        /// <summary>
+        /// 新增或更新銀行設定（依銀存編碼先刪除再新增）
+        /// </summary>
+        public int saveBankInfo(F銀行設定 form)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(IRepository<F銀行設定>.ConnStr))
+                {
+                    conn.Open();
+                    string strSQL = @"DELETE FROM F銀行設定 WHERE 銀存編碼=@銀存編碼;
+                                       INSERT INTO F銀行設定 (銀存編碼, 銀行名稱, Bankname, Beneficiary, 帳號, 銀行地址, SwiftCode, 電話, 聯絡窗口, 分機, 會科代碼)
+                                       VALUES (@銀存編碼, @銀行名稱, @Bankname, @Beneficiary, @帳號, @銀行地址, @SwiftCode, @電話, @聯絡窗口, @分機, @會科代碼)";
+                    return conn.Execute(strSQL, form);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
         /// 取得國別下拉列表資料來源
         /// </summary>
         /// <returns></returns>
