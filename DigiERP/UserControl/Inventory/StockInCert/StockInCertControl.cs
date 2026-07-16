@@ -109,8 +109,44 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             lblTitle.Text = "進項憑證沖銷總覽-已結案";
         }
 
-        // ── 新增：尚未提供維護畫面 ─────────────────────────────────────────
-        private void btnAdd_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            OpenMaintainTab(null, "新增");
+        }
+
+        // ── 點選單號欄位：於頁籤中開啟該筆進項憑證 ───────────────────────────
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex != colNo.Index) return;
+            string no = dataGridView1.Rows[e.RowIndex].Cells[colNo.Index].Value?.ToString();
+            if (string.IsNullOrEmpty(no)) return;
+            OpenMaintainTab(no, "修改");
+        }
+
+        private void OpenMaintainTab(string no, string mode)
+        {
+            if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
+            TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
+            string tabName = mode == "新增" ? "StockInCertMaintain_New" : $"StockInCertMaintain_{no}";
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == tabName)
+                {
+                    tabControl.SelectedTab = page;
+                    return;
+                }
+            }
+            var ctrl = new StockInCertMaintainControl();
+            ctrl.Dock = DockStyle.Fill;
+            ctrl.Saved += (s, args) => initGrid();
+            var tab = new TabPage(mode == "新增" ? "進項憑證" : $"進項憑證") { Name = tabName };
+            tab.Controls.Add(ctrl);
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            ctrl.LoadData(mode, no);
+        }
 
         /// <summary>
         /// 關閉 — 回到列表，或若是獨立頁籤則直接關閉該頁籤

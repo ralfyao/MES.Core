@@ -43,7 +43,6 @@ namespace MES.Core.Repository.Impl
                                                         (
                                                             單號,
                                                             會科代碼,
-                                                            會計科目,
                                                             摘要,
                                                             借方,
                                                             貸方,
@@ -54,7 +53,6 @@ namespace MES.Core.Repository.Impl
                                                         (
                                                             @單號,
                                                             @會科代碼,
-                                                            @會計科目,
                                                             @摘要,
                                                             @借方,
                                                             @貸方,
@@ -89,6 +87,27 @@ namespace MES.Core.Repository.Impl
                 throw;
             }
             return execCnt;
+        }
+
+        public F會計傳票 GetByNo(string no)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    var header = conn.QueryFirstOrDefault<F會計傳票>("SELECT * FROM F會計傳票 WHERE 單號=@no", new { no });
+                    if (header != null)
+                    {
+                        header.voucherList = conn.Query<F會計傳票明細>("SELECT * FROM F會計傳票明細 WHERE 單號=@no", new { no }).ToList();
+                    }
+                    return header;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public string getFormNo()

@@ -9,6 +9,21 @@ namespace MES.WebAPI.MiddleWare
 {
     public class ProcurementMiddle
     {
+        // ── 採購預付選單：依廠商編號查詢尚未結案的採購明細，供付款明細導入使用 ──
+        public List<B採購明細> getPrepaymentImportList(string supplierNo)
+        {
+            string sql = @"SELECT dbo_B採購明細.單號, dbo_B採購明細.品項編號, dbo_B採購明細.品名規格,
+                                   dbo_B採購明細.原幣未稅, dbo_B採購明細.採購金額, dbo_B採購明細.結案, dbo_B採購明細.識別
+                            FROM B採購明細 dbo_B採購明細
+                            LEFT JOIN B採購單 dbo_B採購單 ON dbo_B採購明細.單號 = dbo_B採購單.單號
+                            WHERE (ISNULL(dbo_B採購明細.結案,0)=0) AND dbo_B採購單.廠商編號=@supplierNo";
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<B採購明細>(sql, new { supplierNo }).ToList();
+            }
+        }
+
         public string getPoNo()
         {
             string pono = string.Empty;

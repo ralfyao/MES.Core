@@ -25,6 +25,23 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetExpenseCertImportList"), HttpGet]
+        public CommonRep<F其他收支明細> GetExpenseCertImportList(string supplierNo, DateTime? from, DateTime? to)
+        {
+            CommonRep<F其他收支明細> commonRep = new CommonRep<F其他收支明細>();
+            GeneralExpensesMiddle generalExpensesMiddle = new GeneralExpensesMiddle();
+            try
+            {
+                commonRep.resultList = generalExpensesMiddle.getExpenseCertImportList(supplierNo, from, to);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/GetGeneralExpensesNo"), HttpGet]
         public CommonRep<string> GetGeneralExpensesNo()
         {

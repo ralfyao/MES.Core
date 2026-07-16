@@ -55,6 +55,42 @@ namespace MES.WebAPI.MiddleWare
             }
         }
 
+        // ── 總務憑證核銷導入：依廠商編號查詢尚未核銷的總務支出明細，供付款明細導入使用 ──
+        public List<F其他收支明細> getExpenseCertImportList(string supplierNo, DateTime? from, DateTime? to)
+        {
+            string sql = @"
+                    SELECT
+                        dbo_F總務支出單.廠商編號,
+                        dbo_F其他收支明細.項目編號,
+                        dbo_F其他收支明細.備註,
+                        dbo_F其他收支明細.原幣未稅,
+                        dbo_F其他收支明細.未稅,
+                        dbo_F其他收支明細.稅,
+                        dbo_F其他收支明細.金額,
+                        dbo_F其他收支明細.專案序號,
+                        dbo_F總務支出單.單號,
+                        dbo_F總務支出單.日期,
+                        dbo_F總務支出單.採購人員,
+                        dbo_F總務支出單.核准,
+                        dbo_EMPL.姓名,
+                        dbo_F其他收支明細.憑證編號,
+                        dbo_F其他收支明細.勾選
+                    FROM F總務支出單 dbo_F總務支出單
+                    RIGHT JOIN F其他收支明細 dbo_F其他收支明細 ON dbo_F總務支出單.單號 = dbo_F其他收支明細.單號
+                    LEFT JOIN B廠商設定 dbo_B廠商設定 ON dbo_F總務支出單.廠商編號 = dbo_B廠商設定.廠商編號
+                    LEFT JOIN H員工清冊 dbo_EMPL ON dbo_F總務支出單.採購人員 = dbo_EMPL.工號
+                    WHERE dbo_F總務支出單.廠商編號=@supplierNo AND dbo_F其他收支明細.憑證編號 IS NULL
+                      AND (@from IS NULL OR dbo_F總務支出單.日期 >= @from)
+                      AND (@to IS NULL OR dbo_F總務支出單.日期 <= @to)
+                    ORDER BY dbo_F總務支出單.日期 DESC";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<F其他收支明細>(sql, new { supplierNo, from, to }).ToList();
+            }
+        }
+
         // ── 依單號取得單頭與明細 ──────────────────────────────────────────
         public F總務支出單 getGeneralExpensesByNo(string 單號)
         {

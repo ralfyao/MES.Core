@@ -9,6 +9,23 @@ namespace MES.WebAPI.Controllers
     [ApiController]
     public class ProcurementController : ControllerBase
     {
+        [Route("api/GetPrepaymentImportList"), HttpGet]
+        public CommonRep<B採購明細> GetPrepaymentImportList(string supplierNo)
+        {
+            CommonRep<B採購明細> commonRep = new CommonRep<B採購明細>();
+            ProcurementMiddle procurement = new ProcurementMiddle();
+            try
+            {
+                commonRep.resultList = procurement.getPrepaymentImportList(supplierNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         #region 採購單
         [Route("api/GetPONo"), HttpGet]
         public CommonRep<string> GetPoNo()

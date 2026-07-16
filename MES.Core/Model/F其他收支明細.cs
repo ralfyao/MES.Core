@@ -21,5 +21,11 @@ namespace MES.Core.Model
         public string? 專案序號 { get; set; }
         public int? 勾選 { get; set; }
         public string? 憑證編號 { get; set; }
+        // ── 以下為憑證核銷導入清單查詢(getExpenseCertImportList)join帶出的欄位 ──
+        public string? 廠商編號 { get; set; }
+        public string? 日期 { get; set; }
+        public string? 採購人員 { get; set; }
+        public string? 核准 { get; set; }
+        public string? 姓名 { get; set; }
     }
 }

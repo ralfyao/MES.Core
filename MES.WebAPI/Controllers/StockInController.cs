@@ -190,6 +190,214 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetPaymentOffsetOverviewList"), HttpGet]
+        public CommonRep<付款沖帳總覽> GetPaymentOffsetOverviewList()
+        {
+            CommonRep<付款沖帳總覽> commonRep = new CommonRep<付款沖帳總覽>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                commonRep.resultList = stockInMiddle.getPaymentOffsetOverviewList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetIncomeCertImportList_StockIn"), HttpGet]
+        public CommonRep<B進退貨驗收明細> GetIncomeCertImportList_StockIn(string supplierNo, DateTime? from, DateTime? to)
+        {
+            CommonRep<B進退貨驗收明細> commonRep = new CommonRep<B進退貨驗收明細>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                commonRep.resultList = stockInMiddle.getIncomeCertImportList_StockIn(supplierNo, from, to);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DoSingleClose"), HttpPost]
+        public CommonRep<string> DoSingleClose(string sourceNo, string user)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                commonRep.result = stockInMiddle.doSingleClose(sourceNo, user);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetFundOffsetNoBySource"), HttpGet]
+        public CommonRep<string> GetFundOffsetNoBySource(string sourceNo)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                commonRep.result = stockInMiddle.getFundOffsetNoBySource(sourceNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetFundOffsetByNo"), HttpGet]
+        public CommonRep<F沖款付> GetFundOffsetByNo(string no)
+        {
+            CommonRep<F沖款付> commonRep = new CommonRep<F沖款付>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                commonRep.result = stockInMiddle.getFundOffsetByNo(no);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/SaveFundOffset"), HttpPost]
+        public CommonRep<string> SaveFundOffset([FromBody] F沖款付 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                stockInMiddle.saveFundOffset(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateFundOffset"), HttpPost]
+        public CommonRep<string> UpdateFundOffset([FromBody] F沖款付 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                stockInMiddle.updateFundOffset(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteFundOffset"), HttpPost]
+        public CommonRep<string> DeleteFundOffset(string no)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                stockInMiddle.deleteFundOffset(no);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ValidateFundOffset"), HttpPost]
+        public CommonRep<string> ValidateFundOffset(string no, bool approve, string user)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                stockInMiddle.validateFundOffset(no, approve, user);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetIncomeCertRegByNo"), HttpGet]
+        public CommonRep<F付款> GetIncomeCertRegByNo(string no)
+        {
+            CommonRep<F付款> commonRep = new CommonRep<F付款>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                commonRep.result = stockInMiddle.getIncomeCertRegByNo(no);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateIncomeRegForm"), HttpPost]
+        public CommonRep<string> UpdateIncomeRegForm([FromBody] F付款 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                stockInMiddle.updateIncomeRegForm(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteIncomeRegForm"), HttpPost]
+        public CommonRep<string> DeleteIncomeRegForm(string no)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                stockInMiddle.deleteIncomeRegForm(no);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ValidateIncomeRegForm"), HttpPost]
+        public CommonRep<string> ValidateIncomeRegForm(string no, bool approve, string user)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            StockInMiddle stockInMiddle = new StockInMiddle();
+            try
+            {
+                stockInMiddle.validateIncomeRegForm(no, approve, user);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         [Route("api/SaveUpdateIncomeRegNo"), HttpPost]
         public CommonRep<string> SaveUpdateIncomeRegNo([FromBody] F付款 form)
         {

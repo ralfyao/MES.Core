@@ -19,6 +19,12 @@ namespace MES.WebAPI.MiddleWare
             return repo.Insert(form);
         }
 
+        public F會計傳票 getVoucherByNo(string no)
+        {
+            var repo = new VoucherRepository();
+            return repo.GetByNo(no);
+        }
+
         // ── 會計科目選擇：僅列出未停用的科目 ──────────────────────────────
         public List<F會計科目> getAccountingSubjectList()
         {

@@ -20,6 +20,48 @@ namespace DigiERP.UserControl.Inventory.StockIn
             InitNewVoucher();
         }
 
+        // ── 依傳票單號查詢並帶出既有會計傳票資料（唯讀顯示現有資料，找不到才提示） ──
+        public void LoadExisting(string voucherNo)
+        {
+            var rep = new VoucherController().GetVoucherByNo(voucherNo);
+            if (!string.IsNullOrEmpty(rep.ErrorMessage))
+            {
+                MessageBox.Show(rep.ErrorMessage);
+                return;
+            }
+            var form = rep.result;
+            if (form == null)
+            {
+                MessageBox.Show($"查無傳票單號 {voucherNo} 的會計傳票資料!");
+                return;
+            }
+
+            txtVoucherNo.Text = form.單號;
+            dtDate.Value = DateTime.TryParse(form.日期, out var d) ? d : DateTime.Now;
+            txtStatus.Text = form.狀態;
+            txtRegistrar.Text = form.登錄人員;
+            txtModifier.Text = form.修改;
+            txtModifyDate.Text = form.修改日;
+            txtPost.Text = form.過帳;
+            txtPostDate.Text = form.過帳日;
+            chkMonthClose.Checked = form.月結 == "Y";
+
+            dgvDetail.Rows.Clear();
+            foreach (var item in form.voucherList ?? new List<F會計傳票明細>())
+            {
+                int idx = dgvDetail.Rows.Add();
+                var row = dgvDetail.Rows[idx];
+                row.Cells[colAccountCode.Index].Value = item.會科代碼;
+                row.Cells[colAccountName.Index].Value = item.會計科目;
+                row.Cells[colSummary.Index].Value = item.摘要;
+                row.Cells[colDebit.Index].Value = item.借方;
+                row.Cells[colCredit.Index].Value = item.貸方;
+                row.Cells[colSourceDoc.Index].Value = item.來源單據;
+                row.Cells[colNote.Index].Value = item.備註;
+            }
+            RecalcTotals();
+        }
+
         private void InitNewVoucher()
         {
             var noRep = new VoucherController().GetVoucherNo();

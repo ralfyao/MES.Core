@@ -42,6 +42,23 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetVoucherByNo"), HttpGet]
+        public CommonRep<F會計傳票> GetVoucherByNo(string no)
+        {
+            CommonRep<F會計傳票> commonRep = new CommonRep<F會計傳票>();
+            VoucherMiddle voucherMiddle = new VoucherMiddle();
+            try
+            {
+                commonRep.result = voucherMiddle.getVoucherByNo(no);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/CreateVoucher"), HttpPost]
         public CommonRep<string> CreateVoucher([FromBody] F會計傳票 form)
         {

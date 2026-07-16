@@ -188,6 +188,49 @@ namespace MES.WebAPI.MiddleWare
             return list;
         }
 
+        // ── 進項憑證核銷導入：依廠商編號查詢已覆核且尚未退貨的進貨驗收明細，供付款明細導入使用 ──
+        public List<B進退貨驗收明細> getIncomeCertImportList_StockIn(string supplierNo, DateTime? from, DateTime? to)
+        {
+            List<B進退貨驗收明細> list = new List<B進退貨驗收明細>();
+            try
+            {
+                string sql = $@"SELECT
+                                    dbo_B進退貨驗收明細.廠商編號,
+                                    dbo_B進退貨驗收明細.品項編號,
+                                    dbo_B進退貨驗收明細.品名規格,
+                                    dbo_B進退貨驗收明細.收貨數量,
+                                    dbo_B進退貨驗收明細.實際單價,
+                                    dbo_B進退貨驗收明細.付款金額,
+                                    dbo_B進退貨驗收明細.勾選,
+                                    dbo_B進貨驗收單.單號,
+                                    dbo_B進貨驗收單.日期,
+                                    dbo_B進貨驗收單.倉管人員,
+                                    dbo_B進貨驗收單.採購覆核,
+                                    dbo_EMPL.姓名,
+                                    dbo_B進退貨驗收明細.退貨單號
+                                FROM B進退貨驗收明細 dbo_B進退貨驗收明細
+                                RIGHT JOIN B進貨驗收單 dbo_B進貨驗收單 ON dbo_B進退貨驗收明細.單號 = dbo_B進貨驗收單.單號
+                                LEFT JOIN H員工清冊 dbo_EMPL ON dbo_B進貨驗收單.倉管人員 = dbo_EMPL.工號
+                                LEFT JOIN B廠商設定 dbo_B廠商設定 ON dbo_B進退貨驗收明細.廠商編號 = dbo_B廠商設定.廠商編號
+                                WHERE dbo_B進退貨驗收明細.廠商編號=@supplierNo
+                                  AND dbo_B進貨驗收單.採購覆核 IS NOT NULL
+                                  AND dbo_B進退貨驗收明細.退貨單號 IS NULL
+                                  AND (@from IS NULL OR dbo_B進貨驗收單.日期 >= @from)
+                                  AND (@to IS NULL OR dbo_B進貨驗收單.日期 <= @to)
+                                ORDER BY dbo_B進貨驗收單.日期 DESC";
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    list = conn.Query<B進退貨驗收明細>(sql, new { supplierNo, from, to }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return list;
+        }
+
         public List<B進退貨驗收明細> getStockInDetail(string 單號)
         {
             List<B進退貨驗收明細> list = new List<B進退貨驗收明細>();
@@ -435,7 +478,7 @@ namespace MES.WebAPI.MiddleWare
                                             @結案-- 結案 - nchar(10)
                                             )";
                         DynamicParameters dynamicParameters = new DynamicParameters(form);
-                        conn.Execute(sql, tran);
+                        conn.Execute(sql, dynamicParameters, tran);
                         foreach(var item in form.detailList)
                         {
                             if (string.IsNullOrEmpty(item.單號))
@@ -460,7 +503,7 @@ namespace MES.WebAPI.MiddleWare
                                         @專案序號-- 專案序號 - nvarchar(20)
                                         )";
                             dynamicParameters = new DynamicParameters(item);
-                            conn.Execute(sql, tran);
+                            conn.Execute(sql, dynamicParameters, tran);
                         }
                         tran.Commit();
                     }
@@ -469,6 +512,381 @@ namespace MES.WebAPI.MiddleWare
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public F付款 getIncomeCertRegByNo(string no)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    var form = conn.QueryFirstOrDefault<F付款>("SELECT * FROM F付款 WHERE 單號=@no", new { no });
+                    if (form != null)
+                    {
+                        form.detailList = getIncomeCertRegDetailList(form.單號);
+                    }
+                    return form;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void updateIncomeRegForm(F付款 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        conn.Execute("DELETE FROM F付款 WHERE 單號=@單號; DELETE FROM F付款明細 WHERE 單號=@單號",
+                            new { 單號 = form.單號 }, tran);
+
+                        string sql = $@"INSERT INTO dbo.F付款
+                                        (
+                                            日期,
+                                            單號,
+                                            廠商編號,
+                                            幣別,
+                                            匯率,
+                                            請款人員,
+                                            付款日期,
+                                            類別,
+                                            付現金額,
+                                            銀轉金額,
+                                            匯費,
+                                            銀存編碼,
+                                            付票金額,
+                                            票據號碼,
+                                            付款總額,
+                                            MACHINENO,
+                                            發票號碼,
+                                            備註,
+                                            建檔,
+                                            建檔日,
+                                            修改,
+                                            修改日,
+                                            核准,
+                                            核准日,
+                                            傳票,
+                                            結案
+                                        )
+                                        VALUES
+                                        (   @日期, @單號, @廠商編號, @幣別, @匯率, @請款人員, @付款日期, @類別,
+                                            @付現金額, @銀轉金額, @匯費, @銀存編碼, @付票金額, @票據號碼, @付款總額,
+                                            @MACHINENO, @發票號碼, @備註, @建檔, @建檔日, @修改, @修改日, @核准, @核准日,
+                                            @傳票, @結案
+                                            )";
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        conn.Execute(sql, dynamicParameters, tran);
+                        foreach (var item in form.detailList)
+                        {
+                            if (string.IsNullOrEmpty(item.單號))
+                                item.單號 = form.單號;
+                            sql = $@"INSERT INTO dbo.F付款明細
+                                    (
+                                        單號,
+                                        帳款來源,
+                                        沖帳碼,
+                                        原幣收帳金額,
+                                        台幣換算金額,
+                                        說明,
+                                        專案序號
+                                    )
+                                    VALUES
+                                    (   @單號, @帳款來源, @沖帳碼, @原幣收帳金額, @台幣換算金額, @說明, @專案序號
+                                        )";
+                            dynamicParameters = new DynamicParameters(item);
+                            conn.Execute(sql, dynamicParameters, tran);
+                        }
+                        tran.Commit();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void deleteIncomeRegForm(string no)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    conn.Execute("DELETE FROM F付款 WHERE 單號=@no; DELETE FROM F付款明細 WHERE 單號=@no", new { no });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void validateIncomeRegForm(string no, bool approve, string user)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    if (approve)
+                    {
+                        conn.Execute("UPDATE F付款 SET 核准=@user, 核准日=@date WHERE 單號=@no",
+                            new { user, date = DateTime.Now.ToString("yyyy-MM-dd"), no });
+                    }
+                    else
+                    {
+                        conn.Execute("UPDATE F付款 SET 核准=NULL, 核准日=NULL WHERE 單號=@no", new { no });
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // ── 單筆結案：對單筆進項憑證(F付款)執行沖款，比照 Access 巨集「單筆付款-H/B」與「廠商帳付款結案-single」 ──
+        public string doSingleClose(string sourceNo, string user)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    var source = conn.QueryFirstOrDefault<F付款>("SELECT * FROM F付款 WHERE 單號=@sourceNo", new { sourceNo });
+                    if (source == null) throw new Exception("查無此進項憑證資料!");
+
+                    string prefix = "BP" + DateTime.Now.ToString("yyyyMM");
+                    var maxNo = conn.QueryFirstOrDefault<string>(
+                        "SELECT MAX(單號) FROM F沖款付 WHERE LEFT(單號,8)=@prefix", new { prefix });
+                    string cn = string.IsNullOrEmpty(maxNo)
+                        ? prefix + "001"
+                        : prefix + (int.Parse(maxNo.Substring(8)) + 1).ToString("000");
+
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        conn.Execute(@"INSERT INTO F沖款付 (日期, 單號, 廠商編號, 幣別)
+                                       VALUES (@日期, @單號, @廠商編號, @幣別)",
+                            new { 日期 = DateTime.Now.ToString("yyyy-MM-dd"), 單號 = cn, source.廠商編號, source.幣別 }, tran);
+
+                        conn.Execute(@"INSERT INTO F收支沖帳明細
+                                       (單號, 收付別, 帳款來源, 收款性質, 帳款日期, 沖帳碼, 原幣未稅, 台幣未稅, 稅, 金額)
+                                       SELECT @cn, 收付別, 帳款來源, 收款性質, 帳款日期, 請款單號, 原幣未稅, 未稅, 稅, 金額
+                                       FROM F帳款管理 WHERE 請款單號=@sourceNo",
+                            new { cn, sourceNo }, tran);
+
+                        conn.Execute("UPDATE F帳款管理 SET 結案=1 WHERE 請款單號=@sourceNo",
+                            new { sourceNo }, tran);
+
+                        tran.Commit();
+                    }
+                    return cn;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // ── 依進項憑證單號，反查是否已執行過單筆結案（沖帳明細之沖帳碼=來源單號），有的話回傳對應的 F沖款付 單號 ──
+        public string getFundOffsetNoBySource(string sourceNo)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    return conn.QueryFirstOrDefault<string>(
+                        "SELECT TOP 1 單號 FROM F收支沖帳明細 WHERE 沖帳碼=@sourceNo", new { sourceNo });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // ── 付款沖帳總覽：依單號彙總各筆沖帳明細金額，供出納付款列表使用 ──────────
+        public List<付款沖帳總覽> getPaymentOffsetOverviewList()
+        {
+            string sql = @"
+SELECT
+    dbo_F沖款付.單號,
+    dbo_F沖款付.日期,
+    dbo_F沖款付.廠商編號,
+    dbo_B廠商設定.廠商名稱,
+    dbo_F沖款付.幣別,
+    Sum(dbo_F收支沖帳明細.原幣未稅) AS 原幣未稅之總計,
+    Sum(dbo_F收支沖帳明細.金額) AS 金額之總計,
+    Sum(dbo_F收支沖帳明細.原幣沖帳金額) AS 原幣沖帳金額之總計,
+    Sum(dbo_F收支沖帳明細.台幣沖帳金額) AS 台幣沖帳金額之總計,
+    Sum(dbo_F收支沖帳明細.折讓金額) AS 折讓金額之總計,
+    Sum(dbo_F收支沖帳明細.匯差) AS 匯差之總計,
+    dbo_F沖款付.核准,
+    dbo_F沖款付.核准日
+FROM F沖款付 dbo_F沖款付
+LEFT JOIN F收支沖帳明細 dbo_F收支沖帳明細 ON dbo_F沖款付.單號 = dbo_F收支沖帳明細.單號
+LEFT JOIN B廠商設定 dbo_B廠商設定 ON dbo_F沖款付.廠商編號 = dbo_B廠商設定.廠商編號
+GROUP BY
+    dbo_F沖款付.單號,
+    dbo_F沖款付.日期,
+    dbo_F沖款付.廠商編號,
+    dbo_B廠商設定.廠商名稱,
+    dbo_F沖款付.幣別,
+    dbo_F沖款付.核准,
+    dbo_F沖款付.核准日";
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<付款沖帳總覽>(sql).ToList();
+            }
+        }
+
+        public F沖款付 getFundOffsetByNo(string no)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    var form = conn.QueryFirstOrDefault<F沖款付>("SELECT * FROM F沖款付 WHERE 單號=@no", new { no });
+                    if (form != null)
+                    {
+                        form.detailList = conn.Query<F收支沖帳明細>("SELECT * FROM F收支沖帳明細 WHERE 單號=@no", new { no }).ToList();
+                    }
+                    return form;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static string SQL_INSERT_F沖款付 = $@"INSERT INTO dbo.F沖款付
+                                                    ( 日期, 單號, 廠商編號, 幣別, 匯率, 傳票, 備註, 付現金額, 匯費,
+                                                      銀轉金額, 銀存編碼, 付票金額, 票據號碼, 付款總額,
+                                                      建檔, 建檔日, 修改, 修改日, 核准, 核准日 )
+                                                    VALUES
+                                                    ( @日期, @單號, @廠商編號, @幣別, @匯率, @傳票, @備註, @付現金額, @匯費,
+                                                      @銀轉金額, @銀存編碼, @付票金額, @票據號碼, @付款總額,
+                                                      @建檔, @建檔日, @修改, @修改日, @核准, @核准日 )";
+
+        public static string SQL_INSERT_F收支沖帳明細 = $@"INSERT INTO dbo.F收支沖帳明細
+                                                    ( 單號, 收付別, 帳款來源, 收款性質, 帳款日期, 沖帳碼,
+                                                      原幣未稅, 台幣未稅, 稅, 金額, 原幣沖帳金額, 台幣沖帳金額,
+                                                      折讓金額, 匯差, 備註, 帳務識別碼 )
+                                                    VALUES
+                                                    ( @單號, @收付別, @帳款來源, @收款性質, @帳款日期, @沖帳碼,
+                                                      @原幣未稅, @台幣未稅, @稅, @金額, @原幣沖帳金額, @台幣沖帳金額,
+                                                      @折讓金額, @匯差, @備註, @帳務識別碼 )";
+
+        public void saveFundOffset(F沖款付 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        conn.Execute(SQL_INSERT_F沖款付, dynamicParameters, tran);
+                        foreach (var item in form.detailList)
+                        {
+                            if (string.IsNullOrEmpty(item.單號))
+                                item.單號 = form.單號;
+                            dynamicParameters = new DynamicParameters(item);
+                            conn.Execute(SQL_INSERT_F收支沖帳明細, dynamicParameters, tran);
+                        }
+                        tran.Commit();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void updateFundOffset(F沖款付 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        conn.Execute("DELETE FROM F沖款付 WHERE 單號=@單號; DELETE FROM F收支沖帳明細 WHERE 單號=@單號",
+                            new { 單號 = form.單號 }, tran);
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        conn.Execute(SQL_INSERT_F沖款付, dynamicParameters, tran);
+                        foreach (var item in form.detailList)
+                        {
+                            if (string.IsNullOrEmpty(item.單號))
+                                item.單號 = form.單號;
+                            dynamicParameters = new DynamicParameters(item);
+                            conn.Execute(SQL_INSERT_F收支沖帳明細, dynamicParameters, tran);
+                        }
+                        tran.Commit();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void deleteFundOffset(string no)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    conn.Execute("DELETE FROM F沖款付 WHERE 單號=@no; DELETE FROM F收支沖帳明細 WHERE 單號=@no", new { no });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void validateFundOffset(string no, bool approve, string user)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    if (approve)
+                    {
+                        conn.Execute("UPDATE F沖款付 SET 核准=@user, 核准日=@date WHERE 單號=@no",
+                            new { user, date = DateTime.Now.ToString("yyyy-MM-dd"), no });
+                    }
+                    else
+                    {
+                        conn.Execute("UPDATE F沖款付 SET 核准=NULL, 核准日=NULL WHERE 單號=@no", new { no });
+                    }
+                }
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
