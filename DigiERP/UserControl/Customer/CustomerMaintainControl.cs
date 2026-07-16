@@ -21,6 +21,9 @@ namespace DigiERP.UserControl
 {
     public partial class CustomerMaintainControl : CommonUserControl
     {
+        // 沿用 CustomerControl (客戶設定列表) 已註冊的權限 GUID
+        private static string id = "92CFA0F4-839D-4505-B51A-7B72D7B840F1";
+
         public C客戶設定 form { get; set; }
         public CustomerMaintainControl()
         {
@@ -90,8 +93,8 @@ namespace DigiERP.UserControl
                 btnInquiryHistory.Visible = true;
                 btnRecordWrite.Visible = true;
                 btnRepairHistory.Visible = true;
-                btnDelete.Visible = true;
-                button2.Visible = true;
+                btnDelete.Visible = chkEditPrivilege(id);
+                button2.Visible = chkEditPrivilege(id);
                 // 預設為disable，直到按下【修改】按鈕後才變成可編輯
                 disableAllControls(true);
             }

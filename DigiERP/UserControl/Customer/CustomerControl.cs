@@ -107,7 +107,7 @@ namespace DigiERP.UserControl
                 {
                     int ctrlRemoveIndex = 0;
                     int index1 = 0;
-                    foreach (var ctrl in panel2.Controls)
+                    foreach (var ctrl in panel1.Controls)
                     {
                         if (ctrl.GetType().Name.IndexOf("CustomerMaintainControl") != -1)
                         {
@@ -116,10 +116,10 @@ namespace DigiERP.UserControl
                         }
                         index1++;
                     }
-                    panel2.Controls.RemoveAt(ctrlRemoveIndex);
+                    panel1.Controls.RemoveAt(ctrlRemoveIndex);
                     customerMaintainControl = new CustomerMaintainControl();
                     customerMaintainControl.Dock = DockStyle.Fill;
-                    panel2.Controls.Add(customerMaintainControl);
+                    panel1.Controls.Add(customerMaintainControl);
                 }
                 var lblMode = (from c in customerMaintainControl.Controls.Cast<Control>() where c.GetType() == typeof(Label) && c.Name == "lblMode" select c).FirstOrDefault();
                 if (lblMode != null)
@@ -128,6 +128,7 @@ namespace DigiERP.UserControl
                 }
                 ((CustomerMaintainControl)customerMaintainControl).form = data;
                 ((CustomerMaintainControl)customerMaintainControl).initForm();
+                System.Threading.Thread.Sleep(1000);
                 customerMaintainControl.Visible = true;
                 if (dataGridView != null)
                 {

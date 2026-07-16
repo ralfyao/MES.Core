@@ -7,6 +7,9 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
 {
     public partial class SupplierMaintainControl : CommonUserControl
     {
+        // 沿用 SupplierControl (廠商設定列表) 已註冊的權限 GUID
+        private static string id = "54406a92-a15c-4e20-90f2-57d7c033bf69";
+
         public B廠商設定 form = new B廠商設定();
         public string Mode { get => lblMode.Text; set => lblMode.Text = value; }
         private SupplierController _controller;
@@ -69,6 +72,7 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
                 btnCancelApprove.Visible = false;
                 btnDeactivate.Visible = false;
                 btnActivate.Visible = false;
+                btnModify.Visible = false;
                 disableControl(false);
             }
             else
@@ -81,6 +85,8 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
                 btnDeactivate.Visible = !disabled;
                 btnActivate.Visible = disabled;
                 disableControl(true);
+                btnModify.Visible = chkEditPrivilege(id);
+                btnDelete.Visible = chkEditPrivilege(id);
             }
         }
 
@@ -190,7 +196,7 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
             if (lblMode.Text == "新增")
             {
                 lblMode.Text = "修改";
-                btnDelete.Visible = true;
+                btnDelete.Visible = chkEditPrivilege(id);
                 btnApprove.Visible = true;
                 btnDeactivate.Visible = true;
             }

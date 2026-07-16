@@ -22,6 +22,9 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
 {
     public partial class ShippingOrderMaintainControl : CommonUserControl
     {
+        // 沿用 ShippingOrderControl (出貨單列表) 已註冊的權限 GUID
+        private static string id = "CF770F40-EA82-4FBF-9D2D-EAD798440F3E";
+
         public C出貨單 form { get; set; }
         public string custId { get; set; }
         private CustomerController _customerController { get; set; }
@@ -110,6 +113,7 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
                     }
                 }
                 disableControls(true);
+                btnModify.Visible = chkEditPrivilege(id);
             }
             else if (lblMode.Text == "新增")
             {
@@ -122,6 +126,7 @@ namespace DigiERP.UserControl.Customer.ShippingOrder
                 }
                 txtOrderNo.Text = shippingOrderRep.result;
                 disableControls(false);
+                btnModify.Visible = false;
             }
             initCurrency();
             initExRate();

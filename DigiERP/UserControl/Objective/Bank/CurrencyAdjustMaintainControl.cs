@@ -57,7 +57,8 @@ namespace DigiERP.UserControl.Objective.Bank
                 btnVerify.Visible = !verified;
                 btnCancelVerify.Visible = verified;
                 btnPrint.Visible = verified;
-                btnModify.Visible = true;
+                btnModify.Visible = chkEditPrivilege(id);
+                btnDelete.Visible = chkEditPrivilege(id);
             }
             else
             {
@@ -79,6 +80,7 @@ namespace DigiERP.UserControl.Objective.Bank
                 btnVerify.Visible = false;
                 btnCancelVerify.Visible = false;
                 btnPrint.Visible = false;
+                btnDelete.Visible = false;
             }
         }
 

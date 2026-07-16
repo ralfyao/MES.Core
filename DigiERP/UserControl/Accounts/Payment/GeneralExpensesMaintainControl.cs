@@ -63,7 +63,8 @@ namespace DigiERP.UserControl.Accounts.Payment
                 btnVerify.Visible = !verified;
                 btnCancelVerify.Visible = verified;
                 btnPrint.Visible = verified;
-                btnModify.Visible = true;
+                btnModify.Visible = chkEditPrivilege(id);
+                btnDelete.Visible = chkEditPrivilege(id);
             }
             else
             {
@@ -85,6 +86,7 @@ namespace DigiERP.UserControl.Accounts.Payment
                 btnVerify.Visible = false;
                 btnCancelVerify.Visible = false;
                 btnPrint.Visible = false;
+                btnDelete.Visible = false;
             }
         }
 

@@ -49,6 +49,24 @@ namespace DigiERP.Common
             }
             return true;
         }
+
+        // ── 是否具備該表單的「編修」權限：ADMIN 或 高管 視同具備，否則需 編修 旗標為 true ──
+        protected bool chkEditPrivilege(string id)
+        {
+            if (AppSession.User.name?.ToUpper() == "ADMIN")
+            {
+                return true;
+            }
+            foreach (var item in AppSession.User.privilegeList)
+            {
+                if (item.授權子表單?.ToString().ToLower() == id.ToLower())
+                {
+                    return (bool)(item.高管 ?? false) || (bool)(item.編修 ?? false);
+                }
+            }
+            return false;
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             //if (keyData == Keys.Enter)

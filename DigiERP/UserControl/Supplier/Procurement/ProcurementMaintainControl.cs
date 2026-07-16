@@ -15,6 +15,9 @@ namespace DigiERP.UserControl.Supplier.Procurement
 {
     public partial class ProcurementMaintainControl : CommonUserControl
     {
+        // 沿用 ProcurementControl (採購單列表) 已註冊的權限 GUID
+        private static string id = "6E4C2F1D-8A3B-4E6F-9C7D-2B5A9E1F0C3D";
+
         public B採購單 form { get; set; }
 
         private List<B廠商設定> _supplierList = new List<B廠商設定>();
@@ -86,6 +89,7 @@ namespace DigiERP.UserControl.Supplier.Procurement
                 disableAllControls(true);
                 SetHeaderIdentityFieldsEnabled(false);
                 SetExistingRecordButtonsVisible(true);
+                btnDeleteRecord.Visible = chkEditPrivilege(id);
                 UpdateActivateButtons();
             }
             else
@@ -357,7 +361,7 @@ namespace DigiERP.UserControl.Supplier.Procurement
             txtTradeTerm.Enabled = enabled;
             dtDeliveryDate.Enabled = enabled;
             dgvDetail.Enabled = enabled;
-            btnModify.Visible = disable;
+            btnModify.Visible = disable && chkEditPrivilege(id);
         }
 
         // ── 日期／單號／廠商編號／廠商名稱：修改模式下永遠不可異動 ──────────────

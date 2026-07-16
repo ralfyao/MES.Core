@@ -23,6 +23,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
             btnSave = new Button();
             btnUpdateBox = new Button();
             btnPrint = new Button();
+            btnModify = new Button();
             lblMode = new Label();
             panelForm = new Panel();
             txtPaymentTerm = new TextBox();
@@ -179,6 +180,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
             panel1.Controls.Add(btnSave);
             panel1.Controls.Add(btnUpdateBox);
             panel1.Controls.Add(btnPrint);
+            panel1.Controls.Add(btnModify);
             panel1.Controls.Add(lblMode);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
@@ -270,7 +272,18 @@ namespace DigiERP.UserControl.Customer.EQPShipping
             btnPrint.Text = "列印";
             btnPrint.UseVisualStyleBackColor = false;
             btnPrint.Click += btnPrint_Click;
-            // 
+            //
+            // btnModify
+            //
+            btnModify.BackColor = Color.Gainsboro;
+            btnModify.Location = new Point(890, 8);
+            btnModify.Name = "btnModify";
+            btnModify.Size = new Size(100, 44);
+            btnModify.TabIndex = 8;
+            btnModify.Text = "修改";
+            btnModify.UseVisualStyleBackColor = false;
+            btnModify.Click += btnModify_Click;
+            //
             // lblMode
             // 
             lblMode.AutoSize = true;
@@ -1530,6 +1543,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnApprove;
         private System.Windows.Forms.Button btnCancelApprove;
+        private System.Windows.Forms.Button btnModify;
         private System.Windows.Forms.Button btnBack;
 
         // ── form panel ────────────────────────────────────────────────────

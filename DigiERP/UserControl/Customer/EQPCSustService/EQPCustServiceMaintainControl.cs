@@ -24,6 +24,9 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
 {
     public partial class EQPCustServiceMaintainControl : CommonUserControl
     {
+        // 沿用 EQPCustServiceControl (機台客服列表) 已註冊的權限 GUID
+        private static string id = "1fdcb68d-91be-48a4-9b21-e8e1c7c6a565";
+
         internal C機台客服 form;
         private CustomerController _customerController { get; set; }
         private ProductionController _productionController { get; set; }
@@ -79,6 +82,7 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
                 txtEQPName.Text = form.機台名稱;
                 initGrid();
                 disableAllControls(true);
+                btn修改.Visible = chkEditPrivilege(id);
             }
             else if (lblMode.Text == "新增")
             {
@@ -87,6 +91,7 @@ namespace DigiERP.UserControl.Customer.EQPCSustService
                 txtOrderNo.Text = orderNoRep.result;
                 dtORDERDATE.Value = DateTime.Now;
                 disableAllControls(false);
+                btn修改.Visible = false;
             }
         }
 

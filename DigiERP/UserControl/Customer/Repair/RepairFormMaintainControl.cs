@@ -14,6 +14,9 @@ namespace DigiERP.UserControl.Customer.Repair
 {
     public partial class RepairFormMaintainControl : CommonUserControl
     {
+        // 此模組（維修服務單）先前完全沒有註冊權限 GUID，此為新建立，需在權限管理畫面另行設定「編修」權限
+        private static string id = "B3E7A159-6D2C-4F84-9A1E-7C5D3B6F8A92";
+
         public 維修服務單 form { get; set; }
         private CustomerController _customerController;
         private List<成本單位人員配置> _inspectorList;
@@ -58,6 +61,8 @@ namespace DigiERP.UserControl.Customer.Repair
                 btnApprove.Visible = false;
                 btnCancelApprove.Visible = false;
                 btnDelete.Visible = false;
+                btnModify.Visible = false;
+                disableControls(true);
             }
             else if (lblMode.Text == "修改")
             {
@@ -81,7 +86,39 @@ namespace DigiERP.UserControl.Customer.Repair
                     btnCancelApprove.Visible = true;
                 }
                 btnTransferParts.Enabled = form.轉零件申請 != true;
+                disableControls(false);
+                btnModify.Visible = chkEditPrivilege(id);
+                btnDelete.Visible = chkEditPrivilege(id);
             }
+        }
+
+        // ── 除客戶簡稱/名稱/申請日期(恆不可變更)外，其餘欄位依 enable 切換 ──
+        private void disableControls(bool enable)
+        {
+            txtEqpModel.Enabled = enable;
+            cboInspectorCode.Enabled = enable;
+            txtProjectSerial.Enabled = enable;
+            txtEqpType.Enabled = enable;
+            txtEqpName.Enabled = enable;
+            cboServiceType.Enabled = enable;
+            dtActualDate.Enabled = enable;
+            txtCustContact.Enabled = enable;
+            txtRepairLocation.Enabled = enable;
+            txtFaultDesc.Enabled = enable;
+            dtDesiredDate.Enabled = enable;
+            dtCloseDate.Enabled = enable;
+            txtServiceHours.Enabled = enable;
+            txtDiagnosis1.Enabled = enable;
+            cboReason1.Enabled = enable;
+            txtDesc1.Enabled = enable;
+            txtRecommendation.Enabled = enable;
+            txtCustomerReaction.Enabled = enable;
+            btnSave.Enabled = enable;
+        }
+
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+            disableControls(true);
         }
 
         private void initInspectorCbo()

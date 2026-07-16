@@ -20,6 +20,9 @@ namespace DigiERP.UserControl.Customer.SalesOrder
 {
     public partial class OrderMaintainControl : CommonUserControl
     {
+        // 沿用 OrderControl (訂單列表) 已註冊的權限 GUID
+        private static string id = "A29F4CAB-2932-49A3-89E7-034A60700FAD";
+
         public C訂單 form { get; set; }
         public string custId { get; set; }
         private CustomerController _customerController;
@@ -238,11 +241,11 @@ namespace DigiERP.UserControl.Customer.SalesOrder
 
         private void visibleControls(bool v)
         {
-            btnModify.Visible = v;
+            btnModify.Visible = v && chkEditPrivilege(id);
             btnQuotationDistribution.Visible = v;
             btnTransWorkOrder.Visible = v;
             btnTransShipping.Visible = v;
-            btnDelete.Visible = v;
+            btnDelete.Visible = v && chkEditPrivilege(id);
             btnActivate.Visible = v;
             btnCancelActivate.Visible = v;
             btnPrint.Visible = v;

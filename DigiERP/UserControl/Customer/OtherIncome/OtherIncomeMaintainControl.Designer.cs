@@ -22,6 +22,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             btnDelete = new Button();
             btnApprove = new Button();
             btnCancelApprove = new Button();
+            btnModify = new Button();
             lblMode = new Label();
             panelForm = new Panel();
             lbl日期 = new Label();
@@ -99,6 +100,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnApprove);
             panel1.Controls.Add(btnCancelApprove);
+            panel1.Controls.Add(btnModify);
             panel1.Controls.Add(lblMode);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
@@ -165,14 +167,25 @@ namespace DigiERP.UserControl.Customer.OtherIncome
             btnCancelApprove.Text = "取消核准";
             btnCancelApprove.UseVisualStyleBackColor = false;
             btnCancelApprove.Click += btnCancelApprove_Click;
-            // 
+            //
+            // btnModify
+            //
+            btnModify.BackColor = Color.Gainsboro;
+            btnModify.Location = new Point(576, 8);
+            btnModify.Name = "btnModify";
+            btnModify.Size = new Size(100, 44);
+            btnModify.TabIndex = 5;
+            btnModify.Text = "修改";
+            btnModify.UseVisualStyleBackColor = false;
+            btnModify.Click += btnModify_Click;
+            //
             // lblMode
-            // 
+            //
             lblMode.AutoSize = true;
-            lblMode.Location = new Point(580, 20);
+            lblMode.Location = new Point(700, 20);
             lblMode.Name = "lblMode";
             lblMode.Size = new Size(48, 24);
-            lblMode.TabIndex = 5;
+            lblMode.TabIndex = 6;
             lblMode.Text = "新增";
             lblMode.Visible = false;
             // 
@@ -784,6 +797,7 @@ namespace DigiERP.UserControl.Customer.OtherIncome
         private Button btnDelete;
         private Button btnApprove;
         private Button btnCancelApprove;
+        private Button btnModify;
         public Label lblMode;
 
         private Panel panelForm;

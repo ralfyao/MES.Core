@@ -20,6 +20,9 @@ namespace DigiERP.UserControl.Customer.Quotation
 {
     public partial class QuotationMaintain : CommonUserControl
     {
+        // 沿用 QuotationControl (報價單列表) 已註冊的權限 GUID
+        private static string id = "007D611C-E8E9-4387-A7FF-5A54C313B25F";
+
         public C報價單 form;
         public string mode;
         public QuotationMaintain(C報價單 form)
@@ -225,12 +228,13 @@ namespace DigiERP.UserControl.Customer.Quotation
                 btnDialog.Visible = true;
                 btnTransferToCustOrder.Visible = true;
                 btnQueryTransferedOrder.Visible = true;
-                btnDelete.Visible = true;
+                btnDelete.Visible = chkEditPrivilege(id);
                 btnCopy.Visible = true;
                 btnActrivate.Visible = true;
                 btnDeactivate.Visible = true;
                 btnPrintC.Visible = true;
                 btnPrintE.Visible = true;
+                btnModify.Visible = chkEditPrivilege(id);
                 // 顯示生效或取消生效按鈕
                 if (string.IsNullOrEmpty(form.核准日))
                 {
@@ -308,6 +312,7 @@ namespace DigiERP.UserControl.Customer.Quotation
                 btnDeactivate.Visible = false;
                 btnPrintC.Visible = false;
                 btnPrintE.Visible = false;
+                btnModify.Visible = false;
                 disableControls(false);
             }
             lblCreator.Text = form?.建檔;

@@ -14,6 +14,9 @@ namespace DigiERP.UserControl.Customer.OtherIncome
 {
     public partial class OtherIncomeMaintainControl : CommonUserControl
     {
+        // 沿用 OtherIncomeControl (其他收入單列表) 已註冊的權限 GUID
+        private static string id = "3344F4D3-18C6-49AD-BE21-6068618F4448";
+
         public F其他收入單 form { get; set; }
         private ARController _arController;
         private CustomerController _customerController;
@@ -56,11 +59,13 @@ namespace DigiERP.UserControl.Customer.OtherIncome
                 btnApprove.Visible = false;
                 btnCancelApprove.Visible = false;
                 btnDelete.Visible = false;
+                btnModify.Visible = false;
                 form = form ?? new F其他收入單();
                 form.detailList = new List<F其他收支明細>();
                 // trigger initPriceCondList with correct txType
                 priceCondControl1.SetPriceCond("");
                 payMethod.SetPriceCond("");
+                disableControls(true);
             }
             else if (lblMode.Text == "修改")
             {
@@ -75,7 +80,33 @@ namespace DigiERP.UserControl.Customer.OtherIncome
                     btnApprove.Visible = false;
                     btnCancelApprove.Visible = true;
                 }
+                disableControls(false);
+                btnModify.Visible = chkEditPrivilege(id);
+                btnDelete.Visible = chkEditPrivilege(id);
             }
+        }
+
+        private void disableControls(bool enable)
+        {
+            dtDate.Enabled = enable;
+            cboCustId.Enabled = enable;
+            txtVoucher.Enabled = enable;
+            cboSales.Enabled = enable;
+            cboCurrency.Enabled = enable;
+            txtExRate.Enabled = enable;
+            cboTaxType.Enabled = enable;
+            cboTaxRate.Enabled = enable;
+            txtMachineNo.Enabled = enable;
+            priceCondControl1.Enabled = enable;
+            payMethod.Enabled = enable;
+            txtRemark.Enabled = enable;
+            dataGridView1.Enabled = enable;
+            btnSubmit.Enabled = enable;
+        }
+
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+            disableControls(true);
         }
 
         private void initSalesCbo()

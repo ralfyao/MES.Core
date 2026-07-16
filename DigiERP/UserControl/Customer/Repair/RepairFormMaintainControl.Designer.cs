@@ -23,6 +23,7 @@ namespace DigiERP.UserControl.Customer.Repair
             btnTransferParts = new Button();
             btnApprove = new Button();
             btnCancelApprove = new Button();
+            btnModify = new Button();
             btnBack = new Button();
             panelMain = new Panel();
             label1 = new Label();
@@ -90,6 +91,7 @@ namespace DigiERP.UserControl.Customer.Repair
             panelHeader.Controls.Add(btnTransferParts);
             panelHeader.Controls.Add(btnApprove);
             panelHeader.Controls.Add(btnCancelApprove);
+            panelHeader.Controls.Add(btnModify);
             panelHeader.Controls.Add(btnBack);
             panelHeader.Dock = DockStyle.Top;
             panelHeader.Location = new Point(0, 0);
@@ -178,15 +180,26 @@ namespace DigiERP.UserControl.Customer.Repair
             btnCancelApprove.UseVisualStyleBackColor = false;
             btnCancelApprove.Visible = false;
             btnCancelApprove.Click += btnCancelApprove_Click;
-            // 
+            //
+            // btnModify
+            //
+            btnModify.BackColor = Color.Gainsboro;
+            btnModify.Location = new Point(656, 62);
+            btnModify.Name = "btnModify";
+            btnModify.Size = new Size(110, 38);
+            btnModify.TabIndex = 7;
+            btnModify.Text = "修改";
+            btnModify.UseVisualStyleBackColor = false;
+            btnModify.Click += btnModify_Click;
+            //
             // btnBack
             // 
             btnBack.BackColor = Color.Gray;
             btnBack.ForeColor = Color.White;
-            btnBack.Location = new Point(656, 62);
+            btnBack.Location = new Point(778, 62);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(110, 38);
-            btnBack.TabIndex = 7;
+            btnBack.TabIndex = 8;
             btnBack.Text = "關閉";
             btnBack.UseVisualStyleBackColor = false;
             btnBack.Click += btnBack_Click;
@@ -734,6 +747,7 @@ namespace DigiERP.UserControl.Customer.Repair
         private Button btnTransferParts;
         private Button btnApprove;
         private Button btnCancelApprove;
+        private Button btnModify;
         private Button btnBack;
         // Row 1
         private Label label1;

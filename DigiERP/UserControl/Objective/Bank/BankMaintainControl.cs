@@ -46,6 +46,7 @@ namespace DigiERP.UserControl.Objective.Bank
                 PopulateForm(form ?? new F銀行設定 { 銀存編碼 = bankCode });
                 disableControls(false);
                 btnAdd.Visible = false;
+                btnModify.Visible = chkEditPrivilege(id);
             }
             else
             {

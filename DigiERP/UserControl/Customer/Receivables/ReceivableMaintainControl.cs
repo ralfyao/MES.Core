@@ -19,6 +19,9 @@ namespace DigiERP.UserControl.Customer.Receivables
 {
     public partial class ReceivableMaintainControl : CommonUserControl
     {
+        // 沿用 ReceivableControl (應收帳款列表) 已註冊的權限 GUID
+        private static string id = "6df5ee5c-41d3-4eb3-b093-09662e9951c3";
+
         public F收款 form;
         public C客戶設定 customer;
         private ARController _arController;
@@ -105,6 +108,8 @@ namespace DigiERP.UserControl.Customer.Receivables
                 }
                 disableAllControls(true);
                 btnCustSearch.Enabled = false;
+                btnModify.Visible = chkEditPrivilege(id);
+                btnDelete.Visible = chkEditPrivilege(id);
                 if (!string.IsNullOrEmpty(form.核准))
                 {
                     btnActivate.Visible = false;

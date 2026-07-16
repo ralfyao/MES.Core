@@ -8,6 +8,9 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
 {
     public partial class SupplierEvaluateMaintainControl : CommonUserControl
     {
+        // 沿用 SupplierEvaluateControl (廠商評鑑列表) 已註冊的權限 GUID
+        private static string id = "7B2E5A19-4C6D-4F0B-9A3E-1D8C6F2B9A54";
+
         public B廠商評鑑 form = new B廠商評鑑();
         public string Mode { get => lblMode.Text; set => lblMode.Text = value; }
 
@@ -76,6 +79,8 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
                 btnApprove.Visible = !approved;
                 btnCancelApprove.Visible = approved;
                 disableControl(true);
+                btnModify.Visible = chkEditPrivilege(id);
+                btnDelete.Visible = chkEditPrivilege(id);
             }
         }
 
@@ -113,6 +118,7 @@ namespace DigiERP.UserControl.Supplier.SupplierManage
             btnDelete.Visible = false;
             btnApprove.Visible = false;
             btnCancelApprove.Visible = false;
+            btnModify.Visible = false;
             disableControl(false);
 
             if (_lockSupplierContext)

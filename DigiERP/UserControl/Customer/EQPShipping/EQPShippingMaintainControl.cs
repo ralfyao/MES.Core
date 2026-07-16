@@ -13,6 +13,9 @@ namespace DigiERP.UserControl.Customer.EQPShipping
 {
     public partial class EQPShippingMaintainControl : CommonUserControl
     {
+        // 沿用 EQPShippingControl (設備出貨列表) 已註冊的權限 GUID
+        private static string id = "751F454E-D6C2-41B0-B3A3-5ED8C1AE82CE";
+
         public 專案機台交貨單 form { get; set; }
 
         private ProductionController _productionController;
@@ -56,6 +59,8 @@ namespace DigiERP.UserControl.Customer.EQPShipping
                 btnDelete.Visible = false;
                 btnApprove.Visible = false;
                 btnCancelApprove.Visible = false;
+                btnModify.Visible = false;
+                disableControls(true);
             }
             else if (lblMode.Text == "修改")
             {
@@ -70,7 +75,54 @@ namespace DigiERP.UserControl.Customer.EQPShipping
                     btnApprove.Visible = false;
                     btnCancelApprove.Visible = true;
                 }
+                disableControls(false);
+                btnModify.Visible = chkEditPrivilege(id);
+                btnDelete.Visible = chkEditPrivilege(id);
             }
+        }
+
+        private void disableControls(bool enable)
+        {
+            dtDate.Enabled = enable;
+            cboSerialNo.Enabled = enable;
+            txtPostalAdd.Enabled = enable;
+            cboAttn.Enabled = enable;
+            txtDeliveryAdd.Enabled = enable;
+            cboTel.Enabled = enable;
+            txtPONumber.Enabled = enable;
+            txtPINumber.Enabled = enable;
+            cboContainer.Enabled = enable;
+            txtContainerType.Enabled = enable;
+            cboDeliveryTerm.Enabled = enable;
+            txtDestinationPort.Enabled = enable;
+            cboPacking.Enabled = enable;
+            cboInsurance.Enabled = enable;
+            txtContainerPort.Enabled = enable;
+            txtCutOff.Enabled = enable;
+            txtETD.Enabled = enable;
+            txtETA.Enabled = enable;
+            cboTypesOfBL.Enabled = enable;
+            txtShipName.Enabled = enable;
+            txtForwarder.Enabled = enable;
+            cboCertOfOrigin.Enabled = enable;
+            cboSurrenderBL.Enabled = enable;
+            txtVoyage.Enabled = enable;
+            cboDoc.Enabled = enable;
+            cboMark.Enabled = enable;
+            txtMark2.Enabled = enable;
+            txtDestination.Enabled = enable;
+            txtCaseNo.Enabled = enable;
+            txtTotal.Enabled = enable;
+            cboCurrency.Enabled = enable;
+            dgvBox.Enabled = enable;
+            dgvPayment.Enabled = enable;
+            btnSave.Enabled = enable;
+            btnUpdateBox.Enabled = enable;
+        }
+
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+            disableControls(true);
         }
 
         private void initSerialNoCbo()
@@ -407,7 +459,7 @@ namespace DigiERP.UserControl.Customer.EQPShipping
                 if (!string.IsNullOrEmpty(rep.ErrorMessage)) { MessageBox.Show(rep.ErrorMessage); return; }
                 lblMode.Text = "修改";
                 MessageBox.Show("新增成功!");
-                btnDelete.Visible = true;
+                btnDelete.Visible = chkEditPrivilege(id);
                 btnApprove.Visible = true;
             }
             else

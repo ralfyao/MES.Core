@@ -21,6 +21,9 @@ namespace DigiERP.UserControl.Customer.RFQ
 {
     public partial class RFQMaintainControl : CommonUserControl
     {
+        // 沿用 RFQControl (詢價單列表) 已註冊的權限 GUID
+        private static string id = "2D923859-7D2E-4870-90F1-E438086FD583";
+
         public RFQMaintainControl()
         {
             InitializeComponent();
@@ -92,10 +95,10 @@ namespace DigiERP.UserControl.Customer.RFQ
                 txtMachine.Text = form.MACHINE;
                 rfqStatusSelect1.SetStatusCode(form.STATUS);
                 txtComment.Text = form.DESCRIPTION;
-                btnModify.Visible = true;
+                btnModify.Visible = chkEditPrivilege(id);
                 btnWorkRecord.Visible = true;
                 btnQuotation.Visible = true;
-                btnDelete.Visible = true;
+                btnDelete.Visible = chkEditPrivilege(id);
                 disableControls(true);
                 initQuotationGridView();
                 initWorkRecordGridView();
