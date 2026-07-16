@@ -409,6 +409,7 @@ namespace DigiERP.UserControl.Inventory.StockInCert
                 return;
             }
             using var frm = new FrmVoucher();
+            frm.CallerControl = this;
             frm.LoadExisting(txtVoucher.Text);
             frm.ShowDialog(this);
         }

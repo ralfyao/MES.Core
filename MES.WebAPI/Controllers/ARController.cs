@@ -431,6 +431,102 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetWriteOffNo"), HttpGet]
+        public CommonRep<string> GetWriteOffNo()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                commonRep.result = arMiddle.getARWriteOffNo();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetWriteOffByNo"), HttpGet]
+        public CommonRep<F沖款收> GetWriteOffByNo(string no)
+        {
+            CommonRep<F沖款收> commonRep = new CommonRep<F沖款收>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                commonRep.result = arMiddle.getWriteOffByNo(no);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/SaveWriteOff"), HttpPost]
+        public CommonRep<string> SaveWriteOff([FromBody] F沖款收 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                arMiddle.saveWriteOff(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/UpdateWriteOff"), HttpPost]
+        public CommonRep<string> UpdateWriteOff([FromBody] F沖款收 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                arMiddle.updateWriteOff(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteWriteOff"), HttpPost]
+        public CommonRep<string> DeleteWriteOff(string no)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                arMiddle.deleteWriteOff(no);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ValidateWriteOff"), HttpPost]
+        public CommonRep<string> ValidateWriteOff(string no, bool approve, string user)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                arMiddle.validateWriteOff(no, approve, user);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         #endregion
     }
 }

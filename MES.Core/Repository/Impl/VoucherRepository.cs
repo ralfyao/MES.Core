@@ -99,9 +99,46 @@ namespace MES.Core.Repository.Impl
                     var header = conn.QueryFirstOrDefault<F會計傳票>("SELECT * FROM F會計傳票 WHERE 單號=@no", new { no });
                     if (header != null)
                     {
-                        header.voucherList = conn.Query<F會計傳票明細>("SELECT * FROM F會計傳票明細 WHERE 單號=@no", new { no }).ToList();
+                        string detailSql = @"SELECT dbo_F會計傳票明細.*, dbo_F會計科目.會科名稱 AS 會計科目
+                                              FROM F會計傳票明細 dbo_F會計傳票明細
+                                              LEFT JOIN F會計科目 dbo_F會計科目 ON dbo_F會計傳票明細.會科代碼 = dbo_F會計科目.會科代碼
+                                              WHERE dbo_F會計傳票明細.單號=@no";
+                        header.voucherList = conn.Query<F會計傳票明細>(detailSql, new { no }).ToList();
                     }
                     return header;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void PostVoucher(string no, string user)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    conn.Execute("UPDATE F會計傳票 SET 過帳=@user, 過帳日=@date, 狀態='過帳' WHERE 單號=@no",
+                        new { user, date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), no });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void CancelPostVoucher(string no)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    conn.Execute("UPDATE F會計傳票 SET 過帳=NULL, 過帳日=NULL, 狀態='登錄' WHERE 單號=@no", new { no });
                 }
             }
             catch (Exception)

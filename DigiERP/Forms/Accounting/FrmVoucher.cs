@@ -1,4 +1,5 @@
 using DigiERP.Models;
+using DigiERP.UserControl.Accounting;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using System;
@@ -12,6 +13,9 @@ namespace DigiERP.UserControl.Inventory.StockIn
     public partial class FrmVoucher : Form
     {
         private string _sourceDoc;
+
+        // ── 開啟本視窗的來源控制項；查詢按鈕需要它才能反查所屬TabControl並開新頁籤 ──
+        public Control CallerControl { get; set; }
 
         public FrmVoucher(string sourceDoc = null)
         {
@@ -60,6 +64,18 @@ namespace DigiERP.UserControl.Inventory.StockIn
                 row.Cells[colNote.Index].Value = item.備註;
             }
             RecalcTotals();
+
+            // ── 查詢帶出的既有傳票預設鎖定，需按下修改才能異動 ──────────────────
+            disableControls(false);
+        }
+
+        // ── 鎖定/解鎖傳票內容：新增時預設可編輯，查詢帶出的既有傳票需按修改才能異動 ──
+        private void disableControls(bool enable)
+        {
+            dtDate.Enabled = enable;
+            dgvDetail.Enabled = enable;
+            btnImportAccount.Enabled = enable;
+            btnSave.Enabled = enable;
         }
 
         private void InitNewVoucher()
@@ -87,6 +103,9 @@ namespace DigiERP.UserControl.Inventory.StockIn
                 dgvDetail.Rows[idx].Cells[colSourceDoc.Index].Value = _sourceDoc;
             }
             RecalcTotals();
+
+            // ── 新增的傳票預設可直接編輯 ─────────────────────────────────────
+            disableControls(true);
         }
 
         private void btnAddNew_Click(object sender, EventArgs e)
@@ -178,12 +197,113 @@ namespace DigiERP.UserControl.Inventory.StockIn
             MessageBox.Show("儲存成功!");
         }
 
+        // ── 過帳：已過帳提醒重複操作；未過帳則檢查借貸平衡後過帳，並鎖定畫面 ─────
+        private void btnPost_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtVoucherNo.Text))
+            {
+                MessageBox.Show("尚未儲存，無法過帳!");
+                return;
+            }
+            if (txtStatus.Text == "過帳")
+            {
+                MessageBox.Show("本張傳票已過帳，請注意你的作業專注度!", "系統操作防呆", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (!string.IsNullOrEmpty(txtPost.Text))
+            {
+                MessageBox.Show("已經過帳,您按錯囉!", "提醒您集中精神", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            RecalcTotals();
+            if (txtTotalDebit.Text != txtTotalCredit.Text)
+            {
+                MessageBox.Show("借貸不平衡!", "系統作業異常管控", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string user = AppSession.User?.username ?? "";
+            var rep = new VoucherController().PostVoucher(txtVoucherNo.Text, user);
+            if (!string.IsNullOrEmpty(rep.ErrorMessage))
+            {
+                MessageBox.Show(rep.ErrorMessage);
+                return;
+            }
+
+            txtPost.Text = user;
+            txtPostDate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            txtStatus.Text = "過帳";
+            dgvDetail.Enabled = false;
+            btnSave.Enabled = false;
+            MessageBox.Show("過帳成功!");
+        }
+
         // ── 尚未開放的功能 ──────────────────────────────────────────────
         private void btnDeleteRecord_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
-        private void btnModify_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
-        private void btnPost_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
-        private void btnCancelPost_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
-        private void btnQuery_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
+
+        // ── 修改：已過帳的傳票不得再異動，否則解鎖畫面供編輯 ───────────────────
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+            if (txtStatus.Text == "過帳")
+            {
+                MessageBox.Show("本張傳票已過帳，無法修改!", "系統操作管控", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            disableControls(true);
+        }
+        // ── 取消過帳：清除過帳／過帳日，狀態改回「登錄」，並解除鎖定 ─────────────
+        private void btnCancelPost_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtVoucherNo.Text))
+            {
+                MessageBox.Show("尚未儲存，無法取消過帳!");
+                return;
+            }
+            if (MessageBox.Show("您確定要取消過帳?", "請選擇", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) != DialogResult.Yes)
+                return;
+
+            var rep = new VoucherController().CancelPostVoucher(txtVoucherNo.Text);
+            if (!string.IsNullOrEmpty(rep.ErrorMessage))
+            {
+                MessageBox.Show(rep.ErrorMessage);
+                return;
+            }
+
+            txtPost.Text = "";
+            txtPostDate.Text = "";
+            txtStatus.Text = "登錄";
+            dgvDetail.Enabled = true;
+            btnSave.Enabled = true;
+            MessageBox.Show("取消過帳成功!");
+        }
+        // ── 查詢：關閉本傳票視窗，於來源控制項所屬TabControl開啟(或切換至)會計傳票查詢作業頁籤 ──
+        private void btnQuery_Click(object sender, EventArgs e)
+        {
+            var caller = CallerControl;
+            Close();
+
+            if (caller == null) return;
+            if (!(caller.Parent is TabPage) || !(((TabPage)caller.Parent).Parent is TabControl)) return;
+            TabControl tabControl = (TabControl)((TabPage)caller.Parent).Parent;
+
+            const string tabName = "VoucherQuery";
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == tabName)
+                {
+                    tabControl.SelectedTab = page;
+                    return;
+                }
+            }
+            var ctrl = new VoucherQueryControl { Dock = DockStyle.Fill };
+            var tab = new TabPage("會計傳票查詢作業") { Name = tabName };
+            tab.Controls.Add(ctrl);
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+        }
         private void btnPrint_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
         // ── 會科帶入：選取後帶入目前選取列(無則新增一列)，會科代碼／會計科目僅能由此帶入 ──
         private void btnImportAccount_Click(object sender, EventArgs e)

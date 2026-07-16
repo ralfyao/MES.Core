@@ -690,7 +690,7 @@ namespace MES.MiddleWare.Modules
             return retForm;
         }
 
-        private string getARWriteOffNo()
+        public string getARWriteOffNo()
         {
             string strRet = string.Empty;
             try
@@ -711,6 +711,147 @@ namespace MES.MiddleWare.Modules
             }
             return strRet;
             //throw new NotImplementedException();
+        }
+
+        // ── 依單號查詢單一收款單資料，明細僅取「應收」的沖帳列 ────────────────────
+        public F沖款收 getWriteOffByNo(string no)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    var form = conn.QueryFirstOrDefault<F沖款收>("SELECT * FROM F沖款收 WHERE 單號=@no", new { no });
+                    if (form != null)
+                    {
+                        form.writeOffDetailList = conn.Query<F收支沖帳明細>(
+                            "SELECT * FROM F收支沖帳明細 WHERE 單號=@no AND 收付別='應收'", new { no }).ToList();
+                    }
+                    return form;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static string SQL_INSERT_F沖款收 = $@"INSERT INTO dbo.F沖款收
+                                                    ( 日期, 單號, 客戶編號, 幣別, 匯率, 請款人員, MACHINENO, 備註,
+                                                      建檔, 建檔日, 修改, 修改日, 核准, 核准日, 傳票,
+                                                      收現金額, 銀轉金額, 匯費, 銀存編碼, 收票金額, 票據號碼, 收款總額 )
+                                                    VALUES
+                                                    ( @日期, @單號, @客戶編號, @幣別, @匯率, @請款人員, @MACHINENO, @備註,
+                                                      @建檔, @建檔日, @修改, @修改日, @核准, @核准日, @傳票,
+                                                      @收現金額, @銀轉金額, @匯費, @銀存編碼, @收票金額, @票據號碼, @收款總額 )";
+
+        public static string SQL_INSERT_F收支沖帳明細_收款 = $@"INSERT INTO dbo.F收支沖帳明細
+                                                    ( 單號, 收付別, 帳款來源, 收款性質, 帳款日期, 沖帳碼,
+                                                      原幣未稅, 台幣未稅, 稅, 金額, 原幣沖帳金額, 台幣沖帳金額,
+                                                      折讓金額, 匯差, 備註, 帳務識別碼 )
+                                                    VALUES
+                                                    ( @單號, @收付別, @帳款來源, @收款性質, @帳款日期, @沖帳碼,
+                                                      @原幣未稅, @台幣未稅, @稅, @金額, @原幣沖帳金額, @台幣沖帳金額,
+                                                      @折讓金額, @匯差, @備註, @帳務識別碼 )";
+
+        // ── 新增收款單：手動輸入建立，明細列一律標記收付別='應收' ────────────────
+        public void saveWriteOff(F沖款收 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        conn.Execute(SQL_INSERT_F沖款收, dynamicParameters, tran);
+                        foreach (var item in form.writeOffDetailList ?? new List<F收支沖帳明細>())
+                        {
+                            item.單號 = form.單號;
+                            item.收付別 = "應收";
+                            dynamicParameters = new DynamicParameters(item);
+                            conn.Execute(SQL_INSERT_F收支沖帳明細_收款, dynamicParameters, tran);
+                        }
+                        tran.Commit();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // ── 修改收款單：先刪除該單號既有的表頭與明細，再依畫面資料重新寫入 ──────────
+        public void updateWriteOff(F沖款收 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        conn.Execute("DELETE FROM F沖款收 WHERE 單號=@單號; DELETE FROM F收支沖帳明細 WHERE 單號=@單號 AND 收付別='應收'",
+                            new { 單號 = form.單號 }, tran);
+                        DynamicParameters dynamicParameters = new DynamicParameters(form);
+                        conn.Execute(SQL_INSERT_F沖款收, dynamicParameters, tran);
+                        foreach (var item in form.writeOffDetailList ?? new List<F收支沖帳明細>())
+                        {
+                            item.單號 = form.單號;
+                            item.收付別 = "應收";
+                            dynamicParameters = new DynamicParameters(item);
+                            conn.Execute(SQL_INSERT_F收支沖帳明細_收款, dynamicParameters, tran);
+                        }
+                        tran.Commit();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void deleteWriteOff(string no)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    conn.Execute("DELETE FROM F沖款收 WHERE 單號=@no; DELETE FROM F收支沖帳明細 WHERE 單號=@no AND 收付別='應收'", new { no });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void validateWriteOff(string no, bool approve, string user)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    if (approve)
+                    {
+                        conn.Execute("UPDATE F沖款收 SET 核准=@user, 核准日=@date WHERE 單號=@no",
+                            new { user, date = DateTime.Now.ToString("yyyy-MM-dd"), no });
+                    }
+                    else
+                    {
+                        conn.Execute("UPDATE F沖款收 SET 核准=NULL, 核准日=NULL WHERE 單號=@no", new { no });
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         #endregion
     }
