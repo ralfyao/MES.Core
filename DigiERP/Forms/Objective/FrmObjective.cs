@@ -104,6 +104,16 @@ namespace DigiERP
                 return;
             }
             Type type = Type.GetType(controlClass);
+            if (type == null) return;
+
+            // ── 子選單目標若是獨立視窗(Form)，如「傳票作業」→FrmVoucher，改用 ShowDialog 開啟，不內嵌於頁籤 ──
+            if (typeof(Form).IsAssignableFrom(type))
+            {
+                using var frm = (Form)Activator.CreateInstance(type);
+                frm.ShowDialog(this);
+                return;
+            }
+
             Control ctrl = (Control)Activator.CreateInstance(type);
             ctrl.Name = tab.Name;
             if (ctrl == null || ctrl.IsDisposed)

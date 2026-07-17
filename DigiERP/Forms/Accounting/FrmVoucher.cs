@@ -1,3 +1,4 @@
+using DigiERP.Forms;
 using DigiERP.Models;
 using DigiERP.UserControl.Accounting;
 using MES.Core.Model;
@@ -10,15 +11,23 @@ using System.Windows.Forms;
 namespace DigiERP.UserControl.Inventory.StockIn
 {
     // ── 會計傳票：目前僅實作「新增」流程（含借貸平衡檢查），其餘按鈕保留但尚未開放 ──
-    public partial class FrmVoucher : Form
+    public partial class FrmVoucher : CommonForm
     {
         private string _sourceDoc;
+        private static string _moduleId = "F8ABF0C1-57B9-45C6-B745-827D055DF413";
 
         // ── 開啟本視窗的來源控制項；查詢按鈕需要它才能反查所屬TabControl並開新頁籤 ──
         public Control CallerControl { get; set; }
 
         public FrmVoucher(string sourceDoc = null)
         {
+            if (!chkPrivilege(_moduleId))
+            {
+                MessageBox.Show("非授權使用者無法使用此功能!");
+                Dispose();
+                Close();
+                return;
+            }
             InitializeComponent();
             _sourceDoc = sourceDoc;
             InitNewVoucher();
