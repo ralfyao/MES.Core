@@ -110,6 +110,11 @@ namespace DigiERP
             if (typeof(Form).IsAssignableFrom(type))
             {
                 using var frm = (Form)Activator.CreateInstance(type);
+                if (frm is DigiERP.UserControl.Inventory.StockIn.FrmVoucher voucherFrm)
+                {
+                    // 獨立視窗開啟時沒有 CallerControl 可反查，改由此處直接指定查詢按鈕要開頁籤的 TabControl
+                    voucherFrm.HostTabControl = tabControl;
+                }
                 frm.ShowDialog(this);
                 return;
             }

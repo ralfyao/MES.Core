@@ -276,6 +276,44 @@ namespace MES.MiddleWare.Modules
             }
             return list;
         }
+        // ── 收支項目設定：逐列比對，識別為空則新增，有值則修改，整批寫在同一交易內 ──
+        public int saveItemNumberList(List<F收支項目設定> list)
+        {
+            int execCnt = 0;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        foreach (var item in list)
+                        {
+                            var dynamicParameters = new DynamicParameters(item);
+                            if (item.識別 == null || item.識別 == 0)
+                            {
+                                execCnt += conn.Execute(
+                                    @"INSERT INTO F收支項目設定 (項目編號, 項目名稱, 收付別, 會科代碼, 說明)
+                                      VALUES (@項目編號, @項目名稱, @收付別, @會科代碼, @說明)", dynamicParameters, tran);
+                            }
+                            else
+                            {
+                                execCnt += conn.Execute(
+                                    @"UPDATE F收支項目設定 SET 項目編號=@項目編號, 項目名稱=@項目名稱, 收付別=@收付別, 會科代碼=@會科代碼, 說明=@說明
+                                      WHERE 識別=@識別", dynamicParameters, tran);
+                            }
+                        }
+                        tran.Commit();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return execCnt;
+        }
+
         public string getOtherIncomeNo()
         {
             string f = string.Empty;

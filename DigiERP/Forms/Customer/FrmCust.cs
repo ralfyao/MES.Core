@@ -140,6 +140,20 @@ namespace DigiERP
                 return;
             }
             Type type = Type.GetType(controlClass);
+            if (type == null) return;
+
+            // ── 子選單目標若是獨立視窗(Form)，改用 ShowDialog 開啟，不內嵌於頁籤 ──
+            if (typeof(Form).IsAssignableFrom(type))
+            {
+                using var frm = (Form)Activator.CreateInstance(type);
+                if (frm is DigiERP.UserControl.Inventory.StockIn.FrmVoucher voucherFrm)
+                {
+                    voucherFrm.HostTabControl = tabControl;
+                }
+                frm.ShowDialog(this);
+                return;
+            }
+
             Control ctrl = (Control)Activator.CreateInstance(type);
             if (ctrl == null || ctrl.IsDisposed)
                 return;

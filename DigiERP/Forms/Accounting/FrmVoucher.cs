@@ -19,7 +19,13 @@ namespace DigiERP.UserControl.Inventory.StockIn
         // ── 開啟本視窗的來源控制項；查詢按鈕需要它才能反查所屬TabControl並開新頁籤 ──
         public Control CallerControl { get; set; }
 
-        public FrmVoucher(string sourceDoc = null)
+        // ── 若以獨立視窗開啟(如選單「傳票作業」)，沒有 CallerControl 可反查，改由呼叫端直接指定 ──
+        public TabControl HostTabControl { get; set; }
+
+        // ── 需保留真正零參數建構子，供選單機制以 Activator.CreateInstance(type) 動態建立 ──
+        public FrmVoucher() : this(null) { }
+
+        public FrmVoucher(string sourceDoc)
         {
             if (!chkPrivilege(_moduleId))
             {
@@ -286,15 +292,19 @@ namespace DigiERP.UserControl.Inventory.StockIn
             btnSave.Enabled = true;
             MessageBox.Show("取消過帳成功!");
         }
-        // ── 查詢：關閉本傳票視窗，於來源控制項所屬TabControl開啟(或切換至)會計傳票查詢作業頁籤 ──
+        // ── 查詢：關閉本傳票視窗，於所屬TabControl開啟(或切換至)會計傳票查詢作業頁籤 ─────
+        // 優先使用 HostTabControl（獨立視窗開啟時由呼叫端直接指定），否則退回從 CallerControl 反查
         private void btnQuery_Click(object sender, EventArgs e)
         {
-            var caller = CallerControl;
+            TabControl tabControl = HostTabControl;
+            if (tabControl == null && CallerControl != null
+                && CallerControl.Parent is TabPage callerTab && callerTab.Parent is TabControl callerTabControl)
+            {
+                tabControl = callerTabControl;
+            }
             Close();
 
-            if (caller == null) return;
-            if (!(caller.Parent is TabPage) || !(((TabPage)caller.Parent).Parent is TabControl)) return;
-            TabControl tabControl = (TabControl)((TabPage)caller.Parent).Parent;
+            if (tabControl == null) return;
 
             const string tabName = "VoucherQuery";
             foreach (TabPage page in tabControl.TabPages)

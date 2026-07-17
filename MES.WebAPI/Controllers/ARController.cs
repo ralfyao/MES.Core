@@ -230,7 +230,23 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
-        [Route("api/GetOtherIncomeNo"), HttpGet] 
+        [Route("api/SaveItemNumberList"), HttpPost]
+        public CommonRep<int> SaveItemNumberList([FromBody] List<F收支項目設定> list)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ARMiddle aRMiddle = new ARMiddle();
+            try
+            {
+                commonRep.result = aRMiddle.saveItemNumberList(list);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetOtherIncomeNo"), HttpGet]
         public CommonRep<string> GetOtherIncomeNo()
         {
             CommonRep<string> commonRep = new CommonRep<string>();
