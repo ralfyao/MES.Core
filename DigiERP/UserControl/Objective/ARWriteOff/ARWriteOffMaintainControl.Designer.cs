@@ -120,9 +120,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             panel3b.SuspendLayout();
             panel4.SuspendLayout();
             SuspendLayout();
-            //
+            // 
             // panel1
-            //
+            // 
             panel1.BackColor = Color.Honeydew;
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(lblTitle);
@@ -141,9 +141,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             panel1.Name = "panel1";
             panel1.Size = new Size(1700, 56);
             panel1.TabIndex = 0;
-            //
+            // 
             // pictureBox1
-            //
+            // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(4, 4);
             pictureBox1.Name = "pictureBox1";
@@ -151,9 +151,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 20;
             pictureBox1.TabStop = false;
-            //
+            // 
             // lblTitle
-            //
+            // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("微軟正黑體", 13F, FontStyle.Bold);
             lblTitle.ForeColor = Color.Firebrick;
@@ -162,9 +162,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             lblTitle.Size = new Size(64, 23);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "收款單";
-            //
+            // 
             // btnVoucherEntry
-            //
+            // 
             btnVoucherEntry.BackColor = Color.Gainsboro;
             btnVoucherEntry.FlatStyle = FlatStyle.Flat;
             btnVoucherEntry.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -175,9 +175,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnVoucherEntry.Text = "會計傳票";
             btnVoucherEntry.UseVisualStyleBackColor = false;
             btnVoucherEntry.Click += btnVoucherEntry_Click;
-            //
+            // 
             // btnImportDetail
-            //
+            // 
             btnImportDetail.BackColor = Color.CadetBlue;
             btnImportDetail.FlatStyle = FlatStyle.Flat;
             btnImportDetail.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -189,9 +189,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnImportDetail.Text = "應收款導入";
             btnImportDetail.UseVisualStyleBackColor = false;
             btnImportDetail.Click += btnImportDetail_Click;
-            //
+            // 
             // btnDelete
-            //
+            // 
             btnDelete.BackColor = Color.Firebrick;
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -203,9 +203,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnDelete.Text = "刪除紀錄";
             btnDelete.UseVisualStyleBackColor = false;
             btnDelete.Click += btnDelete_Click;
-            //
+            // 
             // btnAdd
-            //
+            // 
             btnAdd.BackColor = Color.Gainsboro;
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -216,9 +216,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnAdd.Text = "新增";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += btnAdd_Click;
-            //
+            // 
             // btnModify
-            //
+            // 
             btnModify.BackColor = Color.Gainsboro;
             btnModify.FlatStyle = FlatStyle.Flat;
             btnModify.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -229,9 +229,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnModify.Text = "修改";
             btnModify.UseVisualStyleBackColor = false;
             btnModify.Click += btnModify_Click;
-            //
+            // 
             // btnSave
-            //
+            // 
             btnSave.BackColor = Color.Gainsboro;
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -242,9 +242,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnSave.Text = "儲存";
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Click += btnSave_Click;
-            //
+            // 
             // btnVerify
-            //
+            // 
             btnVerify.BackColor = Color.Gainsboro;
             btnVerify.FlatStyle = FlatStyle.Flat;
             btnVerify.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -255,9 +255,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnVerify.Text = "覆核";
             btnVerify.UseVisualStyleBackColor = false;
             btnVerify.Click += btnVerify_Click;
-            //
+            // 
             // btnCancelVerify
-            //
+            // 
             btnCancelVerify.BackColor = Color.Gainsboro;
             btnCancelVerify.FlatStyle = FlatStyle.Flat;
             btnCancelVerify.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -268,9 +268,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnCancelVerify.Text = "取消覆核";
             btnCancelVerify.UseVisualStyleBackColor = false;
             btnCancelVerify.Click += btnCancelVerify_Click;
-            //
+            // 
             // btnOverview
-            //
+            // 
             btnOverview.BackColor = Color.Gainsboro;
             btnOverview.FlatStyle = FlatStyle.Flat;
             btnOverview.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -280,10 +280,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnOverview.TabIndex = 9;
             btnOverview.Text = "總覽";
             btnOverview.UseVisualStyleBackColor = false;
+            btnOverview.Visible = false;
             btnOverview.Click += btnOverview_Click;
-            //
+            // 
             // btnClose
-            //
+            // 
             btnClose.BackColor = Color.Gainsboro;
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -294,9 +295,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnClose.Text = "關閉";
             btnClose.UseVisualStyleBackColor = false;
             btnClose.Click += btnClose_Click;
-            //
+            // 
             // panel2
-            //
+            // 
             panel2.BackColor = Color.Honeydew;
             panel2.Controls.Add(lblDate);
             panel2.Controls.Add(dtDate);
@@ -344,53 +345,53 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             panel2.Name = "panel2";
             panel2.Size = new Size(1700, 190);
             panel2.TabIndex = 1;
-            //
+            // 
             // lblDate
-            //
+            // 
             lblDate.AutoSize = true;
             lblDate.Location = new Point(8, 10);
             lblDate.Name = "lblDate";
             lblDate.Size = new Size(64, 18);
             lblDate.TabIndex = 0;
             lblDate.Text = "付款日期";
-            //
+            // 
             // dtDate
-            //
+            // 
             dtDate.Enabled = false;
             dtDate.Format = DateTimePickerFormat.Short;
             dtDate.Location = new Point(82, 6);
             dtDate.Name = "dtDate";
             dtDate.Size = new Size(130, 25);
             dtDate.TabIndex = 1;
-            //
+            // 
             // lblNo
-            //
+            // 
             lblNo.AutoSize = true;
             lblNo.Location = new Point(224, 10);
             lblNo.Name = "lblNo";
             lblNo.Size = new Size(36, 18);
             lblNo.TabIndex = 2;
             lblNo.Text = "單號";
-            //
+            // 
             // txtNo
-            //
+            // 
             txtNo.Location = new Point(278, 6);
             txtNo.Name = "txtNo";
             txtNo.ReadOnly = true;
             txtNo.Size = new Size(150, 25);
             txtNo.TabIndex = 3;
-            //
+            // 
             // lblCurrency
-            //
+            // 
             lblCurrency.AutoSize = true;
             lblCurrency.Location = new Point(440, 10);
             lblCurrency.Name = "lblCurrency";
             lblCurrency.Size = new Size(36, 18);
             lblCurrency.TabIndex = 4;
             lblCurrency.Text = "幣別";
-            //
+            // 
             // cboCurrency
-            //
+            // 
             cboCurrency.DropDownStyle = ComboBoxStyle.DropDownList;
             cboCurrency.FormattingEnabled = true;
             cboCurrency.Location = new Point(486, 6);
@@ -398,42 +399,42 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             cboCurrency.Size = new Size(72, 25);
             cboCurrency.TabIndex = 5;
             cboCurrency.SelectedIndexChanged += cboCurrency_SelectedIndexChanged;
-            //
+            // 
             // lblExRate
-            //
+            // 
             lblExRate.AutoSize = true;
             lblExRate.Location = new Point(566, 10);
             lblExRate.Name = "lblExRate";
             lblExRate.Size = new Size(36, 18);
             lblExRate.TabIndex = 6;
             lblExRate.Text = "匯率";
-            //
+            // 
             // txtExRate
-            //
+            // 
             txtExRate.Location = new Point(612, 6);
             txtExRate.Name = "txtExRate";
             txtExRate.Size = new Size(80, 25);
             txtExRate.TabIndex = 7;
-            //
+            // 
             // lblCustomerNo
-            //
+            // 
             lblCustomerNo.AutoSize = true;
             lblCustomerNo.Location = new Point(8, 46);
             lblCustomerNo.Name = "lblCustomerNo";
             lblCustomerNo.Size = new Size(64, 18);
             lblCustomerNo.TabIndex = 8;
             lblCustomerNo.Text = "客戶編號";
-            //
+            // 
             // txtCustomerNo
-            //
+            // 
             txtCustomerNo.Location = new Point(82, 42);
             txtCustomerNo.Name = "txtCustomerNo";
             txtCustomerNo.Size = new Size(110, 25);
             txtCustomerNo.TabIndex = 9;
             txtCustomerNo.Leave += txtCustomerNo_Leave;
-            //
+            // 
             // btnCustomerSearch
-            //
+            // 
             btnCustomerSearch.BackColor = Color.Gainsboro;
             btnCustomerSearch.FlatStyle = FlatStyle.Flat;
             btnCustomerSearch.Location = new Point(198, 41);
@@ -443,179 +444,179 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnCustomerSearch.Text = "查";
             btnCustomerSearch.UseVisualStyleBackColor = false;
             btnCustomerSearch.Click += btnCustomerSearch_Click;
-            //
+            // 
             // lblCustomerName
-            //
+            // 
             lblCustomerName.AutoSize = true;
             lblCustomerName.Location = new Point(242, 46);
             lblCustomerName.Name = "lblCustomerName";
             lblCustomerName.Size = new Size(64, 18);
             lblCustomerName.TabIndex = 11;
             lblCustomerName.Text = "廠商名稱";
-            //
+            // 
             // txtCustomerName
-            //
+            // 
             txtCustomerName.Location = new Point(316, 42);
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.ReadOnly = true;
             txtCustomerName.Size = new Size(190, 25);
             txtCustomerName.TabIndex = 12;
-            //
+            // 
             // lblTwdOffset
-            //
+            // 
             lblTwdOffset.AutoSize = true;
             lblTwdOffset.Location = new Point(520, 46);
             lblTwdOffset.Name = "lblTwdOffset";
             lblTwdOffset.Size = new Size(64, 18);
             lblTwdOffset.TabIndex = 13;
             lblTwdOffset.Text = "台幣沖款";
-            //
+            // 
             // txtTwdOffset
-            //
+            // 
             txtTwdOffset.BackColor = Color.LightYellow;
             txtTwdOffset.Location = new Point(594, 42);
             txtTwdOffset.Name = "txtTwdOffset";
             txtTwdOffset.ReadOnly = true;
             txtTwdOffset.Size = new Size(110, 25);
             txtTwdOffset.TabIndex = 14;
-            //
+            // 
             // lblExDiff
-            //
+            // 
             lblExDiff.AutoSize = true;
             lblExDiff.Location = new Point(716, 46);
             lblExDiff.Name = "lblExDiff";
             lblExDiff.Size = new Size(64, 18);
             lblExDiff.TabIndex = 15;
             lblExDiff.Text = "匯兌損益";
-            //
+            // 
             // txtExDiff
-            //
+            // 
             txtExDiff.BackColor = Color.LightYellow;
             txtExDiff.Location = new Point(790, 42);
             txtExDiff.Name = "txtExDiff";
             txtExDiff.ReadOnly = true;
             txtExDiff.Size = new Size(110, 25);
             txtExDiff.TabIndex = 16;
-            //
+            // 
             // lblAllowance
-            //
+            // 
             lblAllowance.AutoSize = true;
             lblAllowance.Location = new Point(912, 46);
             lblAllowance.Name = "lblAllowance";
             lblAllowance.Size = new Size(64, 18);
             lblAllowance.TabIndex = 17;
             lblAllowance.Text = "折讓金額";
-            //
+            // 
             // txtAllowance
-            //
+            // 
             txtAllowance.BackColor = Color.LightYellow;
             txtAllowance.Location = new Point(986, 42);
             txtAllowance.Name = "txtAllowance";
             txtAllowance.ReadOnly = true;
             txtAllowance.Size = new Size(110, 25);
             txtAllowance.TabIndex = 18;
-            //
+            // 
             // lblVoucher
-            //
+            // 
             lblVoucher.AutoSize = true;
             lblVoucher.Location = new Point(8, 82);
             lblVoucher.Name = "lblVoucher";
             lblVoucher.Size = new Size(64, 18);
             lblVoucher.TabIndex = 19;
             lblVoucher.Text = "傳票編號";
-            //
+            // 
             // txtVoucher
-            //
+            // 
             txtVoucher.Location = new Point(82, 78);
             txtVoucher.Name = "txtVoucher";
             txtVoucher.Size = new Size(120, 25);
             txtVoucher.TabIndex = 20;
-            //
+            // 
             // lblRemark
-            //
+            // 
             lblRemark.AutoSize = true;
             lblRemark.Location = new Point(212, 82);
             lblRemark.Name = "lblRemark";
             lblRemark.Size = new Size(36, 18);
             lblRemark.TabIndex = 21;
             lblRemark.Text = "備註";
-            //
+            // 
             // txtRemark
-            //
+            // 
             txtRemark.Location = new Point(262, 78);
             txtRemark.Name = "txtRemark";
             txtRemark.Size = new Size(500, 25);
             txtRemark.TabIndex = 22;
-            //
+            // 
             // lblCashAmt
-            //
+            // 
             lblCashAmt.AutoSize = true;
             lblCashAmt.Location = new Point(8, 118);
             lblCashAmt.Name = "lblCashAmt";
             lblCashAmt.Size = new Size(64, 18);
             lblCashAmt.TabIndex = 23;
             lblCashAmt.Text = "收現金額";
-            //
+            // 
             // txtCashAmt
-            //
+            // 
             txtCashAmt.Location = new Point(82, 114);
             txtCashAmt.Name = "txtCashAmt";
             txtCashAmt.Size = new Size(110, 25);
             txtCashAmt.TabIndex = 24;
             txtCashAmt.Leave += txtCashAmt_Leave;
-            //
+            // 
             // lblFee
-            //
+            // 
             lblFee.AutoSize = true;
             lblFee.Location = new Point(200, 118);
             lblFee.Name = "lblFee";
             lblFee.Size = new Size(36, 18);
             lblFee.TabIndex = 25;
             lblFee.Text = "匯費";
-            //
+            // 
             // txtFee
-            //
+            // 
             txtFee.Location = new Point(246, 114);
             txtFee.Name = "txtFee";
             txtFee.Size = new Size(90, 25);
             txtFee.TabIndex = 26;
-            //
+            // 
             // lblBankAmt
-            //
+            // 
             lblBankAmt.AutoSize = true;
             lblBankAmt.Location = new Point(344, 118);
             lblBankAmt.Name = "lblBankAmt";
             lblBankAmt.Size = new Size(64, 18);
             lblBankAmt.TabIndex = 27;
             lblBankAmt.Text = "銀轉金額";
-            //
+            // 
             // txtBankAmt
-            //
+            // 
             txtBankAmt.Location = new Point(418, 114);
             txtBankAmt.Name = "txtBankAmt";
             txtBankAmt.Size = new Size(110, 25);
             txtBankAmt.TabIndex = 28;
             txtBankAmt.Leave += txtBankAmt_Leave;
-            //
+            // 
             // lblBankCode
-            //
+            // 
             lblBankCode.AutoSize = true;
             lblBankCode.Location = new Point(536, 118);
             lblBankCode.Name = "lblBankCode";
             lblBankCode.Size = new Size(64, 18);
             lblBankCode.TabIndex = 29;
             lblBankCode.Text = "銀存編碼";
-            //
+            // 
             // cboBankCode
-            //
+            // 
             cboBankCode.FormattingEnabled = true;
             cboBankCode.Location = new Point(610, 114);
             cboBankCode.Name = "cboBankCode";
             cboBankCode.Size = new Size(120, 25);
             cboBankCode.TabIndex = 30;
-            //
+            // 
             // btnRemit
-            //
+            // 
             btnRemit.BackColor = Color.Orange;
             btnRemit.FlatStyle = FlatStyle.Flat;
             btnRemit.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -626,42 +627,42 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnRemit.Text = "匯入款";
             btnRemit.UseVisualStyleBackColor = false;
             btnRemit.Click += btnRemit_Click;
-            //
+            // 
             // lblCheckAmt
-            //
+            // 
             lblCheckAmt.AutoSize = true;
             lblCheckAmt.Location = new Point(830, 118);
             lblCheckAmt.Name = "lblCheckAmt";
             lblCheckAmt.Size = new Size(64, 18);
             lblCheckAmt.TabIndex = 32;
             lblCheckAmt.Text = "收票金額";
-            //
+            // 
             // txtCheckAmt
-            //
+            // 
             txtCheckAmt.Location = new Point(904, 114);
             txtCheckAmt.Name = "txtCheckAmt";
             txtCheckAmt.Size = new Size(110, 25);
             txtCheckAmt.TabIndex = 33;
             txtCheckAmt.Leave += txtCheckAmt_Leave;
-            //
+            // 
             // lblCheckNo
-            //
+            // 
             lblCheckNo.AutoSize = true;
             lblCheckNo.Location = new Point(1022, 118);
             lblCheckNo.Name = "lblCheckNo";
             lblCheckNo.Size = new Size(64, 18);
             lblCheckNo.TabIndex = 34;
             lblCheckNo.Text = "票據號碼";
-            //
+            // 
             // txtCheckNo
-            //
+            // 
             txtCheckNo.Location = new Point(1096, 114);
             txtCheckNo.Name = "txtCheckNo";
             txtCheckNo.Size = new Size(140, 25);
             txtCheckNo.TabIndex = 35;
-            //
+            // 
             // btnCheck
-            //
+            // 
             btnCheck.BackColor = Color.SteelBlue;
             btnCheck.FlatStyle = FlatStyle.Flat;
             btnCheck.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -673,54 +674,54 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnCheck.Text = "收票";
             btnCheck.UseVisualStyleBackColor = false;
             btnCheck.Click += btnCheck_Click;
-            //
+            // 
             // lblPayTotal
-            //
+            // 
             lblPayTotal.AutoSize = true;
             lblPayTotal.Location = new Point(8, 154);
             lblPayTotal.Name = "lblPayTotal";
             lblPayTotal.Size = new Size(64, 18);
             lblPayTotal.TabIndex = 37;
             lblPayTotal.Text = "收款總額";
-            //
+            // 
             // txtPayTotal
-            //
+            // 
             txtPayTotal.BackColor = Color.LightYellow;
             txtPayTotal.Location = new Point(82, 150);
             txtPayTotal.Name = "txtPayTotal";
             txtPayTotal.ReadOnly = true;
             txtPayTotal.Size = new Size(110, 25);
             txtPayTotal.TabIndex = 38;
-            //
+            // 
             // lblOrigOffset
-            //
+            // 
             lblOrigOffset.AutoSize = true;
             lblOrigOffset.Location = new Point(200, 154);
             lblOrigOffset.Name = "lblOrigOffset";
             lblOrigOffset.Size = new Size(64, 18);
             lblOrigOffset.TabIndex = 39;
             lblOrigOffset.Text = "原幣沖帳";
-            //
+            // 
             // txtOrigOffset
-            //
+            // 
             txtOrigOffset.BackColor = Color.LightYellow;
             txtOrigOffset.Location = new Point(274, 150);
             txtOrigOffset.Name = "txtOrigOffset";
             txtOrigOffset.ReadOnly = true;
             txtOrigOffset.Size = new Size(110, 25);
             txtOrigOffset.TabIndex = 40;
-            //
+            // 
             // panel3
-            //
+            // 
             panel3.Controls.Add(dataGridView1);
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(0, 246);
             panel3.Name = "panel3";
             panel3.Size = new Size(1700, 320);
             panel3.TabIndex = 2;
-            //
+            // 
             // dataGridView1
-            //
+            // 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -735,89 +736,89 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             dataGridView1.Size = new Size(1700, 320);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
-            //
+            // 
             // colSource
-            //
+            // 
             colSource.HeaderText = "帳款來源";
             colSource.Name = "colSource";
             colSource.ReadOnly = true;
-            //
+            // 
             // colAccDate
-            //
+            // 
             colAccDate.HeaderText = "帳款日期";
             colAccDate.Name = "colAccDate";
             colAccDate.ReadOnly = true;
-            //
+            // 
             // colNature
-            //
+            // 
             colNature.HeaderText = "科目";
             colNature.Name = "colNature";
             colNature.ReadOnly = true;
-            //
+            // 
             // colOffsetCode
-            //
+            // 
             colOffsetCode.HeaderText = "請款單號";
             colOffsetCode.Name = "colOffsetCode";
             colOffsetCode.ReadOnly = true;
-            //
+            // 
             // colOrigUntaxed
-            //
+            // 
             colOrigUntaxed.HeaderText = "原幣未稅";
             colOrigUntaxed.Name = "colOrigUntaxed";
             colOrigUntaxed.ReadOnly = true;
-            //
+            // 
             // colTwdUntaxed
-            //
+            // 
             colTwdUntaxed.HeaderText = "台幣未稅";
             colTwdUntaxed.Name = "colTwdUntaxed";
             colTwdUntaxed.ReadOnly = true;
-            //
+            // 
             // colTax
-            //
+            // 
             colTax.HeaderText = "稅";
             colTax.Name = "colTax";
             colTax.ReadOnly = true;
-            //
+            // 
             // colAmount
-            //
+            // 
             colAmount.HeaderText = "金額";
             colAmount.Name = "colAmount";
             colAmount.ReadOnly = true;
-            //
+            // 
             // colOrigOffsetAmt
-            //
+            // 
             colOrigOffsetAmt.HeaderText = "原幣沖帳金額";
             colOrigOffsetAmt.Name = "colOrigOffsetAmt";
-            //
+            // 
             // colTwdOffsetAmt
-            //
+            // 
             colTwdOffsetAmt.HeaderText = "台幣沖帳金額";
             colTwdOffsetAmt.Name = "colTwdOffsetAmt";
-            //
+            // 
             // colAllowance
-            //
+            // 
             colAllowance.HeaderText = "折讓金額";
             colAllowance.Name = "colAllowance";
-            //
+            // 
             // colExDiff
-            //
+            // 
             colExDiff.HeaderText = "匯差";
             colExDiff.Name = "colExDiff";
-            //
+            // 
             // colRemark
-            //
+            // 
             colRemark.FillWeight = 160F;
             colRemark.HeaderText = "備註";
             colRemark.Name = "colRemark";
-            //
+            // 
             // colTraceId
-            //
+            // 
             colTraceId.HeaderText = "帳務識別碼";
             colTraceId.Name = "colTraceId";
             colTraceId.ReadOnly = true;
-            //
+            // 
             // panel3b
-            //
+            // 
             panel3b.BackColor = Color.Honeydew;
             panel3b.Controls.Add(lblSumCap);
             panel3b.Controls.Add(txtSumOrigUntaxed);
@@ -833,9 +834,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             panel3b.Name = "panel3b";
             panel3b.Size = new Size(1700, 34);
             panel3b.TabIndex = 3;
-            //
+            // 
             // lblSumCap
-            //
+            // 
             lblSumCap.AutoSize = true;
             lblSumCap.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
             lblSumCap.Location = new Point(8, 8);
@@ -843,73 +844,73 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             lblSumCap.Size = new Size(31, 16);
             lblSumCap.TabIndex = 0;
             lblSumCap.Text = "合計";
-            //
+            // 
             // txtSumOrigUntaxed
-            //
+            // 
             txtSumOrigUntaxed.Location = new Point(300, 4);
             txtSumOrigUntaxed.Name = "txtSumOrigUntaxed";
             txtSumOrigUntaxed.ReadOnly = true;
             txtSumOrigUntaxed.Size = new Size(100, 25);
             txtSumOrigUntaxed.TabIndex = 1;
-            //
+            // 
             // txtSumTwdUntaxed
-            //
+            // 
             txtSumTwdUntaxed.Location = new Point(404, 4);
             txtSumTwdUntaxed.Name = "txtSumTwdUntaxed";
             txtSumTwdUntaxed.ReadOnly = true;
             txtSumTwdUntaxed.Size = new Size(100, 25);
             txtSumTwdUntaxed.TabIndex = 2;
-            //
+            // 
             // txtSumTax
-            //
+            // 
             txtSumTax.Location = new Point(508, 4);
             txtSumTax.Name = "txtSumTax";
             txtSumTax.ReadOnly = true;
             txtSumTax.Size = new Size(80, 25);
             txtSumTax.TabIndex = 3;
-            //
+            // 
             // txtSumAmount
-            //
+            // 
             txtSumAmount.Location = new Point(592, 4);
             txtSumAmount.Name = "txtSumAmount";
             txtSumAmount.ReadOnly = true;
             txtSumAmount.Size = new Size(100, 25);
             txtSumAmount.TabIndex = 4;
-            //
+            // 
             // txtSumOrigOffsetAmt
-            //
+            // 
             txtSumOrigOffsetAmt.Location = new Point(696, 4);
             txtSumOrigOffsetAmt.Name = "txtSumOrigOffsetAmt";
             txtSumOrigOffsetAmt.ReadOnly = true;
             txtSumOrigOffsetAmt.Size = new Size(100, 25);
             txtSumOrigOffsetAmt.TabIndex = 5;
-            //
+            // 
             // txtSumTwdOffsetAmt
-            //
+            // 
             txtSumTwdOffsetAmt.Location = new Point(800, 4);
             txtSumTwdOffsetAmt.Name = "txtSumTwdOffsetAmt";
             txtSumTwdOffsetAmt.ReadOnly = true;
             txtSumTwdOffsetAmt.Size = new Size(100, 25);
             txtSumTwdOffsetAmt.TabIndex = 6;
-            //
+            // 
             // txtSumAllowance
-            //
+            // 
             txtSumAllowance.Location = new Point(904, 4);
             txtSumAllowance.Name = "txtSumAllowance";
             txtSumAllowance.ReadOnly = true;
             txtSumAllowance.Size = new Size(100, 25);
             txtSumAllowance.TabIndex = 7;
-            //
+            // 
             // txtSumExDiff
-            //
+            // 
             txtSumExDiff.Location = new Point(1008, 4);
             txtSumExDiff.Name = "txtSumExDiff";
             txtSumExDiff.ReadOnly = true;
             txtSumExDiff.Size = new Size(100, 25);
             txtSumExDiff.TabIndex = 8;
-            //
+            // 
             // panel4
-            //
+            // 
             panel4.BackColor = Color.Honeydew;
             panel4.Controls.Add(lblReviewerCap);
             panel4.Controls.Add(txtReviewer);
@@ -928,111 +929,111 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             panel4.Name = "panel4";
             panel4.Size = new Size(1700, 56);
             panel4.TabIndex = 4;
-            //
+            // 
             // lblReviewerCap
-            //
+            // 
             lblReviewerCap.AutoSize = true;
             lblReviewerCap.Location = new Point(10, 18);
             lblReviewerCap.Name = "lblReviewerCap";
             lblReviewerCap.Size = new Size(64, 18);
             lblReviewerCap.TabIndex = 0;
             lblReviewerCap.Text = "財務覆核";
-            //
+            // 
             // txtReviewer
-            //
+            // 
             txtReviewer.Location = new Point(92, 14);
             txtReviewer.Name = "txtReviewer";
             txtReviewer.ReadOnly = true;
             txtReviewer.Size = new Size(120, 25);
             txtReviewer.TabIndex = 1;
-            //
+            // 
             // lblReviewDateCap
-            //
+            // 
             lblReviewDateCap.AutoSize = true;
             lblReviewDateCap.Location = new Point(226, 18);
             lblReviewDateCap.Name = "lblReviewDateCap";
             lblReviewDateCap.Size = new Size(50, 18);
             lblReviewDateCap.TabIndex = 2;
             lblReviewDateCap.Text = "核准日";
-            //
+            // 
             // txtReviewDate
-            //
+            // 
             txtReviewDate.Location = new Point(288, 14);
             txtReviewDate.Name = "txtReviewDate";
             txtReviewDate.ReadOnly = true;
             txtReviewDate.Size = new Size(120, 25);
             txtReviewDate.TabIndex = 3;
-            //
+            // 
             // lblModifierCap
-            //
+            // 
             lblModifierCap.AutoSize = true;
             lblModifierCap.Location = new Point(430, 18);
             lblModifierCap.Name = "lblModifierCap";
             lblModifierCap.Size = new Size(64, 18);
             lblModifierCap.TabIndex = 4;
             lblModifierCap.Text = "修改人員";
-            //
+            // 
             // txtModifier
-            //
+            // 
             txtModifier.Location = new Point(512, 14);
             txtModifier.Name = "txtModifier";
             txtModifier.ReadOnly = true;
             txtModifier.Size = new Size(120, 25);
             txtModifier.TabIndex = 5;
-            //
+            // 
             // lblModifyDateCap
-            //
+            // 
             lblModifyDateCap.AutoSize = true;
             lblModifyDateCap.Location = new Point(646, 18);
             lblModifyDateCap.Name = "lblModifyDateCap";
             lblModifyDateCap.Size = new Size(50, 18);
             lblModifyDateCap.TabIndex = 6;
             lblModifyDateCap.Text = "修改日";
-            //
+            // 
             // txtModifyDate
-            //
+            // 
             txtModifyDate.Location = new Point(708, 14);
             txtModifyDate.Name = "txtModifyDate";
             txtModifyDate.ReadOnly = true;
             txtModifyDate.Size = new Size(120, 25);
             txtModifyDate.TabIndex = 7;
-            //
+            // 
             // lblCreatorCap
-            //
+            // 
             lblCreatorCap.AutoSize = true;
             lblCreatorCap.Location = new Point(850, 18);
             lblCreatorCap.Name = "lblCreatorCap";
             lblCreatorCap.Size = new Size(64, 18);
             lblCreatorCap.TabIndex = 8;
             lblCreatorCap.Text = "建檔人員";
-            //
+            // 
             // txtCreator
-            //
+            // 
             txtCreator.Location = new Point(932, 14);
             txtCreator.Name = "txtCreator";
             txtCreator.ReadOnly = true;
             txtCreator.Size = new Size(120, 25);
             txtCreator.TabIndex = 9;
-            //
+            // 
             // lblCreateDateCap
-            //
+            // 
             lblCreateDateCap.AutoSize = true;
             lblCreateDateCap.Location = new Point(1066, 18);
             lblCreateDateCap.Name = "lblCreateDateCap";
             lblCreateDateCap.Size = new Size(50, 18);
             lblCreateDateCap.TabIndex = 10;
             lblCreateDateCap.Text = "建檔日";
-            //
+            // 
             // txtCreateDate
-            //
+            // 
             txtCreateDate.Location = new Point(1128, 14);
             txtCreateDate.Name = "txtCreateDate";
             txtCreateDate.ReadOnly = true;
             txtCreateDate.Size = new Size(120, 25);
             txtCreateDate.TabIndex = 11;
-            //
+            // 
             // ARWriteOffMaintainControl
-            //
+            // 
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panel3);

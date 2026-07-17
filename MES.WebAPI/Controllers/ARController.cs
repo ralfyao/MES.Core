@@ -511,6 +511,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetReceivableImportList"), HttpGet]
+        public CommonRep<應收帳款導入清單> GetReceivableImportList(string custNo)
+        {
+            CommonRep<應收帳款導入清單> commonRep = new CommonRep<應收帳款導入清單>();
+            ARMiddle arMiddle = new ARMiddle();
+            try
+            {
+                commonRep.resultList = arMiddle.getReceivableImportList(custNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         [Route("api/ValidateWriteOff"), HttpPost]
         public CommonRep<string> ValidateWriteOff(string no, bool approve, string user)
         {

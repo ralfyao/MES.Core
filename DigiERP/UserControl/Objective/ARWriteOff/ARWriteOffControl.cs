@@ -85,7 +85,41 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
 
         private void btn新增_Click(object sender, EventArgs e)
         {
+            OpenMaintainTab(null, "新增");
+        }
 
+        // ── 點選單號，開啟(或切換至)收款單維護頁籤 ─────────────────────────
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (dataGridView1.Columns[e.ColumnIndex] != orderNo) return;
+            string no = dataGridView1.Rows[e.RowIndex].Cells[orderNo.Index].Value?.ToString();
+            if (string.IsNullOrEmpty(no)) return;
+            OpenMaintainTab(no, "修改");
+        }
+
+        private void OpenMaintainTab(string no, string mode)
+        {
+            if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
+            TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
+            string tabName = mode == "新增" ? "ARWriteOffMaintain_New" : $"ARWriteOffMaintain_{no}";
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == tabName)
+                {
+                    tabControl.SelectedTab = page;
+                    return;
+                }
+            }
+            var ctrl = new ARWriteOffMaintainControl { Dock = DockStyle.Fill };
+            ctrl.Saved += (s, args) => initGrid();
+            var tab = new TabPage(mode == "新增" ? "收款單-新增" : $"收款單-{no}") { Name = tabName };
+            tab.Controls.Add(ctrl);
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            ctrl.LoadData(mode, no);
         }
     }
 }

@@ -142,7 +142,8 @@
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(1497, 511);
             dataGridView1.TabIndex = 0;
-            // 
+            dataGridView1.CellClick += dataGridView1_CellClick;
+            //
             // orderNo
             // 
             orderNo.HeaderText = "單號";

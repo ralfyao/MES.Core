@@ -830,6 +830,30 @@ namespace MES.MiddleWare.Modules
             }
         }
 
+        // ── 應收款導入：依客戶編號列出未結案帳款，供收款單「應收款導入」按鈕選取匯入 ──
+        public List<應收帳款導入清單> getReceivableImportList(string custNo)
+        {
+            string sql = @"SELECT dbo_F帳款管理.對象, dbo_F帳款管理.帳款來源, dbo_F帳款管理.帳款日期, dbo_F帳款管理.沖帳碼,
+                                  dbo_F帳款管理.原幣未稅, dbo_F帳款管理.幣別, dbo_F帳款管理.請款, dbo_F帳款管理.未稅,
+                                  dbo_F帳款管理.稅, dbo_F帳款管理.金額, dbo_F帳款管理.備註, dbo_F帳款管理.結案,
+                                  dbo_F帳款管理.請款單號, dbo_F帳款管理.發票號碼
+                           FROM F帳款管理 dbo_F帳款管理
+                           WHERE dbo_F帳款管理.對象=@custNo AND dbo_F帳款管理.結案<>1
+                           ORDER BY dbo_F帳款管理.稅 DESC";
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    return conn.Query<應收帳款導入清單>(sql, new { custNo }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public void validateWriteOff(string no, bool approve, string user)
         {
             try

@@ -76,7 +76,6 @@
 
   <ItemGroup>
     <Folder Include="Forms\Customer\Receivables\" />
-    <Folder Include="Forms\Bank\" />
     <Folder Include="UserControl\Accounts\Accounting\" />
     <Folder Include="UserControl\Customer\OtherIncome\" />
     <Folder Include="UserControl\Inventory\ProjectProcurement\" />
