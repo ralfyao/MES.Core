@@ -133,6 +133,8 @@ namespace DigiERP
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            FrmProduction frmProduction = new FrmProduction();
+            frmProduction.ShowDialog(this);
         }
 
         private void pictureBox1_MouseEnter(object sender, EventArgs e)

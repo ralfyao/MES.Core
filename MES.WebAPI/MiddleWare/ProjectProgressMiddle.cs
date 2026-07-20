@@ -209,6 +209,284 @@ SELECT dbo_設計派案.設計識別碼, dbo_設計派案.工程表識別碼, db
             }
         }
 
+        // ── 審圖總覽：列出已建立清單編號的設計派案審圖/發行狀態 ────────────
+        public List<設計審圖總覽> getDesignAuditList()
+        {
+            string sql = @"
+SELECT
+    dbo_設計派案.清單編號,
+    dbo_設計派案.專案序號,
+    dbo_設計派案.模組編碼,
+    dbo_設計派案.模組名稱,
+    dbo_設計派案.設計人員,
+    dbo_設計派案.製圖檔名,
+    dbo_設計派案.圖檔發行日,
+    dbo_設計派案.審圖通過,
+    dbo_設計派案.發行人員,
+    dbo_設計派案.設變,
+    dbo_設計派案.已發行
+FROM
+    設計派案 dbo_設計派案
+WHERE
+    (((dbo_設計派案.清單編號) IS NOT NULL))";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<設計審圖總覽>(sql).ToList();
+            }
+        }
+
+        // ── 設計審查清單：依清單編號取得單筆設計派案表頭 ───────────────────
+        public 設計派案 getDesignAssignmentByListNo(string listNo)
+        {
+            string sql = @"
+SELECT dbo_設計派案.設計識別碼, dbo_設計派案.工程表識別碼, dbo_設計派案.專案序號, dbo_設計派案.模組編碼, dbo_設計派案.模組名稱, dbo_設計派案.設計人員, dbo_設計派案.製圖檔名, dbo_設計派案.圖檔發行日, dbo_設計派案.審圖通過, dbo_設計派案.清單編號, dbo_設計派案.審查日期, dbo_設計派案.審查人員, dbo_設計派案.發行人員, dbo_設計派案.設變, dbo_設計派案.已發行
+  FROM 設計派案 dbo_設計派案
+ WHERE dbo_設計派案.清單編號 = @清單編號";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.QueryFirstOrDefault<設計派案>(sql, new { 清單編號 = listNo });
+            }
+        }
+
+        // ── 選擇審查項目：列出尚未建立審查清單編號、但已發行圖檔的設計派案，供新增審查單挑選 ──
+        public List<設計派案> getPendingDesignAssignmentList()
+        {
+            string sql = @"
+SELECT dbo_設計派案.設計識別碼, dbo_設計派案.工程表識別碼, dbo_設計派案.專案序號, dbo_設計派案.模組編碼, dbo_設計派案.模組名稱, dbo_設計派案.設計人員, dbo_設計派案.製圖檔名, dbo_設計派案.圖檔發行日
+  FROM 設計派案 dbo_設計派案
+ WHERE dbo_設計派案.清單編號 IS NULL AND dbo_設計派案.圖檔發行日 IS NOT NULL
+ ORDER BY dbo_設計派案.專案序號, dbo_設計派案.模組編碼";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<設計派案>(sql).ToList();
+            }
+        }
+
+        // ── 設計審查清單：依清單編號取得審查明細 ───────────────────────────
+        public List<設計審查明細> getDesignAuditDetailList(string listNo)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<設計審查明細>("SELECT * FROM 設計審查明細 WHERE 清單編號=@清單編號 ORDER BY 識別碼", new { 清單編號 = listNo }).ToList();
+            }
+        }
+
+        // ── 選擇審查項目：列出設計審查項目主檔，供表身挑選制式審查項目 ─────
+        public List<設計審查項目表> getDesignReviewItemList()
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<設計審查項目表>("SELECT * FROM 設計審查項目表 ORDER BY 識別碼").ToList();
+            }
+        }
+
+        // ── 審查人員下拉：職務='設計'的成本單位人員配置(對應到 H員工清冊 取姓名) ──
+        public List<成本單位人員配置> getDesignStaffList()
+        {
+            string sql = @"
+SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
+  FROM 成本單位人員配置 c
+ INNER JOIN H員工清冊 e ON c.員工編號 = e.工號
+ WHERE c.職務 = '設計'";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<成本單位人員配置>(sql).ToList();
+            }
+        }
+
+        // ── 設計審查清單：以 DA+日期+兩碼序號 產生新的清單編號 ─────────────
+        private string getNewDesignAuditListNo(SqlConnection conn, SqlTransaction tran)
+        {
+            string prefix = "DA" + DateTime.Now.ToString("yyyyMMdd");
+            int seq = conn.Query<int>($"SELECT COUNT(0) + 1 FROM 設計派案 WHERE 清單編號 LIKE '{prefix}%'", null, tran).First();
+            return prefix + seq.ToString("00");
+        }
+
+        // ── 設計審查清單：儲存表頭審查資訊(審查日期/審查人員/審圖通過)與明細，
+        //    新單第一次儲存時自動產生清單編號；明細採整批刪除後重建 ─────────
+        public string saveDesignAudit(設計派案 header, List<設計審查明細> details)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    string listNo = header.清單編號;
+                    if (string.IsNullOrEmpty(listNo))
+                    {
+                        listNo = getNewDesignAuditListNo(conn, tran);
+                        conn.Execute("UPDATE 設計派案 SET 清單編號=@清單編號 WHERE 設計識別碼=@設計識別碼",
+                            new { 清單編號 = listNo, header.設計識別碼 }, tran);
+                    }
+
+                    conn.Execute(@"
+UPDATE 設計派案
+   SET 審查日期=@審查日期, 審查人員=@審查人員, 審圖通過=@審圖通過
+ WHERE 設計識別碼=@設計識別碼",
+                        new { header.審查日期, header.審查人員, header.審圖通過, header.設計識別碼 }, tran);
+
+                    conn.Execute("DELETE FROM 設計審查明細 WHERE 清單編號=@清單編號", new { 清單編號 = listNo }, tran);
+
+                    foreach (var d in details ?? new List<設計審查明細>())
+                    {
+                        d.清單編號 = listNo;
+                        conn.Execute(@"
+INSERT INTO 設計審查明細 (清單編號, 審查項目, 初審意見, 複審一意見, 複審二意見, 符合)
+VALUES (@清單編號, @審查項目, @初審意見, @複審一意見, @複審二意見, @符合)", d, tran);
+                    }
+
+                    tran.Commit();
+                    return listNo;
+                }
+            }
+        }
+
+        // ── 設計審查清單：生效 — 設定審圖通過/發行人員/圖檔發行日(對應原巨集之 SetValue) ──
+        public void activateDesignAudit(string listNo, string issuer)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                conn.Execute(@"
+UPDATE 設計派案
+   SET 審圖通過=1, 發行人員=@發行人員, 圖檔發行日=@圖檔發行日
+ WHERE 清單編號=@清單編號",
+                    new { 發行人員 = issuer, 圖檔發行日 = DateTime.Now, 清單編號 = listNo });
+            }
+        }
+
+        // ── 設計審查清單：取消生效 — 清空審圖通過/發行人員/圖檔發行日(對應原巨集之 SetValue=Null) ──
+        public void deactivateDesignAudit(string listNo)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                conn.Execute(@"
+UPDATE 設計派案
+   SET 審圖通過=NULL, 發行人員=NULL, 圖檔發行日=NULL
+ WHERE 清單編號=@清單編號",
+                    new { 清單編號 = listNo });
+            }
+        }
+
+        // ── 圖面發行轉BOM：BOM編號＝專案序號-模組編碼-製圖檔名；若尚未建立
+        //    專案模組用料清單表頭，複製設計派案資料建立一筆，再將設計派案標記為已發行 ──
+        public string transferDrawingToBom(string listNo, string operatorName)
+        {
+            var header = getDesignAssignmentByListNo(listNo);
+            if (header == null) throw new Exception("找不到設計派案資料，清單編號：" + listNo);
+
+            string bomNo = $"{header.專案序號}-{header.模組編碼}-{header.製圖檔名}";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    int exists = conn.Query<int>("SELECT COUNT(0) FROM 專案模組用料清單 WHERE BOM編號=@BOM編號", new { BOM編號 = bomNo }, tran).First();
+                    if (exists == 0)
+                    {
+                        conn.Execute(@"
+INSERT INTO 專案模組用料清單
+    (BOM編號, 專案序號, 模組編碼, 模組名稱, 設計人員, 製圖檔名, 圖檔發行日, 發行人員, 審查清單編號, 建檔, 建檔日)
+VALUES
+    (@BOM編號, @專案序號, @模組編碼, @模組名稱, @設計人員, @製圖檔名, @圖檔發行日, @發行人員, @審查清單編號, @建檔, @建檔日)",
+                            new
+                            {
+                                BOM編號 = bomNo,
+                                header.專案序號,
+                                header.模組編碼,
+                                header.模組名稱,
+                                header.設計人員,
+                                header.製圖檔名,
+                                header.圖檔發行日,
+                                header.發行人員,
+                                審查清單編號 = listNo,
+                                建檔 = operatorName,
+                                建檔日 = DateTime.Now,
+                            }, tran);
+                    }
+
+                    conn.Execute("UPDATE 設計派案 SET 已發行=1 WHERE 清單編號=@清單編號", new { 清單編號 = listNo }, tran);
+
+                    tran.Commit();
+                }
+            }
+
+            return bomNo;
+        }
+
+        // ── 專案模組用料清單：依BOM編號取得單筆表頭 ─────────────────────────
+        public 專案模組用料清單 getModuleMaterialByBomNo(string bomNo)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.QueryFirstOrDefault<專案模組用料清單>("SELECT * FROM 專案模組用料清單 WHERE BOM編號=@BOM編號", new { BOM編號 = bomNo });
+            }
+        }
+
+        // ── 專案模組用料清單：依BOM編號取得BOM明細 ──────────────────────────
+        public List<專案模組BOM明細> getModuleBomDetailList(string bomNo)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<專案模組BOM明細>("SELECT * FROM 專案模組BOM明細 WHERE BOM編號=@BOM編號 ORDER BY 球號", new { BOM編號 = bomNo }).ToList();
+            }
+        }
+
+        // ── 專案模組用料清單：儲存表頭(組裝資訊)與BOM明細，明細採整批刪除後重建 ──
+        public void saveModuleMaterial(專案模組用料清單 header, List<專案模組BOM明細> details, string operatorName)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    conn.Execute(@"
+UPDATE 專案模組用料清單
+   SET 組裝人員=@組裝人員, 開工日期=@開工日期, 預交日期=@預交日期, 完工日期=@完工日期, 結案回報=@結案回報, 用途=@用途,
+       修改=@修改, 修改日=@修改日
+ WHERE BOM編號=@BOM編號",
+                        new
+                        {
+                            header.組裝人員,
+                            header.開工日期,
+                            header.預交日期,
+                            header.完工日期,
+                            header.結案回報,
+                            header.用途,
+                            修改 = operatorName,
+                            修改日 = DateTime.Now,
+                            header.BOM編號,
+                        }, tran);
+
+                    conn.Execute("DELETE FROM 專案模組BOM明細 WHERE BOM編號=@BOM編號", new { header.BOM編號 }, tran);
+
+                    foreach (var d in details ?? new List<專案模組BOM明細>())
+                    {
+                        d.BOM編號 = header.BOM編號;
+                        conn.Execute(@"
+INSERT INTO 專案模組BOM明細 (BOM編號, 球號, 零件號碼, 品名, 描述, 數量, 最後修改日期, 上一階品號, 不需備料, 備註, 勾選)
+VALUES (@BOM編號, @球號, @零件號碼, @品名, @描述, @數量, @最後修改日期, @上一階品號, @不需備料, @備註, @勾選)", d, tran);
+                    }
+
+                    tran.Commit();
+                }
+            }
+        }
+
         // ── 專案管控表：採購進度資料來源為採購計畫 ────────────────────────
         public List<採購計畫> getPurchasePlanList(string projectNo)
         {

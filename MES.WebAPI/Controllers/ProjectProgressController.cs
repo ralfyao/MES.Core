@@ -59,6 +59,227 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetDesignAuditList"), HttpGet]
+        public CommonRep<設計審圖總覽> GetDesignAuditList()
+        {
+            CommonRep<設計審圖總覽> commonRep = new CommonRep<設計審圖總覽>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getDesignAuditList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetDesignAssignmentByListNo"), HttpGet]
+        public CommonRep<設計派案> GetDesignAssignmentByListNo(string listNo)
+        {
+            CommonRep<設計派案> commonRep = new CommonRep<設計派案>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.getDesignAssignmentByListNo(listNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetPendingDesignAssignmentList"), HttpGet]
+        public CommonRep<設計派案> GetPendingDesignAssignmentList()
+        {
+            CommonRep<設計派案> commonRep = new CommonRep<設計派案>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getPendingDesignAssignmentList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetDesignAuditDetailList"), HttpGet]
+        public CommonRep<設計審查明細> GetDesignAuditDetailList(string listNo)
+        {
+            CommonRep<設計審查明細> commonRep = new CommonRep<設計審查明細>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getDesignAuditDetailList(listNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetDesignReviewItemList"), HttpGet]
+        public CommonRep<設計審查項目表> GetDesignReviewItemList()
+        {
+            CommonRep<設計審查項目表> commonRep = new CommonRep<設計審查項目表>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getDesignReviewItemList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetDesignStaffList"), HttpGet]
+        public CommonRep<成本單位人員配置> GetDesignStaffList()
+        {
+            CommonRep<成本單位人員配置> commonRep = new CommonRep<成本單位人員配置>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getDesignStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveDesignAudit"), HttpPost]
+        public CommonRep<string> SaveDesignAudit([FromBody] SaveDesignAuditReq req)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.saveDesignAudit(req.header, req.details);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/ActivateDesignAudit"), HttpPost]
+        public CommonRep<string> ActivateDesignAudit([FromBody] ActivateDesignAuditReq req)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                projectProgressMiddle.activateDesignAudit(req.listNo, req.issuer);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/DeactivateDesignAudit"), HttpPost]
+        public CommonRep<string> DeactivateDesignAudit([FromBody] ActivateDesignAuditReq req)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                projectProgressMiddle.deactivateDesignAudit(req.listNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/TransferDrawingToBom"), HttpPost]
+        public CommonRep<string> TransferDrawingToBom([FromBody] TransferDrawingToBomReq req)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.transferDrawingToBom(req.listNo, req.operatorName);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetModuleMaterialByBomNo"), HttpGet]
+        public CommonRep<專案模組用料清單> GetModuleMaterialByBomNo(string bomNo)
+        {
+            CommonRep<專案模組用料清單> commonRep = new CommonRep<專案模組用料清單>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.getModuleMaterialByBomNo(bomNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetModuleBomDetailList"), HttpGet]
+        public CommonRep<專案模組BOM明細> GetModuleBomDetailList(string bomNo)
+        {
+            CommonRep<專案模組BOM明細> commonRep = new CommonRep<專案模組BOM明細>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getModuleBomDetailList(bomNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveModuleMaterial"), HttpPost]
+        public CommonRep<string> SaveModuleMaterial([FromBody] SaveModuleMaterialReq req)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                projectProgressMiddle.saveModuleMaterial(req.header, req.details, req.operatorName);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/GetPurchasePlanList"), HttpGet]
         public CommonRep<採購計畫> GetPurchasePlanList(string projectNo)
         {

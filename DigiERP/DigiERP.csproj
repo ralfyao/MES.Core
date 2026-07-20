@@ -54,6 +54,9 @@
     <Compile Update="Forms\Objective\FrmObjective.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\Production\FrmProduction.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\Supplier\FrmSupplier.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +87,7 @@
     <Folder Include="UserControl\Objective\Bank\" />
     <Folder Include="UserControl\Objective\SalesTracking\" />
     <Folder Include="UserControl\Order\" />
+    <Folder Include="UserControl\Production\DesignAudit\" />
   </ItemGroup>
 
 </Project>
