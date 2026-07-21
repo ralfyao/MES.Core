@@ -9,6 +9,7 @@ namespace DigiERP.Forms.Production
     {
         private string _category;
         private bool _isNew;
+        private static string moduleId = "17710D59-5F02-451E-9A16-5103B8D77DB8";
 
         public string SelectedCategory { get; private set; }
 
@@ -26,6 +27,20 @@ namespace DigiERP.Forms.Production
             disableAllControls(true);
             LoadData();
         }
+
+        //public FrmModuleCheckList()
+        //{
+        //    InitializeComponent();
+        //    _isNew = true;
+        //    //_category = category?.檢查分類;
+        //    //txtCategory.Text = category?.檢查分類;
+        //    txtCategory.ReadOnly = true;
+
+        //    LoadDutyList("");
+
+        //    disableAllControls(true);
+        //    LoadData();
+        //}
 
         // ── 新增分類：一開啟就可編輯，只顯示 儲存/關閉 ─────────────────────
         public FrmModuleCheckList()
