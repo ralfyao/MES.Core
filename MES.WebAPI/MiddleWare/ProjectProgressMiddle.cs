@@ -209,6 +209,131 @@ SELECT dbo_設計派案.設計識別碼, dbo_設計派案.工程表識別碼, db
             }
         }
 
+        // ── 設計派案：不篩選專案，列出全部設計派案(INNER JOIN 工令單取客戶簡稱) ──
+        public List<設計派案> getAllDesignAssignmentList()
+        {
+            string sql = @"
+SELECT
+    dbo_設計派案.設計識別碼,
+    dbo_設計派案.工程表識別碼,
+    dbo_設計派案.專案序號,
+    dbo_設計派案.模組編碼,
+    dbo_設計派案.模組名稱,
+    dbo_設計派案.檢查分類,
+    dbo_設計派案.製圖,
+    dbo_設計派案.設計人員,
+    dbo_設計派案.設計圖類,
+    dbo_設計派案.製圖檔名,
+    dbo_設計派案.實際開工日,
+    dbo_設計派案.預計完工日,
+    dbo_設計派案.圖檔發行日,
+    dbo_設計派案.審圖通過,
+    dbo_設計派案.清單編號,
+    dbo_工令單.客戶簡稱
+FROM 設計派案 dbo_設計派案
+INNER JOIN 工令單 dbo_工令單 ON dbo_設計派案.專案序號 = dbo_工令單.專案序號";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<設計派案>(sql).ToList();
+            }
+        }
+
+        // ── 檢查分類下拉：模組圖檢查主檔(檢查分類/職務) ─────────────────────
+        public List<模組圖檢查> getModuleDrawingCheckList()
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<模組圖檢查>("SELECT * FROM 模組圖檢查").ToList();
+            }
+        }
+
+        // ── 用途下拉：成本單位主檔的職務清單 ───────────────────────────────
+        public List<string> getCostUnitDutyList()
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<string>("SELECT 職務 FROM dbo.A成本單位 AS A").ToList();
+            }
+        }
+
+        // ── 模組圖自檢一覽表：依檢查分類取得檢查項目明細 ────────────────────
+        public List<模組圖檢查項目> getModuleCheckItemList(string category)
+        {
+            string sql = @"
+SELECT [識別碼], [項次], [檢查分類], [檢查項目], [檢查方法], [說明]
+  FROM 模組圖檢查項目
+ WHERE 檢查分類=@檢查分類
+ ORDER BY 項次";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<模組圖檢查項目>(sql, new { 檢查分類 = category }).ToList();
+            }
+        }
+
+        // ── 模組圖自檢一覽表：儲存用途(職務)與檢查項目明細，明細採整批刪除後重建；
+        //    若檢查分類尚不存在於模組圖檢查主檔(新增流程)，先建立該筆分類 ──────
+        public void saveModuleCheckItemList(string category, string duty, List<模組圖檢查項目> items)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    int exists = conn.Query<int>("SELECT COUNT(0) FROM 模組圖檢查 WHERE 檢查分類=@檢查分類", new { 檢查分類 = category }, tran).First();
+                    if (exists == 0)
+                    {
+                        conn.Execute("INSERT INTO 模組圖檢查 (檢查分類, 職務) VALUES (@檢查分類, @職務)",
+                            new { 檢查分類 = category, 職務 = duty }, tran);
+                    }
+                    else
+                    {
+                        conn.Execute("UPDATE 模組圖檢查 SET 職務=@職務 WHERE 檢查分類=@檢查分類",
+                            new { 職務 = duty, 檢查分類 = category }, tran);
+                    }
+
+                    conn.Execute("DELETE FROM 模組圖檢查項目 WHERE 檢查分類=@檢查分類", new { 檢查分類 = category }, tran);
+
+                    foreach (var x in items ?? new List<模組圖檢查項目>())
+                    {
+                        x.檢查分類 = category;
+                        conn.Execute(@"
+INSERT INTO 模組圖檢查項目 (項次, 檢查分類, 檢查項目, 檢查方法, 說明)
+VALUES (@項次, @檢查分類, @檢查項目, @檢查方法, @說明)", x, tran);
+                    }
+
+                    tran.Commit();
+                }
+            }
+        }
+
+        // ── 設計派案：批次儲存編修後的派工欄位 ─────────────────────────────
+        public void saveDesignAssignmentBatch(List<設計派案> list)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    foreach (var x in list ?? new List<設計派案>())
+                    {
+                        conn.Execute(@"
+UPDATE 設計派案
+   SET 檢查分類=@檢查分類, 製圖=@製圖, 設計人員=@設計人員, 設計圖類=@設計圖類, 製圖檔名=@製圖檔名,
+       實際開工日=@實際開工日, 預計完工日=@預計完工日, 圖檔發行日=@圖檔發行日
+ WHERE 設計識別碼=@設計識別碼",
+                            x, tran);
+                    }
+                    tran.Commit();
+                }
+            }
+        }
+
         // ── 審圖總覽：列出已建立清單編號的設計派案審圖/發行狀態 ────────────
         public List<設計審圖總覽> getDesignAuditList()
         {

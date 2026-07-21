@@ -88,6 +88,7 @@
     <Folder Include="UserControl\Objective\SalesTracking\" />
     <Folder Include="UserControl\Order\" />
     <Folder Include="UserControl\Production\DesignAudit\" />
+    <Folder Include="UserControl\Production\DesignDispatch\" />
   </ItemGroup>
 
 </Project>

@@ -39,7 +39,6 @@ namespace DigiERP
         Dictionary<string, string> menuMappingDict = new Dictionary<string, string>();
         private void initMenu()
         {
-            //throw new NotImplementedException();
             var menuList = new MenuController().GetModuleList(FrmProduction.moduleId);
             if (!string.IsNullOrEmpty(menuList.ErrorMessage))
             {
@@ -56,8 +55,11 @@ namespace DigiERP
                 }
             }
         }
-
-        // ── 供外部（如廠商維護頁的「廠商評鑑」按鈕）動態開啟新頁籤 ─────────────
+        /// <summary>
+        /// 供外部（如廠商維護頁的「廠商評鑑」按鈕）動態開啟新頁籤
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
         public void AddTab(string title, Control content)
         {
             TabPage tab = new TabPage(title);
@@ -70,7 +72,6 @@ namespace DigiERP
             tabControl.SizeMode = TabSizeMode.Fixed;
             tabControl.ItemSize = new Size(120, 30);
         }
-
         private void FrmCust_Shown(object sender, EventArgs e)
         {
             treeView.SelectedNode = null;
@@ -122,17 +123,6 @@ namespace DigiERP
 
             Control ctrl = (Control)Activator.CreateInstance(type);
             ctrl.Name = tab.Name;
-            //    key switch
-            //{
-            //    "SupplierManage" => new CustomerControl() { Width = tab.Width },
-            //    //"Order" => new OrderControl() { Width = tab.Width },
-            //    //"RFQ" => new RFQControl() { Width = tab.Width },
-            //    //"Quotation" => new QuotationControl() { Width = tab.Width },
-            //    //"SalesOrder" => new OrderControl() { Width = tab.Width },
-            //    //"ShippingOrder" => new ShippingOrderControl() { Width = tab.Width },
-            //    //"AccountsReceivables" => new ReceivableControl() { Width = tab.Width },
-            //    _ => null
-            //}; ;
             if (ctrl == null || ctrl.IsDisposed)
                 return;
             if (ctrl != null)

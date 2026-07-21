@@ -33,7 +33,10 @@ namespace DigiERP.UserControl.Production
             }
             FillGrid(rep.resultList ?? new List<設計審圖總覽>());
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         private void FillGrid(List<設計審圖總覽> list)
         {
             dataGridView1.Rows.Clear();
@@ -56,8 +59,11 @@ namespace DigiERP.UserControl.Production
                 dataGridView1.Rows.Add(row);
             }
         }
-
-        // ── 雙擊清單列：開啟該筆審查清單的維護畫面 ─────────────────────────
+        /// <summary>
+        /// 雙擊清單列：開啟該筆審查清單的維護畫面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -65,8 +71,11 @@ namespace DigiERP.UserControl.Production
             if (string.IsNullOrEmpty(listNo)) return;
             OpenMaintain(listNo);
         }
-
-        // ── 新增：開啟空白的審查清單維護畫面，供選擇審查項目後建立新單 ──────
+        /// <summary>
+        /// 新增：開啟空白的審查清單維護畫面，供選擇審查項目後建立新單
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             OpenMaintain(null);

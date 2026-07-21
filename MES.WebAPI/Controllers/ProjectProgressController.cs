@@ -280,6 +280,108 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetAllDesignAssignmentList"), HttpGet]
+        public CommonRep<設計派案> GetAllDesignAssignmentList()
+        {
+            CommonRep<設計派案> commonRep = new CommonRep<設計派案>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getAllDesignAssignmentList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveDesignAssignmentBatch"), HttpPost]
+        public CommonRep<string> SaveDesignAssignmentBatch([FromBody] List<設計派案> list)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                projectProgressMiddle.saveDesignAssignmentBatch(list);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetModuleDrawingCheckList"), HttpGet]
+        public CommonRep<模組圖檢查> GetModuleDrawingCheckList()
+        {
+            CommonRep<模組圖檢查> commonRep = new CommonRep<模組圖檢查>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getModuleDrawingCheckList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetCostUnitDutyList"), HttpGet]
+        public CommonRep<string> GetCostUnitDutyList()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getCostUnitDutyList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetModuleCheckItemList"), HttpGet]
+        public CommonRep<模組圖檢查項目> GetModuleCheckItemList(string category)
+        {
+            CommonRep<模組圖檢查項目> commonRep = new CommonRep<模組圖檢查項目>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getModuleCheckItemList(category);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveModuleCheckItemList"), HttpPost]
+        public CommonRep<string> SaveModuleCheckItemList([FromBody] SaveModuleCheckItemListReq req)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                projectProgressMiddle.saveModuleCheckItemList(req.category, req.duty, req.items);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/GetPurchasePlanList"), HttpGet]
         public CommonRep<採購計畫> GetPurchasePlanList(string projectNo)
         {
