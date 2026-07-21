@@ -339,6 +339,7 @@ namespace DigiERP.UserControl.Production
             _header.審查日期 = GetText("審查日期");
             _header.審查人員 = GetText("審查人員");
             _header.審圖通過 = GetBool("審圖通過");
+            _header.已發行 = GetBool("已發行");
 
             var req = new MES.WebAPI.Models.SaveDesignAuditReq
             {
@@ -430,7 +431,7 @@ namespace DigiERP.UserControl.Production
             if (ctrl.IsDisposed) return;
             ctrl.LoadData(bomNo);
             ctrl.Dock = DockStyle.Fill;
-            var tab = new TabPage(bomNo + " 專案模組用料清單") { Name = tabName };
+            var tab = new TabPage("專案模組用料清單") { Name = tabName };
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;

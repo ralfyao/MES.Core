@@ -99,7 +99,7 @@ namespace DigiERP.UserControl.Production
             if (string.IsNullOrEmpty(listNo)) ctrl.LoadNew();
             else ctrl.LoadData(listNo);
             ctrl.Dock = DockStyle.Fill;
-            var tab = new TabPage(string.IsNullOrEmpty(listNo) ? "新增審查清單" : listNo + " 設計審查清單") { Name = tabName };
+            var tab = new TabPage(string.IsNullOrEmpty(listNo) ? "新增審查清單" :"設計審查清單") { Name = tabName };
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;

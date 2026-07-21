@@ -456,9 +456,9 @@ SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
 
                     conn.Execute(@"
 UPDATE 設計派案
-   SET 審查日期=@審查日期, 審查人員=@審查人員, 審圖通過=@審圖通過
+   SET 審查日期=@審查日期, 審查人員=@審查人員, 審圖通過=@審圖通過, 已發行=@已發行
  WHERE 設計識別碼=@設計識別碼",
-                        new { header.審查日期, header.審查人員, header.審圖通過, header.設計識別碼 }, tran);
+                        new { header.審查日期, header.審查人員, header.審圖通過, header.已發行, header.設計識別碼 }, tran);
 
                     conn.Execute("DELETE FROM 設計審查明細 WHERE 清單編號=@清單編號", new { 清單編號 = listNo }, tran);
 
