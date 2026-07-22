@@ -263,6 +263,57 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetModuleMaterialOverviewList"), HttpGet]
+        public CommonRep<專案用料總覽> GetModuleMaterialOverviewList()
+        {
+            CommonRep<專案用料總覽> commonRep = new CommonRep<專案用料總覽>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getModuleMaterialOverviewList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetModuleMaterialFullList"), HttpGet]
+        public CommonRep<專案模組用料清單> GetModuleMaterialFullList()
+        {
+            CommonRep<專案模組用料清單> commonRep = new CommonRep<專案模組用料清單>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getModuleMaterialFullList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveModuleMaterialHeaderBatch"), HttpPost]
+        public CommonRep<string> SaveModuleMaterialHeaderBatch([FromBody] SaveModuleMaterialHeaderBatchReq req)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                projectProgressMiddle.saveModuleMaterialHeaderBatch(req.list, req.operatorName);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/SaveModuleMaterial"), HttpPost]
         public CommonRep<string> SaveModuleMaterial([FromBody] SaveModuleMaterialReq req)
         {
@@ -390,6 +441,23 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = projectProgressMiddle.getPurchasePlanList(projectNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetPurchasablePartListForBom"), HttpGet]
+        public CommonRep<可領用零件清單> GetPurchasablePartListForBom(string projectNo, string moduleCode)
+        {
+            CommonRep<可領用零件清單> commonRep = new CommonRep<可領用零件清單>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getPurchasablePartListForBom(projectNo, moduleCode);
             }
             catch (Exception ex)
             {

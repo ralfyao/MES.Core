@@ -340,7 +340,31 @@ namespace DigiERP.UserControl.Production
             _header.審查人員 = GetText("審查人員");
             _header.審圖通過 = GetBool("審圖通過");
             _header.已發行 = GetBool("已發行");
+            if (((bool)_header.審圖通過))
+            {
+                _header.審查人員 = AppSession.User.name;
+                _header.審查日期 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                SetText("審查日期", _header.審查人員);
+                SetText("審查人員", _header.審查日期);
+            }
+            else
+            {
+                SetText("審查日期", string.Empty);
+                SetText("審查人員", string.Empty);
+            }
 
+            if (((bool)_header.已發行))
+            {
+                _header.發行人員 = AppSession.User.name;
+                _header.圖檔發行日 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                SetText("發行人員", AppSession.User.name);
+                SetText("圖檔發行日", _header.圖檔發行日);
+            }
+            else
+            {
+                SetText("審查日期", string.Empty);
+                SetText("審查人員", string.Empty);
+            }
             var req = new MES.WebAPI.Models.SaveDesignAuditReq
             {
                 header = _header,

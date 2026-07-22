@@ -183,6 +183,22 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        [Route("api/GetMaterialRequisitionListByBomNo"), HttpGet]
+        public CommonRep<A材料庫存卡> GetMaterialRequisitionListByBomNo(string bomNo)
+        {
+            CommonRep<A材料庫存卡> commonRep = new CommonRep<A材料庫存卡>();
+            try
+            {
+                commonRep.resultList = new A材料庫存卡Repository()
+                    .GetRequisitionListByBomNo(bomNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         [Route("api/ItemTypeList"), HttpGet]
         public CommonRep<string> GetItemTypeList()
         {

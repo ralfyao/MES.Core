@@ -212,7 +212,10 @@ namespace MES.WebAPI.MiddleWare
                                         出庫,
                                         儲位,
                                         領用人,
-                                        備註
+                                        備註,
+                                        單價,
+                                        領用長度,
+                                        ERP領料單號
                                     )
                                     VALUES
                                     (
@@ -225,7 +228,10 @@ namespace MES.WebAPI.MiddleWare
                                         @出庫,
                                         @儲位,
                                         @異動人員,
-                                        @備註
+                                        @備註,
+                                        @單價,
+                                        @領用長度,
+                                        @ERP領料單號
                                     )";
                     DynamicParameters dynamicParameters = new DynamicParameters(form);
                     conn.Execute(sql, dynamicParameters);

@@ -315,12 +315,12 @@ namespace DigiERP.UserControl.Production
         private void btnActivate_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
         private void btnDeactivate_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
 
-        // ── 總覽：切回(或開啟)審圖總覽頁籤 ─────────────────────────────
+        // ── 總覽：切回(或開啟)專案用料總覽頁籤 ─────────────────────────────
         private void btnOverview_Click(object sender, EventArgs e)
         {
             if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
             TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
-            const string tabName = "DesignAuditOverview";
+            const string tabName = "DesignIssueOverview";
             foreach (TabPage page in tabControl.TabPages)
             {
                 if (page.Name == tabName)
@@ -329,10 +329,10 @@ namespace DigiERP.UserControl.Production
                     return;
                 }
             }
-            var ctrl = new DesignAuditControl();
+            var ctrl = new DesignIssueControl();
             if (ctrl.IsDisposed) return;
             ctrl.Dock = DockStyle.Fill;
-            var tab = new TabPage("審圖總覽") { Name = tabName };
+            var tab = new TabPage("專案用料總覽") { Name = tabName };
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
