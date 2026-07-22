@@ -320,5 +320,16 @@ namespace MES.WebAPI.MiddleWare
             }
             return execCnt;
         }
+
+        // ── 材料領用清單：領用人下拉選單，僅列出未停用的帳號 ────────────────
+        public List<account> getActiveAccountList()
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                string sql = @"SELECT 姓名, 帳號, 停用 FROM account WHERE 停用=0";
+                return conn.Query<account>(sql).ToList();
+            }
+        }
     }
 }

@@ -41,6 +41,23 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetActiveAccountList")]
+        public CommonRep<account> GetActiveAccountList()
+        {
+            CommonRep<account> commonRep = new CommonRep<account>();
+            UserMiddle userMiddle = new UserMiddle();
+            try
+            {
+                commonRep.resultList = userMiddle.getActiveAccountList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex + ex.StackTrace;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         public CommonRep<int> SaveUserPrivilege(List<A使用者授權> saveList)
         {
             CommonRep<int> rep = new CommonRep<int>();

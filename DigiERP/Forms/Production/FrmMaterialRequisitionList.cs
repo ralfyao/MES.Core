@@ -95,30 +95,46 @@ namespace DigiERP.Forms.Production
         // ── 點選『產品編號』欄位：修改模式下、且為新增列時，跳出可領用零件
         //    選擇視窗，選定後將產品編號帶入儲存格，並依產品編號帶出品名規格；
         //    同時帶出摘要='領料'、管制單號(取自零件清單的零件管制單號)，
-        //    領用量(出庫)預設為0 ──────────────────────────────────────
+        //    領用量(出庫)預設為0；點選『領用人』欄位：跳出未停用帳號選擇
+        //    視窗，選定後將姓名帶回領用人 ──────────────────────────────
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (!_editMode || e.RowIndex < 0) return;
             var row = dataGridView1.Rows[e.RowIndex];
-            if (row.ReadOnly || e.ColumnIndex != colProductNo.Index) return;
+            if (row.ReadOnly) return;
 
-            var rep = new ProjectProgressController().GetPurchasablePartListForBom(_projectNo, _moduleCode);
-            if (!string.IsNullOrEmpty(rep.ErrorMessage))
+            if (e.ColumnIndex == colProductNo.Index)
             {
-                MessageBox.Show(rep.ErrorMessage);
-                return;
+                var rep = new ProjectProgressController().GetPurchasablePartListForBom(_projectNo, _moduleCode);
+                if (!string.IsNullOrEmpty(rep.ErrorMessage))
+                {
+                    MessageBox.Show(rep.ErrorMessage);
+                    return;
+                }
+                using var frm = new FrmSelectPurchasePart(rep.resultList ?? new List<可領用零件清單>());
+                if (frm.ShowDialog(this) != DialogResult.OK) return;
+
+                string productNo = frm.SelectedItem.產品編號;
+                row.Cells[colProductNo.Index].Value = productNo;
+                row.Cells[colSummary.Index].Value = "領料";
+                row.Cells[colControlNo.Index].Value = frm.SelectedItem.零件管制單號;
+                row.Cells[colStockOut.Index].Value = "0";
+
+                var itemRep = new ItemController().ItemList(productNo);
+                row.Cells[colSpec.Index].Value = itemRep.resultList?.FirstOrDefault()?.品名規格 ?? "";
             }
-            using var frm = new FrmSelectPurchasePart(rep.resultList ?? new List<可領用零件清單>());
-            if (frm.ShowDialog(this) != DialogResult.OK) return;
-
-            string productNo = frm.SelectedItem.產品編號;
-            row.Cells[colProductNo.Index].Value = productNo;
-            row.Cells[colSummary.Index].Value = "領料";
-            row.Cells[colControlNo.Index].Value = frm.SelectedItem.零件管制單號;
-            row.Cells[colStockOut.Index].Value = "0";
-
-            var itemRep = new ItemController().ItemList(productNo);
-            row.Cells[colSpec.Index].Value = itemRep.resultList?.FirstOrDefault()?.品名規格 ?? "";
+            else if (e.ColumnIndex == colRequester.Index)
+            {
+                var rep = new UserPrivilegeController().GetActiveAccountList();
+                if (!string.IsNullOrEmpty(rep.ErrorMessage))
+                {
+                    MessageBox.Show(rep.ErrorMessage);
+                    return;
+                }
+                using var frm = new FrmSelectAccount(rep.resultList ?? new List<account>());
+                if (frm.ShowDialog(this) != DialogResult.OK) return;
+                row.Cells[colRequester.Index].Value = frm.SelectedItem.姓名;
+            }
         }
 
         // ── 儲存：只寫入新增的那幾列，既有紀錄不動；異動日期/產品編號為必填，

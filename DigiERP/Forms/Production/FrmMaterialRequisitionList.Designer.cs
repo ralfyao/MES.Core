@@ -298,6 +298,7 @@ namespace DigiERP.Forms.Production
             // 
             colRequester.HeaderText = "領用人";
             colRequester.Name = "colRequester";
+            colRequester.ReadOnly = true;
             // 
             // colLength
             // 
