@@ -429,6 +429,23 @@ SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
             }
         }
 
+        // ── 異常矯正措施報告：決策人員下拉，職務='業務'的成本單位人員配置
+        //    (對應到 H員工清冊 取姓名) ────────────────────────────────
+        public List<成本單位人員配置> getSalesStaffList()
+        {
+            string sql = @"
+SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
+  FROM 成本單位人員配置 c
+ INNER JOIN H員工清冊 e ON c.員工編號 = e.工號
+ WHERE c.職務 = '業務'";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<成本單位人員配置>(sql).ToList();
+            }
+        }
+
         // ── 設計審查清單：以 DA+日期+兩碼序號 產生新的清單編號 ─────────────
         private string getNewDesignAuditListNo(SqlConnection conn, SqlTransaction tran)
         {
@@ -637,11 +654,12 @@ FROM
                     {
                         conn.Execute(@"
 UPDATE 專案模組用料清單
-   SET 組裝人員=@組裝人員, 開工日期=@開工日期, 預交日期=@預交日期, 完工日期=@完工日期, 結案回報=@結案回報, 用途=@用途,
+   SET 圖檔發行日=@圖檔發行日, 組裝人員=@組裝人員, 開工日期=@開工日期, 預交日期=@預交日期, 完工日期=@完工日期, 結案回報=@結案回報, 用途=@用途,
        修改=@修改, 修改日=@修改日
  WHERE BOM編號=@BOM編號",
                             new
                             {
+                                x.圖檔發行日,
                                 x.組裝人員,
                                 x.開工日期,
                                 x.預交日期,
@@ -655,6 +673,54 @@ UPDATE 專案模組用料清單
                     }
                     tran.Commit();
                 }
+            }
+        }
+
+        // ── 組裝派案及領料作業：結案回報一選定即立即寫回完工日期(不等按「儲存」) ──
+        public void updateFinishDateByBomNo(string bomNo, string finishDate, string operatorName)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                conn.Execute(@"
+UPDATE 專案模組用料清單
+   SET 完工日期=@完工日期, 修改=@修改, 修改日=@修改日
+ WHERE BOM編號=@BOM編號",
+                    new
+                    {
+                        完工日期 = finishDate,
+                        修改 = operatorName,
+                        修改日 = DateTime.Now,
+                        BOM編號 = bomNo,
+                    });
+            }
+        }
+
+        // ── 專案機台組測紀錄表：雙擊專案序號開啟，表頭取自工令單 LEFT JOIN 產品規格單 ──
+        public 專案機台組測紀錄表頭 getProjectMachineTestRecordHeader(string projectNo)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.QueryFirstOrDefault<專案機台組測紀錄表頭>(@"
+SELECT
+    dbo_工令單.專案序號,
+    dbo_工令單.機台類型,
+    dbo_工令單.機台型號,
+    dbo_工令單.機台名稱,
+    dbo_工令單.客戶簡稱,
+    dbo_工令單.國家地區,
+    dbo_工令單.驗機日期,
+    dbo_工令單.交貨日期,
+    dbo_工令單.廠驗,
+    dbo_工令單.裝機,
+    dbo_產品規格單.[FQC-製成參數] AS FQC製成參數,
+    dbo_產品規格單.[OQC-出機檢查] AS OQC出機檢查,
+    dbo_產品規格單.[MQC-油壓委外單元] AS MQC油壓委外單元
+FROM
+    工令單 dbo_工令單
+    LEFT JOIN 產品規格單 dbo_產品規格單 ON dbo_工令單.專案序號 = dbo_產品規格單.專案序號
+WHERE dbo_工令單.專案序號=@專案序號", new { 專案序號 = projectNo });
             }
         }
 
@@ -1941,6 +2007,90 @@ WHERE
             {
                 conn.Open();
                 return conn.Query<組測週排程表>(sql, new { 基準日以前, 第一週, 第二週, 第三週, 第四週 }).ToList();
+            }
+        }
+
+        // ── 異常矯正措施報告：依來源單據(BOM編號)取得單筆資料 ──────────────
+        public 異常矯正措施報告 getAbnormalCorrectionReportBySourceDoc(string sourceDoc)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.QueryFirstOrDefault<異常矯正措施報告>("SELECT * FROM 異常矯正措施報告 WHERE 來源單據=@來源單據", new { 來源單據 = sourceDoc });
+            }
+        }
+
+        // ── 異常矯正措施報告：依來源單據新增或更新一筆資料(每筆來源單據僅一筆報告) ──
+        public void saveAbnormalCorrectionReport(異常矯正措施報告 form, string operatorName)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                int exists = conn.Query<int>("SELECT COUNT(0) FROM 異常矯正措施報告 WHERE 來源單據=@來源單據", new { form.來源單據 }).First();
+                if (exists == 0)
+                {
+                    conn.Execute(@"
+INSERT INTO 異常矯正措施報告
+    (日期, 單號, 專案序號, 模組編碼, 模組名稱, 零件號碼, 品名, 數量, 異常狀況, 檢查人員, 原因分析, 設計人員,
+     矯正措施, 設計變更, 預防對策, 決策人員, 來源單據, 異常來源, 建檔, 建檔日)
+VALUES
+    (@日期, @單號, @專案序號, @模組編碼, @模組名稱, @零件號碼, @品名, @數量, @異常狀況, @檢查人員, @原因分析, @設計人員,
+     @矯正措施, @設計變更, @預防對策, @決策人員, @來源單據, @異常來源, @建檔, @建檔日)",
+                        new
+                        {
+                            form.日期,
+                            form.單號,
+                            form.專案序號,
+                            form.模組編碼,
+                            form.模組名稱,
+                            form.零件號碼,
+                            form.品名,
+                            form.數量,
+                            form.異常狀況,
+                            form.檢查人員,
+                            form.原因分析,
+                            form.設計人員,
+                            form.矯正措施,
+                            form.設計變更,
+                            form.預防對策,
+                            form.決策人員,
+                            form.來源單據,
+                            form.異常來源,
+                            建檔 = operatorName,
+                            建檔日 = DateTime.Now,
+                        });
+                }
+                else
+                {
+                    conn.Execute(@"
+UPDATE 異常矯正措施報告
+   SET 日期=@日期, 單號=@單號, 模組名稱=@模組名稱, 零件號碼=@零件號碼, 品名=@品名, 數量=@數量,
+       異常狀況=@異常狀況, 檢查人員=@檢查人員, 原因分析=@原因分析, 設計人員=@設計人員, 矯正措施=@矯正措施,
+       設計變更=@設計變更, 預防對策=@預防對策, 決策人員=@決策人員, 異常來源=@異常來源,
+       修改=@修改, 修改日=@修改日
+ WHERE 來源單據=@來源單據",
+                        new
+                        {
+                            form.日期,
+                            form.單號,
+                            form.模組名稱,
+                            form.零件號碼,
+                            form.品名,
+                            form.數量,
+                            form.異常狀況,
+                            form.檢查人員,
+                            form.原因分析,
+                            form.設計人員,
+                            form.矯正措施,
+                            form.設計變更,
+                            form.預防對策,
+                            form.決策人員,
+                            form.異常來源,
+                            form.來源單據,
+                            修改 = operatorName,
+                            修改日 = DateTime.Now,
+                        });
+                }
             }
         }
     }

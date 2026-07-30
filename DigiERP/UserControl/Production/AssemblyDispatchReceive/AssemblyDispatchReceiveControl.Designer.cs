@@ -31,12 +31,12 @@ namespace DigiERP.UserControl.Production
             colModuleCode = new DataGridViewTextBoxColumn();
             colModuleName = new DataGridViewTextBoxColumn();
             colDrawingFile = new DataGridViewTextBoxColumn();
-            colIssueDate = new DataGridViewTextBoxColumn();
+            colIssueDate = new DigiERP.Common.DataGridViewDateTimePickerColumn();
             colAssemblyStaff = new DataGridViewTextBoxColumn();
             colStartDate = new DigiERP.Common.DataGridViewDateTimePickerColumn();
             colDueDate = new DigiERP.Common.DataGridViewDateTimePickerColumn();
             colFinishDate = new DigiERP.Common.DataGridViewDateTimePickerColumn();
-            colCloseReport = new DataGridViewTextBoxColumn();
+            colCloseReport = new DataGridViewComboBoxColumn();
             colPurpose = new DataGridViewTextBoxColumn();
             colBomNo = new DataGridViewTextBoxColumn();
             panel3 = new Panel();
@@ -153,6 +153,10 @@ namespace DigiERP.UserControl.Production
             dataGridView1.Size = new Size(1900, 564);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.DataError += dataGridView1_DataError;
+            dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
+            dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             // 
             // colProjectNo
             // 
@@ -187,8 +191,7 @@ namespace DigiERP.UserControl.Production
             // 
             colIssueDate.HeaderText = "圖檔發行日";
             colIssueDate.Name = "colIssueDate";
-            colIssueDate.ReadOnly = true;
-            // 
+            //
             // colAssemblyStaff
             // 
             colAssemblyStaff.HeaderText = "組裝人員";
@@ -208,13 +211,15 @@ namespace DigiERP.UserControl.Production
             // 
             colFinishDate.HeaderText = "完工日期";
             colFinishDate.Name = "colFinishDate";
+            colFinishDate.ReadOnly = true;
             // 
             // colCloseReport
             // 
             colCloseReport.FillWeight = 150F;
             colCloseReport.HeaderText = "結案回報";
             colCloseReport.Name = "colCloseReport";
-            // 
+            colCloseReport.Items.AddRange(new object[] { "合規", "特採", "設計變更" });
+            //
             // colPurpose
             // 
             colPurpose.HeaderText = "用途";
@@ -291,12 +296,12 @@ namespace DigiERP.UserControl.Production
         private DataGridViewTextBoxColumn colModuleCode;
         private DataGridViewTextBoxColumn colModuleName;
         private DataGridViewTextBoxColumn colDrawingFile;
-        private DataGridViewTextBoxColumn colIssueDate;
+        private DigiERP.Common.DataGridViewDateTimePickerColumn colIssueDate;
         private DataGridViewTextBoxColumn colAssemblyStaff;
         private DigiERP.Common.DataGridViewDateTimePickerColumn colStartDate;
         private DigiERP.Common.DataGridViewDateTimePickerColumn colDueDate;
         private DigiERP.Common.DataGridViewDateTimePickerColumn colFinishDate;
-        private DataGridViewTextBoxColumn colCloseReport;
+        private DataGridViewComboBoxColumn colCloseReport;
         private DataGridViewTextBoxColumn colPurpose;
         private DataGridViewTextBoxColumn colBomNo;
         private Panel panel3;

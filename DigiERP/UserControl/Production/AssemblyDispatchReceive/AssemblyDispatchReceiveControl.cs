@@ -15,13 +15,15 @@ namespace DigiERP.UserControl.Production
     {
         private static string id = "03641277-5CC8-4CA9-8592-F4F5FEE61693";
 
+        // ── 完工日期不在此列：一旦選定結案回報即自動填入並直接寫回資料庫，恆唯讀 ──
         private static readonly string[] EditableColumns =
         {
-            "colAssemblyStaff", "colStartDate", "colDueDate", "colFinishDate", "colCloseReport", "colPurpose",
+            "colIssueDate", "colAssemblyStaff", "colStartDate", "colDueDate", "colCloseReport", "colPurpose",
         };
 
         private bool _editing;
         private string _currentProjectNo;
+        private string _selectedProjectNo;
         private List<成本單位人員配置> _staffList = new List<成本單位人員配置>();
 
         public AssemblyDispatchReceiveControl()
@@ -81,11 +83,11 @@ namespace DigiERP.UserControl.Production
             }
         }
 
-        // ── 點選『專案序號』欄位：不受修改模式限制(編修中除外)，將清單刷新為
-        //    僅顯示該專案序號的資料；點選『製圖檔名』欄位：不受修改模式限制，
-        //    直接開啟該BOM編號的零配件領料清單(專案模組用料維護畫面)；點選
-        //    『組裝人員』欄位：修改模式下跳出人員選擇視窗(顯示姓名+員工編號)，
-        //    選定後帶入儲存格 ───────────────────────────────────────────
+        // ── 點選『專案序號』欄位：不受修改模式限制(編修中除外)，僅記錄選取的
+        //    專案序號，待按下「修改」後才依此專案序號篩選並刷新清單；點選
+        //    『製圖檔名』欄位：不受修改模式限制，直接開啟該BOM編號的零配件
+        //    領料清單(專案模組用料維護畫面)；點選『組裝人員』欄位：修改模式下
+        //    跳出人員選擇視窗(顯示姓名+員工編號)，選定後帶入儲存格 ─────────
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -99,7 +101,7 @@ namespace DigiERP.UserControl.Production
                 }
                 string projectNo = dataGridView1.Rows[e.RowIndex].Cells[colProjectNo.Index].Value?.ToString();
                 if (string.IsNullOrEmpty(projectNo)) return;
-                LoadData(projectNo);
+                _selectedProjectNo = projectNo;
                 return;
             }
 
@@ -114,7 +116,7 @@ namespace DigiERP.UserControl.Production
 
                 string bomNo = dataGridView1.Rows[e.RowIndex].Cells[colBomNo.Index].Value?.ToString();
                 if (string.IsNullOrEmpty(bomNo)) return;
-                bomNo = bomNo.Replace("售後維修", "");
+                bomNo = bomNo.Replace("售後維修", "").Replace("廠驗追加", "");
                 if (string.IsNullOrEmpty(bomNo)) return;
 
                 using var frm = new FrmMaterialRequisitionList(bomNo);
@@ -132,6 +134,40 @@ namespace DigiERP.UserControl.Production
             }
         }
 
+        // ── 雙擊『專案序號』欄位：開啟(或切回)該專案的專案機台組測紀錄表頁籤 ──
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex != colProjectNo.Index) return;
+            string projectNo = dataGridView1.Rows[e.RowIndex].Cells[colProjectNo.Index].Value?.ToString();
+            if (string.IsNullOrEmpty(projectNo)) return;
+            OpenProjectMachineTestRecord(projectNo);
+        }
+
+        private void OpenProjectMachineTestRecord(string projectNo)
+        {
+            if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
+            TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
+            string tabName = "ProjectMachineTestRecord_" + projectNo;
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == tabName)
+                {
+                    tabControl.SelectedTab = page;
+                    return;
+                }
+            }
+            var ctrl = new ProjectMachineTestRecordControl();
+            if (ctrl.IsDisposed) return;
+            ctrl.LoadData(projectNo);
+            ctrl.Dock = DockStyle.Fill;
+            var tab = new TabPage(projectNo + " 專案機台組測紀錄表") { Name = tabName };
+            tab.Controls.Add(ctrl);
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+        }
+
         // ── 跟其他 Maintain 畫面一致：按「修改」前，可編輯欄位皆為 Disable ──
         private void SetEditMode(bool editing)
         {
@@ -143,7 +179,95 @@ namespace DigiERP.UserControl.Production
             btnSave.Enabled = editing;
         }
 
-        private void btnEdit_Click(object sender, EventArgs e) => SetEditMode(true);
+        // ── 修改：先依上次點選的專案序號篩選並刷新清單，再解鎖可編輯欄位 ────
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            LoadData(_selectedProjectNo);
+            SetEditMode(true);
+        }
+
+        // ── 結案回報為下拉欄位，若儲存值不在合規/特採/設計變更選項中(如舊資料)，
+        //    ComboBox 找不到對應項目時 WinForms 預設會跳例外對話方塊，這裡直接吃掉 ──
+        private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+        }
+
+        // ── 結案回報下拉選單選取後立即提交，才能在 CellValueChanged 判斷值 ──
+        private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.IsCurrentCellDirty && dataGridView1.CurrentCell?.ColumnIndex == colCloseReport.Index)
+            {
+                dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        // ── 結案回報一經選定(合規/特採/設計變更任一)：完工日期自動填入今日並
+        //    立即寫回資料庫(不等按「儲存」)；選擇『設計變更』時額外開啟(或
+        //    切回)異常矯正措施報告頁籤，來源單據取自製圖檔名，並去除其中的
+        //    『售後維修』、『廠驗追加』字樣 ─────────────────────────────
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex != colCloseReport.Index) return;
+
+            var row = dataGridView1.Rows[e.RowIndex];
+            string closeReport = row.Cells[colCloseReport.Index].Value?.ToString();
+            if (string.IsNullOrEmpty(closeReport)) return;
+
+            string bomNo = row.Cells[colBomNo.Index].Value?.ToString();
+            if (string.IsNullOrEmpty(bomNo)) return;
+
+            string finishDate = DateTime.Now.ToString("yyyy/MM/dd");
+            row.Cells[colFinishDate.Index].Value = finishDate;
+
+            var updateRep = new ProjectProgressController().UpdateFinishDateByBomNo(new MES.WebAPI.Models.UpdateFinishDateReq
+            {
+                bomNo = bomNo,
+                finishDate = finishDate,
+                operatorName = AppSession.User.name,
+            });
+            if (!string.IsNullOrEmpty(updateRep.ErrorMessage))
+            {
+                MessageBox.Show(updateRep.ErrorMessage);
+            }
+
+            if (closeReport != "設計變更") return;
+
+            string sourceDoc = row.Cells[colDrawingFile.Index].Value?.ToString();
+            string projectNo = row.Cells[colProjectNo.Index].Value?.ToString();
+            string moduleCode = row.Cells[colModuleCode.Index].Value?.ToString();
+            string moduleName = row.Cells[colModuleName.Index].Value?.ToString();
+            if (string.IsNullOrEmpty(sourceDoc)) return;
+            sourceDoc = sourceDoc.Replace("售後維修", "").Replace("廠驗追加", "");
+            if (string.IsNullOrEmpty(sourceDoc)) return;
+
+            OpenAbnormalCorrectionReport(sourceDoc, projectNo, moduleCode, moduleName);
+        }
+
+        private void OpenAbnormalCorrectionReport(string sourceDoc, string projectNo, string moduleCode, string moduleName)
+        {
+            if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
+            TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
+            string tabName = "AbnormalCorrectionReport_" + sourceDoc;
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == tabName)
+                {
+                    tabControl.SelectedTab = page;
+                    return;
+                }
+            }
+            var ctrl = new AbnormalCorrectionReportControl();
+            if (ctrl.IsDisposed) return;
+            ctrl.LoadBySourceDoc(sourceDoc, projectNo, moduleCode, moduleName);
+            ctrl.Dock = DockStyle.Fill;
+            var tab = new TabPage(sourceDoc + " 異常矯正措施報告") { Name = tabName };
+            tab.Controls.Add(ctrl);
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -153,6 +277,7 @@ namespace DigiERP.UserControl.Production
                 var orig = row.Tag as 專案模組用料清單;
                 if (orig == null) continue;
 
+                orig.圖檔發行日 = row.Cells[colIssueDate.Index].Value?.ToString();
                 orig.組裝人員 = row.Cells[colAssemblyStaff.Index].Value?.ToString();
                 orig.開工日期 = row.Cells[colStartDate.Index].Value?.ToString();
                 orig.預交日期 = row.Cells[colDueDate.Index].Value?.ToString();

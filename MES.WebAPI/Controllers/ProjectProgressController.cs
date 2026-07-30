@@ -161,6 +161,23 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetSalesStaffList"), HttpGet]
+        public CommonRep<成本單位人員配置> GetSalesStaffList()
+        {
+            CommonRep<成本單位人員配置> commonRep = new CommonRep<成本單位人員配置>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getSalesStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/SaveDesignAudit"), HttpPost]
         public CommonRep<string> SaveDesignAudit([FromBody] SaveDesignAuditReq req)
         {
@@ -305,6 +322,40 @@ namespace MES.WebAPI.Controllers
             try
             {
                 projectProgressMiddle.saveModuleMaterialHeaderBatch(req.list, req.operatorName);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/UpdateFinishDateByBomNo"), HttpPost]
+        public CommonRep<string> UpdateFinishDateByBomNo([FromBody] UpdateFinishDateReq req)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                projectProgressMiddle.updateFinishDateByBomNo(req.bomNo, req.finishDate, req.operatorName);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetProjectMachineTestRecordHeader"), HttpGet]
+        public CommonRep<專案機台組測紀錄表頭> GetProjectMachineTestRecordHeader(string projectNo)
+        {
+            CommonRep<專案機台組測紀錄表頭> commonRep = new CommonRep<專案機台組測紀錄表頭>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.getProjectMachineTestRecordHeader(projectNo);
             }
             catch (Exception ex)
             {
@@ -645,6 +696,40 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = projectProgressMiddle.getAssemTestScheduleList(基準日以前, 第一週, 第二週, 第三週, 第四週);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetAbnormalCorrectionReportBySourceDoc"), HttpGet]
+        public CommonRep<異常矯正措施報告> GetAbnormalCorrectionReportBySourceDoc(string sourceDoc)
+        {
+            CommonRep<異常矯正措施報告> commonRep = new CommonRep<異常矯正措施報告>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.getAbnormalCorrectionReportBySourceDoc(sourceDoc);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveAbnormalCorrectionReport"), HttpPost]
+        public CommonRep<string> SaveAbnormalCorrectionReport([FromBody] SaveAbnormalCorrectionReportReq req)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                projectProgressMiddle.saveAbnormalCorrectionReport(req.form, req.operatorName);
             }
             catch (Exception ex)
             {
