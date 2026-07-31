@@ -446,6 +446,90 @@ SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
             }
         }
 
+        // ── 專案機台組測紀錄表：組裝人員下拉，職務='組測'的成本單位人員配置
+        //    (對應到 H員工清冊 取姓名) ────────────────────────────────
+        public List<成本單位人員配置> getAssemblyTestStaffList()
+        {
+            string sql = @"
+SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
+  FROM 成本單位人員配置 c
+ INNER JOIN H員工清冊 e ON c.員工編號 = e.工號
+ WHERE c.職務 = '組測'";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<成本單位人員配置>(sql).ToList();
+            }
+        }
+
+        // ── 零件管制報告書：驗收人員下拉，職務為加工/組測/程控/倉管的成本單位人員配置
+        //    (對應到 H員工清冊 取姓名) ────────────────────────────────
+        public List<成本單位人員配置> getAcceptanceStaffList()
+        {
+            string sql = @"
+SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
+  FROM 成本單位人員配置 c
+ INNER JOIN H員工清冊 e ON c.員工編號 = e.工號
+ WHERE c.職務 = '加工' OR c.職務 = '組測' OR c.職務 = '程控' OR c.職務 = '倉管'";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<成本單位人員配置>(sql).ToList();
+            }
+        }
+
+        // ── 零件管制報告書：倉管人員下拉，職務為倉管的成本單位人員配置(對應到 H員工清冊 取姓名) ──
+        public List<成本單位人員配置> getWarehouseStaffList()
+        {
+            string sql = @"
+SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
+  FROM 成本單位人員配置 c
+ INNER JOIN H員工清冊 e ON c.員工編號 = e.工號
+ WHERE c.職務 = '倉管'";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<成本單位人員配置>(sql).ToList();
+            }
+        }
+
+        // ── 零件管制報告書：零件生產工序「作業人員」下拉，職務為加工/倉管的成本單位人員配置
+        //    (對應到 H員工清冊 取姓名) ────────────────────────────────
+        public List<成本單位人員配置> getProcessOperatorStaffList()
+        {
+            string sql = @"
+SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
+  FROM 成本單位人員配置 c
+ INNER JOIN H員工清冊 e ON c.員工編號 = e.工號
+ WHERE c.職務 = '加工' OR c.職務 = '倉管'";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<成本單位人員配置>(sql).ToList();
+            }
+        }
+
+        // ── 零件管制報告書：零件檢驗履歷「檢查人員」下拉，職務為加工/組測/程控的成本單位人員配置
+        //    (對應到 H員工清冊 取姓名) ────────────────────────────────
+        public List<成本單位人員配置> getInspectionCheckerStaffList()
+        {
+            string sql = @"
+SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
+  FROM 成本單位人員配置 c
+ INNER JOIN H員工清冊 e ON c.員工編號 = e.工號
+ WHERE c.職務 = '加工' OR c.職務 = '組測' OR c.職務 = '程控'";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<成本單位人員配置>(sql).ToList();
+            }
+        }
+
         // ── 設計審查清單：以 DA+日期+兩碼序號 產生新的清單編號 ─────────────
         private string getNewDesignAuditListNo(SqlConnection conn, SqlTransaction tran)
         {
@@ -721,6 +805,39 @@ FROM
     工令單 dbo_工令單
     LEFT JOIN 產品規格單 dbo_產品規格單 ON dbo_工令單.專案序號 = dbo_產品規格單.專案序號
 WHERE dbo_工令單.專案序號=@專案序號", new { 專案序號 = projectNo });
+            }
+        }
+
+        // ── 專案機台組測紀錄表：第二個明細清單，資料來源為工作紀錄A(職務='組測')，
+        //    依專案序號篩選 ──────────────────────────────────────────
+        public List<組測工作紀錄清單> getAssemblyTestWorkLogList(string projectNo)
+        {
+            string sql = @"
+SELECT
+    dbo_工令單.專案序號,
+    dbo_工作紀錄A.職務,
+    dbo_工作紀錄A.工作日期 AS 日期,
+    dbo_工作紀錄A.員工編號,
+    dbo_EMPL.姓名 AS 組測人員,
+    dbo_工作紀錄A.模組編碼,
+    dbo_工作紀錄A.模組名稱,
+    dbo_工作紀錄A.任務分類,
+    dbo_工作紀錄A.組裝零件,
+    dbo_工作紀錄A.工作簡述,
+    dbo_工作紀錄A.進度,
+    dbo_工作紀錄A.特別註記
+FROM
+    (
+        工令單 dbo_工令單
+        LEFT JOIN 工作紀錄A dbo_工作紀錄A ON dbo_工令單.專案序號 = dbo_工作紀錄A.專案序號
+    )
+    LEFT JOIN dbo.H員工清冊 dbo_EMPL ON dbo_工作紀錄A.員工編號 = dbo_EMPL.工號
+WHERE dbo_工作紀錄A.職務 = '組測' AND dbo_工令單.專案序號 = @專案序號";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<組測工作紀錄清單>(sql, new { 專案序號 = projectNo }).ToList();
             }
         }
 

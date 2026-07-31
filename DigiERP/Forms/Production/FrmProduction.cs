@@ -69,8 +69,7 @@ namespace DigiERP
             tab.AutoScroll = true;
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
         private void FrmCust_Shown(object sender, EventArgs e)
         {
@@ -135,8 +134,7 @@ namespace DigiERP
             {
                 tabControl.TabPages.Add(tab);
                 tabControl.SelectedTab = tab;
-                tabControl.SizeMode = TabSizeMode.Fixed;
-                tabControl.ItemSize = new Size(120, 30);
+                tabControl.SizeMode = TabSizeMode.Normal;
             }
             catch { }
         }

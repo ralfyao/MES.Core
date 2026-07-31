@@ -1,4 +1,4 @@
-using DigiERP.Common;
+﻿using DigiERP.Common;
 using DigiERP.Forms.Production;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
@@ -142,8 +142,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
 
         // ── 跟其他 Maintain 畫面一致：按「修改」前，可編輯欄位皆為 Disable ──

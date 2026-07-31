@@ -1,4 +1,4 @@
-using DigiERP.Common;
+﻿using DigiERP.Common;
 using DigiERP.Models;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
@@ -336,8 +336,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
 
         private void btnClose_Click(object sender, EventArgs e)

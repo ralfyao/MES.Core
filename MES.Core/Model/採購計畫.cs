@@ -24,22 +24,52 @@ namespace MES.Core.Model
         public string? 入庫移轉日 { get; set; }
         public string? 零件管制單號 { get; set; }
         public string? 驗收合格 { get; set; }
+        public string? 驗收日期 { get; set; }
+        public string? 驗收人員 { get; set; }
+        public bool? 已派案 { get; set; }
         public string? BOM表識別碼 { get; set; }
+        public string? BOM編號 { get; set; }
         public string? 採購識別碼 { get; set; }
+        public string? 建檔 { get; set; }
+        public string? 修改 { get; set; }
+        public string? 核准 { get; set; }
+        public string? 建檔日 { get; set; }
+        public string? 修改日 { get; set; }
+        public string? 核准日 { get; set; }
+        public string? 機械加工 { get; set; }
         public string? 產製單位1 { get; set; }
+        public string? 作業人員1 { get; set; }
         public string? 開工日期1 { get; set; }
+        public string? 預交日期1 { get; set; }
         public string? 完工日期1 { get; set; }
+        public string? 完工數量1 { get; set; }
+        public string? 特殊塑型 { get; set; }
         public string? 產製單位2 { get; set; }
+        public string? 作業人員2 { get; set; }
         public string? 開工日期2 { get; set; }
+        public string? 預交日期2 { get; set; }
         public string? 完工日期2 { get; set; }
+        public string? 完工數量2 { get; set; }
+        public string? 精密加工 { get; set; }
         public string? 產製單位3 { get; set; }
+        public string? 作業人員3 { get; set; }
         public string? 開工日期3 { get; set; }
+        public string? 預交日期3 { get; set; }
         public string? 完工日期3 { get; set; }
+        public string? 完工數量3 { get; set; }
+        public string? 防變形 { get; set; }
         public string? 產製單位4 { get; set; }
+        public string? 作業人員4 { get; set; }
         public string? 開工日期4 { get; set; }
+        public string? 預交日期4 { get; set; }
         public string? 完工日期4 { get; set; }
+        public string? 完工數量4 { get; set; }
+        public string? 表面處理 { get; set; }
         public string? 產製單位5 { get; set; }
+        public string? 作業人員5 { get; set; }
         public string? 開工日期5 { get; set; }
+        public string? 預交日期5 { get; set; }
         public string? 完工日期5 { get; set; }
+        public string? 完工數量5 { get; set; }
     }
 }

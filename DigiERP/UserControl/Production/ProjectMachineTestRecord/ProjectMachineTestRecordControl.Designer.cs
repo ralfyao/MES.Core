@@ -27,11 +27,11 @@ namespace DigiERP.UserControl.Production
             colModuleCode = new DataGridViewTextBoxColumn();
             colModuleName = new DataGridViewTextBoxColumn();
             colDrawingFile = new DataGridViewTextBoxColumn();
-            colAssemblyStaff = new DataGridViewTextBoxColumn();
+            colAssemblyStaff = new DataGridViewComboBoxColumn();
             colStartDate = new DataGridViewTextBoxColumn();
             colDueDate = new DataGridViewTextBoxColumn();
             colFinishDate = new DataGridViewTextBoxColumn();
-            colCloseReport = new DataGridViewTextBoxColumn();
+            colCloseReport = new DataGridViewComboBoxColumn();
             dataGridView2 = new DataGridView();
             colTestDate = new DataGridViewTextBoxColumn();
             colTester = new DataGridViewTextBoxColumn();
@@ -126,13 +126,13 @@ namespace DigiERP.UserControl.Production
             dataGridView1.Font = new Font("微軟正黑體", 9F);
             dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowTemplate.Height = 26;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(1900, 280);
             dataGridView1.TabIndex = 0;
-            // 
+            dataGridView1.DataError += dataGridView1_DataError;
+            //
             // colModuleCode
             // 
             colModuleCode.HeaderText = "模組";
@@ -157,8 +157,7 @@ namespace DigiERP.UserControl.Production
             // 
             colAssemblyStaff.HeaderText = "組裝人員";
             colAssemblyStaff.Name = "colAssemblyStaff";
-            colAssemblyStaff.ReadOnly = true;
-            // 
+            //
             // colStartDate
             // 
             colStartDate.HeaderText = "開工日期";
@@ -181,8 +180,8 @@ namespace DigiERP.UserControl.Production
             // 
             colCloseReport.HeaderText = "結案回報";
             colCloseReport.Name = "colCloseReport";
-            colCloseReport.ReadOnly = true;
-            // 
+            colCloseReport.Items.AddRange(new object[] { "", "合規", "特採", "設變" });
+            //
             // dataGridView2
             // 
             dataGridView2.AllowUserToAddRows = false;
@@ -297,11 +296,11 @@ namespace DigiERP.UserControl.Production
         private DataGridViewTextBoxColumn colModuleCode;
         private DataGridViewTextBoxColumn colModuleName;
         private DataGridViewTextBoxColumn colDrawingFile;
-        private DataGridViewTextBoxColumn colAssemblyStaff;
+        private DataGridViewComboBoxColumn colAssemblyStaff;
         private DataGridViewTextBoxColumn colStartDate;
         private DataGridViewTextBoxColumn colDueDate;
         private DataGridViewTextBoxColumn colFinishDate;
-        private DataGridViewTextBoxColumn colCloseReport;
+        private DataGridViewComboBoxColumn colCloseReport;
         private DataGridView dataGridView2;
         private DataGridViewTextBoxColumn colTestDate;
         private DataGridViewTextBoxColumn colTester;

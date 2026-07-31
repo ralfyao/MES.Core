@@ -1,4 +1,4 @@
-using DigiERP.Common;
+﻿using DigiERP.Common;
 using DigiERP.Forms.Production;
 using DigiERP.Models;
 using MES.Core.Model;
@@ -459,8 +459,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
 
         // ── 取消生效：按鈕僅在具備「核准」授權且已生效時才會被啟用，
@@ -528,8 +527,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
 
         private void btnClose_Click(object sender, EventArgs e)

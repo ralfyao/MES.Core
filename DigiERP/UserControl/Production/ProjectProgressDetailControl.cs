@@ -1,4 +1,4 @@
-using DigiERP.Common;
+﻿using DigiERP.Common;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using System.Collections.Generic;
@@ -225,8 +225,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
 
         // ── 點擊組測進度標題列，開啟模組組測進度表頁籤 ─────────────────────
@@ -252,8 +251,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
 
         private void btnOverview_Click(object sender, System.EventArgs e) => MessageBox.Show("此功能尚未開放");

@@ -6,17 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace DigiERP.UserControl.Production
+namespace DigiERP.UserControl.Production.MiscControlReport
 {
-    // ── 圖面發行總覽：列出「圖面發行轉BOM」建立後尚未指定用途的專案模組用料清單明細，
-    //    可依專案序號/零件號碼/品名篩選，雙擊列進入該BOM編號的組裝維護畫面 ──────────
-    public partial class DesignIssueControl : CommonUserControl
+    // ── 零件管制報告總覽：列出已建立零件管制單號的採購計畫，可依專案序號/零件號碼/品名篩選 ──
+    public partial class MiscControlReportControl : CommonUserControl
     {
-        private static string id = "F3AE5F18-706F-48C6-B7A6-665FB3F04BA3";
+        private static string id = "1E8E7C43-A48D-4C8D-85D2-D07D6A185D7E";
 
-        private List<專案用料總覽> _fullList = new List<專案用料總覽>();
+        private List<採購計畫> _fullList = new List<採購計畫>();
 
-        public DesignIssueControl()
+        public MiscControlReportControl()
         {
             if (!chkPrivilege(id))
             {
@@ -28,15 +27,15 @@ namespace DigiERP.UserControl.Production
             LoadData();
         }
 
-        internal void LoadData()
+        private void LoadData()
         {
-            var rep = new ProjectProgressController().GetModuleMaterialOverviewList();
+            var rep = new ProjectProcurementController().GetMiscControlReportList();
             if (!string.IsNullOrEmpty(rep.ErrorMessage))
             {
                 MessageBox.Show(rep.ErrorMessage);
                 return;
             }
-            _fullList = rep.resultList ?? new List<專案用料總覽>();
+            _fullList = rep.resultList ?? new List<採購計畫>();
             ApplyFilter();
         }
 
@@ -56,23 +55,22 @@ namespace DigiERP.UserControl.Production
             FillGrid(filtered);
         }
 
-        private void FillGrid(List<專案用料總覽> list)
+        private void FillGrid(List<採購計畫> list)
         {
             dataGridView1.Rows.Clear();
             foreach (var x in list)
             {
-                var row = new DataGridViewRow();
-                row.CreateCells(dataGridView1);
-                int i = 0;
-                row.Cells[i++].Value = x.BOM編號;
-                row.Cells[i++].Value = x.專案序號;
-                row.Cells[i++].Value = x.模組編碼;
-                row.Cells[i++].Value = x.模組名稱;
-                row.Cells[i++].Value = x.零件號碼;
-                row.Cells[i++].Value = x.品名;
-                row.Cells[i++].Value = x.描述;
-                row.Cells[i++].Value = x.數量;
-                dataGridView1.Rows.Add(row);
+                int i = dataGridView1.Rows.Add();
+                var row = dataGridView1.Rows[i];
+                row.Cells[colControlNo.Index].Value = x.零件管制單號;
+                row.Cells[colProjectNo.Index].Value = x.專案序號;
+                row.Cells[colModuleCode.Index].Value = x.模組編碼;
+                row.Cells[colModuleName.Index].Value = x.模組名稱;
+                row.Cells[colPartNo.Index].Value = x.零件號碼;
+                row.Cells[colPartName.Index].Value = x.品名;
+                row.Cells[colPartType.Index].Value = x.零件分類;
+                row.Cells[colQty.Index].Value = x.數量;
+                row.Cells[colAcceptance.Index].Value = x.驗收合格;
             }
         }
 
@@ -85,20 +83,16 @@ namespace DigiERP.UserControl.Production
             txtPartNameFilter.Text = "";
         }
 
-        // ── 雙擊列：開啟(或切回)該BOM編號的專案模組用料維護畫面 ─────────────
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        // ── 點選零件管制單號，開啟(或切換至)零件管制報告書頁籤 ────────────────
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
-            string bomNo = dataGridView1.Rows[e.RowIndex].Cells[colBomNo.Index].Value?.ToString();
-            if (string.IsNullOrEmpty(bomNo)) return;
-            OpenModuleMaterialMaintain(bomNo);
-        }
+            if (e.RowIndex < 0 || dataGridView1.Columns[e.ColumnIndex] != colControlNo) return;
+            string controlNo = dataGridView1.Rows[e.RowIndex].Cells[colControlNo.Index].Value?.ToString();
+            if (string.IsNullOrEmpty(controlNo)) return;
 
-        private void OpenModuleMaterialMaintain(string bomNo)
-        {
             if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
             TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
-            string tabName = "ModuleMaterialMaintain_" + bomNo;
+            string tabName = "MiscControlOrder_" + controlNo;
             foreach (TabPage page in tabControl.TabPages)
             {
                 if (page.Name == tabName)
@@ -107,15 +101,13 @@ namespace DigiERP.UserControl.Production
                     return;
                 }
             }
-            var ctrl = new ModuleMaterialMaintainControl();
-            if (ctrl.IsDisposed) return;
-            ctrl.LoadData(bomNo);
-            ctrl.Dock = DockStyle.Fill;
-            var tab = new TabPage(bomNo + " 專案模組用料") { Name = tabName };
+            var ctrl = new MiscControlOrderControl { Dock = DockStyle.Fill };
+            var tab = new TabPage("零件管制報告書-" + controlNo) { Name = tabName };
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
             tabControl.SizeMode = TabSizeMode.Normal;
+            ctrl.LoadData(controlNo);
         }
 
         private void btnExit_Click(object sender, EventArgs e)

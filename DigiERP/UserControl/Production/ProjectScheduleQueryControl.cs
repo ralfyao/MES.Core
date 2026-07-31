@@ -1,4 +1,4 @@
-using DigiERP.Common;
+﻿using DigiERP.Common;
 using System;
 using System.Windows.Forms;
 
@@ -58,8 +58,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
         // ── 點擊採購，開啟週排程-採購頁籤 ──────────────────────────────────
         private void btnPurchase_Click(object sender, EventArgs e)
@@ -83,8 +82,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
         // ── 點擊機加工，開啟週排程-機加工頁籤 ────────────────────────────
         private void btnMachining_Click(object sender, EventArgs e)
@@ -108,8 +106,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
         // ── 點擊後製程，開啟週排程-後製程頁籤 ────────────────────────────
         private void btnPostProcess_Click(object sender, EventArgs e)
@@ -133,8 +130,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
         // ── 點擊組測，開啟週排程-組裝測試頁籤 ────────────────────────────
         private void btnAssemTest_Click(object sender, EventArgs e)
@@ -158,8 +154,7 @@ namespace DigiERP.UserControl.Production
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
         private void btnElecControl_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
 

@@ -178,6 +178,91 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetAssemblyTestStaffList"), HttpGet]
+        public CommonRep<成本單位人員配置> GetAssemblyTestStaffList()
+        {
+            CommonRep<成本單位人員配置> commonRep = new CommonRep<成本單位人員配置>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getAssemblyTestStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetAcceptanceStaffList"), HttpGet]
+        public CommonRep<成本單位人員配置> GetAcceptanceStaffList()
+        {
+            CommonRep<成本單位人員配置> commonRep = new CommonRep<成本單位人員配置>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getAcceptanceStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetWarehouseStaffList"), HttpGet]
+        public CommonRep<成本單位人員配置> GetWarehouseStaffList()
+        {
+            CommonRep<成本單位人員配置> commonRep = new CommonRep<成本單位人員配置>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getWarehouseStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetProcessOperatorStaffList"), HttpGet]
+        public CommonRep<成本單位人員配置> GetProcessOperatorStaffList()
+        {
+            CommonRep<成本單位人員配置> commonRep = new CommonRep<成本單位人員配置>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getProcessOperatorStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetInspectionCheckerStaffList"), HttpGet]
+        public CommonRep<成本單位人員配置> GetInspectionCheckerStaffList()
+        {
+            CommonRep<成本單位人員配置> commonRep = new CommonRep<成本單位人員配置>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getInspectionCheckerStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/SaveDesignAudit"), HttpPost]
         public CommonRep<string> SaveDesignAudit([FromBody] SaveDesignAuditReq req)
         {
@@ -356,6 +441,23 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.result = projectProgressMiddle.getProjectMachineTestRecordHeader(projectNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetAssemblyTestWorkLogList"), HttpGet]
+        public CommonRep<組測工作紀錄清單> GetAssemblyTestWorkLogList(string projectNo)
+        {
+            CommonRep<組測工作紀錄清單> commonRep = new CommonRep<組測工作紀錄清單>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getAssemblyTestWorkLogList(projectNo);
             }
             catch (Exception ex)
             {

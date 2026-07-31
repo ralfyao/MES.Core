@@ -1,4 +1,4 @@
-using DigiERP.Forms;
+﻿using DigiERP.Forms;
 using DigiERP.Models;
 using DigiERP.UserControl.Accounting;
 using MES.Core.Model;
@@ -320,8 +320,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
         private void btnPrint_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
         // ── 會科帶入：選取後帶入目前選取列(無則新增一列)，會科代碼／會計科目僅能由此帶入 ──

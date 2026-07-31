@@ -1,4 +1,4 @@
-using DigiERP.Common;
+﻿using DigiERP.Common;
 using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using System;
@@ -142,8 +142,7 @@ namespace DigiERP.UserControl.Accounts.Payment
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
             ctrl.LoadData(mode, no);
         }
 

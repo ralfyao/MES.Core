@@ -587,8 +587,7 @@ namespace DigiERP.UserControl.Customer.Receivables
                 {
                     tabControl.TabPages.Add(tab);
                     tabControl.SelectedTab = tab;
-                    tabControl.SizeMode = TabSizeMode.Fixed;
-                    tabControl.ItemSize = new Size(120, 30);
+                    tabControl.SizeMode = TabSizeMode.Normal;
                 }
                 catch { }
             }

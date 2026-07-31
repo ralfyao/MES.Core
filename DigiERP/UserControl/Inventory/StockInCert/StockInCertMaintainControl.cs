@@ -1,4 +1,4 @@
-using DigiERP.Common;
+﻿using DigiERP.Common;
 using DigiERP.Models;
 using DigiERP.UserControl.Supplier.SupplierManage;
 using MES.Core.Model;
@@ -491,8 +491,7 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
             ctrl.LoadData("修改", no);
         }
 
@@ -587,8 +586,7 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             tab.Controls.Add(ctrl);
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new System.Drawing.Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
         }
         private void btnVoucherEntry_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
         private void btnPrint_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");

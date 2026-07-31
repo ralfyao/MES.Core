@@ -71,8 +71,7 @@ namespace DigiERP
             tab.AutoScroll = true;
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
             QuotationControl quotationControl = new QuotationControl() { Width = tab.Width };
             tab.Controls.Add(quotationControl);
             quotationControl.Dock = DockStyle.Fill;
@@ -95,8 +94,7 @@ namespace DigiERP
             tab.AutoScroll = true;
             tabControl.TabPages.Add(tab);
             tabControl.SelectedTab = tab;
-            tabControl.SizeMode = TabSizeMode.Fixed;
-            tabControl.ItemSize = new Size(120, 30);
+            tabControl.SizeMode = TabSizeMode.Normal;
             OrderControl orderControl = new OrderControl() { Width = tab.Width };
             tab.Controls.Add(orderControl);
             orderControl.Dock = DockStyle.Fill;
@@ -167,8 +165,7 @@ namespace DigiERP
             {
                 tabControl.TabPages.Add(tab);
                 tabControl.SelectedTab = tab;
-                tabControl.SizeMode = TabSizeMode.Fixed;
-                tabControl.ItemSize = new Size(120, 30);
+                tabControl.SizeMode = TabSizeMode.Normal;
             }
             catch { }
         }

@@ -3,6 +3,7 @@ using MES.Core.Model;
 using MES.WebAPI.Controllers;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace DigiERP.UserControl.Production
@@ -26,6 +27,24 @@ namespace DigiERP.UserControl.Production
             }
             InitializeComponent();
             BuildContextFields();
+            initAssemblyStaffCombo();
+        }
+
+        // ── 組裝人員下拉：職務='組測'的成本單位人員配置(對應到 H員工清冊 取姓名) ──
+        private void initAssemblyStaffCombo()
+        {
+            var rep = new ProjectProgressController().GetAssemblyTestStaffList();
+            if (!string.IsNullOrEmpty(rep.ErrorMessage))
+            {
+                MessageBox.Show(rep.ErrorMessage);
+                return;
+            }
+            colAssemblyStaff.Items.Clear();
+            colAssemblyStaff.Items.Add("");
+            foreach (var name in (rep.resultList ?? new List<成本單位人員配置>()).Select(x => x.姓名).Where(n => !string.IsNullOrEmpty(n)).Distinct())
+            {
+                colAssemblyStaff.Items.Add(name);
+            }
         }
 
         // ── 表頭：專案序號/機台類型/機台型號/機台名稱/客戶簡稱/國家地區/
@@ -130,8 +149,77 @@ namespace DigiERP.UserControl.Production
             SetText("OQC出機檢查", h?.OQC出機檢查);
             SetText("MQC油壓委外單元", h?.MQC油壓委外單元);
 
-            dataGridView1.Rows.Clear();
+            var moduleRep = new ProjectProgressController().GetModuleMaterialList(projectNo);
+            if (!string.IsNullOrEmpty(moduleRep.ErrorMessage))
+            {
+                MessageBox.Show(moduleRep.ErrorMessage);
+                return;
+            }
+            FillModuleGrid(moduleRep.resultList ?? new List<專案模組用料清單>());
+
+            var workLogRep = new ProjectProgressController().GetAssemblyTestWorkLogList(projectNo);
+            if (!string.IsNullOrEmpty(workLogRep.ErrorMessage))
+            {
+                MessageBox.Show(workLogRep.ErrorMessage);
+                return;
+            }
+            FillWorkLogGrid(workLogRep.resultList ?? new List<組測工作紀錄清單>());
+        }
+
+        // ── 第二個明細清單：資料來源為工作紀錄A(職務='組測') ──────────────
+        private void FillWorkLogGrid(List<組測工作紀錄清單> list)
+        {
             dataGridView2.Rows.Clear();
+            foreach (var x in list)
+            {
+                int i = dataGridView2.Rows.Add();
+                var row = dataGridView2.Rows[i];
+                row.Cells[colTestDate.Index].Value = x.日期;
+                row.Cells[colTester.Index].Value = x.組測人員;
+                row.Cells[colModuleCode2.Index].Value = x.模組編碼;
+                row.Cells[colModuleName2.Index].Value = x.模組名稱;
+                row.Cells[colTaskCategory.Index].Value = x.任務分類;
+                row.Cells[colWorkItem.Index].Value = x.組裝零件;
+                row.Cells[colTestStatus.Index].Value = x.工作簡述;
+                row.Cells[colAction.Index].Value = x.特別註記;
+            }
+        }
+
+        // ── 第一個明細清單：資料來源為專案模組用料清單(即「組裝派案」) ──────
+        private void FillModuleGrid(List<專案模組用料清單> list)
+        {
+            dataGridView1.Rows.Clear();
+            foreach (var x in list)
+            {
+                // 既有資料可能是離職/未在組測人員清單內的舊值，先補進選項避免指派時值無效
+                string assemblyStaff = x.組裝人員 ?? "";
+                if (!string.IsNullOrEmpty(assemblyStaff) && !colAssemblyStaff.Items.Contains(assemblyStaff))
+                {
+                    colAssemblyStaff.Items.Add(assemblyStaff);
+                }
+                string closeReport = x.結案回報 ?? "";
+                if (!string.IsNullOrEmpty(closeReport) && !colCloseReport.Items.Contains(closeReport))
+                {
+                    colCloseReport.Items.Add(closeReport);
+                }
+
+                int i = dataGridView1.Rows.Add();
+                var row = dataGridView1.Rows[i];
+                row.Cells[colModuleCode.Index].Value = x.模組編碼;
+                row.Cells[colModuleName.Index].Value = x.模組名稱;
+                row.Cells[colDrawingFile.Index].Value = x.製圖檔名;
+                row.Cells[colAssemblyStaff.Index].Value = assemblyStaff;
+                row.Cells[colStartDate.Index].Value = x.開工日期;
+                row.Cells[colDueDate.Index].Value = x.預交日期;
+                row.Cells[colFinishDate.Index].Value = x.完工日期;
+                row.Cells[colCloseReport.Index].Value = closeReport;
+            }
+        }
+
+        // ── 防呆：避免下拉欄位值不在選項清單內時跳出預設錯誤對話方塊 ─────────
+        private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
         }
 
         private void SetText(string key, string value)
