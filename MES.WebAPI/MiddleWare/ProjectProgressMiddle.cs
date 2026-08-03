@@ -553,6 +553,80 @@ WHERE
             }
         }
 
+        // ── 專案機台程控紀錄表：檢查回存說明書資料夾項目 6 項勾選，點選即時寫回 產品規格單 ──
+        public int updateProductSpecFolderItem(string projectNo, string fieldKey, bool value)
+        {
+            string column = fieldKey switch
+            {
+                "IO表" => "[I/O表]",
+                "電控迴路圖" => "電控迴路圖",
+                "PLC階梯圖原始檔" => "PLC階梯圖原始檔",
+                "人機介面原始檔" => "人機介面原始檔",
+                "電控箱配置圖" => "電控箱配置圖",
+                "電控用料表" => "電控用料表",
+                _ => throw new ArgumentException("不支援的欄位: " + fieldKey),
+            };
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Execute($"UPDATE 產品規格單 SET {column}=@value WHERE 專案序號=@projectNo", new { value, projectNo });
+            }
+        }
+
+        // ── 專案機台程控紀錄表：專案程控履歷，資料來源為 工作日誌/工作紀錄明細-組/工令單
+        //    (職務='程控') ─────────────────────────────────────────
+        public List<組測工作紀錄清單> getProgramControlWorkLogList(string projectNo)
+        {
+            string sql = @"
+SELECT
+    dbo_工令單.專案序號,
+    dbo_工作日誌.職務,
+    dbo_工作日誌.工作日期 AS 日期,
+    dbo_工作日誌.員工編號,
+    dbo_EMPL.姓名 AS 組測人員,
+    [dbo_工作紀錄明細-組].模組編碼,
+    [dbo_工作紀錄明細-組].模組名稱,
+    [dbo_工作紀錄明細-組].任務分類,
+    [dbo_工作紀錄明細-組].工作項目 AS 組裝零件,
+    [dbo_工作紀錄明細-組].工作簡述,
+    [dbo_工作紀錄明細-組].進度,
+    [dbo_工作紀錄明細-組].特別註記
+FROM
+    dbo.H員工清冊 dbo_EMPL
+    INNER JOIN (
+        (
+            工作日誌 dbo_工作日誌
+            INNER JOIN [工作紀錄明細-組] [dbo_工作紀錄明細-組] ON dbo_工作日誌.日誌單號 = [dbo_工作紀錄明細-組].日誌單號
+        )
+        INNER JOIN 工令單 dbo_工令單 ON [dbo_工作紀錄明細-組].專案序號 = dbo_工令單.專案序號
+    ) ON dbo_EMPL.工號 = dbo_工作日誌.員工編號
+WHERE dbo_工令單.專案序號=@專案序號
+    AND dbo_工作日誌.職務 = '程控'";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<組測工作紀錄清單>(sql, new { 專案序號 = projectNo }).ToList();
+            }
+        }
+
+        // ── 電控排程「程控人員」下拉：職務為程控的成本單位人員配置(對應到 H員工清冊 取姓名) ──
+        public List<成本單位人員配置> getProgramControlStaffList()
+        {
+            string sql = @"
+SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
+  FROM 成本單位人員配置 c
+ INNER JOIN H員工清冊 e ON c.員工編號 = e.工號
+ WHERE c.職務 = '程控'";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<成本單位人員配置>(sql).ToList();
+            }
+        }
+
         // ── 設計審查清單：以 DA+日期+兩碼序號 產生新的清單編號 ─────────────
         private string getNewDesignAuditListNo(SqlConnection conn, SqlTransaction tran)
         {
@@ -831,6 +905,38 @@ WHERE dbo_工令單.專案序號=@專案序號", new { 專案序號 = projectNo 
             }
         }
 
+        // ── 專案機台程控紀錄表：表頭取自 產品規格單 LEFT JOIN 工令單 ─────────
+        public 專案機台程控紀錄表頭 getProjectMachineProgramControlHeader(string projectNo)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.QueryFirstOrDefault<專案機台程控紀錄表頭>(@"
+SELECT
+    dbo_產品規格單.專案序號,
+    dbo_工令單.機台類型,
+    dbo_工令單.機台型號,
+    dbo_工令單.機台名稱,
+    dbo_工令單.客戶簡稱,
+    dbo_工令單.國家地區,
+    dbo_工令單.驗機日期,
+    dbo_工令單.交貨日期,
+    dbo_工令單.廠驗,
+    dbo_工令單.裝機,
+    dbo_產品規格單.[MQC-自動化程控] AS MQC自動化程控,
+    dbo_產品規格單.[I/O表] AS IO表,
+    dbo_產品規格單.電控迴路圖,
+    dbo_產品規格單.PLC階梯圖原始檔,
+    dbo_產品規格單.人機介面原始檔,
+    dbo_產品規格單.電控箱配置圖,
+    dbo_產品規格單.電控用料表
+FROM
+    產品規格單 dbo_產品規格單
+    LEFT JOIN 工令單 dbo_工令單 ON dbo_產品規格單.專案序號 = dbo_工令單.專案序號
+WHERE dbo_產品規格單.專案序號=@專案序號", new { 專案序號 = projectNo });
+            }
+        }
+
         // ── 專案機台組測紀錄表：第二個明細清單，資料來源為工作紀錄A(職務='組測')，
         //    依專案序號篩選 ──────────────────────────────────────────
         public List<組測工作紀錄清單> getAssemblyTestWorkLogList(string projectNo)
@@ -960,6 +1066,25 @@ WHERE dbo_採購計畫.專案序號=@專案序號
             {
                 conn.Open();
                 return conn.Query<專案電控排程>("SELECT * FROM 專案電控排程 WHERE 專案序號=@專案序號", new { 專案序號 = projectNo }).ToList();
+            }
+        }
+
+        // ── 電控排程「電控工序」下拉：設計模組表中檢查分類='電控'的模組名稱 ──────
+        public List<設計模組表> getElecControlProcessList()
+        {
+            string sql = @"
+SELECT
+    dbo_設計模組表.模組名稱,
+    dbo_設計模組表.檢查分類
+FROM
+    設計模組表 dbo_設計模組表
+WHERE
+    (((dbo_設計模組表.檢查分類) = '電控'))";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<設計模組表>(sql).ToList();
             }
         }
 

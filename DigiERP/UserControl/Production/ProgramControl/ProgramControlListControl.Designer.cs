@@ -1,7 +1,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DigiERP.UserControl.Production
+namespace DigiERP.UserControl.Production.ProgramControl
 {
     partial class ProgramControlListControl
     {
@@ -28,9 +28,9 @@ namespace DigiERP.UserControl.Production
             panel2 = new Panel();
             dataGridView1 = new DataGridView();
             colProjectNo = new DataGridViewTextBoxColumn();
-            colProcess = new DataGridViewTextBoxColumn();
+            colProcess = new DataGridViewComboBoxColumn();
             colDesc = new DataGridViewTextBoxColumn();
-            colStaff = new DataGridViewTextBoxColumn();
+            colStaff = new DataGridViewComboBoxColumn();
             colStartDate = new DigiERP.Common.DataGridViewDateTimePickerColumn();
             colPlanFinishDate = new DigiERP.Common.DataGridViewDateTimePickerColumn();
             colActualFinishDate = new DigiERP.Common.DataGridViewDateTimePickerColumn();
@@ -155,6 +155,8 @@ namespace DigiERP.UserControl.Production
             dataGridView1.Size = new Size(1900, 600);
             dataGridView1.TabIndex = 0;
             dataGridView1.DataError += dataGridView1_DataError;
+            dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // colProjectNo
             // 
@@ -229,9 +231,9 @@ namespace DigiERP.UserControl.Production
         private Panel panel2;
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn colProjectNo;
-        private DataGridViewTextBoxColumn colProcess;
+        private DataGridViewComboBoxColumn colProcess;
         private DataGridViewTextBoxColumn colDesc;
-        private DataGridViewTextBoxColumn colStaff;
+        private DataGridViewComboBoxColumn colStaff;
         private DigiERP.Common.DataGridViewDateTimePickerColumn colStartDate;
         private DigiERP.Common.DataGridViewDateTimePickerColumn colPlanFinishDate;
         private DigiERP.Common.DataGridViewDateTimePickerColumn colActualFinishDate;

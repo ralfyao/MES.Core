@@ -467,6 +467,23 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetProjectMachineProgramControlHeader"), HttpGet]
+        public CommonRep<專案機台程控紀錄表頭> GetProjectMachineProgramControlHeader(string projectNo)
+        {
+            CommonRep<專案機台程控紀錄表頭> commonRep = new CommonRep<專案機台程控紀錄表頭>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.getProjectMachineProgramControlHeader(projectNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/GetAssemblyTestWorkLogList"), HttpGet]
         public CommonRep<組測工作紀錄清單> GetAssemblyTestWorkLogList(string projectNo)
         {
@@ -662,6 +679,74 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = projectProgressMiddle.getElectricScheduleList(projectNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/UpdateProductSpecFolderItem"), HttpGet]
+        public CommonRep<int> UpdateProductSpecFolderItem(string projectNo, string fieldKey, bool value)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.updateProductSpecFolderItem(projectNo, fieldKey, value);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetProgramControlWorkLogList"), HttpGet]
+        public CommonRep<組測工作紀錄清單> GetProgramControlWorkLogList(string projectNo)
+        {
+            CommonRep<組測工作紀錄清單> commonRep = new CommonRep<組測工作紀錄清單>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getProgramControlWorkLogList(projectNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetProgramControlStaffList"), HttpGet]
+        public CommonRep<成本單位人員配置> GetProgramControlStaffList()
+        {
+            CommonRep<成本單位人員配置> commonRep = new CommonRep<成本單位人員配置>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getProgramControlStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetElecControlProcessList"), HttpGet]
+        public CommonRep<設計模組表> GetElecControlProcessList()
+        {
+            CommonRep<設計模組表> commonRep = new CommonRep<設計模組表>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getElecControlProcessList();
             }
             catch (Exception ex)
             {
