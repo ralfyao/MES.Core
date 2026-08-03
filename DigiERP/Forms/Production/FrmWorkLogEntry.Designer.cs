@@ -43,11 +43,11 @@ namespace DigiERP.Forms.Production
             lblTaskCategoryCaption = new Label();
             cboTaskCategory = new ComboBox();
             lblScoreCaption = new Label();
-            txtScore = new TextBox();
+            txtScore = new NumericUpDown();
             lblWorkItemCaption = new Label();
             txtWorkItem = new TextBox();
             lblTodayHoursCaption = new Label();
-            txtTodayHours = new TextBox();
+            txtTodayHours = new NumericUpDown();
             lblAssemblyPartCaption = new Label();
             txtAssemblyPart = new TextBox();
             lblSummaryCaption = new Label();
@@ -333,8 +333,9 @@ namespace DigiERP.Forms.Production
             lblScoreCaption.Text = "成效點數";
             // 
             // txtScore
-            // 
+            //
             txtScore.Location = new Point(500, 177);
+            txtScore.Maximum = 999;
             txtScore.Name = "txtScore";
             txtScore.Size = new Size(130, 25);
             txtScore.TabIndex = 25;
@@ -367,8 +368,11 @@ namespace DigiERP.Forms.Production
             lblTodayHoursCaption.Text = "本日工時";
             // 
             // txtTodayHours
-            // 
+            //
+            txtTodayHours.DecimalPlaces = 1;
+            txtTodayHours.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
             txtTodayHours.Location = new Point(600, 217);
+            txtTodayHours.Maximum = new decimal(new int[] { 24, 0, 0, 0 });
             txtTodayHours.Name = "txtTodayHours";
             txtTodayHours.Size = new Size(110, 25);
             txtTodayHours.TabIndex = 29;
@@ -499,11 +503,11 @@ namespace DigiERP.Forms.Production
         private Label lblTaskCategoryCaption;
         private ComboBox cboTaskCategory;
         private Label lblScoreCaption;
-        private TextBox txtScore;
+        private NumericUpDown txtScore;
         private Label lblWorkItemCaption;
         private TextBox txtWorkItem;
         private Label lblTodayHoursCaption;
-        private TextBox txtTodayHours;
+        private NumericUpDown txtTodayHours;
         private Label lblAssemblyPartCaption;
         private TextBox txtAssemblyPart;
         private Label lblSummaryCaption;

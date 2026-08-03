@@ -530,6 +530,29 @@ SELECT c.識別碼, c.職務, c.員工編號, c.員工姓名, e.姓名
             }
         }
 
+        // ── 異常矯正措施報告：專案序號下拉選擇來源，僅列出尚未結案的工令單 ───────
+        public List<工令單> getOpenWorkOrderList()
+        {
+            string sql = @"
+SELECT
+    dbo_工令單.專案序號,
+    dbo_工令單.機台類型,
+    dbo_工令單.客戶名稱,
+    dbo_工令單.機台型號,
+    dbo_工令單.機台名稱,
+    dbo_工令單.結案
+FROM
+    工令單 dbo_工令單
+WHERE
+    (((dbo_工令單.結案) = 0))";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<工令單>(sql).ToList();
+            }
+        }
+
         // ── 設計審查清單：以 DA+日期+兩碼序號 產生新的清單編號 ─────────────
         private string getNewDesignAuditListNo(SqlConnection conn, SqlTransaction tran)
         {
@@ -937,6 +960,48 @@ WHERE dbo_採購計畫.專案序號=@專案序號
             {
                 conn.Open();
                 return conn.Query<專案電控排程>("SELECT * FROM 專案電控排程 WHERE 專案序號=@專案序號", new { 專案序號 = projectNo }).ToList();
+            }
+        }
+
+        // ── 電控排程：列出全部專案電控排程紀錄 ─────────────────────────
+        public List<專案電控排程> getProgramControlScheduleList()
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<專案電控排程>("SELECT * FROM 專案電控排程 ORDER BY 專案序號 DESC").ToList();
+            }
+        }
+
+        // ── 電控排程：批次儲存(識別碼=0 新增列則 INSERT，否則 UPDATE) ────────
+        public int saveProgramControlScheduleList(List<專案電控排程> list)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    int execCnt = 0;
+                    foreach (var item in list)
+                    {
+                        if (item.識別碼 == 0)
+                        {
+                            execCnt += conn.Execute(@"
+INSERT INTO 專案電控排程 (專案序號, 電控工序, 簡要描述, 程控人員, 開始作業日期, 預計完成日期, 實際完成日期)
+VALUES (@專案序號, @電控工序, @簡要描述, @程控人員, @開始作業日期, @預計完成日期, @實際完成日期)", item, tran);
+                        }
+                        else
+                        {
+                            execCnt += conn.Execute(@"
+UPDATE 專案電控排程 SET
+    專案序號=@專案序號, 電控工序=@電控工序, 簡要描述=@簡要描述, 程控人員=@程控人員,
+    開始作業日期=@開始作業日期, 預計完成日期=@預計完成日期, 實際完成日期=@實際完成日期
+WHERE 識別碼=@識別碼", item, tran);
+                        }
+                    }
+                    tran.Commit();
+                    return execCnt;
+                }
             }
         }
 
@@ -2134,6 +2199,16 @@ WHERE
             {
                 conn.Open();
                 return conn.QueryFirstOrDefault<異常矯正措施報告>("SELECT * FROM 異常矯正措施報告 WHERE 來源單據=@來源單據", new { 來源單據 = sourceDoc });
+            }
+        }
+
+        // ── 異常報告總覽：列出所有異常矯正措施報告 ─────────────────────
+        public List<異常矯正措施報告> getAbnormalCorrectionReportList()
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<異常矯正措施報告>("SELECT * FROM 異常矯正措施報告 ORDER BY 日期 DESC, 單號 DESC").ToList();
             }
         }
 

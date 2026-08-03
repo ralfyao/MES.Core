@@ -246,6 +246,23 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetOpenWorkOrderList"), HttpGet]
+        public CommonRep<工令單> GetOpenWorkOrderList()
+        {
+            CommonRep<工令單> commonRep = new CommonRep<工令單>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getOpenWorkOrderList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/GetInspectionCheckerStaffList"), HttpGet]
         public CommonRep<成本單位人員配置> GetInspectionCheckerStaffList()
         {
@@ -654,6 +671,40 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetProgramControlScheduleList"), HttpGet]
+        public CommonRep<專案電控排程> GetProgramControlScheduleList()
+        {
+            CommonRep<專案電控排程> commonRep = new CommonRep<專案電控排程>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getProgramControlScheduleList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveProgramControlScheduleList"), HttpPost]
+        public CommonRep<int> SaveProgramControlScheduleList([FromBody] List<專案電控排程> list)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.saveProgramControlScheduleList(list);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/GetModuleDesignProgressList"), HttpGet]
         public CommonRep<模組設計進度表> GetModuleDesignProgressList(string projectNo = null)
         {
@@ -815,6 +866,23 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.result = projectProgressMiddle.getAbnormalCorrectionReportBySourceDoc(sourceDoc);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetAbnormalCorrectionReportList"), HttpGet]
+        public CommonRep<異常矯正措施報告> GetAbnormalCorrectionReportList()
+        {
+            CommonRep<異常矯正措施報告> commonRep = new CommonRep<異常矯正措施報告>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getAbnormalCorrectionReportList();
             }
             catch (Exception ex)
             {

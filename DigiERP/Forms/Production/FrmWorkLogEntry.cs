@@ -41,7 +41,7 @@ namespace DigiERP.Forms.Production
         {
             if (cboTaskCategory.SelectedItem is H職務工作分類 item)
             {
-                txtScore.Text = item.積分點數?.ToString();
+                txtScore.Value = item.積分點數 ?? 0;
             }
         }
 
@@ -64,11 +64,11 @@ namespace DigiERP.Forms.Production
                 模組編碼 = txtModuleCode.Text,
                 模組名稱 = txtModuleName.Text,
                 任務分類 = cboTaskCategory.SelectedValue?.ToString(),
-                成效點數 = float.TryParse(txtScore.Text, out var score) ? score : (float?)null,
+                成效點數 = (float)txtScore.Value,
                 工作項目 = txtWorkItem.Text,
                 組裝零件 = txtAssemblyPart.Text,
                 進度 = float.TryParse(txtProgress.Text, out var progress) ? progress : (float?)null,
-                本日工時 = txtTodayHours.Text,
+                本日工時 = txtTodayHours.Value.ToString(),
                 特別註記 = txtRemark.Text,
                 工作簡述 = txtSummary.Text,
             };

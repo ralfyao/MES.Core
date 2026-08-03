@@ -24,6 +24,7 @@ namespace DigiERP.UserControl.Production
         private bool _editing;
         private List<成本單位人員配置> _designStaffList = new List<成本單位人員配置>();
         private List<成本單位人員配置> _salesStaffList = new List<成本單位人員配置>();
+        private List<工令單> _openWorkOrderList = new List<工令單>();
 
         public AbnormalCorrectionReportControl()
         {
@@ -43,6 +44,14 @@ namespace DigiERP.UserControl.Production
             _designStaffList = designStaffRep.resultList ?? new List<成本單位人員配置>();
             var salesStaffRep = new ProjectProgressController().GetSalesStaffList();
             _salesStaffList = salesStaffRep.resultList ?? new List<成本單位人員配置>();
+            var openWorkOrderRep = new ProjectProgressController().GetOpenWorkOrderList();
+            _openWorkOrderList = openWorkOrderRep.resultList ?? new List<工令單>();
+
+            // ── 專案序號改為點選跳出選取視窗(FrmSelectWorkOrder)，不使用鍵盤輸入 ──
+            if (_fields.TryGetValue("專案序號", out var projCtrl) && projCtrl is TextBox projTb)
+            {
+                projTb.Click += (s, e) => OpenWorkOrderPicker(projTb);
+            }
 
             disableAllControls(true);
         }
@@ -271,15 +280,31 @@ namespace DigiERP.UserControl.Production
             };
             _editing = false;
             FillFields(_header);
+            ApplyWorkOrderContext(projectNo);
 
+            RefreshButtonStates();
+        }
+
+        // ── 依專案序號查詢工令單，帶出客戶簡稱/機台型號/機台類型/機台名稱(唯讀顯示) ──
+        private void ApplyWorkOrderContext(string projectNo)
+        {
             var workOrderRep = new ProjectProgressController().GetWorkOrderByProjectNo(projectNo);
             var workOrder = workOrderRep.result;
             SetText("客戶簡稱", workOrder?.客戶簡稱);
             SetText("機台型號", workOrder?.機台型號);
             SetText("機台類型", workOrder?.機台類型);
             SetText("機台名稱", workOrder?.機台名稱);
+        }
 
-            RefreshButtonStates();
+        // ── 專案序號下拉：點選跳出選取視窗，來源為尚未結案的工令單 ────────────
+        private void OpenWorkOrderPicker(TextBox target)
+        {
+            if (!_editing) return;
+            using var frm = new FrmSelectWorkOrder(_openWorkOrderList);
+            if (frm.ShowDialog(FindForm()) != DialogResult.OK || frm.SelectedItem == null) return;
+            target.Text = frm.SelectedItem.專案序號;
+            if (_header != null) _header.專案序號 = frm.SelectedItem.專案序號;
+            ApplyWorkOrderContext(frm.SelectedItem.專案序號);
         }
 
         private void FillFields(異常矯正措施報告 h)
@@ -395,7 +420,26 @@ namespace DigiERP.UserControl.Production
         private void btnActivate_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
         private void btnDeactivate_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
         private void btnPrint_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
-        private void btnOverview_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
+        // ── 開啟(或切換至)異常報告總覽頁籤 ─────────────────────────
+        private void btnOverview_Click(object sender, EventArgs e)
+        {
+            if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
+            TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
+            const string tabName = "AbnormalCorrectionOverview";
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == tabName)
+                {
+                    tabControl.SelectedTab = page;
+                    return;
+                }
+            }
+            var ctrl = new AbnormalCorrectionReportOverviewControl { Dock = DockStyle.Fill };
+            var tab = new TabPage("異常報告總覽") { Name = tabName };
+            tab.Controls.Add(ctrl);
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+        }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
