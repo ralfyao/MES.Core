@@ -722,6 +722,125 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/GetTestValidationReportList"), HttpGet]
+        public CommonRep<試機驗收單> GetTestValidationReportList()
+        {
+            CommonRep<試機驗收單> commonRep = new CommonRep<試機驗收單>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getTestValidationReportList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetTestValidationReportByProjectNo"), HttpGet]
+        public CommonRep<試機驗收單> GetTestValidationReportByProjectNo(string projectNo)
+        {
+            CommonRep<試機驗收單> commonRep = new CommonRep<試機驗收單>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.getTestValidationReportByProjectNo(projectNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/UpdateTestValidationReport"), HttpPost]
+        public CommonRep<int> UpdateTestValidationReport([FromBody] 試機驗收單 form)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.updateTestValidationReport(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/ValidateTestValidationReport"), HttpGet]
+        public CommonRep<int> ValidateTestValidationReport(string projectNo, bool approve, string account)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.validateTestValidationReport(projectNo, approve, account);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetWeldTestDataList"), HttpGet]
+        public CommonRep<專案焊接測試數據> GetWeldTestDataList(string projectNo)
+        {
+            CommonRep<專案焊接測試數據> commonRep = new CommonRep<專案焊接測試數據>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getWeldTestDataList(projectNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetCorrectiveActionList"), HttpGet]
+        public CommonRep<專案改正措施內容> GetCorrectiveActionList(string projectNo)
+        {
+            CommonRep<專案改正措施內容> commonRep = new CommonRep<專案改正措施內容>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getCorrectiveActionList(projectNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetPICStaffList"), HttpGet]
+        public CommonRep<account> GetPICStaffList()
+        {
+            CommonRep<account> commonRep = new CommonRep<account>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.resultList = projectProgressMiddle.getPICStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/GetProgramControlStaffList"), HttpGet]
         public CommonRep<成本單位人員配置> GetProgramControlStaffList()
         {

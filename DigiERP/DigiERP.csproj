@@ -90,6 +90,7 @@
     <Folder Include="UserControl\Production\DesignAudit\" />
     <Folder Include="UserControl\Production\DesignDispatch\" />
     <Folder Include="UserControl\Production\MiscControlReport\" />
+    <Folder Include="UserControl\Production\TestValidationReport\" />
   </ItemGroup>
 
 </Project>

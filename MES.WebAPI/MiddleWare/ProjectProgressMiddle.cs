@@ -611,6 +611,262 @@ WHERE dbo_工令單.專案序號=@專案序號
             }
         }
 
+        // ── 試機驗收單總覽：賣方廠驗收單 為主表，RIGHT JOIN 工令單/產品規格單 ────────
+        public List<試機驗收單> getTestValidationReportList()
+        {
+            string sql = @"
+SELECT
+    dbo_賣方廠驗收單.專案序號,
+    dbo_賣方廠驗收單.日期,
+    dbo_工令單.客戶名稱,
+    dbo_賣方廠驗收單.聯絡人,
+    dbo_賣方廠驗收單.電話,
+    dbo_工令單.機台型號,
+    dbo_工令單.機台名稱,
+    dbo_工令單.焊接電壓v,
+    dbo_工令單.焊接電壓hz,
+    dbo_工令單.焊接電壓,
+    dbo_工令單.生產速率,
+    dbo_賣方廠驗收單.開始,
+    dbo_賣方廠驗收單.結束,
+    dbo_賣方廠驗收單.規範確認1,
+    dbo_賣方廠驗收單.規範確認2,
+    dbo_賣方廠驗收單.規範確認3,
+    dbo_賣方廠驗收單.規範確認4,
+    dbo_賣方廠驗收單.規範確認5,
+    dbo_賣方廠驗收單.規範確認6,
+    dbo_賣方廠驗收單.規範確認7,
+    dbo_賣方廠驗收單.規範確認8,
+    dbo_賣方廠驗收單.規範確認9,
+    dbo_賣方廠驗收單.規範確認10,
+    dbo_賣方廠驗收單.實測型號1,
+    dbo_賣方廠驗收單.實測數量1,
+    dbo_賣方廠驗收單.實測時間1,
+    dbo_賣方廠驗收單.實測型號2,
+    dbo_賣方廠驗收單.實測數量2,
+    dbo_賣方廠驗收單.實測時間2,
+    dbo_賣方廠驗收單.實測型號3,
+    dbo_賣方廠驗收單.實測數量3,
+    dbo_賣方廠驗收單.實測時間3,
+    dbo_賣方廠驗收單.內容說明結果,
+    dbo_賣方廠驗收單.Buyer,
+    dbo_賣方廠驗收單.Dahching,
+    dbo_賣方廠驗收單.控制器型號,
+    dbo_產品規格單.驗收規範項目1,
+    dbo_產品規格單.驗收規範說明1,
+    dbo_產品規格單.驗收規範項目2,
+    dbo_產品規格單.驗收規範說明2,
+    dbo_產品規格單.驗收規範項目3,
+    dbo_產品規格單.驗收規範說明3,
+    dbo_產品規格單.驗收規範項目4,
+    dbo_產品規格單.驗收規範說明4,
+    dbo_產品規格單.驗收規範項目5,
+    dbo_產品規格單.驗收規範說明5,
+    dbo_產品規格單.驗收規範項目6,
+    dbo_產品規格單.驗收規範說明6,
+    dbo_產品規格單.強度,
+    dbo_產品規格單.尺寸,
+    dbo_產品規格單.外觀,
+    dbo_賣方廠驗收單.建檔,
+    dbo_賣方廠驗收單.建檔日,
+    dbo_賣方廠驗收單.修改,
+    dbo_賣方廠驗收單.修改日,
+    dbo_賣方廠驗收單.核准日,
+    dbo_賣方廠驗收單.核准,
+    dbo_賣方廠驗收單.結關日期,
+    dbo_工令單.結案,
+    dbo_賣方廠驗收單.內容說明結果1
+FROM
+    產品規格單 dbo_產品規格單
+    RIGHT JOIN (
+        工令單 dbo_工令單
+        RIGHT JOIN 賣方廠驗收單 dbo_賣方廠驗收單 ON dbo_工令單.專案序號 = dbo_賣方廠驗收單.專案序號
+    ) ON dbo_產品規格單.專案序號 = dbo_工令單.專案序號";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<試機驗收單>(sql).ToList();
+            }
+        }
+
+        // ── 賣方廠驗收單：依專案序號查詢單一筆(每個專案僅一筆試機驗收單) ─────────
+        public 試機驗收單 getTestValidationReportByProjectNo(string projectNo)
+        {
+            string sql = @"
+SELECT
+    dbo_賣方廠驗收單.專案序號,
+    dbo_賣方廠驗收單.日期,
+    dbo_工令單.客戶名稱,
+    dbo_賣方廠驗收單.聯絡人,
+    dbo_賣方廠驗收單.電話,
+    dbo_工令單.機台型號,
+    dbo_工令單.機台名稱,
+    dbo_工令單.焊接電壓v,
+    dbo_工令單.焊接電壓hz,
+    dbo_工令單.焊接電壓,
+    dbo_工令單.生產速率,
+    dbo_賣方廠驗收單.開始,
+    dbo_賣方廠驗收單.結束,
+    dbo_賣方廠驗收單.規範確認1,
+    dbo_賣方廠驗收單.規範確認2,
+    dbo_賣方廠驗收單.規範確認3,
+    dbo_賣方廠驗收單.規範確認4,
+    dbo_賣方廠驗收單.規範確認5,
+    dbo_賣方廠驗收單.規範確認6,
+    dbo_賣方廠驗收單.規範確認7,
+    dbo_賣方廠驗收單.規範確認8,
+    dbo_賣方廠驗收單.規範確認9,
+    dbo_賣方廠驗收單.規範確認10,
+    dbo_賣方廠驗收單.實測型號1,
+    dbo_賣方廠驗收單.實測數量1,
+    dbo_賣方廠驗收單.實測時間1,
+    dbo_賣方廠驗收單.實測型號2,
+    dbo_賣方廠驗收單.實測數量2,
+    dbo_賣方廠驗收單.實測時間2,
+    dbo_賣方廠驗收單.實測型號3,
+    dbo_賣方廠驗收單.實測數量3,
+    dbo_賣方廠驗收單.實測時間3,
+    dbo_賣方廠驗收單.內容說明結果,
+    dbo_賣方廠驗收單.Buyer,
+    dbo_賣方廠驗收單.Dahching,
+    dbo_賣方廠驗收單.控制器型號,
+    dbo_產品規格單.驗收規範項目1,
+    dbo_產品規格單.驗收規範說明1,
+    dbo_產品規格單.驗收規範項目2,
+    dbo_產品規格單.驗收規範說明2,
+    dbo_產品規格單.驗收規範項目3,
+    dbo_產品規格單.驗收規範說明3,
+    dbo_產品規格單.驗收規範項目4,
+    dbo_產品規格單.驗收規範說明4,
+    dbo_產品規格單.驗收規範項目5,
+    dbo_產品規格單.驗收規範說明5,
+    dbo_產品規格單.驗收規範項目6,
+    dbo_產品規格單.驗收規範說明6,
+    dbo_產品規格單.強度,
+    dbo_產品規格單.尺寸,
+    dbo_產品規格單.外觀,
+    dbo_賣方廠驗收單.建檔,
+    dbo_賣方廠驗收單.建檔日,
+    dbo_賣方廠驗收單.修改,
+    dbo_賣方廠驗收單.修改日,
+    dbo_賣方廠驗收單.核准日,
+    dbo_賣方廠驗收單.核准,
+    dbo_賣方廠驗收單.結關日期,
+    dbo_工令單.結案,
+    dbo_賣方廠驗收單.內容說明結果1,
+    dbo_賣方廠驗收單.S1, dbo_賣方廠驗收單.S2, dbo_賣方廠驗收單.S3, dbo_賣方廠驗收單.S4, dbo_賣方廠驗收單.S5,
+    dbo_賣方廠驗收單.S6, dbo_賣方廠驗收單.S7, dbo_賣方廠驗收單.S8, dbo_賣方廠驗收單.S9, dbo_賣方廠驗收單.S10
+FROM
+    產品規格單 dbo_產品規格單
+    RIGHT JOIN (
+        工令單 dbo_工令單
+        RIGHT JOIN 賣方廠驗收單 dbo_賣方廠驗收單 ON dbo_工令單.專案序號 = dbo_賣方廠驗收單.專案序號
+    ) ON dbo_產品規格單.專案序號 = dbo_工令單.專案序號
+WHERE dbo_賣方廠驗收單.專案序號=@專案序號";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.QueryFirstOrDefault<試機驗收單>(sql, new { 專案序號 = projectNo });
+            }
+        }
+
+        // ── 賣方廠驗收單：儲存(僅更新賣方廠驗收單自身可編輯欄位) ───────────────
+        public int updateTestValidationReport(試機驗收單 form)
+        {
+            string sql = @"
+UPDATE 賣方廠驗收單 SET
+    聯絡人=@聯絡人, 電話=@電話, 開始=@開始, 結束=@結束, 結關日期=@結關日期, 控制器型號=@控制器型號,
+    規範確認1=@規範確認1, 規範確認2=@規範確認2, 規範確認3=@規範確認3, 規範確認4=@規範確認4, 規範確認5=@規範確認5,
+    規範確認6=@規範確認6, 規範確認7=@規範確認7, 規範確認8=@規範確認8, 規範確認9=@規範確認9, 規範確認10=@規範確認10,
+    S1=@S1, S2=@S2, S3=@S3, S4=@S4, S5=@S5, S6=@S6, S7=@S7, S8=@S8, S9=@S9, S10=@S10,
+    實測型號1=@實測型號1, 實測數量1=@實測數量1, 實測時間1=@實測時間1,
+    實測型號2=@實測型號2, 實測數量2=@實測數量2, 實測時間2=@實測時間2,
+    實測型號3=@實測型號3, 實測數量3=@實測數量3, 實測時間3=@實測時間3,
+    內容說明結果=@內容說明結果, 內容說明結果1=@內容說明結果1, Buyer=@Buyer, Dahching=@Dahching,
+    修改=@修改, 修改日=@修改日
+WHERE 專案序號=@專案序號";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Execute(sql, form);
+            }
+        }
+
+        // ── 賣方廠驗收單：覆核(寫入核准/核准日)／取消覆核(清空核准/核准日) ──────
+        public int validateTestValidationReport(string projectNo, bool approve, string account)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                if (approve)
+                {
+                    return conn.Execute(
+                        "UPDATE 賣方廠驗收單 SET 核准=@account, 核准日=@date WHERE 專案序號=@專案序號",
+                        new { account, date = DateTime.Now.ToString("yyyy/MM/dd"), 專案序號 = projectNo });
+                }
+                return conn.Execute(
+                    "UPDATE 賣方廠驗收單 SET 核准=NULL, 核准日=NULL WHERE 專案序號=@專案序號", new { 專案序號 = projectNo });
+            }
+        }
+
+        // ── 賣方廠驗收單：TEST AND TRIAL PARAMETERS 焊接測試數據，依專案序號查詢 ────
+        public List<專案焊接測試數據> getWeldTestDataList(string projectNo)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<專案焊接測試數據>(
+                    "SELECT * FROM 專案焊接測試數據 WHERE 專案序號=@專案序號", new { 專案序號 = projectNo }).ToList();
+            }
+        }
+
+        // ── 賣方廠驗收單：Corrective Action Report 改正措施內容，依專案序號查詢 ────
+        public List<專案改正措施內容> getCorrectiveActionList(string projectNo)
+        {
+            string sql = @"
+SELECT
+    識別碼,
+    專案序號,
+    [事項 Agenda] AS 事項Agenda,
+    [事項(中文轉譯)] AS 事項中文轉譯,
+    [照片 Ref] AS 照片Ref,
+    [說明 Description] AS 說明Description,
+    [說明(中文轉譯)] AS 說明中文轉譯,
+    [人員 PIC] AS 人員PIC,
+    [日期 Date] AS 日期Date
+FROM 專案改正措施內容
+WHERE 專案序號=@專案序號";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<專案改正措施內容>(sql, new { 專案序號 = projectNo }).ToList();
+            }
+        }
+
+        // ── 賣方廠驗收單：改正措施內容「人員 PIC」下拉，來源為未停用的 account ──────
+        public List<account> getPICStaffList()
+        {
+            string sql = @"
+SELECT
+    dbo_account.姓名,
+    dbo_account.帳號,
+    dbo_account.停用
+FROM
+    account dbo_account
+WHERE
+    (((dbo_account.停用) = 0))";
+
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                return conn.Query<account>(sql).ToList();
+            }
+        }
+
         // ── 電控排程「程控人員」下拉：職務為程控的成本單位人員配置(對應到 H員工清冊 取姓名) ──
         public List<成本單位人員配置> getProgramControlStaffList()
         {
