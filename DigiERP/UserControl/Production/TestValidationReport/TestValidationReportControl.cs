@@ -49,7 +49,27 @@ namespace DigiERP.UserControl.Production.TestValidationReport
             }
         }
 
-        private void btnAdd_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
+        // ── 開啟(或切換至)空白的賣方廠驗收單頁籤，由使用者自行輸入專案序號新增 ────
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
+            TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
+            const string tabName = "TestValidationReport_NEW";
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == tabName)
+                {
+                    tabControl.SelectedTab = page;
+                    return;
+                }
+            }
+            var ctrl = new TestValidationMaintainControl { Dock = DockStyle.Fill };
+            var tab = new TabPage("賣方廠驗收單-新增") { Name = tabName };
+            tab.Controls.Add(ctrl);
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            ctrl.LoadBlank();
+        }
 
         // ── 點選專案序號，開啟(或切換至)對應的賣方廠驗收單頁籤 ──────────────
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

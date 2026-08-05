@@ -756,14 +756,14 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
-        [Route("api/UpdateTestValidationReport"), HttpPost]
-        public CommonRep<int> UpdateTestValidationReport([FromBody] 試機驗收單 form)
+        [Route("api/SaveTestValidationReport"), HttpPost]
+        public CommonRep<int> SaveTestValidationReport([FromBody] 試機驗收單 form)
         {
             CommonRep<int> commonRep = new CommonRep<int>();
             ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
             try
             {
-                commonRep.result = projectProgressMiddle.updateTestValidationReport(form);
+                commonRep.result = projectProgressMiddle.saveTestValidationReport(form);
             }
             catch (Exception ex)
             {
@@ -824,6 +824,23 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        [Route("api/SaveCorrectiveActionList"), HttpPost]
+        public CommonRep<int> SaveCorrectiveActionList([FromBody] List<專案改正措施內容> list)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.saveCorrectiveActionList(list);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         [Route("api/GetPICStaffList"), HttpGet]
         public CommonRep<account> GetPICStaffList()
         {
@@ -832,6 +849,23 @@ namespace MES.WebAPI.Controllers
             try
             {
                 commonRep.resultList = projectProgressMiddle.getPICStaffList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveWeldTestData"), HttpPost]
+        public CommonRep<int> SaveWeldTestData([FromBody] 專案焊接測試數據 form)
+        {
+            CommonRep<int> commonRep = new CommonRep<int>();
+            ProjectProgressMiddle projectProgressMiddle = new ProjectProgressMiddle();
+            try
+            {
+                commonRep.result = projectProgressMiddle.saveWeldTestData(form);
             }
             catch (Exception ex)
             {

@@ -41,6 +41,10 @@ namespace DigiERP.UserControl.Production.TestValidationReport
         private DataGridViewComboBoxColumn colPIC;
         private List<account> _picStaffList = new List<account>();
 
+        // ── 列印用：與頁籤畫面共用同一份已載入資料(不重新查詢) ────────────────
+        private List<專案焊接測試數據> _weldTestList = new List<專案焊接測試數據>();
+        private List<專案改正措施內容> _correctiveList = new List<專案改正措施內容>();
+
         public TestValidationMaintainControl()
         {
             if (!chkPrivilege(id))
@@ -247,7 +251,8 @@ namespace DigiERP.UserControl.Production.TestValidationReport
                 return;
             }
 
-            foreach (var x in rep.resultList ?? new List<專案焊接測試數據>())
+            _weldTestList = rep.resultList ?? new List<專案焊接測試數據>();
+            foreach (var x in _weldTestList)
             {
                 dataGridViewWeldTest.Rows.Add(
                     x.Model, x.A01, x.A02, x.A03, x.A04, x.A05, x.A06, x.A07, x.A08, x.A09, x.A10,
@@ -378,7 +383,7 @@ namespace DigiERP.UserControl.Production.TestValidationReport
             {
                 Location = new Point(8, 1040),
                 Size = new Size(1880, 160),
-                AllowUserToAddRows = false,
+                AllowUserToAddRows = true,
                 AllowUserToDeleteRows = false,
                 RowHeadersVisible = false,
                 ReadOnly = true,
@@ -414,12 +419,38 @@ namespace DigiERP.UserControl.Production.TestValidationReport
                 return;
             }
 
-            foreach (var x in rep.resultList ?? new List<專案改正措施內容>())
+            _correctiveList = rep.resultList ?? new List<專案改正措施內容>();
+            foreach (var x in _correctiveList)
             {
                 string pic = (x.人員PIC ?? "").Trim();
                 if (!string.IsNullOrEmpty(pic) && !colPIC.Items.Contains(pic)) colPIC.Items.Add(pic);
-                dataGridViewCorrective.Rows.Add(x.事項Agenda, x.事項中文轉譯, x.照片Ref, x.說明Description, x.說明中文轉譯, pic, x.日期Date);
+                int i = dataGridViewCorrective.Rows.Add(x.事項Agenda, x.事項中文轉譯, x.照片Ref, x.說明Description, x.說明中文轉譯, pic, x.日期Date);
+                dataGridViewCorrective.Rows[i].Tag = x.識別碼;
             }
+        }
+
+        // ── 改正措施內容：允許使用者自行新增列，識別碼來自載入時存於 Tag 的值(0=新增) ──
+        private List<專案改正措施內容> CollectCorrectiveGrid()
+        {
+            var list = new List<專案改正措施內容>();
+            foreach (DataGridViewRow row in dataGridViewCorrective.Rows)
+            {
+                if (row.IsNewRow) continue;
+                int id = row.Tag is int tagId ? tagId : 0;
+                list.Add(new 專案改正措施內容
+                {
+                    識別碼 = id,
+                    專案序號 = _projectNo,
+                    事項Agenda = row.Cells["colAgenda"].Value as string,
+                    事項中文轉譯 = row.Cells["colAgendaCN"].Value as string,
+                    照片Ref = row.Cells["colPhotoRef"].Value as string,
+                    說明Description = row.Cells["colDesc"].Value as string,
+                    說明中文轉譯 = row.Cells["colDescCN"].Value as string,
+                    人員PIC = row.Cells["colPIC"].Value as string,
+                    日期Date = row.Cells["colDate"].Value as string,
+                });
+            }
+            return list;
         }
 
         // ── 表單尾：核准/核准日/修改/修改日/建檔/建檔日，僅顯示不可編輯 ─────────
@@ -479,8 +510,29 @@ namespace DigiERP.UserControl.Production.TestValidationReport
             FillFields(_header);
             FillWeldTestGrid(projectNo);
             FillCorrectiveGrid(projectNo);
+            SetProjectNoEditable(false);
             _editing = false;
             RefreshButtonStates();
+        }
+
+        // ── 由「試機驗收單總覽」按 ADD 開啟：全新空白單，專案序號需由使用者輸入 ──
+        internal void LoadBlank()
+        {
+            _projectNo = null;
+            _header = new 試機驗收單 { 日期 = DateTime.Now.ToString("yyyy/MM/dd") };
+            FillFields(_header);
+            dataGridViewWeldTest.Rows.Clear();
+            dataGridViewCorrective.Rows.Clear();
+            _weldTestList = new List<專案焊接測試數據>();
+            _correctiveList = new List<專案改正措施內容>();
+            SetProjectNoEditable(true);
+            _editing = true;
+            RefreshButtonStates();
+        }
+
+        private void SetProjectNoEditable(bool editable)
+        {
+            if (_fields.TryGetValue("專案序號", out var tb)) tb.ReadOnly = !editable;
         }
 
         private void FillFields(試機驗收單 h)
@@ -587,6 +639,7 @@ namespace DigiERP.UserControl.Production.TestValidationReport
                 dtp.Enabled = !disable;
             }
             dataGridViewSpec.ReadOnly = disable;
+            dataGridViewCorrective.ReadOnly = disable;
         }
 
         private void RefreshButtonStates()
@@ -611,6 +664,14 @@ namespace DigiERP.UserControl.Production.TestValidationReport
         {
             if (_header == null) return;
 
+            string projectNo = GetText("專案序號");
+            if (string.IsNullOrEmpty(projectNo))
+            {
+                MessageBox.Show("請先輸入專案序號");
+                return;
+            }
+            _header.專案序號 = projectNo;
+            _projectNo = projectNo;
             _header.日期 = GetText("日期");
             _header.聯絡人 = GetText("聯絡人");
             _header.電話 = GetText("電話");
@@ -643,14 +704,31 @@ namespace DigiERP.UserControl.Production.TestValidationReport
             _header.規範確認1 = oks[0]; _header.規範確認2 = oks[1]; _header.規範確認3 = oks[2]; _header.規範確認4 = oks[3]; _header.規範確認5 = oks[4];
             _header.規範確認6 = oks[5]; _header.規範確認7 = oks[6]; _header.規範確認8 = oks[7]; _header.規範確認9 = oks[8]; _header.規範確認10 = oks[9];
 
+            bool isNew = string.IsNullOrEmpty(_header.建檔);
+            if (isNew)
+            {
+                _header.建檔 = AppSession.User?.username;
+                _header.建檔日 = DateTime.Now.ToString("yyyy/MM/dd");
+            }
             _header.修改 = AppSession.User?.username;
             _header.修改日 = DateTime.Now.ToString("yyyy/MM/dd");
 
-            var rep = new ProjectProgressController().UpdateTestValidationReport(_header);
+            var rep = new ProjectProgressController().SaveTestValidationReport(_header);
             if (!string.IsNullOrEmpty(rep.ErrorMessage))
             {
                 MessageBox.Show(rep.ErrorMessage);
                 return;
+            }
+
+            var correctiveList = CollectCorrectiveGrid();
+            if (correctiveList.Count > 0)
+            {
+                var correctiveRep = new ProjectProgressController().SaveCorrectiveActionList(correctiveList);
+                if (!string.IsNullOrEmpty(correctiveRep.ErrorMessage))
+                {
+                    MessageBox.Show(correctiveRep.ErrorMessage);
+                    return;
+                }
             }
 
             MessageBox.Show("儲存成功!");
@@ -678,7 +756,37 @@ namespace DigiERP.UserControl.Production.TestValidationReport
             LoadData(_projectNo);
         }
 
-        private void btnPrint_Click(object sender, EventArgs e) => MessageBox.Show("此功能尚未開放");
+        // ── 覆核完成(核准/核准日已有值)才能列印；列印前先跳出焊接測試數據登錄視窗，
+        //    確定後存檔並帶到列印表單上顯示 ─────────────────────────────
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_header?.核准) || string.IsNullOrEmpty(_header?.核准日))
+            {
+                MessageBox.Show("請先完成覆核才能列印");
+                return;
+            }
+
+            var existing = _weldTestList.Count > 0 ? _weldTestList[0] : null;
+            using var entryFrm = new DigiERP.Forms.Production.TestValidationReport.FrmWeldTestDataEntry(_projectNo, existing);
+            if (entryFrm.ShowDialog(FindForm()) != DialogResult.OK) return;
+
+            var saveRep = new ProjectProgressController().SaveWeldTestData(entryFrm.Result);
+            if (!string.IsNullOrEmpty(saveRep.ErrorMessage))
+            {
+                MessageBox.Show(saveRep.ErrorMessage);
+                return;
+            }
+
+            FillWeldTestGrid(_projectNo);
+
+            var frm = new DigiERP.Forms.Production.TestValidationReport.FrmTestValidationPrint
+            {
+                Header = _header,
+                WeldTestList = _weldTestList,
+                CorrectiveList = _correctiveList,
+            };
+            frm.Show();
+        }
 
         // ── 開啟(或切換至)試機驗收單總覽頁籤 ───────────────────────────
         private void btnOverview_Click(object sender, EventArgs e)

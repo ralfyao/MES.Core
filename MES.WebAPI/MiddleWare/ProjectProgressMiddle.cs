@@ -773,11 +773,31 @@ WHERE dbo_賣方廠驗收單.專案序號=@專案序號";
         }
 
         // ── 賣方廠驗收單：儲存(僅更新賣方廠驗收單自身可編輯欄位) ───────────────
-        public int updateTestValidationReport(試機驗收單 form)
+        public int saveTestValidationReport(試機驗收單 form)
         {
-            string sql = @"
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                int exists = conn.Query<int>("SELECT COUNT(0) FROM 賣方廠驗收單 WHERE 專案序號=@專案序號", new { form.專案序號 }).First();
+                if (exists == 0)
+                {
+                    return conn.Execute(@"
+INSERT INTO 賣方廠驗收單
+    (專案序號, 日期, 聯絡人, 電話, 開始, 結束, 結關日期,
+     規範確認1, 規範確認2, 規範確認3, 規範確認4, 規範確認5, 規範確認6, 規範確認7, 規範確認8, 規範確認9, 規範確認10,
+     S1, S2, S3, S4, S5, S6, S7, S8, S9, S10,
+     實測型號1, 實測數量1, 實測時間1, 實測型號2, 實測數量2, 實測時間2, 實測型號3, 實測數量3, 實測時間3,
+     內容說明結果, 內容說明結果1, Buyer, Dahching, 控制器型號, 建檔, 建檔日, 修改, 修改日)
+VALUES
+    (@專案序號, @日期, @聯絡人, @電話, @開始, @結束, @結關日期,
+     @規範確認1, @規範確認2, @規範確認3, @規範確認4, @規範確認5, @規範確認6, @規範確認7, @規範確認8, @規範確認9, @規範確認10,
+     @S1, @S2, @S3, @S4, @S5, @S6, @S7, @S8, @S9, @S10,
+     @實測型號1, @實測數量1, @實測時間1, @實測型號2, @實測數量2, @實測時間2, @實測型號3, @實測數量3, @實測時間3,
+     @內容說明結果, @內容說明結果1, @Buyer, @Dahching, @控制器型號, @建檔, @建檔日, @修改, @修改日)", form);
+                }
+                return conn.Execute(@"
 UPDATE 賣方廠驗收單 SET
-    聯絡人=@聯絡人, 電話=@電話, 開始=@開始, 結束=@結束, 結關日期=@結關日期, 控制器型號=@控制器型號,
+    日期=@日期, 聯絡人=@聯絡人, 電話=@電話, 開始=@開始, 結束=@結束, 結關日期=@結關日期, 控制器型號=@控制器型號,
     規範確認1=@規範確認1, 規範確認2=@規範確認2, 規範確認3=@規範確認3, 規範確認4=@規範確認4, 規範確認5=@規範確認5,
     規範確認6=@規範確認6, 規範確認7=@規範確認7, 規範確認8=@規範確認8, 規範確認9=@規範確認9, 規範確認10=@規範確認10,
     S1=@S1, S2=@S2, S3=@S3, S4=@S4, S5=@S5, S6=@S6, S7=@S7, S8=@S8, S9=@S9, S10=@S10,
@@ -786,12 +806,7 @@ UPDATE 賣方廠驗收單 SET
     實測型號3=@實測型號3, 實測數量3=@實測數量3, 實測時間3=@實測時間3,
     內容說明結果=@內容說明結果, 內容說明結果1=@內容說明結果1, Buyer=@Buyer, Dahching=@Dahching,
     修改=@修改, 修改日=@修改日
-WHERE 專案序號=@專案序號";
-
-            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
-            {
-                conn.Open();
-                return conn.Execute(sql, form);
+WHERE 專案序號=@專案序號", form);
             }
         }
 
@@ -864,6 +879,60 @@ WHERE
             {
                 conn.Open();
                 return conn.Query<account>(sql).ToList();
+            }
+        }
+
+        // ── 賣方廠驗收單：改正措施內容批次儲存(識別碼=0 新增列則 INSERT，否則 UPDATE) ──
+        public int saveCorrectiveActionList(List<專案改正措施內容> list)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    int execCnt = 0;
+                    foreach (var item in list)
+                    {
+                        if (item.識別碼 == 0)
+                        {
+                            execCnt += conn.Execute(@"
+INSERT INTO 專案改正措施內容 (專案序號, [事項 Agenda], [事項(中文轉譯)], [照片 Ref], [說明 Description], [說明(中文轉譯)], [人員 PIC], [日期 Date])
+VALUES (@專案序號, @事項Agenda, @事項中文轉譯, @照片Ref, @說明Description, @說明中文轉譯, @人員PIC, @日期Date)", item, tran);
+                        }
+                        else
+                        {
+                            execCnt += conn.Execute(@"
+UPDATE 專案改正措施內容 SET
+    [事項 Agenda]=@事項Agenda, [事項(中文轉譯)]=@事項中文轉譯, [照片 Ref]=@照片Ref,
+    [說明 Description]=@說明Description, [說明(中文轉譯)]=@說明中文轉譯, [人員 PIC]=@人員PIC, [日期 Date]=@日期Date
+WHERE 識別碼=@識別碼", item, tran);
+                        }
+                    }
+                    tran.Commit();
+                    return execCnt;
+                }
+            }
+        }
+
+        // ── 賣方廠驗收單：焊接測試數據儲存(識別碼=0 新增則 INSERT，否則 UPDATE) ────
+        public int saveWeldTestData(專案焊接測試數據 form)
+        {
+            using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+            {
+                conn.Open();
+                if (form.識別碼 == 0)
+                {
+                    return conn.Execute(@"
+INSERT INTO 專案焊接測試數據
+    (專案序號, Model, A01, A02, A03, A04, A05, A06, A07, A08, A09, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24)
+VALUES
+    (@專案序號, @Model, @A01, @A02, @A03, @A04, @A05, @A06, @A07, @A08, @A09, @A10, @A11, @A12, @A13, @A14, @A15, @A16, @A17, @A18, @A19, @A20, @A21, @A22, @A23, @A24)", form);
+                }
+                return conn.Execute(@"
+UPDATE 專案焊接測試數據 SET
+    Model=@Model, A01=@A01, A02=@A02, A03=@A03, A04=@A04, A05=@A05, A06=@A06, A07=@A07, A08=@A08,
+    A09=@A09, A10=@A10, A11=@A11, A12=@A12, A13=@A13, A14=@A14, A15=@A15, A16=@A16
+WHERE 識別碼=@識別碼", form);
             }
         }
 
