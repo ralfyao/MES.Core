@@ -2662,15 +2662,29 @@ WHERE
             }
         }
 
+        // ── 異常矯正措施報告：單號邏輯為 "ER"+西元年4位+流水號3位 ──────────────
+        private string getNewAbnormalCorrectionNo(SqlConnection conn, SqlTransaction tran)
+        {
+            string prefix = "ER" + DateTime.Now.ToString("yyyy");
+            int seq = conn.Query<int>($"SELECT COUNT(0) + 1 FROM 異常矯正措施報告 WHERE 單號 LIKE '{prefix}%'", null, tran).First();
+            return prefix + seq.ToString("000");
+        }
+
         // ── 異常矯正措施報告：依來源單據新增或更新一筆資料(每筆來源單據僅一筆報告) ──
         public void saveAbnormalCorrectionReport(異常矯正措施報告 form, string operatorName)
         {
             using (var conn = new SqlConnection(IRepository<string>.ConnStr))
             {
                 conn.Open();
-                int exists = conn.Query<int>("SELECT COUNT(0) FROM 異常矯正措施報告 WHERE 來源單據=@來源單據", new { form.來源單據 }).First();
+                using (var tran = conn.BeginTransaction())
+                {
+                int exists = conn.Query<int>("SELECT COUNT(0) FROM 異常矯正措施報告 WHERE 來源單據=@來源單據", new { form.來源單據 }, tran).First();
                 if (exists == 0)
                 {
+                    if (string.IsNullOrEmpty(form.單號))
+                    {
+                        form.單號 = getNewAbnormalCorrectionNo(conn, tran);
+                    }
                     conn.Execute(@"
 INSERT INTO 異常矯正措施報告
     (日期, 單號, 專案序號, 模組編碼, 模組名稱, 零件號碼, 品名, 數量, 異常狀況, 檢查人員, 原因分析, 設計人員,
@@ -2700,7 +2714,7 @@ VALUES
                             form.異常來源,
                             建檔 = operatorName,
                             建檔日 = DateTime.Now,
-                        });
+                        }, tran);
                 }
                 else
                 {
@@ -2731,7 +2745,9 @@ UPDATE 異常矯正措施報告
                             form.來源單據,
                             修改 = operatorName,
                             修改日 = DateTime.Now,
-                        });
+                        }, tran);
+                }
+                tran.Commit();
                 }
             }
         }
