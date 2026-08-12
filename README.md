@@ -1,6 +1,6 @@
 # DigiERP 專案功能總覽
 
-> 最後更新：2026-07-14　　Branch：master　　Commit：9a03622
+> 最後更新：2026-08-10　　Branch：master　　Commit：83fcb49
 
 ---
 
@@ -51,23 +51,57 @@ DigiERP (WinForms UI)
 | PostProcessSchedulingControl | 週排程-後製程：無日期分桶，改以特殊塑型/精密加工/防變形/表面處理 4 個製程階段群組（各含預計排程日/委外派工日 2 欄），群組標題動態對齊欄寬，負荷率固定60 |
 | AssemTestSchedulingControl | 週排程-組裝測試：第一~四週各含進料排程/加工排程 2 欄，群組標題顯示「第N週：日期」，footer 每週筆數為進料或加工任一有值即算一筆，負荷率固定60 |
 
+### 設計 / 圖面 / 用料 (Production/Design) — 新增
+| 模組 | 功能說明 |
+|------|---------|
+| DesignDispatchControl | 設計派案總覽：列出全部設計派案，可編修設計人員/圖類/檔名/預計完工日等派工欄位並批次儲存；點『設計人員』欄位開啟 `FrmWorkLogEntry` 直接登錄工作日誌 |
+| DesignAuditControl / DesignAuditMaintainControl | 設計審圖總覽/審查清單維護：雙擊清單編號進入維護頁；新單首次儲存自動產生清單編號（`DA`+yyyyMMdd+序號2位）；「生效/取消生效」僅具核准權限者可用，寫入/清空審圖通過、發行人員、圖檔發行日 |
+| DesignIssueControl | 專案用料總覽：列出「圖面發行轉BOM」後尚未指定用途的模組明細，依專案序號/零件號碼/品名前端模糊篩選，雙擊進入 BOM 維護 |
+| ModuleMaterialMaintainControl | 專案模組用料清單維護（BOM）：依 BOM 編號顯示表頭與 BOM 明細，可編修組裝資訊並新增/儲存 BOM 項目；表身整批刪除重建 |
+| AssemblyDispatchReceiveControl | 組裝派案及領料作業：列出全部專案模組用料清單，可指定組裝人員/日期/結案回報/用途；『結案回報』選『設計變更』即刻寫回完工日期並自動開啟(或切回)「異常矯正措施報告」頁籤；雙擊『專案序號』開啟「專案機台組測紀錄表」；『製圖檔名』開啟 FrmMaterialRequisitionList（零配件領料） |
+| ProjectMachineTestRecordControl | 專案機台組測紀錄表：表頭取自工令單 LEFT JOIN 產品規格單，下方兩明細清單呈現組裝派案進度與組測工作紀錄（純唯讀顯示；油壓單元/製程參數表/出機檢查表按鈕尚未開放） |
+| AbnormalCorrectionReportOverviewControl / AbnormalCorrectionReportControl | 異常矯正措施報告：由「組裝派案及領料作業」結案回報選『設計變更』時開啟，依來源單據載入(或新建)一筆報告；客戶簡稱/機台型號/機台類型/機台名稱唯讀（依專案序號從工令單查詢帶出）；單號規則 `ER`+西元年4位+流水號3位，僅新單且單號為空時產生 |
+
+### 電控排程 / 試機驗收 (Production/ProgramControl, TestValidationReport) — 新增
+| 模組 | 功能說明 |
+|------|---------|
+| ProgramControlListControl | 電控排程：列表維護畫面，資料來源為 `專案電控排程`；程控人員欄位以 Grid-cell 攔截下拉開啟 `FrmSelectStaff` 選取；點選專案序號（僅檢視模式）開啟 `ProjectMachineProgramControlRecordControl` |
+| ProjectMachineProgramControlRecordControl | 專案機台程控紀錄表：由「電控排程」點選專案序號開啟；表頭取自產品規格單 LEFT JOIN 工令單，含 6 項說明書資料夾項目 checkbox（可修改並即時 UPDATE 後台，其餘欄位唯讀）；下方兩個 Grid：專案程控排程、專案程控履歷 |
+| MiscControlOrderControl | 零件管制報告書：表頭資料來源為採購計畫；下方「零件生產工序」（依製程對應不同工作站選項）、「零件檢驗履歷」（尺寸精度/幾何精度/材質標準等 7 項檢驗結果下拉）兩個明細清單皆可編輯儲存；「生效/取消生效」寫入/清空核准與核准日，生效後自動開啟「異常矯正措施報告」頁籤 |
+| MiscControlReportControl | 零件管制報告總覽：列出已建立零件管制單號的採購計畫，可依專案序號/零件號碼/品名篩選 |
+| TestValidationReportControl | 試機驗收單總覽：以 `賣方廠驗收單` 為主表，聯集工令單/產品規格單資料列表；按「Add」開啟空白新增頁籤，點選專案序號開啟(或切換至)對應維護頁籤 |
+| TestValidationMaintainControl | 賣方廠驗收單維護：大型多區塊表單（含 10 列固定規格 Grid、`專案焊接測試數據`／`專案改正措施內容` 兩個可編輯子表格）；「覆核/取消覆核」寫入/清空核准與核准日並同步鎖控「修改」與「列印」；列印前需先透過 `FrmWeldTestDataEntry` 填寫焊接測試數據 |
+
 ### 庫存 / 採購 (Inventory) — 新增
 | 模組 | 功能說明 |
 |------|---------|
 | ToButListControl | 請購底稿：`B請購需求` 扁平化可編輯表格，一開始整表唯讀，按「修改」才能新增列/編輯，「儲存」只送出實際異動過的列（dirty-row 追蹤），項目編號/廠商/員工代碼皆有 Trim + 強制塞入下拉清單機制避免資料對不上而拋例外 |
 | ProjectProcurementControl | 採購計畫：`採購計畫` 表整批瀏覽與追蹤欄位（零件分類/採購人員/實際採購日/預計到貨日/倉管人員/入庫移轉日/驗收結果）維護，僅對這幾個欄位做 SQL UPDATE（不覆寫開工/完工日期等其他排程欄位，避免影響週排程系列畫面），含「複式篩選器」彈窗（專案序號/模組編碼/零件號碼）與清除篩選 |
 | FrmProjectProcurementFilter | 複式篩選彈窗：三個下拉條件（依目前清單資料取不重複值）+ 確定/離開 |
+| StockInCertControl / StockInCertMaintainControl | 進項憑證登載總覽/維護：`F付款` 主檔（收付別=付），可分「現金/銀轉/票據/電匯」與「發票/收據/其他」；新增付款可透過「應收/驗收憑證匯入」（FrmStockInCertImport／依 5% 稅率反推未稅金額）、「預付款項匯入」（FrmPrepaymentSelect）、「費用憑證匯入」（FrmExpenseCertImport）批次帶入明細；「覆核」寫入核准人員/核准日 |
+| PaymentOffsetOverviewControl / PaymentOffsetMaintainControl | 付款沖帳總覽：依日期分「60天內／超過60天」兩種檢視切換列表 |
+
+### 銀行 / 資金調節 (Objective/Bank) — 新增
+| 模組 | 功能說明 |
+|------|---------|
+| BankControl / BankMaintainControl | 銀行帳戶總覽/維護：`F銀行設定` CRUD；維護頁含「明細」按鈕開啟 `FrmBankLedgerDetail` |
+| FrmBankLedgerDetail | 銀行明細總覽：列出指定銀行帳戶明細，可篩選本月/上月/逾60天/指定月份，統計支出/存入合計 |
+| FrmBankDeposit | 匯入款（存入）維護：依連結單號查詢/新增銀行明細存入紀錄，鎖定顯示需按「修改」才可編輯，寫入 `F銀行明細` |
+| BankMonthSummaryBalance | 銀行月結餘額總覽：依月底日期列出各銀行帳戶存入/支出/餘額，可執行「月結確定」寫入月結紀錄 |
+| CurrencyAdjustControl / CurrencyAdjustMaintainControl | 資金調節總覽/維護：`F資金調節` CRUD，單號自動產生，「覆核/取消覆核」寫入/清空核准狀態 |
 
 ### 會計 / 總務 (Accounts) — 新增
 | 模組 | 功能說明 |
 |------|---------|
 | GeneralExpensesControl | 總務支出單總覽：`F總務支出單` 列表，未結案/已結案篩選、點選單號於頁籤中開啟維護畫面、新增按鈕 |
 | GeneralExpensesMaintainControl | 總務支出單維護：廠商編號可用下拉或放大鏡開 `FrmSelectSupplier` 選取、採購人員/幣別匯率/付款條件/採購類別/營業稅率下拉、明細表輸入原幣未稅自動依匯率換算台幣未稅與稅額並加總為金額；新增模式下修改/覆核/取消覆核/列印按鈕隱藏，點開既有單據預設鎖定需按「修改」才能編輯，儲存成功後自動關閉頁籤並刷新列表 |
+| VoucherQueryControl | 會計傳票查詢：複式條件（日期區間/會科代碼/狀態）或傳票編號模糊查詢，點選主檔列帶出明細並統計借貸合計，點明細列可直接跳出 `FrmVoucher` 顯示/編輯 |
+| BillControl / FrmBill | 票據管理總覽/維護：`F票據異動` CRUD；對象名稱依「收付別」動態解析廠商或客戶名稱；銀行帳號依所選銀存編碼自動帶出 |
 
 ### 目標管理 (Objective)
 | 模組 | 功能說明 |
 |------|---------|
-| ARWriteOff | 應收帳款核銷作業 |
+| ARWriteOff / ARWriteOffMaintainControl | 收款單（沖款收）總覽/維護：依客戶編號列出收款單，彙總原幣/台幣/折讓/匯差；單號自動產生（`BR`+yyyyMM+3位序號）；「覆核/取消覆核」寫入/清空核准狀態，覆核後擋「應收款導入」；「應收款導入」開啟 `FrmARImport` 挑選 `F帳款管理` 未結案帳款批次帶入表身 |
 | ExRateRegisterControl | 匯率設定：`F匯率` 依幣別瀏覽（◄/►切換），日期欄為 DateTimePicker，編輯完離開該列即自動存檔（有異動才新增或更新，未異動的列不會觸發） |
 | SalesTrackingControl | 客戶活動力分析（業績追蹤）：多層 CTE 統計客戶連絡/詢問/報價/訂單次數與成交率，起日/迄日查詢區間 + REVIEW/RESET，點選客戶欄位於頁籤中開啟該客戶的客戶維護畫面 |
 
@@ -80,6 +114,7 @@ DigiERP (WinForms UI)
 | PriceCondControl | 交易條件設定 |
 | RFQStatusSelect | 詢問函狀態篩選 |
 | SalesSelect | 業務人員選取 |
+| FrmSelectStaff | 人員選取共用彈窗：顯示姓名+員工編號清單，雙擊或按確定回傳所選人員（`成本單位人員配置`）給呼叫端；亦作為 DataGridView 儲存格內攔截下拉、改開此彈窗的共用元件 |
 
 ---
 
@@ -95,6 +130,7 @@ DigiERP (WinForms UI)
 - **客訴 (CAR)**：客訴處理單 CRUD、原因類別管理
 - **維修服務單**：查詢、新增、修改、刪除、流水號取得、生效/取消生效、轉零件申請單
 - **維修人員**：`Get組測維修人員List` — 從成本單位人員配置 JOIN H員工清冊取得組測人員
+- **銀行主檔**：`GetBankList` — 供 BankControl/BankMaintainControl/StockInCertMaintainControl 共用查詢 `F銀行設定`
 
 ### SupplierController
 - **廠商主檔**：`GetSupplierList`/`GetAllSupplierList`/`SaveSupplier`/`UpdateSupplier`/`DeleteSupplier`/`GetSupplierNo`
@@ -108,8 +144,13 @@ DigiERP (WinForms UI)
 - 請購需求、採購單 CRUD、進退貨驗收單、採購明細
 - `AllPurchaseRequestList`/`SavePurchaseRequest`：請購底稿 (ToButListControl) 沿用之單筆新增或更新（依請購序號是否存在判斷）
 
-### ProjectProgressController — 新增
+### ProjectProgressController — 新增／持續擴充
 - 週排程系列：`GetDesignScheduleList`/`GetProcurementScheduleList`/`GetMachiningScheduleList`/`GetPostProcessScheduleList`/`GetAssemTestScheduleList`，皆以 `採購計畫`（部分含 `B請購需求`/`工令單`）多層 CTE 分桶查詢
+- 設計/圖面/用料：`GetAllDesignAssignmentList`/`SaveDesignAssignmentBatch`（設計派案）、`GetDesignAuditList`/`SaveDesignAudit`/`ActivateDesignAudit`/`DeactivateDesignAudit`（設計審圖）、`GetModuleMaterialOverviewList`/`GetModuleMaterialByBomNo`/`GetModuleBomDetailList`/`SaveModuleMaterial`（BOM）、`GetModuleMaterialFullList`/`GetModuleMaterialList`/`SaveModuleMaterialHeaderBatch`/`UpdateFinishDateByBomNo`（組裝派案領料）
+- 專案機台紀錄：`GetProjectMachineTestRecordHeader`/`GetAssemblyTestWorkLogList`（組測紀錄表）、`GetProjectMachineProgramControlHeader`/`UpdateProductSpecFolderItem`（程控紀錄表）
+- 電控排程／程控人員：`GetElecControlProcessList`/`GetProgramControlStaffList`/`GetProgramControlWorkLogList`
+- 零件管制／異常矯正：`GetPICStaffList`/`GetInspectionCheckerStaffList`/`GetProductionUnitList`（零件管制報告書下拉來源）、`GetDesignStaffList`/`GetSalesStaffList`/`GetOpenWorkOrderList`/`SaveAbnormalCorrectionReport`（異常矯正措施報告，單號規則見下）
+- 試機驗收：`GetTestValidationReportList`/`GetTestValidationReportByProjectNo`/`SaveTestValidationReport`（upsert）/`ValidateTestValidationReport`（覆核/取消覆核）/`GetWeldTestDataList`/`SaveWeldTestData`/`GetCorrectiveActionList`/`SaveCorrectiveActionList`
 
 ### GeneralExpensesController — 新增
 - 總務支出單 CRUD：`GetGeneralExpensesList`/`GetGeneralExpensesByNo`/`GetGeneralExpensesNo`/`SaveGeneralExpenses`/`UpdateGeneralExpenses`/`DeleteGeneralExpenses`/`ValidateGeneralExpenses`（覆核/取消覆核）/`GetActiveEmployeeList`（狀況正常之員工）
@@ -123,20 +164,35 @@ DigiERP (WinForms UI)
 ### SalesTrackingController — 新增
 - `GetSalesTrackingList`：客戶活動力分析多層 CTE 統計（起日/迄日區間）
 
+### BankLedgerController — 新增
+- `GetBankLedgerByLinkNo`（依連結單號查詢銀行明細）、`SaveBankLedger`/`UpdateBankLedger`（`F銀行明細` upsert，供匯入款/月結餘額頁使用）
+
+### CurrencyAdjustController — 新增
+- `GetCurrencyAdjustList`（資金調節總覽）、`GetFundAdjustNo`（單號產生）、`GetFundAdjustByNo`/`SaveFundAdjust`/`UpdateFundAdjust`/`ValidateFundAdjust`（覆核/取消覆核）/`DeleteFundAdjust`
+
+### BillController — 新增
+- `GetBillList`/`GetBillByNo`/`SaveBill`/`UpdateBill`：`F票據異動` CRUD（依識別碼是否為 0 判斷新增或更新）
+
 ### ProductionController
 - 產品/規格管理、工令單 CRUD、工作紀錄、製令查詢
 
 ### ItemController
 - 材料/物料主檔、分類管理、庫存品項查詢
 
-### StockInController
+### StockInController — 持續擴充
 - 進貨入庫單、倉庫管理、入庫作業
+- 進項憑證登載：`GetIncomeCertRegByNo`（依單號查詢 `F付款`）、`GetPaymentOffsetOverviewList`（付款沖帳總覽）；驗收/預付款/費用憑證匯入清單查詢（供 `FrmStockInCertImport`/`FrmPrepaymentSelect`/`FrmExpenseCertImport` 使用）
 
-### ARController
+### ARController — 持續擴充
 - 應收帳款查詢、收款單、付款單、沖帳作業、其他收入/支出
+- 收款單（沖款收）：`GetWriteOffByNo`/`GetWriteOffNo`/`SaveWriteOff`/`UpdateWriteOff`/`ValidateWriteOff`（覆核/取消覆核）/`DeleteWriteOff`/`GetReceivableImportList`（應收款導入，來源 `F帳款管理` 未結案帳款）
+
+### VoucherController
+- `GetVoucherQueryList`/`GetVoucherQueryListByNoLike`/`GetVoucherDetailForQuery`：會計傳票查詢主檔/明細（供 VoucherQueryControl 使用）
 
 ### HRController
 - 員工清冊查詢、職務工作分類、成本單位人員配置
+- `getPositionList`/`SaveUpdateJournal`：工作日誌登錄（`FrmWorkLogEntry`）依任務分類自動帶出積分點數，寫入 `工作紀錄A`
 
 ### AccountController
 - 使用者帳號管理、角色設定、選單權限指派
@@ -160,13 +216,18 @@ DigiERP (WinForms UI)
 | 模組 | 主要職責 |
 |------|---------|
 | **CustomerMiddle** | 客戶/訂單/報價/出貨/客訴/維修服務單的所有業務邏輯，含流水號產生、鎖定機制、轉單作業 |
-| **ARMiddle** | 應收帳款計算、收款沖帳、帳款流水號產生 |
+| **ARMiddle** | 應收帳款計算、收款沖帳、帳款流水號產生；收款單（沖款收）CRUD、單號產生（`BR`+yyyyMM+序號3位）、覆核/取消覆核、應收款導入清單查詢 |
 | **SupplierMiddle** | 廠商主檔 CRUD、生效/停用、評鑑、聯絡名冊、供料詢價 CRUD、詢價人員查詢（Dapper + Raw SQL 直接組 SQL） |
-| **ProjectProgressMiddle** — 新增 | 週排程系列（設計/採購/機加工/後製程/組測）之多層 CTE 分桶查詢，皆以 `採購計畫` 為主資料源 |
+| **ProjectProgressMiddle** — 新增／本階段最大宗擴充 | 週排程系列多層 CTE 分桶查詢；設計派案/設計審圖（含單號 `DA`+yyyyMMdd+序號2位）/專案模組用料清單(BOM)/組裝派案領料；程控紀錄表、電控排程、程控人員/工作日誌查詢；零件管制報告書下拉來源；試機驗收單（賣方廠驗收單）upsert/覆核、焊接測試數據、改正措施內容；異常矯正措施報告（單號 `ER`+西元年4位+流水號3位，僅新單且單號空白時透過 `getNewAbnormalCorrectionNo` 於同一交易內產生） |
 | **GeneralExpensesMiddle** — 新增 | 總務支出單 CRUD、單號產生、覆核/取消覆核、狀況正常員工查詢；新增/修改透過 `GeneralExpensesDataRepository`（交易內先刪除單頭+明細再重新寫入） |
 | **ProjectProcurementMiddle** — 新增 | 採購計畫清單查詢（含入庫移轉日篩選）、追蹤欄位之局部 SQL UPDATE（刻意不用刪除重建，避免波及週排程共用之其他欄位） |
 | **ExRateMiddle** — 新增 | 匯率清單查詢、新增或更新（依識別碼是否為 0 判斷） |
 | **SalesTrackingMiddle** — 新增 | 客戶活動力分析多層 CTE 統計（客戶訂單/報價/詢問函/連絡次數、成交率，已修正 COUNT 相除的整數除法截斷問題） |
+| **BankLedgerMiddle** — 新增 | 銀行明細（`F銀行明細`）查詢/新增/更新，供銀行維護頁「明細」按鈕、匯入款維護、月結餘額頁共用 |
+| **CurrencyAdjustMiddle** — 新增 | 資金調節總覽/單筆查詢、單號產生、新增/修改、覆核/取消覆核、刪除 |
+| **BillMiddle** — 新增 | 票據異動（`F票據異動`）CRUD |
+| **StockInMiddle** — 持續擴充 | 進貨入庫/驗收原有邏輯；擴充進項憑證登載（`F付款`+`F付款明細`）CRUD、覆核、付款沖帳總覽統計、驗收/預付款/費用憑證匯入清單查詢 |
+| **VoucherMiddle** — 新增 | 會計傳票查詢主檔/明細（供傳票查詢頁使用） |
 
 ---
 
@@ -201,9 +262,10 @@ DigiERP (WinForms UI)
 | 模型 | 對應資料表 |
 |------|-----------|
 | H員工清冊 | 員工基本資料 |
-| H職務工作分類 | 職務分類 |
+| H職務工作分類 | 職務分類（工作日誌任務分類/積分點數來源） |
 | 成本單位人員配置 | 成本單位人員配置（含職務別） |
 | A成本單位 | 成本單位主檔 |
+| 工作紀錄A | 工作日誌明細（`FrmWorkLogEntry` 登錄，日誌單號=員工編號+yyyyMMdd） |
 
 ### 採購
 | 模型 | 對應資料表 |
@@ -214,7 +276,9 @@ DigiERP (WinForms UI)
 | B採購單 / B採購明細 | 採購單主檔 / 明細 |
 | B請購需求 | 請購需求單（請購底稿資料來源） |
 | B進貨驗收單 / B進退貨驗收明細 | 進退貨驗收 |
-| 採購計畫 | 專案零件採購/入庫追蹤總表（週排程系列與採購計畫畫面共用資料源；新增 模組名稱/倉管人員/驗收合格/BOM表識別碼/採購識別碼 欄位） |
+| 採購計畫 | 專案零件採購/入庫追蹤總表（週排程系列與採購計畫畫面共用資料源；含 模組名稱/倉管人員/驗收合格/BOM表識別碼/採購識別碼 欄位） |
+| 產製單位 | 零件管制報告書「產製單位」下拉來源 |
+| 採購零件檢驗履歷 | 零件檢驗履歷相關參考模型 |
 
 ### 週排程 (Scheduling) — 新增
 | 模型 | 說明 |
@@ -223,20 +287,49 @@ DigiERP (WinForms UI)
 | 後製程週排程表 | 特殊塑型/精密加工/防變形/表面處理 4 階段 x 2 欄位 DTO |
 | 組測週排程表 | 進料排程(P)/加工排程(W) 各週 2 欄 DTO |
 
+### 設計 / 圖面 / 用料 — 新增
+| 模型 | 對應資料表 |
+|------|-----------|
+| 設計派案 | 設計派案主檔（設計人員/圖類/檔名/預計完工日等派工欄位） |
+| 設計審查明細 | 設計審查清單表身（整批刪除重建） |
+| 設計審查項目表 | 制式審查項目主檔 |
+| 專案模組用料清單 | 專案模組用料/組裝派案表頭（組裝人員/開工/預交/完工/結案回報/用途） |
+| 專案模組BOM明細 | BOM 明細（表身，隨用料清單整批刪除重建） |
+| 模組圖檢查 | 圖類檢查分類主檔 |
+
+### 電控排程 / 程控紀錄 — 新增
+| 模型 | 對應資料表 |
+|------|-----------|
+| 專案電控排程 | 電控排程列表資料源（ProgramControlListControl） |
+| M-專案程控排程 / M-專案程控履歷 | 專案機台程控紀錄表下方兩明細清單 |
+
+### 零件管制 / 試機驗收 / 異常矯正 — 新增
+| 模型 | 對應資料表 |
+|------|-----------|
+| 異常矯正措施報告 | 異常矯正措施報告主檔（單號 `ER`+西元年4位+流水號3位） |
+| 試機驗收單 | 賣方廠驗收單維護表頭（~60 個欄位 + S1~S10 規格欄位） |
+| 專案焊接測試數據 | TEST AND TRIAL PARAMETERS 焊接測試數據（Model + A01~A24） |
+| 專案改正措施內容 | 賣方廠驗收單改正措施內容子表（含中文轉譯欄位別名） |
+
 ### 財務
 | 模型 | 對應資料表 |
 |------|-----------|
 | F帳款管理 | 應收帳款主檔 |
 | F收款 / F收款明細 | 收款單 |
-| F付款 / F付款明細 | 付款單 |
+| F付款 / F付款明細 | 付款單（進項憑證登載主檔/明細） |
+| F沖款收 / F收支沖帳明細 | 收款單（沖款收）主檔 / 明細 |
 | F其他收入單 | 其他收支單 |
 | F沖款收 | 沖帳記錄 |
 | F幣別 / F匯率 | 幣別匯率設定（匯率設定頁維護） |
 | F銀行設定 | 銀行主檔 |
+| F銀行明細 | 銀行帳戶明細（存入/支出，供匯入款/月結餘額/明細總覽共用） |
+| F資金調節 / 資金調節總覽 | 資金調節單主檔 / 總覽扁平化 DTO |
+| F票據異動 | 票據異動主檔 |
 | F庫別 | 倉庫別設定 |
 | F訂單交易條件 | 交易條件主檔 |
-| F總務支出單 / F其他收支明細 | 總務支出單主檔 / 明細（新增 detailList 導覽屬性） |
+| F總務支出單 / F其他收支明細 | 總務支出單主檔 / 明細（含 detailList 導覽屬性） |
 | 總務支出單列表 | 總務支出單總覽列表用扁平化 DTO |
+| 付款沖帳總覽 | 付款沖帳總覽列表用扁平化 DTO（60天內/超過60天） |
 | 客戶活動力分析 | 業績追蹤（客戶連絡/詢問/報價/訂單統計與成交率）扁平化 DTO |
 
 ### 製造 / 物料
@@ -259,7 +352,7 @@ DigiERP (WinForms UI)
 
 ---
 
-## 五、維修服務單功能說明（本次開發重點）
+## 五、維修服務單功能說明
 
 ### 流程
 ```
@@ -284,7 +377,7 @@ DigiERP (WinForms UI)
 
 ---
 
-## 六、供料詢價功能說明（本次開發重點）
+## 六、供料詢價功能說明
 
 ### 流程
 ```
@@ -326,7 +419,7 @@ DigiERP (WinForms UI)
 
 ---
 
-## 七、週排程 / 採購追蹤 / 總務支出單功能說明（本次開發重點）
+## 七、週排程 / 採購追蹤 / 總務支出單功能說明
 
 ### 週排程系列流程
 ```
@@ -379,16 +472,82 @@ ProjectProcurementControl（採購計畫 整批瀏覽）
 
 ---
 
-## 八、通用規範
+## 八、電控排程 / 試機驗收 / 零件管制 / 異常矯正功能說明（本次開發重點）
+
+### 電控排程流程
+```
+電控排程列表（ProgramControlListControl，資料源 專案電控排程）
+    → 程控人員欄位：Grid-cell 攔截下拉 DropDown 事件 → 改開 FrmSelectStaff 選取回填
+    → 點選專案序號（僅檢視模式）→ 開啟(或切換至) ProjectMachineProgramControlRecordControl 頁籤
+        → 表頭取自產品規格單 LEFT JOIN 工令單（產品規格單為 WHERE 驅動端，避免右側無資料造成欄位空白）
+        → 6 項說明書資料夾項目 checkbox：立即可勾選，勾選後即時 UPDATE 後台資料庫，其餘欄位唯讀
+        → 下方兩個 Grid：專案程控排程（沿用電控排程既有後端）、專案程控履歷
+```
+
+### 零件管制報告書流程
+```
+MiscControlOrderControl（表頭資料源：採購計畫）
+    → 「零件生產工序」Grid：依製程別（機械加工/特殊塑型/精密加工/防變形/表面處理）帶出對應工作站選項
+    → 「零件檢驗履歷」Grid：尺寸精度/幾何精度/材質標準/表面工藝/硬度要求/毛邊修整/微觀裂痕 7 項下拉（合格/特採/重工/報廢/設變）
+    → 按「修改」解鎖 → 編輯後「儲存」→ 兩個 Grid 皆為批次 upsert（識別碼=0 新增，否則更新）
+    → 「生效」→ 寫入核准/核准日，並自動開啟(或切回)「異常矯正措施報告」頁籤；「取消生效」→ 清空核准/核准日
+    → 「修改」在已生效狀態下被擋（提示「請先取消生效」）
+```
+
+### 試機驗收單（賣方廠驗收單）流程
+```
+TestValidationReportControl（總覽，資料源 賣方廠驗收單 聯集 工令單/產品規格單）
+    → 按「Add」→ 開啟(或切換至)固定的空白新增頁籤，呼叫 LoadBlank()
+    → 點選專案序號 → 開啟(或切換至) TestValidationMaintainControl 對應頁籤，呼叫 LoadData(專案序號)
+        → 10 列固定規格 Grid + 專案焊接測試數據／專案改正措施內容 兩個可編輯子表格
+        → 「儲存」→ 表頭 upsert（依建檔欄位是否為空判斷新增/修改）+ 改正措施 Grid 批次 upsert
+        → 「覆核/取消覆核」→ 寫入/清空核准與核准日，未覆核不可列印
+        → 按「列印」→ 先擋「請先完成覆核才能列印」→ 開啟 FrmWeldTestDataEntry（17 個 NumericUpDown 欄位）
+          填入焊接測試數據 → 確定並列印 → 儲存數據 → 開啟 FrmTestValidationPrint（3 頁 PDF 預覽/匯出，
+          含公司真實 LOGO 圖片、頁碼頁尾，DataGridView 選取藍底遮字問題已透過延遲 BeginInvoke 清除修正）
+```
+
+### 異常矯正措施報告流程
+```
+由「組裝派案及領料作業」結案回報選『設計變更』觸發
+    → 依來源單據（去除『售後維修』字樣的製圖檔名）查詢是否已有報告：
+        有 → 開啟既有報告；無 → 新建一筆，單號規則 "ER"+西元年4位+流水號3位（getNewAbnormalCorrectionNo，
+             於同一交易內以 COUNT(0)+1 計算序號，僅新單且單號為空時產生，避免覆蓋既有單號）
+    → 客戶簡稱/機台型號/機台類型/機台名稱唯讀（依專案序號從工令單查詢帶出，不寫回本表）
+    → 專案序號改為點選開啟 FrmSelectWorkOrder 選取，不使用鍵盤輸入
+```
+
+### 相關檔案
+| 檔案 | 位置 |
+|------|------|
+| ProgramControlListControl(.Designer).cs | `DigiERP/UserControl/Production/ProgramControl/` |
+| ProjectMachineProgramControlRecordControl(.Designer).cs | `DigiERP/UserControl/Production/ProjectMachineProgramControlRecord/` |
+| MiscControlOrderControl(.Designer).cs / MiscControlReportControl(.Designer).cs | `DigiERP/UserControl/Production/MiscControlReport/` |
+| TestValidationReportControl(.Designer).cs / TestValidationMaintainControl(.Designer).cs | `DigiERP/UserControl/Production/TestValidationReport/` |
+| FrmWeldTestDataEntry(.Designer).cs / FrmTestValidationPrint(.Designer).cs | `DigiERP/Forms/Production/TestValidationReport/` |
+| AbnormalCorrectionReportOverviewControl(.Designer).cs / AbnormalCorrectionReportControl(.Designer).cs | `DigiERP/UserControl/Production/AbnormalCorrectionReportControl/` |
+| FrmSelectStaff.cs / FrmSelectWorkOrder.cs | `DigiERP/Forms/Production/` |
+| ProjectProgressController / ProjectProgressMiddle | `MES.WebAPI/Controllers/` `MES.WebAPI/MiddleWare/`（本次開發重點所有後端方法均集中於此二檔） |
+
+---
+
+## 九、通用規範
 
 - **日期格式**：所有日期顯示與存取均為 `yyyy/MM/dd`
 - **回傳物件**：所有 API 統一使用 `CommonRep<T>`，包含 `result`、`resultList`、`ErrorMessage`、`WorkStatus`
 - **讀取鎖定**：`reentrantLock` / `repairLock` 防止並發寫入
-- **流水號**：各類單號均透過 DB 查詢最大值後遞增產生（例外：廠商編號改為人工輸入，`GetSupplierNo` 自動產生已停用）
+- **流水號**：各類單號均透過 DB 查詢最大值(或 COUNT+1)後遞增產生，且僅在新單、單號欄位為空時才於儲存交易內產生（例：`ER`+西元年4位+序號3位、`DA`+yyyyMMdd+序號2位、`BR`+yyyyMM+序號3位）；例外：廠商編號改為人工輸入，`GetSupplierNo` 自動產生已停用
 - **修改模式**：客戶簡稱、客戶名稱、申請日期在修改模式下為唯讀
 - **廠商編號**：SupplierMaintainControl 新增模式下需人工輸入，儲存前會檢查不可為空（「請輸入廠商編號!」）；`disableControl()` 於檢視模式會鎖定包含供料詢價表格在內的所有欄位與按鈕
 - **列表型可編輯表格**（請購底稿、採購計畫等）：一律「唯讀 → 按修改解鎖 → 只送出實際異動過的列（dirty-row 追蹤）」，不是整表重新儲存
-- **DataGridViewComboBoxColumn 對應主檔代碼**：主檔欄位常為固定長度字串（含尾端空白），下拉選單的值與資料庫值須 `Trim()` 後比對，並在資料列入清單前檢查是否已存在於 Items、不存在則強制加入，避免「DataGridViewComboBoxCell 值無效」例外
+- **DataGridViewComboBoxColumn 對應主檔代碼**：主檔欄位常為固定長度字串（含尾端空白），下拉選單的值與資料庫值須 `Trim()` 後比對，並在資料列入清單前檢查是否已存在於 Items、不存在則強制加入，避免「DataGridViewComboBoxCell 值無效」例外；grid 層級再加一道 `DataError` 事件作最後防呆
+- **Grid 儲存格內開啟選取彈窗（picker-in-cell）**：於 `DataGridView.EditingControlShowing` 攔截原生 ComboBox 編輯控制項，訂閱其 `DropDown` 事件，透過 `BeginInvoke` 立即關閉原生下拉（`DroppedDown = false`）並改開 `FrmSelectStaff` 等選取視窗，選取結果寫回 `combo.Text`
+- **生效/覆核 gating**：寫入或清空「核准」+「核准日」（或對應欄位名稱）；「修改」在已生效/已覆核狀態下一律被擋（提示「請先取消生效」/「請先取消覆核」）
 - **DataGridView 之 CellEndEdit 才觸發相依欄位重算**（如原幣未稅→台幣未稅/稅額/金額），需搭配 `CurrentCellDirtyStateChanged` 強制 `CommitEdit`，下拉選定後才會即時觸發 `CellValueChanged`
+- **DataGridView 選取藍底覆蓋文字**：`ClearSelection()`/`CurrentCell = null` 必須在控制項已加入可見樹（Handle 已建立）之後才有效，故一律透過 `BeginInvoke` 延後到 Form Load/版面配置完成後執行，重要輸出（如列印用截圖）前再防禦性地清一次
+- **PDF 列印**：沿用既有 `FrmEQPShippingPrint` 建立的 PDFsharp（`PackageReference PDFsharp 6.2.4`）慣例——將 Panel `DrawToBitmap` 存為 PNG 再畫入 `XGraphics`；多頁時以多個固定尺寸 Panel 迴圈畫入同一 `PdfDocument`；執行期讀取的圖片資源需在 `.csproj` 明確加 `<None Include>` + `CopyToOutputDirectory=PreserveNewest`（SDK 專案不會自動複製任意檔案）
 - **WinForms 容器 Dock 順序**：同層 `Controls.Add` 的呼叫順序決定版面配置解析順序——後加入者的 Dock 先被解析（越晚加入越先卡位），因此 `Dock=Fill` 的控制項務必最先加入，其餘 Top/Bottom 控制項再依序加入
+- **TabControl 頁籤寬度**：全域統一改為依文字內容自動縮放（非固定寬度），避免長標題被截斷
+- **數值輸入欄位**：性質為數字的欄位（積分點數、工時、焊接測試數據各項參數等）一律使用 `NumericUpDown` 而非 `TextBox`
 - **共用查詢區域**：多筆列表查詢統一使用 `List<T>` 一次撈回後於前端 `Where` 篩選（未結案/已結案、複式篩選等），避免每次篩選都重新呼叫 API
+- **權限控制**：`chkPrivilege(id)` 於建構子檢查是否可開啟畫面；`chkEditPrivilege(id)` 進一步控制「修改」/「刪除」按鈕是否顯示，已全面套用於各 MaintainControl
