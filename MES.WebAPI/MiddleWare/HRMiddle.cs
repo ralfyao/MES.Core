@@ -48,6 +48,40 @@ namespace MES.WebAPI.MiddleWare
                                                         @工作簡述	, -- 工作簡述			- nvarchar(max)
                                                         @預計再訪	  -- 預計再訪			- smalldatetime
                                                         )";
+        // ── 員工清冊總覽：H員工基本資料 RIGHT JOIN H員工清冊 ON 工號 ─────────────
+        public List<員工清冊列表> getEmployeeList()
+        {
+            List<員工清冊列表> list = new List<員工清冊列表>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"SELECT
+                                        dbo_EMPL.工號,
+                                        dbo_EMPL.姓名,
+                                        dbo_EMPL.部門,
+                                        dbo_EMPL.人事編號,
+                                        dbo_EMPL.卡號,
+                                        CONVERT(varchar(10), dbo_EMPL.生日, 111) AS 生日,
+                                        dbo_H員工基本資料.職等,
+                                        dbo_H員工基本資料.職級,
+                                        CONVERT(varchar(10), dbo_H員工基本資料.核薪日, 111) AS 核薪日,
+                                        CONVERT(varchar(10), dbo_H員工基本資料.離職日, 111) AS 離職日,
+                                        dbo_EMPL.狀況
+                                    FROM
+                                        H員工基本資料 dbo_H員工基本資料
+                                        RIGHT JOIN H員工清冊 dbo_EMPL ON dbo_H員工基本資料.工號 = dbo_EMPL.工號";
+                    list = conn.Query<員工清冊列表>(sql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
         public H員工清冊 getEmployeeByAccount(string account)
         {
             H員工清冊 obj = new H員工清冊();

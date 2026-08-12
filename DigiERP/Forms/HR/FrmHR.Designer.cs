@@ -45,15 +45,7 @@ namespace DigiERP
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            TreeNode treeNode1 = new TreeNode("客戶維護");
-            TreeNode treeNode2 = new TreeNode("詢問函件");
-            TreeNode treeNode3 = new TreeNode("產品報價");
-            TreeNode treeNode4 = new TreeNode("客戶訴願");
-            TreeNode treeNode5 = new TreeNode("機台客服");
-            TreeNode treeNode6 = new TreeNode("訂單維護");
-            TreeNode treeNode7 = new TreeNode("出貨單據");
-            TreeNode treeNode8 = new TreeNode("應收立帳");
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSupplier));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHR));
             sidebar = new Panel();
             splitContainer = new SplitContainer();
             treeView = new System.Windows.Forms.TreeView();
@@ -100,23 +92,6 @@ namespace DigiERP
             treeView.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 136);
             treeView.Location = new Point(0, 0);
             treeView.Name = "treeView";
-            treeNode1.Name = "Customer";
-            treeNode1.Text = "客戶維護";
-            treeNode2.Name = "RFQ";
-            treeNode2.Text = "詢問函件";
-            treeNode3.Name = "Quotation";
-            treeNode3.Text = "產品報價";
-            treeNode4.Name = "CAR";
-            treeNode4.Text = "客戶訴願";
-            treeNode5.Name = "CustService";
-            treeNode5.Text = "機台客服";
-            treeNode6.Name = "SalesOrder";
-            treeNode6.Text = "訂單維護";
-            treeNode7.Name = "ShippingOrder";
-            treeNode7.Text = "出貨單據";
-            treeNode8.Name = "AccountsReceivables";
-            treeNode8.Text = "應收立帳";
-            treeView.Nodes.AddRange(new TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4, treeNode5, treeNode6, treeNode7, treeNode8 });
             treeView.Size = new Size(387, 669);
             treeView.TabIndex = 0;
             treeView.AfterSelect += TreeView_AfterSelect;
@@ -139,14 +114,15 @@ namespace DigiERP
             animationTimer.Interval = 5;
             animationTimer.Tick += Timer_Tick;
             // 
-            // FrmCust
+            // FrmHR
             // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
             ClientSize = new Size(1186, 669);
             Controls.Add(splitContainer);
             Controls.Add(sidebar);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "FrmCust";
-            Text = "CRM客戶關係";
+            Name = "FrmHR";
+            Text = "Hiring人事管理";
             WindowState = FormWindowState.Maximized;
             splitContainer.Panel1.ResumeLayout(false);
             splitContainer.Panel2.ResumeLayout(false);

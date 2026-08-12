@@ -167,5 +167,27 @@ namespace DigiERP
             FrmObjective frmObjective = new FrmObjective();
             frmObjective.ShowDialog(this);
         }
+
+        private void panel3_Click(object sender, EventArgs e)
+        {
+            FrmHR frmHr = new FrmHR();
+            frmHr.ShowDialog();
+        }
+
+        private void panel3_DoubleClick(object sender, EventArgs e)
+        {
+            FrmHR frmHr = new FrmHR();
+            frmHr.ShowDialog();
+        }
+
+        private void panel3_MouseLeave(object sender, EventArgs e)
+        {
+            panel3.Cursor = Cursors.Default;
+        }
+
+        private void panel3_MouseMove(object sender, MouseEventArgs e)
+        {
+            panel3.Cursor = Cursors.Hand;
+        }
     }
 }

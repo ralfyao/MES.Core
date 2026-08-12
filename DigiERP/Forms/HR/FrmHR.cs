@@ -23,7 +23,7 @@ namespace DigiERP
 {
     public partial class FrmHR : CommonForm
     {
-        private static string moduleId = "0FDCB68D-91BE-48A4-9B21-E8E1C7C6A565";
+        private static string moduleId = "1EDCB68D-91BE-48A4-9B21-E8E1C7C6A565";
         private bool isloaded = false;
         public FrmHR()
         {
