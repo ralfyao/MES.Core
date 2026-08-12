@@ -58,6 +58,110 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        // ── 更新員工個資：寫入 H員工清冊(修改員工個資) ─────────────────────
+        [Route("api/UpdateEmployee"), HttpPost]
+        public CommonRep<string> UpdateEmployee([FromBody] H員工清冊 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HumanResourceRepository humanResourceRepository = new HumanResourceRepository();
+            try
+            {
+                int retCode = humanResourceRepository.Update(form);
+                if (retCode != 0)
+                {
+                    commonRep.ErrorMessage = "修改員工個資失敗!";
+                    commonRep.WorkStatus = WorkStatus.Fail.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        // ── 修改員工個資「狀況」改為離職時，同步寫入最新一筆核薪紀錄的離職日 ──
+        [Route("api/UpdateLatestSalaryResignDate"), HttpGet]
+        public CommonRep<string> UpdateLatestSalaryResignDate(string empNo, string resignDate)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.updateLatestSalaryResignDate(empNo, resignDate);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        // ── 員工薪給結構(核薪紀錄) ────────────────────────────────────────
+        [Route("api/GetEmployeeSalaryList"), HttpGet]
+        public CommonRep<H員工基本資料> GetEmployeeSalaryList(string empNo)
+        {
+            CommonRep<H員工基本資料> commonRep = new CommonRep<H員工基本資料>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getEmployeeSalaryList(empNo);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/SaveEmployeeSalary"), HttpPost]
+        public CommonRep<string> SaveEmployeeSalary([FromBody] H員工基本資料 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.saveEmployeeSalary(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ValidateEmployeeSalary"), HttpGet]
+        public CommonRep<string> ValidateEmployeeSalary(int id, bool approve, string account)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.validateEmployeeSalary(id, approve, account);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteEmployeeSalary"), HttpGet]
+        public CommonRep<string> DeleteEmployeeSalary(int id)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.deleteEmployeeSalary(id);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         [Route("api/EmployeeByAccount"), HttpGet]
         public CommonRep<H員工清冊> EmployeeByAccount(string account)
         {

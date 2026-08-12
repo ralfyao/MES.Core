@@ -33,11 +33,13 @@ namespace DigiERP.Forms.HR
             lblIdNo = new Label();
             txtIdNo = new TextBox();
             lblBirthday = new Label();
-            txtBirthday = new TextBox();
+            dtpBirthday = new DateTimePicker();
             lblJobTitle = new Label();
             txtJobTitle = new TextBox();
             lblStatus = new Label();
             cboStatus = new ComboBox();
+            lblResignDate = new Label();
+            dtpResignDate = new DateTimePicker();
             lblHRNo = new Label();
             txtHRNo = new TextBox();
             lblCardNo = new Label();
@@ -111,11 +113,13 @@ namespace DigiERP.Forms.HR
             panelBody.Controls.Add(lblIdNo);
             panelBody.Controls.Add(txtIdNo);
             panelBody.Controls.Add(lblBirthday);
-            panelBody.Controls.Add(txtBirthday);
+            panelBody.Controls.Add(dtpBirthday);
             panelBody.Controls.Add(lblJobTitle);
             panelBody.Controls.Add(txtJobTitle);
             panelBody.Controls.Add(lblStatus);
             panelBody.Controls.Add(cboStatus);
+            panelBody.Controls.Add(lblResignDate);
+            panelBody.Controls.Add(dtpResignDate);
             panelBody.Controls.Add(lblHRNo);
             panelBody.Controls.Add(txtHRNo);
             panelBody.Controls.Add(lblCardNo);
@@ -125,7 +129,7 @@ namespace DigiERP.Forms.HR
             panelBody.Dock = DockStyle.Fill;
             panelBody.Location = new Point(0, 56);
             panelBody.Name = "panelBody";
-            panelBody.Size = new Size(620, 364);
+            panelBody.Size = new Size(620, 406);
             panelBody.TabIndex = 1;
             // 
             // lblEmpNo
@@ -227,14 +231,16 @@ namespace DigiERP.Forms.HR
             lblBirthday.Size = new Size(36, 18);
             lblBirthday.TabIndex = 10;
             lblBirthday.Text = "生日";
-            // 
-            // txtBirthday
-            // 
-            txtBirthday.Font = new Font("微軟正黑體", 10F);
-            txtBirthday.Location = new Point(410, 104);
-            txtBirthday.Name = "txtBirthday";
-            txtBirthday.Size = new Size(180, 25);
-            txtBirthday.TabIndex = 11;
+            //
+            // dtpBirthday
+            //
+            dtpBirthday.Font = new Font("微軟正黑體", 10F);
+            dtpBirthday.Format = DateTimePickerFormat.Custom;
+            dtpBirthday.CustomFormat = "yyyy/MM/dd";
+            dtpBirthday.Location = new Point(410, 104);
+            dtpBirthday.Name = "dtpBirthday";
+            dtpBirthday.Size = new Size(180, 25);
+            dtpBirthday.TabIndex = 11;
             // 
             // lblJobTitle
             // 
@@ -268,72 +274,95 @@ namespace DigiERP.Forms.HR
             // 
             cboStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             cboStatus.Font = new Font("微軟正黑體", 10F);
-            cboStatus.Items.AddRange(new object[] { "正常", "離職", "留職停薪" });
+            cboStatus.Items.AddRange(new object[] { "留職停薪" });
             cboStatus.Location = new Point(410, 146);
             cboStatus.Name = "cboStatus";
             cboStatus.Size = new Size(180, 25);
             cboStatus.TabIndex = 15;
-            // 
+            cboStatus.SelectedIndexChanged += cboStatus_SelectedIndexChanged;
+            //
+            // lblResignDate
+            //
+            lblResignDate.AutoSize = true;
+            lblResignDate.Font = new Font("微軟正黑體", 10F);
+            lblResignDate.Location = new Point(30, 192);
+            lblResignDate.Name = "lblResignDate";
+            lblResignDate.Size = new Size(64, 18);
+            lblResignDate.TabIndex = 16;
+            lblResignDate.Text = "離職日期";
+            lblResignDate.Visible = false;
+            //
+            // dtpResignDate
+            //
+            dtpResignDate.Font = new Font("微軟正黑體", 10F);
+            dtpResignDate.Format = DateTimePickerFormat.Custom;
+            dtpResignDate.CustomFormat = "yyyy/MM/dd";
+            dtpResignDate.Location = new Point(110, 188);
+            dtpResignDate.Name = "dtpResignDate";
+            dtpResignDate.Size = new Size(180, 25);
+            dtpResignDate.TabIndex = 17;
+            dtpResignDate.Visible = false;
+            //
             // lblHRNo
-            // 
+            //
             lblHRNo.AutoSize = true;
             lblHRNo.Font = new Font("微軟正黑體", 10F);
-            lblHRNo.Location = new Point(30, 192);
+            lblHRNo.Location = new Point(30, 234);
             lblHRNo.Name = "lblHRNo";
             lblHRNo.Size = new Size(64, 18);
-            lblHRNo.TabIndex = 16;
+            lblHRNo.TabIndex = 18;
             lblHRNo.Text = "人事編號";
-            // 
+            //
             // txtHRNo
-            // 
+            //
             txtHRNo.Font = new Font("微軟正黑體", 10F);
-            txtHRNo.Location = new Point(110, 188);
+            txtHRNo.Location = new Point(110, 230);
             txtHRNo.Name = "txtHRNo";
             txtHRNo.Size = new Size(180, 25);
-            txtHRNo.TabIndex = 17;
-            // 
+            txtHRNo.TabIndex = 19;
+            //
             // lblCardNo
-            // 
+            //
             lblCardNo.AutoSize = true;
             lblCardNo.Font = new Font("微軟正黑體", 10F);
-            lblCardNo.Location = new Point(330, 192);
+            lblCardNo.Location = new Point(330, 234);
             lblCardNo.Name = "lblCardNo";
             lblCardNo.Size = new Size(36, 18);
-            lblCardNo.TabIndex = 18;
+            lblCardNo.TabIndex = 20;
             lblCardNo.Text = "卡號";
-            // 
+            //
             // txtCardNo
-            // 
+            //
             txtCardNo.Font = new Font("微軟正黑體", 10F);
-            txtCardNo.Location = new Point(410, 188);
+            txtCardNo.Location = new Point(410, 230);
             txtCardNo.Name = "txtCardNo";
             txtCardNo.Size = new Size(180, 25);
-            txtCardNo.TabIndex = 19;
-            // 
+            txtCardNo.TabIndex = 21;
+            //
             // lblAddress
-            // 
+            //
             lblAddress.AutoSize = true;
             lblAddress.Font = new Font("微軟正黑體", 10F);
-            lblAddress.Location = new Point(30, 234);
+            lblAddress.Location = new Point(30, 276);
             lblAddress.Name = "lblAddress";
             lblAddress.Size = new Size(36, 18);
-            lblAddress.TabIndex = 20;
+            lblAddress.TabIndex = 22;
             lblAddress.Text = "地址";
-            // 
+            //
             // txtAddress
-            // 
+            //
             txtAddress.Font = new Font("微軟正黑體", 10F);
-            txtAddress.Location = new Point(110, 230);
+            txtAddress.Location = new Point(110, 272);
             txtAddress.Multiline = true;
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(480, 70);
-            txtAddress.TabIndex = 21;
-            // 
+            txtAddress.TabIndex = 23;
+            //
             // FrmEmployeeMaintain
-            // 
+            //
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(620, 420);
+            ClientSize = new Size(620, 462);
             Controls.Add(panelBody);
             Controls.Add(panelHeader);
             Font = new Font("微軟正黑體", 10F);
@@ -368,11 +397,13 @@ namespace DigiERP.Forms.HR
         private Label lblIdNo;
         private TextBox txtIdNo;
         private Label lblBirthday;
-        private TextBox txtBirthday;
+        private DateTimePicker dtpBirthday;
         private Label lblJobTitle;
         private TextBox txtJobTitle;
         private Label lblStatus;
         private ComboBox cboStatus;
+        private Label lblResignDate;
+        private DateTimePicker dtpResignDate;
         private Label lblHRNo;
         private TextBox txtHRNo;
         private Label lblCardNo;

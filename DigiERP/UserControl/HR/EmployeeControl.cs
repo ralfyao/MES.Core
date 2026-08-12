@@ -85,6 +85,33 @@ namespace DigiERP.UserControl.HR
             }
         }
 
+        // ── 點選工號：開啟(或切換至)「員工薪資核定紀錄」頁籤 ─────────────────
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || dataGridView1.Columns[e.ColumnIndex] != colEmpNo) return;
+            string empNo = dataGridView1.Rows[e.RowIndex].Cells[colEmpNo.Index].Value?.ToString();
+            if (string.IsNullOrEmpty(empNo)) return;
+
+            if (!(Parent is TabPage) || !(((TabPage)Parent).Parent is TabControl)) return;
+            TabControl tabControl = (TabControl)((TabPage)Parent).Parent;
+            string tabName = "EmployeeSalary_" + empNo;
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                if (page.Name == tabName)
+                {
+                    tabControl.SelectedTab = page;
+                    ((EmployeeSalaryControl)page.Controls[0]).LoadData(empNo);
+                    return;
+                }
+            }
+            var ctrl = new EmployeeSalaryControl { Dock = DockStyle.Fill };
+            var tab = new TabPage("員工薪資核定紀錄-" + empNo) { Name = tabName };
+            tab.Controls.Add(ctrl);
+            tabControl.TabPages.Add(tab);
+            tabControl.SelectedTab = tab;
+            ctrl.LoadData(empNo);
+        }
+
         private void btnExit_Click(object sender, EventArgs e)
         {
             var parentCtrl = Parent;

@@ -82,6 +82,154 @@ namespace MES.WebAPI.MiddleWare
             }
             return list;
         }
+        // ── 員工薪給結構(核薪紀錄)：依工號查詢 H員工基本資料 全部歷程，依核薪日排序 ──
+        public List<H員工基本資料> getEmployeeSalaryList(string empNo)
+        {
+            List<H員工基本資料> list = new List<H員工基本資料>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = $@"SELECT
+                                        識別碼, 工號, 職等, 職級,
+                                        CONVERT(varchar(10), 核薪日, 111) AS 核薪日,
+                                        CONVERT(varchar(10), 離職日, 111) AS 離職日,
+                                        本薪, 職務加給, 日薪, 時薪, 主管津貼, 全勤獎金,
+                                        每日伙食津貼, 其他加項, 投保等級, 眷保口數,
+                                        勞保, 健保, 眷保, 其他減項, 退休金自提, 退休公司提,
+                                        加班備註, 扣款時薪, 備註一, 備註二, 備註三,
+                                        建檔維護, 核准人員
+                                    FROM H員工基本資料
+                                    WHERE 工號 = @工號
+                                    ORDER BY 識別碼";
+                    list = conn.Query<H員工基本資料>(sql, new { 工號 = empNo }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        // ── 員工薪給結構：新增或更新一筆核薪紀錄(識別碼=0 為新增) ──────────────
+        public void saveEmployeeSalary(H員工基本資料 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    if (form.識別碼 == 0)
+                    {
+                        string sql = @"INSERT INTO H員工基本資料
+                                        (工號, 職等, 職級, 核薪日, 離職日, 本薪, 職務加給, 日薪, 時薪,
+                                         主管津貼, 全勤獎金, 每日伙食津貼, 其他加項, 投保等級, 眷保口數,
+                                         勞保, 健保, 眷保, 其他減項, 退休金自提, 退休公司提,
+                                         加班備註, 扣款時薪, 備註一, 備註二, 備註三, 建檔維護)
+                                       VALUES
+                                        (@工號, @職等, @職級, @核薪日, @離職日, @本薪, @職務加給, @日薪, @時薪,
+                                         @主管津貼, @全勤獎金, @每日伙食津貼, @其他加項, @投保等級, @眷保口數,
+                                         @勞保, @健保, @眷保, @其他減項, @退休金自提, @退休公司提,
+                                         @加班備註, @扣款時薪, @備註一, @備註二, @備註三, @建檔維護)";
+                        conn.Execute(sql, form);
+                    }
+                    else
+                    {
+                        string sql = @"UPDATE H員工基本資料 SET
+                                         職等=@職等, 職級=@職級, 核薪日=@核薪日, 離職日=@離職日,
+                                         本薪=@本薪, 職務加給=@職務加給, 日薪=@日薪, 時薪=@時薪,
+                                         主管津貼=@主管津貼, 全勤獎金=@全勤獎金, 每日伙食津貼=@每日伙食津貼,
+                                         其他加項=@其他加項, 投保等級=@投保等級, 眷保口數=@眷保口數,
+                                         勞保=@勞保, 健保=@健保, 眷保=@眷保, 其他減項=@其他減項,
+                                         退休金自提=@退休金自提, 退休公司提=@退休公司提,
+                                         加班備註=@加班備註, 扣款時薪=@扣款時薪,
+                                         備註一=@備註一, 備註二=@備註二, 備註三=@備註三, 建檔維護=@建檔維護
+                                       WHERE 識別碼=@識別碼";
+                        conn.Execute(sql, form);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 修改員工個資「狀況」改為離職時，將離職日期寫入該工號目前最新一筆
+        //    (識別碼最大)核薪紀錄的 離職日；改回非離職狀態時傳入空白以清空 ──────
+        public void updateLatestSalaryResignDate(string empNo, string resignDate)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    int? latestId = conn.Query<int?>("SELECT MAX(識別碼) FROM H員工基本資料 WHERE 工號=@工號", new { 工號 = empNo }).FirstOrDefault();
+                    if (!latestId.HasValue) return;
+
+                    if (string.IsNullOrEmpty(resignDate))
+                    {
+                        conn.Execute("UPDATE H員工基本資料 SET 離職日=NULL WHERE 識別碼=@識別碼", new { 識別碼 = latestId.Value });
+                    }
+                    else
+                    {
+                        conn.Execute("UPDATE H員工基本資料 SET 離職日=@離職日 WHERE 識別碼=@識別碼", new { 離職日 = resignDate, 識別碼 = latestId.Value });
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 生效/取消生效：寫入或清空 核准人員(無獨立核准日欄位，比照原 Access 表單邏輯) ──
+        public void validateEmployeeSalary(int id, bool approve, string account)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"UPDATE H員工基本資料 SET 核准人員=@核准人員 WHERE 識別碼=@識別碼";
+                    conn.Execute(sql, new { 核准人員 = approve ? account : null, 識別碼 = id });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 刪除核薪紀錄：已核准(核准人員非空)禁止刪除，比照原 Access 表單邏輯 ────
+        public void deleteEmployeeSalary(int id)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string approved = conn.Query<string>("SELECT 核准人員 FROM H員工基本資料 WHERE 識別碼=@識別碼", new { 識別碼 = id }).FirstOrDefault();
+                    if (!string.IsNullOrEmpty(approved))
+                    {
+                        throw new Exception("已核准無法刪除，請洽後台管理員！");
+                    }
+                    conn.Execute("DELETE FROM H員工基本資料 WHERE 識別碼=@識別碼", new { 識別碼 = id });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public H員工清冊 getEmployeeByAccount(string account)
         {
             H員工清冊 obj = new H員工清冊();

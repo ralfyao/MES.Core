@@ -147,6 +147,7 @@ namespace DigiERP.UserControl.HR
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowTemplate.Height = 26;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(1600, 600);
             dataGridView1.TabIndex = 0;
