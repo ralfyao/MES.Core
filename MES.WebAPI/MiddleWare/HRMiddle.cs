@@ -230,6 +230,391 @@ namespace MES.WebAPI.MiddleWare
             }
         }
 
+        // ── 每日出勤表：依日期查詢(或建立空白)表頭 H日曆 ──────────────────────
+        public H日曆 getCalendarByDate(string date)
+        {
+            H日曆 obj = null;
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT CONVERT(varchar(10), 日期, 111) AS 日期, 例假日,
+                                          導入卡鐘資料, CONVERT(varchar(16), 導入時間, 120) AS 導入時間
+                                   FROM H日曆 WHERE 日期=@日期";
+                    obj = conn.Query<H日曆>(sql, new { 日期 = date }).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return obj ?? new H日曆 { 日期 = date };
+        }
+
+        // ── 每日卡鐘總覽(日曆總覽)：取得 H日曆 全部日期列表(含例假日)，供瀏覽/
+        //    雙擊切換回「每日出勤表」使用 ──────────────────────────────────
+        public List<H日曆> getCalendarList()
+        {
+            List<H日曆> list = new List<H日曆>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT CONVERT(varchar(10), 日期, 111) AS 日期, 例假日,
+                                          公告事項, 人事經辦, 核准生效, 核准人,
+                                          導入卡鐘資料, CONVERT(varchar(16), 導入時間, 120) AS 導入時間
+                                   FROM H日曆 ORDER BY 日期";
+                    list = conn.Query<H日曆>(sql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        // ── 每日出勤表：依日期排序取得全部已建立表頭的日期，供 Last/Next 切換使用 ──
+        public List<string> getCalendarDateList()
+        {
+            List<string> list = new List<string>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT CONVERT(varchar(10), 日期, 111) FROM H日曆 ORDER BY 日期";
+                    list = conn.Query<string>(sql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        // ── 每日出勤表：新增或更新表頭(依日期是否已存在判斷)，僅處理 例假日
+        //    (不動 公告事項/人事經辦/核准生效/核准人，避免覆蓋日曆總覽維護的資料) ──
+        public void saveCalendar(H日曆 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    int exists = conn.Query<int>("SELECT COUNT(0) FROM H日曆 WHERE 日期=@日期", new { form.日期 }).First();
+                    if (exists == 0)
+                    {
+                        conn.Execute(@"INSERT INTO H日曆 (日期, 例假日) VALUES (@日期, @例假日)", form);
+                    }
+                    else
+                    {
+                        conn.Execute(@"UPDATE H日曆 SET 例假日=@例假日 WHERE 日期=@日期", form);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 日曆總覽(CalendarControl)：新增或更新一整筆(含 公告事項/人事經辦/
+        //    核准生效/核准人)，依日期是否已存在判斷 ──────────────────────────
+        public void saveCalendarFull(H日曆 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    int exists = conn.Query<int>("SELECT COUNT(0) FROM H日曆 WHERE 日期=@日期", new { form.日期 }).First();
+                    if (exists == 0)
+                    {
+                        conn.Execute(@"INSERT INTO H日曆 (日期, 例假日, 公告事項, 人事經辦, 核准生效, 核准人)
+                                       VALUES (@日期, @例假日, @公告事項, @人事經辦, @核准生效, @核准人)", form);
+                    }
+                    else
+                    {
+                        conn.Execute(@"UPDATE H日曆 SET 例假日=@例假日, 公告事項=@公告事項, 人事經辦=@人事經辦,
+                                         核准生效=@核准生效, 核准人=@核准人
+                                       WHERE 日期=@日期", form);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 每日出勤紀錄：依日期查詢表身(含姓名、依請假紀錄推算之假別) ────────
+        public List<考勤紀錄列表> getAttendanceList(string date)
+        {
+            List<考勤紀錄列表> list = new List<考勤紀錄列表>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT
+                                        a.識別碼, a.員工編號, e.姓名, a.卡號, a.班次,
+                                        LEFT(CONVERT(varchar(8), a.正規上班, 108), 5) AS 正規上班,
+                                        LEFT(CONVERT(varchar(8), a.正規下班, 108), 5) AS 正規下班,
+                                        LEFT(CONVERT(varchar(8), a.加班上班, 108), 5) AS 加班上班,
+                                        LEFT(CONVERT(varchar(8), a.加班下班, 108), 5) AS 加班下班,
+                                        a.出勤時數, a.請休時數, a.遲到分鐘數, a.忘卡,
+                                        ISNULL(f.假別, '') AS 假別
+                                    FROM H考勤紀錄 a
+                                    LEFT JOIN H員工清冊 e ON a.員工編號 = e.工號
+                                    LEFT JOIN (
+                                        SELECT 員工編號, 日期,
+                                            CASE WHEN 事假>0 THEN N'事假'
+                                                 WHEN 病假>0 THEN N'病假'
+                                                 WHEN 特休假>0 THEN N'特休假'
+                                                 WHEN 產假>0 THEN N'產(陪)假'
+                                                 WHEN 公假>0 THEN N'公假'
+                                                 WHEN 生理假>0 THEN N'生理假'
+                                                 WHEN 親情假>0 THEN N'親情假'
+                                                 WHEN 曠職>0 THEN N'天災假'
+                                                 ELSE '' END AS 假別
+                                        FROM H請假紀錄
+                                        WHERE 日期=@日期
+                                    ) f ON f.員工編號 = a.員工編號
+                                    WHERE a.日期=@日期
+                                    ORDER BY a.卡號";
+                    list = conn.Query<考勤紀錄列表>(sql, new { 日期 = date }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        // ── 員工考勤核對(H-出勤卡)：依員工編號+查詢起訖日，列出區間內每一天的
+        //    出勤紀錄(當天無打卡紀錄亦列出空白列，比照原 Access「H日曆 查詢」
+        //    LEFT JOIN 邏輯)，並依 H請假紀錄 推算假別 ─────────────────────
+        public List<考勤核對列表> getAttendanceCheckList(string empNo, string startDate, string endDate)
+        {
+            List<考勤核對列表> list = new List<考勤核對列表>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    // ── 加班分鐘核對帳簿：比照原 Access 查詢邏輯換算加班分鐘數/核准時數，
+                    //    唯原查詢的 JOIN 只用「日期」比對(未比對員工編號)，可能將他人的
+                    //    加班核准/薪資資料誤配到同日出勤紀錄上；此處已修正為同時比對
+                    //    員工編號，確保時薪/加班時數等資料屬於同一人 ─────────────────
+                    string sql = @"SELECT
+                                        CONVERT(varchar(10), c.日期, 111) AS 日期,
+                                        c.例假日,
+                                        a.班次,
+                                        LEFT(CONVERT(varchar(8), a.正規上班, 108), 5) AS 正規上班,
+                                        LEFT(CONVERT(varchar(8), a.正規下班, 108), 5) AS 正規下班,
+                                        LEFT(CONVERT(varchar(8), a.加班上班, 108), 5) AS 加班上班,
+                                        LEFT(CONVERT(varchar(8), a.加班下班, 108), 5) AS 加班下班,
+                                        a.出勤時數, a.請休時數, a.遲到分鐘數, a.早退分鐘數, a.忘卡, a.備註,
+                                        ISNULL(f.假別, '') AS 假別,
+                                        ot.核准時數, ot.加班費
+                                    FROM H日曆 c
+                                    LEFT JOIN H考勤紀錄 a ON a.日期 = c.日期 AND a.員工編號 = @員工編號
+                                    LEFT JOIN (
+                                        SELECT 日期,
+                                            CASE WHEN 事假>0 THEN N'事假'
+                                                 WHEN 病假>0 THEN N'病假'
+                                                 WHEN 特休假>0 THEN N'特休假'
+                                                 WHEN 產假>0 THEN N'產(陪)假'
+                                                 WHEN 公假>0 THEN N'公假'
+                                                 WHEN 生理假>0 THEN N'生理假'
+                                                 WHEN 親情假>0 THEN N'親情假'
+                                                 WHEN 曠職>0 THEN N'天災假'
+                                                 ELSE '' END AS 假別
+                                        FROM H請假紀錄
+                                        WHERE 員工編號=@員工編號
+                                    ) f ON f.日期 = c.日期
+                                    LEFT JOIN (
+                                        SELECT
+                                            m.日期,
+                                            m.加班分鐘數 / 60.0 AS 核准時數,
+                                            ROUND(mm.加班乘數分鐘 * ROUND(e.時薪 / 60.0, 2), 0) AS 加班費
+                                        FROM (
+                                            SELECT
+                                                h.日期, h.員工編號, h.班次,
+                                                CASE WHEN DATEDIFF(MINUTE, h.加班上班, h.加班下班) > o.時數*60
+                                                     THEN o.時數*60
+                                                     ELSE CAST(DATEDIFF(MINUTE, h.加班上班, h.加班下班) AS float)
+                                                END AS 加班分鐘數
+                                            FROM H考勤紀錄 h
+                                            INNER JOIN H核准加班明細 o
+                                                ON o.員工編號 = h.員工編號 AND o.加班日期 = h.日期
+                                            WHERE h.員工編號 = @員工編號
+                                              AND h.加班上班 IS NOT NULL AND h.加班下班 IS NOT NULL
+                                        ) m
+                                        CROSS APPLY (
+                                            SELECT CASE
+                                                WHEN m.班次 = N'國定假日' THEN m.加班分鐘數 * 1.0
+                                                WHEN m.加班分鐘數 > 480 THEN (m.加班分鐘數-480)*8.0/3 + 360*5.0/3 + 120*4.0/3
+                                                WHEN m.加班分鐘數 > 120 THEN (m.加班分鐘數-120)*5.0/3 + 120*4.0/3
+                                                ELSE m.加班分鐘數 * 4.0/3
+                                            END AS 加班乘數分鐘
+                                        ) mm
+                                        INNER JOIN H員工基本資料 e ON e.工號 = m.員工編號
+                                        WHERE m.日期 >= e.核薪日 AND m.日期 <= e.離職日
+                                    ) ot ON ot.日期 = c.日期
+                                    WHERE c.日期 BETWEEN @開始日期 AND @結束日期
+                                    ORDER BY c.日期";
+                    list = conn.Query<考勤核對列表>(sql, new { 員工編號 = empNo, 開始日期 = startDate, 結束日期 = endDate }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        // ── 導入卡鐘資料：H卡鐘(單欄 card 原始刷卡字串) 解析後寫入 H考勤紀錄。
+        //    比照原 Access「H卡鐘查詢」/「H卡鐘正規上班」/「H卡鐘正規下班」/
+        //    「H卡鐘加班下班」/「H考勤紀錄更新1」共 5 個查詢的邏輯合併重現：
+        //    card 格式為 25 碼字串："AA"刷卡機(2) + 卡號(8) + 1碼未用 +
+        //    "HHMM"時間(4) + "YYYYMMDD"日期(8) + 2碼未用；
+        //    時間<12:00 視為正規上班(取最早一筆)；14:00~18:00 視為正規下班候
+        //    選(取最早一筆)；>18:00 視為加班下班(取最晚一筆)；
+        //    若有加班下班紀錄，正規下班/加班上班固定為 17:10，加班下班取實際
+        //    刷卡時間；若無加班紀錄，正規下班取正規下班候選值，加班上下班空白 ──
+        public void importClockData(string date)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"
+                        ;WITH ParsedCard AS (
+                            SELECT
+                                SUBSTRING(card,3,8) AS 卡號,
+                                SUBSTRING(card,12,2) + ':' + SUBSTRING(card,14,2) AS 時間,
+                                SUBSTRING(card,16,4) + '/' + SUBSTRING(card,20,2) + '/' + SUBSTRING(card,22,2) AS 日期
+                            FROM H卡鐘
+                            WHERE LEN(card) >= 23
+                        ),
+                        Filtered AS (
+                            SELECT * FROM ParsedCard WHERE 日期 = @日期
+                        ),
+                        正規上班表 AS (
+                            SELECT 卡號, MIN(時間) AS 正規上班 FROM Filtered WHERE 時間 < '12:00' GROUP BY 卡號
+                        ),
+                        正規下班表 AS (
+                            SELECT 卡號, MIN(時間) AS 正規下班候 FROM Filtered WHERE 時間 BETWEEN '14:00' AND '18:00' GROUP BY 卡號
+                        ),
+                        加班下班表 AS (
+                            SELECT 卡號, MAX(時間) AS 加班下班 FROM Filtered WHERE 時間 > '18:00' GROUP BY 卡號
+                        ),
+                        Combined AS (
+                            SELECT
+                                a.卡號,
+                                e.工號 AS 員工編號,
+                                a.正規上班,
+                                CASE WHEN c.加班下班 IS NOT NULL THEN '17:10' ELSE b.正規下班候 END AS 正規下班,
+                                CASE WHEN c.加班下班 IS NOT NULL THEN '17:10' ELSE NULL END AS 加班上班,
+                                c.加班下班
+                            FROM 正規上班表 a
+                            LEFT JOIN 正規下班表 b ON a.卡號 = b.卡號
+                            LEFT JOIN 加班下班表 c ON a.卡號 = c.卡號
+                            LEFT JOIN H員工清冊 e ON a.卡號 = e.卡號
+                        )
+                        INSERT INTO H考勤紀錄 (日期, 卡號, 員工編號, 正規上班, 正規下班, 加班上班, 加班下班)
+                        SELECT @日期, Combined.卡號, Combined.員工編號, Combined.正規上班, Combined.正規下班, Combined.加班上班, Combined.加班下班
+                        FROM Combined
+                        WHERE NOT EXISTS (SELECT 1 FROM H考勤紀錄 WHERE 日期=@日期 AND 卡號=Combined.卡號);";
+                    conn.Execute(sql, new { 日期 = date });
+
+                    int exists = conn.Query<int>("SELECT COUNT(0) FROM H日曆 WHERE 日期=@日期", new { 日期 = date }).First();
+                    if (exists == 0)
+                    {
+                        conn.Execute("INSERT INTO H日曆 (日期, 導入卡鐘資料, 導入時間) VALUES (@日期, 1, GETDATE())", new { 日期 = date });
+                    }
+                    else
+                    {
+                        conn.Execute("UPDATE H日曆 SET 導入卡鐘資料=1, 導入時間=GETDATE() WHERE 日期=@日期", new { 日期 = date });
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 每日出勤紀錄：新增或更新一筆(識別碼=0 為新增) ─────────────────────
+        public void saveAttendance(H考勤紀錄 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    if (form.識別碼 == 0)
+                    {
+                        string sql = @"INSERT INTO H考勤紀錄
+                                        (員工編號, 日期, 班次, 正規上班, 正規下班, 加班上班, 加班下班,
+                                         出勤時數, 請休時數, 遲到分鐘數, 卡號, 忘卡, 備註)
+                                       VALUES
+                                        (@員工編號, @日期, @班次, @正規上班, @正規下班, @加班上班, @加班下班,
+                                         @出勤時數, @請休時數, @遲到分鐘數, @卡號, @忘卡, @備註)";
+                        conn.Execute(sql, form);
+                    }
+                    else
+                    {
+                        string sql = @"UPDATE H考勤紀錄 SET
+                                         員工編號=@員工編號, 班次=@班次, 正規上班=@正規上班, 正規下班=@正規下班,
+                                         加班上班=@加班上班, 加班下班=@加班下班, 出勤時數=@出勤時數,
+                                         請休時數=@請休時數, 遲到分鐘數=@遲到分鐘數, 卡號=@卡號,
+                                         忘卡=@忘卡, 備註=@備註
+                                       WHERE 識別碼=@識別碼";
+                        conn.Execute(sql, form);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 每日出勤紀錄：刪除一筆 ────────────────────────────────────────
+        public void deleteAttendance(int id)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    conn.Execute("DELETE FROM H考勤紀錄 WHERE 識別碼=@識別碼", new { 識別碼 = id });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public H員工清冊 getEmployeeByAccount(string account)
         {
             H員工清冊 obj = new H員工清冊();

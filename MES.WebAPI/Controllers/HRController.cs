@@ -97,6 +97,169 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+        // ── 每日出勤表 ────────────────────────────────────────────────────
+        [Route("api/GetCalendarByDate"), HttpGet]
+        public CommonRep<H日曆> GetCalendarByDate(string date)
+        {
+            CommonRep<H日曆> commonRep = new CommonRep<H日曆>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.result = hrMiddle.getCalendarByDate(date);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetCalendarList"), HttpGet]
+        public CommonRep<H日曆> GetCalendarList()
+        {
+            CommonRep<H日曆> commonRep = new CommonRep<H日曆>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getCalendarList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetCalendarDateList"), HttpGet]
+        public CommonRep<string> GetCalendarDateList()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getCalendarDateList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        // ── 員工考勤核對(H-出勤卡) ──────────────────────────────────────────
+        [Route("api/GetAttendanceCheckList"), HttpGet]
+        public CommonRep<考勤核對列表> GetAttendanceCheckList(string empNo, string startDate, string endDate)
+        {
+            CommonRep<考勤核對列表> commonRep = new CommonRep<考勤核對列表>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getAttendanceCheckList(empNo, startDate, endDate);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/ImportClockData"), HttpGet]
+        public CommonRep<string> ImportClockData(string date)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.importClockData(date);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/SaveCalendar"), HttpPost]
+        public CommonRep<string> SaveCalendar([FromBody] H日曆 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.saveCalendar(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        // ── 日曆總覽(CalendarControl)：儲存含 公告事項/人事經辦/核准生效/核准人 ──
+        [Route("api/SaveCalendarFull"), HttpPost]
+        public CommonRep<string> SaveCalendarFull([FromBody] H日曆 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.saveCalendarFull(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/GetAttendanceList"), HttpGet]
+        public CommonRep<考勤紀錄列表> GetAttendanceList(string date)
+        {
+            CommonRep<考勤紀錄列表> commonRep = new CommonRep<考勤紀錄列表>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getAttendanceList(date);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/SaveAttendance"), HttpPost]
+        public CommonRep<string> SaveAttendance([FromBody] H考勤紀錄 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.saveAttendance(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+        [Route("api/DeleteAttendance"), HttpGet]
+        public CommonRep<string> DeleteAttendance(int id)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.deleteAttendance(id);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
         // ── 員工薪給結構(核薪紀錄) ────────────────────────────────────────
         [Route("api/GetEmployeeSalaryList"), HttpGet]
         public CommonRep<H員工基本資料> GetEmployeeSalaryList(string empNo)
