@@ -422,5 +422,218 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
+
+        // ══════════════════════════ 加班申請單(H-加班申請單) ══════════════════════════
+
+        [Route("api/GetOvertimeApplyList"), HttpGet]
+        public CommonRep<H加班申請單> GetOvertimeApplyList()
+        {
+            CommonRep<H加班申請單> commonRep = new CommonRep<H加班申請單>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getOvertimeApplyList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetOvertimeApplyByNo"), HttpGet]
+        public CommonRep<H加班申請單> GetOvertimeApplyByNo(string no)
+        {
+            CommonRep<H加班申請單> commonRep = new CommonRep<H加班申請單>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.result = hrMiddle.getOvertimeApplyByNo(no);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        // ── 單據編號預覽：新增申請單當下立即顯示，比照原巨集「日期」欄位
+        //    AfterUpdate 邏輯即時算出，實際仍以儲存時交易內產生的編號為準 ─────
+        [Route("api/GetOvertimeApplyNoPreview"), HttpGet]
+        public CommonRep<string> GetOvertimeApplyNoPreview(string date)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.result = hrMiddle.previewOvertimeApplyNo(date);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveOvertimeApply"), HttpPost]
+        public CommonRep<string> SaveOvertimeApply([FromBody] H加班申請單 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.result = hrMiddle.saveOvertimeApply(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/UpdateOvertimeApply"), HttpPost]
+        public CommonRep<string> UpdateOvertimeApply([FromBody] H加班申請單 form)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.updateOvertimeApply(form);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        // ── 生效/取消生效：approve=true 生效(寫入 approver 為核准人)，
+        //    approve=false 取消生效(清空核准人) ─────────────────────────
+        [Route("api/ValidateOvertimeApply"), HttpGet]
+        public CommonRep<string> ValidateOvertimeApply(string no, bool approve, string approver)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.validateOvertimeApply(no, approve, approver);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/DeleteOvertimeApply"), HttpGet]
+        public CommonRep<string> DeleteOvertimeApply(string no)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.deleteOvertimeApply(no);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetCostUnitList"), HttpGet]
+        public CommonRep<string> GetCostUnitList()
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getCostUnitList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetOvertimeReasonList"), HttpGet]
+        public CommonRep<H加班事由> GetOvertimeReasonList()
+        {
+            CommonRep<H加班事由> commonRep = new CommonRep<H加班事由>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getOvertimeReasonList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        // ── 員工加班紀錄表：全部員工基本資料清單(供表頭首/前/次/末筆導覽) ──────
+        [Route("api/GetAllEmployeeBasicList"), HttpGet]
+        public CommonRep<H員工清冊> GetAllEmployeeBasicList()
+        {
+            CommonRep<H員工清冊> commonRep = new CommonRep<H員工清冊>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getAllEmployeeBasicList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        // ── 員工加班紀錄表：單一員工查詢起訖日範圍內的加班紀錄+加班費 ────────
+        [Route("api/GetEmployeeOvertimeRecordList"), HttpGet]
+        public CommonRep<員工加班紀錄列表> GetEmployeeOvertimeRecordList(string empNo, string startDate, string endDate)
+        {
+            CommonRep<員工加班紀錄列表> commonRep = new CommonRep<員工加班紀錄列表>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getEmployeeOvertimeRecordList(empNo, startDate, endDate);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        // ── 加班申請明細查詢：比照原「加班申請明細查詢」表單 ─────────────────
+        [Route("api/GetOvertimeApplyDetailQuery"), HttpGet]
+        public CommonRep<加班申請明細查詢> GetOvertimeApplyDetailQuery()
+        {
+            CommonRep<加班申請明細查詢> commonRep = new CommonRep<加班申請明細查詢>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getOvertimeApplyDetailQuery();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
     }
 }

@@ -59,6 +59,9 @@ namespace DigiERP.UserControl.HR.Calendar
         private void SetEditing(bool editing)
         {
             _editing = editing;
+            // ── 表格層級的 ReadOnly 會覆蓋所有欄位層級設定，兩者都要切換，
+            //    否則欄位 ReadOnly=false 也無法真正編輯 ──────────────────────
+            dataGridView1.ReadOnly = !editing;
             foreach (DataGridViewColumn col in dataGridView1.Columns)
             {
                 if (col == colWeekday) continue;

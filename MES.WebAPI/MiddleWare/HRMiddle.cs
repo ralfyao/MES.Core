@@ -721,5 +721,394 @@ namespace MES.WebAPI.MiddleWare
             }
             return retCode;
         }
+
+        // ══════════════════════════ 加班申請單(H-加班申請單) ══════════════════════════
+
+        // ── 加班申請單總覽：僅表頭，供「總覽」清單挑選 ─────────────────────
+        public List<H加班申請單> getOvertimeApplyList()
+        {
+            List<H加班申請單> list = new List<H加班申請單>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT 單據編號, 申請單位, CONVERT(varchar(10), 申請日期, 111) AS 申請日期,
+                                          申請人, 核准生效, 核准人
+                                   FROM H加班申請單
+                                   ORDER BY 單據編號 DESC";
+                    list = conn.Query<H加班申請單>(sql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        // ── 加班申請單單筆查詢：表頭+表身(核准加班明細) ────────────────────
+        public H加班申請單 getOvertimeApplyByNo(string no)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT 單據編號, 申請單位, CONVERT(varchar(10), 申請日期, 111) AS 申請日期,
+                                          申請人, 核准生效, 核准人
+                                   FROM H加班申請單
+                                   WHERE 單據編號=@單據編號";
+                    var form = conn.Query<H加班申請單>(sql, new { 單據編號 = no }).FirstOrDefault();
+                    if (form == null) return null;
+
+                    string sql2 = @"SELECT 識別碼, 單據編號, 員工編號, CONVERT(varchar(10), 加班日期, 111) AS 加班日期,
+                                            LEFT(CONVERT(varchar(8), 起, 108), 5) AS 起,
+                                            LEFT(CONVERT(varchar(8), 訖, 108), 5) AS 訖,
+                                            時數, 加班事由, 加班內容詳述, 備註
+                                     FROM H核准加班明細
+                                     WHERE 單據編號=@單據編號
+                                     ORDER BY 識別碼";
+                    form.detailList = conn.Query<H核准加班明細>(sql2, new { 單據編號 = no }).ToList();
+                    return form;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 單據編號預覽：點選「新增」時立即顯示，邏輯與 saveOvertimeApply
+        //    內產生單據編號完全相同(僅供畫面顯示，實際仍以儲存交易內產生的
+        //    編號為準，避免多人同時新增造成編號衝突) ──────────────────────
+        public string previewOvertimeApplyNo(string date)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string maxNo = conn.Query<string>(
+                        "SELECT MAX(單據編號) FROM H加班申請單 WHERE 申請日期=@申請日期",
+                        new { 申請日期 = date }).FirstOrDefault();
+                    if (string.IsNullOrEmpty(maxNo))
+                    {
+                        DateTime.TryParse(date, out var d);
+                        return "OT" + d.ToString("yyyyMMdd") + "01";
+                    }
+                    int seq = int.Parse(maxNo.Substring(10, 2)) + 1;
+                    return maxNo.Substring(0, 10) + seq.ToString("00");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 加班申請單明細：交易內先刪除表身再重新寫入(比照總務支出單慣例) ────
+        private void saveOvertimeApplyDetail(SqlConnection conn, SqlTransaction tran, H加班申請單 form)
+        {
+            conn.Execute("DELETE FROM H核准加班明細 WHERE 單據編號=@單據編號", new { 單據編號 = form.單據編號 }, tran);
+            string insSql = @"INSERT INTO H核准加班明細
+                                (單據編號, 員工編號, 加班日期, 起, 訖, 時數, 加班事由, 加班內容詳述, 備註)
+                               VALUES
+                                (@單據編號, @員工編號, @加班日期, @起, @訖, @時數, @加班事由, @加班內容詳述, @備註)";
+            foreach (var d in form.detailList ?? new List<H核准加班明細>())
+            {
+                d.單據編號 = form.單據編號;
+                conn.Execute(insSql, d, tran);
+            }
+        }
+
+        // ── 加班申請單新增：單據編號比照原巨集「日期」欄位 AfterUpdate 邏輯，
+        //    以 DMax 取同一申請日期最大單號後遞增末2位序號(無則為 "OT"+申請日期
+        //    8碼+"01")，僅新單、單據編號為空時才產生 ────────────────────────
+        public string saveOvertimeApply(H加班申請單 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            if (string.IsNullOrEmpty(form.單據編號))
+                            {
+                                string maxNo = conn.Query<string>(
+                                    "SELECT MAX(單據編號) FROM H加班申請單 WHERE 申請日期=@申請日期",
+                                    new { 申請日期 = form.申請日期 }, tran).FirstOrDefault();
+                                if (string.IsNullOrEmpty(maxNo))
+                                {
+                                    DateTime.TryParse(form.申請日期, out var d);
+                                    form.單據編號 = "OT" + d.ToString("yyyyMMdd") + "01";
+                                }
+                                else
+                                {
+                                    int seq = int.Parse(maxNo.Substring(10, 2)) + 1;
+                                    form.單據編號 = maxNo.Substring(0, 10) + seq.ToString("00");
+                                }
+                            }
+
+                            string sql = @"INSERT INTO H加班申請單
+                                            (單據編號, 申請單位, 申請日期, 申請人, 核准生效, 核准人)
+                                           VALUES
+                                            (@單據編號, @申請單位, @申請日期, @申請人, @核准生效, @核准人)";
+                            conn.Execute(sql, form, tran);
+                            saveOvertimeApplyDetail(conn, tran, form);
+                            tran.Commit();
+                            return form.單據編號;
+                        }
+                        catch
+                        {
+                            tran.Rollback();
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 加班申請單修改：單據編號/申請日期不變，僅更新申請單位/申請人，
+        //    表身整批刪除重建 ────────────────────────────────────────────
+        public void updateOvertimeApply(H加班申請單 form)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            string sql = @"UPDATE H加班申請單 SET 申請單位=@申請單位, 申請人=@申請人
+                                           WHERE 單據編號=@單據編號";
+                            conn.Execute(sql, form, tran);
+                            saveOvertimeApplyDetail(conn, tran, form);
+                            tran.Commit();
+                        }
+                        catch
+                        {
+                            tran.Rollback();
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 生效/取消生效：比照原巨集，生效時核准人寫入登入者姓名，
+        //    取消生效清空核准人 ──────────────────────────────────────────
+        public void validateOvertimeApply(string no, bool approve, string approver)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    if (approve)
+                    {
+                        conn.Execute("UPDATE H加班申請單 SET 核准生效=1, 核准人=@核准人 WHERE 單據編號=@單據編號",
+                            new { 核准人 = approver, 單據編號 = no });
+                    }
+                    else
+                    {
+                        conn.Execute("UPDATE H加班申請單 SET 核准生效=0, 核准人=NULL WHERE 單據編號=@單據編號",
+                            new { 單據編號 = no });
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 刪除加班申請單：連同表身一併刪除 ──────────────────────────────
+        public void deleteOvertimeApply(string no)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"DELETE FROM H核准加班明細 WHERE 單據編號=@單據編號;
+                                   DELETE FROM H加班申請單 WHERE 單據編號=@單據編號";
+                    conn.Execute(sql, new { 單據編號 = no });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 申請單位下拉來源：比照原巨集 RowSource(dbo_成本單位.職務)，
+        //    實際對應 SQL Server 之 A成本單位 ─────────────────────────────
+        public List<string> getCostUnitList()
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    return conn.Query<string>("SELECT 職務 FROM A成本單位 ORDER BY 識別碼").ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 加班事由下拉來源：H加班事由 主檔 ──────────────────────────────
+        public List<H加班事由> getOvertimeReasonList()
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    return conn.Query<H加班事由>("SELECT 加班事由代碼, 加班事由 FROM H加班事由").ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 員工加班紀錄表頭導覽用清單：H員工清冊 全量，不篩選狀況，
+        //    比照原巨集 RecordSource(dbo_EMPL)瀏覽全部員工並以首/前/次/末
+        //    按鈕切換 ─────────────────────────────────────────────────────
+        public List<H員工清冊> getAllEmployeeBasicList()
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    return conn.Query<H員工清冊>("SELECT * FROM H員工清冊 ORDER BY 工號").ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 員工加班紀錄表身：比照原「加班分鐘核對-1」查詢，唯該查詢誤將
+        //    「假日班」誤植為判斷字串(其真正來源查詢「加班分鐘核對帳簿」比對
+        //    的是「國定假日」，且 H考勤紀錄.班次 亦僅會出現「國定假日」)，
+        //    故此處採用與 getAttendanceCheckList 一致、已修正的正確版本 ──────
+        public List<員工加班紀錄列表> getEmployeeOvertimeRecordList(string empNo, string startDate, string endDate)
+        {
+            List<員工加班紀錄列表> list = new List<員工加班紀錄列表>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT
+                                        CONVERT(varchar(10), m.日期, 111) AS 日期,
+                                        m.班次,
+                                        LEFT(CONVERT(varchar(8), m.加班上班, 108), 5) AS 加班上班,
+                                        LEFT(CONVERT(varchar(8), m.加班下班, 108), 5) AS 加班下班,
+                                        m.時數, m.加班事由,
+                                        ROUND(m.加班分鐘數 / 60.0, 2) AS 加班時數,
+                                        ROUND(mm.加班乘數分鐘 * ROUND(e.時薪 / 60.0, 2), 0) AS 加班費,
+                                        e.時薪
+                                    FROM (
+                                        SELECT
+                                            h.日期, h.班次, h.加班上班, h.加班下班, o.時數, o.加班事由,
+                                            CASE WHEN DATEDIFF(MINUTE, h.加班上班, h.加班下班) > o.時數*60
+                                                 THEN o.時數*60
+                                                 ELSE CAST(DATEDIFF(MINUTE, h.加班上班, h.加班下班) AS float)
+                                            END AS 加班分鐘數
+                                        FROM H考勤紀錄 h
+                                        INNER JOIN H核准加班明細 o
+                                            ON o.員工編號 = h.員工編號 AND o.加班日期 = h.日期
+                                        WHERE h.員工編號 = @員工編號
+                                          AND h.加班上班 IS NOT NULL AND h.加班下班 IS NOT NULL
+                                          AND h.日期 BETWEEN @開始日期 AND @結束日期
+                                    ) m
+                                    CROSS APPLY (
+                                        SELECT CASE
+                                            WHEN m.班次 = N'國定假日' THEN m.加班分鐘數 * 1.0
+                                            WHEN m.加班分鐘數 > 480 THEN (m.加班分鐘數-480)*8.0/3 + 360*5.0/3 + 120*4.0/3
+                                            WHEN m.加班分鐘數 > 120 THEN (m.加班分鐘數-120)*5.0/3 + 120*4.0/3
+                                            ELSE m.加班分鐘數 * 4.0/3
+                                        END AS 加班乘數分鐘
+                                    ) mm
+                                    INNER JOIN H員工基本資料 e ON e.工號 = @員工編號
+                                    WHERE m.日期 >= e.核薪日 AND m.日期 <= e.離職日
+                                    ORDER BY m.日期";
+                    list = conn.Query<員工加班紀錄列表>(sql, new { 員工編號 = empNo, 開始日期 = startDate, 結束日期 = endDate }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
+
+        // ── 加班申請明細查詢：比照原巨集查詢「加班申請明細查詢」(H加班申請單
+        //    LEFT JOIN H核准加班明細 ON 單據編號)，一張申請單可展開為多列；
+        //    原查詢以 DLookUp("姓名","dbo_EMPL",...) 帶出姓名，dbo_EMPL 在
+        //    CHINYO 並不存在，改以 H員工清冊 LEFT JOIN 取得 ──────────────────
+        public List<加班申請明細查詢> getOvertimeApplyDetailQuery()
+        {
+            List<加班申請明細查詢> list = new List<加班申請明細查詢>();
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT
+                                        a.單據編號, a.申請單位, a.申請人,
+                                        b.員工編號, e.姓名,
+                                        CONVERT(varchar(10), b.加班日期, 111) AS 加班日期,
+                                        LEFT(CONVERT(varchar(8), b.起, 108), 5) AS 起,
+                                        LEFT(CONVERT(varchar(8), b.訖, 108), 5) AS 訖,
+                                        b.時數, b.加班事由,
+                                        a.核准生效, a.核准人
+                                   FROM H加班申請單 a
+                                   LEFT JOIN H核准加班明細 b ON a.單據編號 = b.單據編號
+                                   LEFT JOIN H員工清冊 e ON e.工號 = b.員工編號
+                                   ORDER BY a.單據編號 DESC";
+                    list = conn.Query<加班申請明細查詢>(sql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return list;
+        }
     }
 }
