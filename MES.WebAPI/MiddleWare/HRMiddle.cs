@@ -1076,6 +1076,260 @@ namespace MES.WebAPI.MiddleWare
             return list;
         }
 
+        // ══════════════════════════ 薪資月結(H-薪資月結) ══════════════════════════
+
+        // ── 薪資月結總覽：僅表頭，供 ◄/► 切換 ─────────────────────────────
+        public List<H員工月> getSalaryCloseList()
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT 識別, CONVERT(varchar(10), 月底日, 111) AS 月底日, 年月, 月結, 選取, 傳票,
+                                          建檔, CONVERT(varchar(10), 建檔日, 111) AS 建檔日,
+                                          修改, CONVERT(varchar(10), 修改日, 111) AS 修改日,
+                                          核准, CONVERT(varchar(19), 核准日, 120) AS 核准日
+                                   FROM H員工月
+                                   ORDER BY 年月 DESC";
+                    return conn.Query<H員工月>(sql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 薪資月結單筆查詢：表頭+表身(員工月工時成本) ────────────────────
+        public H員工月 getSalaryCloseByPeriod(string yearMonth)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT 識別, CONVERT(varchar(10), 月底日, 111) AS 月底日, 年月, 月結, 選取, 傳票,
+                                          建檔, CONVERT(varchar(10), 建檔日, 111) AS 建檔日,
+                                          修改, CONVERT(varchar(10), 修改日, 111) AS 修改日,
+                                          核准, CONVERT(varchar(19), 核准日, 120) AS 核准日
+                                   FROM H員工月
+                                   WHERE 年月=@年月";
+                    var form = conn.Query<H員工月>(sql, new { 年月 = yearMonth }).FirstOrDefault();
+                    if (form == null) return null;
+
+                    string sql2 = @"SELECT 識別, 工號, 年月, 應領金額, 請假扣款, 遲到扣款, 出勤時數
+                                     FROM H員工月工時成本
+                                     WHERE 年月=@年月
+                                     ORDER BY 工號";
+                    form.detailList = conn.Query<H員工月工時成本>(sql2, new { 年月 = yearMonth }).ToList();
+                    return form;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 薪資月結明細：交易內先刪除表身再重新寫入 ──────────────────────
+        private void saveSalaryCloseDetail(SqlConnection conn, SqlTransaction tran, H員工月 form)
+        {
+            conn.Execute("DELETE FROM H員工月工時成本 WHERE 年月=@年月", new { 年月 = form.年月 }, tran);
+            string insSql = @"INSERT INTO H員工月工時成本 (工號, 年月, 應領金額, 請假扣款, 遲到扣款, 出勤時數)
+                               VALUES (@工號, @年月, @應領金額, @請假扣款, @遲到扣款, @出勤時數)";
+            foreach (var d in form.detailList ?? new List<H員工月工時成本>())
+            {
+                d.年月 = form.年月;
+                conn.Execute(insSql, d, tran);
+            }
+        }
+
+        // ── 薪資月結新增/修改：依 年月 是否已存在判斷新增或更新，表身整批
+        //    刪除重建(比照總務支出單慣例) ──────────────────────────────────
+        public void saveSalaryClose(H員工月 form, bool isNew)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            if (isNew)
+                            {
+                                string sql = @"INSERT INTO H員工月 (月底日, 年月, 建檔, 建檔日)
+                                               VALUES (@月底日, @年月, @建檔, GETDATE())";
+                                conn.Execute(sql, form, tran);
+                            }
+                            else
+                            {
+                                string sql = @"UPDATE H員工月 SET 月底日=@月底日, 修改=@修改, 修改日=GETDATE()
+                                               WHERE 年月=@年月";
+                                conn.Execute(sql, form, tran);
+                            }
+                            saveSalaryCloseDetail(conn, tran, form);
+                            tran.Commit();
+                        }
+                        catch
+                        {
+                            tran.Rollback();
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 前一個月份是否已完成月結：以 年月(yyyy/MM)往前一個月比對
+        //    (原巨集用 [年月]-1 做 Access 日期運算，此處改以西元年月直接減一
+        //    個月比對，語意相同且不受文字格式影響) ──────────────────────────
+        private bool isPreviousMonthClosed(SqlConnection conn, string yearMonth)
+        {
+            if (!DateTime.TryParse(yearMonth + "/01", out var d))
+            {
+                if (!DateTime.TryParseExact(yearMonth, "yyyy/MM", null, System.Globalization.DateTimeStyles.None, out d))
+                    return true; // 年月格式無法解析時，不擋結帳
+            }
+            string prevMonth = d.AddMonths(-1).ToString("yyyy/MM");
+            bool? closed = conn.Query<bool?>("SELECT 月結 FROM H員工月 WHERE 年月=@年月", new { 年月 = prevMonth }).FirstOrDefault();
+            return closed == true;
+        }
+
+        // ── 結帳：需具編輯權限(原巨集另需符合「系統權限」核准，此處簡化為
+        //    chkEditPrivilege)；已結帳、或前一個月尚未結帳皆擋下；結帳時自動
+        //    轉出會計傳票(借:6111 薪資費用/貸:2191 應付薪資，金額為
+        //    SUM(應領金額-請假扣款-遲到扣款))，比照原巨集「自轉傳票」+
+        //    「傳票明細-薪資月結」/「傳票明細-薪資費用」查詢邏輯 ──────────────
+        public string closeSalaryMonth(string yearMonth, string approver)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    var current = conn.Query<H員工月>("SELECT * FROM H員工月 WHERE 年月=@年月", new { 年月 = yearMonth }).FirstOrDefault();
+                    if (current == null) throw new Exception("查無此月結資料，請先儲存!");
+                    if (current.月結 == true) throw new Exception("本月薪資已結帳，請確認您要結帳的月份！");
+                    if (!isPreviousMonthClosed(conn, yearMonth)) throw new Exception("前一個月份尚未結帳，請查明！");
+
+                    decimal amount = conn.Query<decimal?>(
+                        "SELECT SUM(ISNULL(應領金額,0)-ISNULL(請假扣款,0)-ISNULL(遲到扣款,0)) FROM H員工月工時成本 WHERE 年月=@年月",
+                        new { 年月 = yearMonth }).FirstOrDefault() ?? 0;
+
+                    var voucherMiddle = new VoucherMiddle();
+                    string voucherNo = current.傳票;
+                    if (string.IsNullOrEmpty(voucherNo))
+                    {
+                        voucherNo = voucherMiddle.getFormNo();
+                        var voucher = new F會計傳票
+                        {
+                            單號 = voucherNo,
+                            日期 = DateTime.Now.ToString("yyyy-MM-dd"),
+                            登錄人員 = approver,
+                            狀態 = "登錄",
+                            voucherList = new List<F會計傳票明細>
+                            {
+                                new F會計傳票明細 { 會科代碼 = "6111", 借方 = amount, 摘要 = yearMonth + "-員工薪資", 來源單據 = yearMonth + "-薪資月結單" },
+                                new F會計傳票明細 { 會科代碼 = "2191", 貸方 = amount, 摘要 = yearMonth + "-員工薪資", 來源單據 = yearMonth + "-薪資月結單" },
+                            },
+                        };
+                        voucherMiddle.createVoucher(voucher);
+                    }
+                    else
+                    {
+                        conn.Execute("UPDATE F會計傳票 SET 修改=@修改, 修改日=GETDATE() WHERE 單號=@單號",
+                            new { 修改 = approver, 單號 = voucherNo });
+                    }
+
+                    conn.Execute(@"UPDATE H員工月 SET 核准=@核准, 核准日=GETDATE(), 月結=1, 傳票=@傳票 WHERE 年月=@年月",
+                        new { 核准 = approver, 傳票 = voucherNo, 年月 = yearMonth });
+                    return voucherNo;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 取消結帳：需具編輯權限；刪除自動產生的會計傳票(明細+單頭)，
+        //    清空核准/核准日/月結/傳票 ─────────────────────────────────────
+        public void reopenSalaryMonth(string yearMonth, string modifier)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    var current = conn.Query<H員工月>("SELECT * FROM H員工月 WHERE 年月=@年月", new { 年月 = yearMonth }).FirstOrDefault();
+                    if (current == null) throw new Exception("查無此月結資料!");
+
+                    if (!string.IsNullOrEmpty(current.傳票))
+                    {
+                        conn.Execute("DELETE FROM F會計傳票明細 WHERE 單號=@單號", new { 單號 = current.傳票 });
+                        conn.Execute("DELETE FROM F會計傳票 WHERE 單號=@單號", new { 單號 = current.傳票 });
+                    }
+
+                    conn.Execute(@"UPDATE H員工月 SET 核准=NULL, 核准日=NULL, 修改=@修改, 修改日=GETDATE(), 月結=0, 傳票=NULL
+                                   WHERE 年月=@年月", new { 修改 = modifier, 年月 = yearMonth });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 人工成本重整：比照原巨集「更新單價-人工」+「H人工成本單價導入」
+        //    查詢邏輯，將該年月每位員工算出的工時成本((應領金額-請假扣款-
+        //    遲到扣款)/出勤時數)寫回 工作紀錄A.單價，供各專案工作紀錄計算
+        //    實際人工成本使用；原巨集以 Format$([工作日期],'yyyymm') 比對，
+        //    此處改用日期區間比對，效果相同且效能較佳 ─────────────────────
+        public string recalcLaborCost(string yearMonth)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    var list = conn.Query<H員工月工時成本>(
+                        "SELECT * FROM H員工月工時成本 WHERE 年月=@年月", new { 年月 = yearMonth }).ToList();
+
+                    if (!DateTime.TryParseExact(yearMonth, "yyyy/MM", null, System.Globalization.DateTimeStyles.None, out var monthStart))
+                        throw new Exception("年月格式錯誤!");
+                    var monthEnd = monthStart.AddMonths(1);
+
+                    int updated = 0;
+                    foreach (var x in list)
+                    {
+                        if (string.IsNullOrEmpty(x.工號) || !x.出勤時數.HasValue || x.出勤時數 == 0) continue;
+                        double cost = Math.Round(((x.應領金額 ?? 0) - (x.請假扣款 ?? 0) - (x.遲到扣款 ?? 0)) / x.出勤時數.Value, 2);
+                        updated += conn.Execute(
+                            @"UPDATE 工作紀錄A SET 單價=@單價 WHERE 員工編號=@員工編號 AND 工作日期>=@起 AND 工作日期<@迄",
+                            new { 單價 = cost, 員工編號 = x.工號, 起 = monthStart, 迄 = monthEnd });
+                    }
+                    return $"成本重整計算完成，共更新 {updated} 筆工作紀錄!";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         // ── 加班申請明細查詢：比照原巨集查詢「加班申請明細查詢」(H加班申請單
         //    LEFT JOIN H核准加班明細 ON 單據編號)，一張申請單可展開為多列；
         //    原查詢以 DLookUp("姓名","dbo_EMPL",...) 帶出姓名，dbo_EMPL 在

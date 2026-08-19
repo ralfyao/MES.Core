@@ -618,6 +618,112 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        // ══════════════════════════ 薪資月結(H-薪資月結) ══════════════════════════
+
+        [Route("api/GetSalaryCloseList"), HttpGet]
+        public CommonRep<H員工月> GetSalaryCloseList()
+        {
+            CommonRep<H員工月> commonRep = new CommonRep<H員工月>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getSalaryCloseList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/GetSalaryCloseByPeriod"), HttpGet]
+        public CommonRep<H員工月> GetSalaryCloseByPeriod(string yearMonth)
+        {
+            CommonRep<H員工月> commonRep = new CommonRep<H員工月>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.result = hrMiddle.getSalaryCloseByPeriod(yearMonth);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveSalaryClose"), HttpPost]
+        public CommonRep<string> SaveSalaryClose([FromBody] H員工月 form, bool isNew)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.saveSalaryClose(form, isNew);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        // ── 結帳：成功時 result 回傳自動產生(或沿用)的會計傳票單號 ──────────
+        [Route("api/CloseSalaryMonth"), HttpPost]
+        public CommonRep<string> CloseSalaryMonth(string yearMonth, string approver)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.result = hrMiddle.closeSalaryMonth(yearMonth, approver);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/ReopenSalaryMonth"), HttpPost]
+        public CommonRep<string> ReopenSalaryMonth(string yearMonth, string modifier)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.reopenSalaryMonth(yearMonth, modifier);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        // ── 人工成本重整：將該年月每位員工工時成本寫回 工作紀錄A.單價 ────────
+        [Route("api/RecalcLaborCost"), HttpPost]
+        public CommonRep<string> RecalcLaborCost(string yearMonth)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.result = hrMiddle.recalcLaborCost(yearMonth);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         // ── 加班申請明細查詢：比照原「加班申請明細查詢」表單 ─────────────────
         [Route("api/GetOvertimeApplyDetailQuery"), HttpGet]
         public CommonRep<加班申請明細查詢> GetOvertimeApplyDetailQuery()
