@@ -742,6 +742,41 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        // ── 新增職務(僅寫入 A成本單位.職務)：供「職務工作類別」畫面使用 ────────
+        [Route("api/CreateCostUnitPosition"), HttpPost]
+        public CommonRep<string> CreateCostUnitPosition(string position)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.createCostUnitPosition(position);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SavePositionWorkCategoryList"), HttpPost]
+        public CommonRep<string> SavePositionWorkCategoryList(string position, [FromBody] List<H職務工作分類> list)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.savePositionWorkCategoryList(position, list);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         // ── 人工成本重整：將該年月每位員工工時成本寫回 工作紀錄A.單價 ────────
         [Route("api/RecalcLaborCost"), HttpPost]
         public CommonRep<string> RecalcLaborCost(string yearMonth)

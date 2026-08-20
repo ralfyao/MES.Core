@@ -1381,6 +1381,65 @@ namespace MES.WebAPI.MiddleWare
             }
         }
 
+        // ── 新增職務(僅寫入 A成本單位.職務，不動 成本單位人員配置)：供
+        //    「職務工作類別」畫面的新增職務按鈕使用，避免影響「成本單位」
+        //    畫面管理的人員配置資料 ──────────────────────────────────────
+        public void createCostUnitPosition(string position)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    int exists = conn.Query<int>("SELECT COUNT(0) FROM A成本單位 WHERE 職務=@職務", new { 職務 = position }).First();
+                    if (exists > 0) throw new Exception("職務「" + position + "」已存在，請重新輸入!");
+                    conn.Execute("INSERT INTO A成本單位 (職務) VALUES (@職務)", new { 職務 = position });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 職務工作分類點數：整批刪除重建(比照全站慣例) ────────────────────
+        public void savePositionWorkCategoryList(string position, List<H職務工作分類> list)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            conn.Execute("DELETE FROM H職務工作分類 WHERE 職務=@職務", new { 職務 = position }, tran);
+                            string insSql = @"INSERT INTO H職務工作分類 (職務, 代碼, 分類, 積分點數, 說明)
+                                               VALUES (@職務, @代碼, @分類, @積分點數, @說明)";
+                            foreach (var x in list ?? new List<H職務工作分類>())
+                            {
+                                x.職務 = position;
+                                conn.Execute(insSql, x, tran);
+                            }
+                            tran.Commit();
+                        }
+                        catch
+                        {
+                            tran.Rollback();
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         // ── 人工成本重整：比照原巨集「更新單價-人工」+「H人工成本單價導入」
         //    查詢邏輯，將該年月每位員工算出的工時成本((應領金額-請假扣款-
         //    遲到扣款)/出勤時數)寫回 工作紀錄A.單價，供各專案工作紀錄計算
