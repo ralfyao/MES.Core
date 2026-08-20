@@ -18,5 +18,6 @@ namespace MES.Core.Model
         public float? 標準工時成本 { get; set; }
         public float? 實際工時成本 { get; set; }
         public string 操作功能 { get; set; }
+        public List<成本單位人員配置> detailList { get; set; }
     }
 }

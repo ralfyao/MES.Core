@@ -1292,6 +1292,95 @@ namespace MES.WebAPI.MiddleWare
             }
         }
 
+        // ══════════════════════════ 成本單位(A-成本單位) ══════════════════════════
+
+        // ── 成本單位單筆查詢：表頭+表身(成本單位人員配置，LEFT JOIN account
+        //    取姓名) ──────────────────────────────────────────────────────
+        public A成本單位 getCostUnitByPosition(string position)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    var form = conn.Query<A成本單位>("SELECT * FROM A成本單位 WHERE 職務=@職務", new { 職務 = position }).FirstOrDefault();
+                    if (form == null) return null;
+
+                    string sql = @"SELECT s.識別碼, s.職務, s.員工編號, a.姓名 AS 員工姓名, a.姓名 AS 姓名,
+                                          s.核准, s.編修, s.報表, s.輸出, s.註記, s.職務代理效期, s.機號
+                                   FROM 成本單位人員配置 s
+                                   LEFT JOIN account a ON a.帳號 = s.員工編號
+                                   WHERE s.職務=@職務
+                                   ORDER BY s.識別碼";
+                    form.detailList = conn.Query<成本單位人員配置>(sql, new { 職務 = position }).ToList();
+                    return form;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // ── 成本單位新增/修改：以「職務」為業務鍵；新增前需檢查職務是否已存在，
+        //    表身整批刪除重建 ────────────────────────────────────────────
+        public void saveCostUnit(A成本單位 form, bool isNew)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    if (isNew)
+                    {
+                        int exists = conn.Query<int>("SELECT COUNT(0) FROM A成本單位 WHERE 職務=@職務", new { 職務 = form.職務 }).First();
+                        if (exists > 0) throw new Exception("職務「" + form.職務 + "」已存在，請重新輸入!");
+                    }
+
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            if (isNew)
+                            {
+                                string sql = @"INSERT INTO A成本單位 (職務, 標準編制, 上一級單位, 上兩級單位, 標準工時成本, 實際工時成本, 操作功能)
+                                               VALUES (@職務, @標準編制, @上一級單位, @上兩級單位, @標準工時成本, @實際工時成本, @操作功能)";
+                                conn.Execute(sql, form, tran);
+                            }
+                            else
+                            {
+                                string sql = @"UPDATE A成本單位 SET 標準編制=@標準編制, 上一級單位=@上一級單位, 上兩級單位=@上兩級單位,
+                                               標準工時成本=@標準工時成本, 實際工時成本=@實際工時成本, 操作功能=@操作功能
+                                               WHERE 職務=@職務";
+                                conn.Execute(sql, form, tran);
+                            }
+
+                            conn.Execute("DELETE FROM 成本單位人員配置 WHERE 職務=@職務", new { 職務 = form.職務 }, tran);
+                            string insSql = @"INSERT INTO 成本單位人員配置 (職務, 員工編號, 核准, 編修, 報表, 輸出, 註記, 職務代理效期, 機號)
+                                               VALUES (@職務, @員工編號, @核准, @編修, @報表, @輸出, @註記, @職務代理效期, @機號)";
+                            foreach (var s in form.detailList ?? new List<成本單位人員配置>())
+                            {
+                                s.職務 = form.職務;
+                                conn.Execute(insSql, s, tran);
+                            }
+                            tran.Commit();
+                        }
+                        catch
+                        {
+                            tran.Rollback();
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         // ── 人工成本重整：比照原巨集「更新單價-人工」+「H人工成本單價導入」
         //    查詢邏輯，將該年月每位員工算出的工時成本((應領金額-請假扣款-
         //    遲到扣款)/出勤時數)寫回 工作紀錄A.單價，供各專案工作紀錄計算

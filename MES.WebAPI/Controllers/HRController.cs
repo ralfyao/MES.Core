@@ -706,6 +706,42 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        // ══════════════════════════ 成本單位(A-成本單位) ══════════════════════════
+
+        [Route("api/GetCostUnitByPosition"), HttpGet]
+        public CommonRep<A成本單位> GetCostUnitByPosition(string position)
+        {
+            CommonRep<A成本單位> commonRep = new CommonRep<A成本單位>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.result = hrMiddle.getCostUnitByPosition(position);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
+        [Route("api/SaveCostUnit"), HttpPost]
+        public CommonRep<string> SaveCostUnit([FromBody] A成本單位 form, bool isNew)
+        {
+            CommonRep<string> commonRep = new CommonRep<string>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                hrMiddle.saveCostUnit(form, isNew);
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         // ── 人工成本重整：將該年月每位員工工時成本寫回 工作紀錄A.單價 ────────
         [Route("api/RecalcLaborCost"), HttpPost]
         public CommonRep<string> RecalcLaborCost(string yearMonth)
