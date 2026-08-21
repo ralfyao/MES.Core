@@ -777,6 +777,24 @@ namespace MES.WebAPI.Controllers
             return commonRep;
         }
 
+        // ── 專案累計工作時數：比照原查詢「專案累計工作時數」 ─────────────────
+        [Route("api/GetProjectAccumulatedHourList"), HttpGet]
+        public CommonRep<專案累計工作時數列表> GetProjectAccumulatedHourList()
+        {
+            CommonRep<專案累計工作時數列表> commonRep = new CommonRep<專案累計工作時數列表>();
+            HRMiddle hrMiddle = new HRMiddle();
+            try
+            {
+                commonRep.resultList = hrMiddle.getProjectAccumulatedHourList();
+            }
+            catch (Exception ex)
+            {
+                commonRep.ErrorMessage = ex.Message;
+                commonRep.WorkStatus = WorkStatus.Fail.ToString();
+            }
+            return commonRep;
+        }
+
         // ── 人工成本重整：將該年月每位員工工時成本寫回 工作紀錄A.單價 ────────
         [Route("api/RecalcLaborCost"), HttpPost]
         public CommonRep<string> RecalcLaborCost(string yearMonth)

@@ -1440,6 +1440,36 @@ namespace MES.WebAPI.MiddleWare
             }
         }
 
+        // ══════════════════════════ 專案累計工作時數(Y-專案累計工作時數) ══════════════════════════
+
+        // ── 比照原查詢「專案累計工作時數」：工令單 LEFT JOIN 工作紀錄A LEFT
+        //    JOIN H員工清冊(原查詢為 dbo_EMPL，已修正為 H員工清冊)，依專案+
+        //    員工彙總工時與工時成本，僅列出員工編號/專案序號皆非空者 ─────────
+        public List<專案累計工作時數列表> getProjectAccumulatedHourList()
+        {
+            try
+            {
+                using (var conn = new SqlConnection(IRepository<string>.ConnStr))
+                {
+                    conn.Open();
+                    string sql = @"SELECT w.專案序號, w.客戶簡稱, w.機台型號, w.機台名稱, r.員工編號, e.姓名,
+                                          SUM(r.本日工時) AS 工時合計, SUM(r.本日工時 * r.單價) AS 工時成本合計, w.結案
+                                   FROM 工令單 w
+                                   LEFT JOIN 工作紀錄A r ON w.專案序號 = r.專案序號
+                                   LEFT JOIN H員工清冊 e ON r.員工編號 = e.工號
+                                   WHERE r.員工編號 IS NOT NULL AND r.專案序號 IS NOT NULL
+                                   GROUP BY w.專案序號, w.客戶簡稱, w.機台型號, w.機台名稱, r.員工編號, e.姓名, w.結案
+                                   ORDER BY w.專案序號 DESC";
+                    return conn.Query<專案累計工作時數列表>(sql).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         // ── 人工成本重整：比照原巨集「更新單價-人工」+「H人工成本單價導入」
         //    查詢邏輯，將該年月每位員工算出的工時成本((應領金額-請假扣款-
         //    遲到扣款)/出勤時數)寫回 工作紀錄A.單價，供各專案工作紀錄計算
