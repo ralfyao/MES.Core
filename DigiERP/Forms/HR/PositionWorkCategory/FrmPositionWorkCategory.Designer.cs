@@ -120,6 +120,7 @@ namespace DigiERP.Forms.HR.PositionWorkCategory
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(90, 32);
             btnNew.TabIndex = 4;
+            btnNew.Tag = "btn-modify";
             btnNew.Text = "新增職務";
             btnNew.UseVisualStyleBackColor = false;
             btnNew.Click += btnNew_Click;
@@ -134,6 +135,7 @@ namespace DigiERP.Forms.HR.PositionWorkCategory
             btnModify.Name = "btnModify";
             btnModify.Size = new Size(80, 32);
             btnModify.TabIndex = 5;
+            btnModify.Tag = "btn-modify";
             btnModify.Text = "編修記錄";
             btnModify.UseVisualStyleBackColor = false;
             btnModify.Click += btnModify_Click;
@@ -164,6 +166,7 @@ namespace DigiERP.Forms.HR.PositionWorkCategory
             btnExit.TabIndex = 7;
             btnExit.Text = "關閉表單";
             btnExit.UseVisualStyleBackColor = false;
+            btnExit.Visible = false;
             btnExit.Click += btnExit_Click;
             // 
             // panelFormHeader
@@ -281,6 +284,7 @@ namespace DigiERP.Forms.HR.PositionWorkCategory
             btnAddDetailRow.Name = "btnAddDetailRow";
             btnAddDetailRow.Size = new Size(90, 32);
             btnAddDetailRow.TabIndex = 0;
+            btnAddDetailRow.Tag = "btn-modify";
             btnAddDetailRow.Text = "新增分類";
             btnAddDetailRow.UseVisualStyleBackColor = false;
             btnAddDetailRow.Click += btnAddDetailRow_Click;

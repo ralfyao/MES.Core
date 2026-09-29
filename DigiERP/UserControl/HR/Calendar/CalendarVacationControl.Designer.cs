@@ -25,8 +25,8 @@ namespace DigiERP.UserControl.HR.Calendar
         //
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panelHeader = new Panel();
             lblTitle = new Label();
             btnEdit = new Button();
@@ -141,6 +141,7 @@ namespace DigiERP.UserControl.HR.Calendar
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(75, 27);
             btnEdit.TabIndex = 1;
+            btnEdit.Tag = "btn-modify";
             btnEdit.Text = "修改";
             btnEdit.UseVisualStyleBackColor = false;
             btnEdit.Click += btnEdit_Click;
@@ -155,6 +156,7 @@ namespace DigiERP.UserControl.HR.Calendar
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(75, 27);
             btnSave.TabIndex = 2;
+            btnSave.Tag = "btn-modify";
             btnSave.Text = "儲存";
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Click += btnSave_Click;
@@ -169,6 +171,7 @@ namespace DigiERP.UserControl.HR.Calendar
             btnApprove.Name = "btnApprove";
             btnApprove.Size = new Size(75, 27);
             btnApprove.TabIndex = 3;
+            btnApprove.Tag = "btn-modify";
             btnApprove.Text = "生效";
             btnApprove.UseVisualStyleBackColor = false;
             btnApprove.Click += btnApprove_Click;
@@ -183,6 +186,7 @@ namespace DigiERP.UserControl.HR.Calendar
             btnUnapprove.Name = "btnUnapprove";
             btnUnapprove.Size = new Size(90, 27);
             btnUnapprove.TabIndex = 4;
+            btnUnapprove.Tag = "btn-modify";
             btnUnapprove.Text = "取消生效";
             btnUnapprove.UseVisualStyleBackColor = false;
             btnUnapprove.Click += btnUnapprove_Click;
@@ -197,6 +201,7 @@ namespace DigiERP.UserControl.HR.Calendar
             btnAnnualStats.Name = "btnAnnualStats";
             btnAnnualStats.Size = new Size(100, 27);
             btnAnnualStats.TabIndex = 5;
+            btnAnnualStats.Tag = "btn-modify";
             btnAnnualStats.Text = "年度假別統計";
             btnAnnualStats.UseVisualStyleBackColor = false;
             btnAnnualStats.Click += btnAnnualStats_Click;
@@ -211,6 +216,7 @@ namespace DigiERP.UserControl.HR.Calendar
             btnPrint.Name = "btnPrint";
             btnPrint.Size = new Size(75, 27);
             btnPrint.TabIndex = 6;
+            btnPrint.Tag = "btn-modify";
             btnPrint.Text = "列印";
             btnPrint.UseVisualStyleBackColor = false;
             btnPrint.Click += btnPrint_Click;
@@ -225,6 +231,7 @@ namespace DigiERP.UserControl.HR.Calendar
             btnOverview.Name = "btnOverview";
             btnOverview.Size = new Size(75, 27);
             btnOverview.TabIndex = 7;
+            btnOverview.Tag = "btn-modify";
             btnOverview.Text = "總覽";
             btnOverview.UseVisualStyleBackColor = false;
             btnOverview.Click += btnOverview_Click;
@@ -239,6 +246,7 @@ namespace DigiERP.UserControl.HR.Calendar
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(75, 27);
             btnExit.TabIndex = 8;
+            btnExit.Tag = "btn-modify";
             btnExit.Text = "關閉";
             btnExit.UseVisualStyleBackColor = false;
             btnExit.Click += btnExit_Click;
@@ -380,7 +388,7 @@ namespace DigiERP.UserControl.HR.Calendar
             dataGridViewLeave.AllowUserToAddRows = false;
             dataGridViewLeave.AllowUserToDeleteRows = false;
             dataGridViewLeave.BackgroundColor = Color.White;
-            dataGridViewLeave.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewLeave.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridViewLeave.Columns.AddRange(new DataGridViewColumn[] { colLeaveEmpNo, colLeaveName, colLeavePersonal, colLeaveSick, colLeaveAnnual, colLeaveMaternity, colLeaveOfficial, colLeavePhysiological, colLeaveFamily, colLeaveAbsent, colLeaveRemark, colLeaveDeductFactor });
             dataGridViewLeave.Dock = DockStyle.Fill;
             dataGridViewLeave.Location = new Point(8, 28);
@@ -502,7 +510,7 @@ namespace DigiERP.UserControl.HR.Calendar
             dataGridViewAttend.AllowUserToAddRows = false;
             dataGridViewAttend.AllowUserToDeleteRows = false;
             dataGridViewAttend.BackgroundColor = Color.White;
-            dataGridViewAttend.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewAttend.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridViewAttend.Columns.AddRange(new DataGridViewColumn[] { colAttEmpNo, colAttName, colAttCard, colAttShift, colAttNormalIn, colAttNormalOut, colAttOTIn, colAttOTOut, colAttHours, colAttLeaveHours, colAttLate, colAttForgetCard, colAttLeaveType });
             dataGridViewAttend.Dock = DockStyle.Fill;
             dataGridViewAttend.Location = new Point(8, 28);

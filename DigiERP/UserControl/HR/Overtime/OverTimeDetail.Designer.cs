@@ -108,10 +108,11 @@ namespace DigiERP.UserControl.HR.Overtime
             btnFirst.BackColor = Color.Gainsboro;
             btnFirst.FlatStyle = FlatStyle.Flat;
             btnFirst.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnFirst.Location = new Point(940, 12);
+            btnFirst.Location = new Point(808, 12);
             btnFirst.Name = "btnFirst";
             btnFirst.Size = new Size(40, 32);
             btnFirst.TabIndex = 2;
+            btnFirst.Tag = "btn-modify";
             btnFirst.Text = "|◄";
             btnFirst.UseVisualStyleBackColor = false;
             btnFirst.Click += btnFirst_Click;
@@ -121,10 +122,11 @@ namespace DigiERP.UserControl.HR.Overtime
             btnPrev.BackColor = Color.Gainsboro;
             btnPrev.FlatStyle = FlatStyle.Flat;
             btnPrev.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnPrev.Location = new Point(984, 12);
+            btnPrev.Location = new Point(898, 12);
             btnPrev.Name = "btnPrev";
             btnPrev.Size = new Size(40, 32);
             btnPrev.TabIndex = 3;
+            btnPrev.Tag = "btn-modify";
             btnPrev.Text = "◄";
             btnPrev.UseVisualStyleBackColor = false;
             btnPrev.Click += btnPrev_Click;
@@ -134,10 +136,11 @@ namespace DigiERP.UserControl.HR.Overtime
             btnNext.BackColor = Color.Gainsboro;
             btnNext.FlatStyle = FlatStyle.Flat;
             btnNext.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnNext.Location = new Point(1028, 12);
+            btnNext.Location = new Point(986, 12);
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(40, 32);
             btnNext.TabIndex = 4;
+            btnNext.Tag = "btn-modify";
             btnNext.Text = "►";
             btnNext.UseVisualStyleBackColor = false;
             btnNext.Click += btnNext_Click;
@@ -151,6 +154,7 @@ namespace DigiERP.UserControl.HR.Overtime
             btnLast.Name = "btnLast";
             btnLast.Size = new Size(40, 32);
             btnLast.TabIndex = 5;
+            btnLast.Tag = "btn-modify";
             btnLast.Text = "►|";
             btnLast.UseVisualStyleBackColor = false;
             btnLast.Click += btnLast_Click;
@@ -166,6 +170,7 @@ namespace DigiERP.UserControl.HR.Overtime
             btnClose.TabIndex = 6;
             btnClose.Text = "關閉";
             btnClose.UseVisualStyleBackColor = false;
+            btnClose.Visible = false;
             btnClose.Click += btnClose_Click;
             // 
             // panelFormHeader
@@ -205,7 +210,7 @@ namespace DigiERP.UserControl.HR.Overtime
             // 
             // txtEmpNo
             // 
-            txtEmpNo.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtEmpNo.BackColor = Color.WhiteSmoke;
             txtEmpNo.Font = new Font("微軟正黑體", 9F);
             txtEmpNo.Location = new Point(76, 12);
             txtEmpNo.Name = "txtEmpNo";
@@ -225,7 +230,7 @@ namespace DigiERP.UserControl.HR.Overtime
             // 
             // txtName
             // 
-            txtName.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtName.BackColor = Color.WhiteSmoke;
             txtName.Font = new Font("微軟正黑體", 9F);
             txtName.Location = new Point(266, 12);
             txtName.Name = "txtName";
@@ -245,7 +250,7 @@ namespace DigiERP.UserControl.HR.Overtime
             // 
             // txtJobName
             // 
-            txtJobName.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtJobName.BackColor = Color.WhiteSmoke;
             txtJobName.Font = new Font("微軟正黑體", 9F);
             txtJobName.Location = new Point(446, 12);
             txtJobName.Name = "txtJobName";
@@ -265,7 +270,7 @@ namespace DigiERP.UserControl.HR.Overtime
             // 
             // txtDept
             // 
-            txtDept.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtDept.BackColor = Color.WhiteSmoke;
             txtDept.Font = new Font("微軟正黑體", 9F);
             txtDept.Location = new Point(636, 12);
             txtDept.Name = "txtDept";
@@ -285,7 +290,7 @@ namespace DigiERP.UserControl.HR.Overtime
             // 
             // txtHrNo
             // 
-            txtHrNo.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtHrNo.BackColor = Color.WhiteSmoke;
             txtHrNo.Font = new Font("微軟正黑體", 9F);
             txtHrNo.Location = new Point(96, 52);
             txtHrNo.Name = "txtHrNo";
@@ -305,7 +310,7 @@ namespace DigiERP.UserControl.HR.Overtime
             // 
             // txtCardNo
             // 
-            txtCardNo.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtCardNo.BackColor = Color.WhiteSmoke;
             txtCardNo.Font = new Font("微軟正黑體", 9F);
             txtCardNo.Location = new Point(266, 52);
             txtCardNo.Name = "txtCardNo";
@@ -361,6 +366,7 @@ namespace DigiERP.UserControl.HR.Overtime
             btnQuery.Name = "btnQuery";
             btnQuery.Size = new Size(80, 65);
             btnQuery.TabIndex = 16;
+            btnQuery.Tag = "btn-modify";
             btnQuery.Text = "查詢";
             btnQuery.UseVisualStyleBackColor = false;
             btnQuery.Click += btnQuery_Click;

@@ -70,9 +70,9 @@ namespace DigiERP.UserControl.HR.Overtime
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panelGridTool.SuspendLayout();
             SuspendLayout();
-            //
+            // 
             // panelHeader
-            //
+            // 
             panelHeader.BackColor = Color.Moccasin;
             panelHeader.Controls.Add(pictureBox1);
             panelHeader.Controls.Add(lblTitle);
@@ -94,9 +94,9 @@ namespace DigiERP.UserControl.HR.Overtime
             panelHeader.Name = "panelHeader";
             panelHeader.Size = new Size(1360, 56);
             panelHeader.TabIndex = 0;
-            //
+            // 
             // pictureBox1
-            //
+            // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(4, 4);
             pictureBox1.Name = "pictureBox1";
@@ -104,30 +104,30 @@ namespace DigiERP.UserControl.HR.Overtime
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
-            //
+            // 
             // lblTitle
-            //
+            // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("微軟正黑體", 13F, FontStyle.Bold);
             lblTitle.ForeColor = Color.Firebrick;
             lblTitle.Location = new Point(58, 4);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(120, 22);
+            lblTitle.Size = new Size(100, 23);
             lblTitle.TabIndex = 1;
             lblTitle.Text = "加班申請單";
-            //
+            // 
             // lblRecordInfo
-            //
+            // 
             lblRecordInfo.AutoSize = true;
             lblRecordInfo.Font = new Font("微軟正黑體", 9F);
             lblRecordInfo.Location = new Point(58, 30);
             lblRecordInfo.Name = "lblRecordInfo";
-            lblRecordInfo.Size = new Size(90, 17);
+            lblRecordInfo.Size = new Size(92, 16);
             lblRecordInfo.TabIndex = 2;
             lblRecordInfo.Text = "第 0 筆 / 共 0 筆";
-            //
+            // 
             // btnPrev
-            //
+            // 
             btnPrev.BackColor = Color.Gainsboro;
             btnPrev.FlatStyle = FlatStyle.Flat;
             btnPrev.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -138,63 +138,66 @@ namespace DigiERP.UserControl.HR.Overtime
             btnPrev.Text = "◄";
             btnPrev.UseVisualStyleBackColor = false;
             btnPrev.Click += btnPrev_Click;
-            //
+            // 
             // btnNext
-            //
+            // 
             btnNext.BackColor = Color.Gainsboro;
             btnNext.FlatStyle = FlatStyle.Flat;
             btnNext.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnNext.Location = new Point(250, 12);
+            btnNext.Location = new Point(288, 12);
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(36, 32);
             btnNext.TabIndex = 4;
             btnNext.Text = "►";
             btnNext.UseVisualStyleBackColor = false;
             btnNext.Click += btnNext_Click;
-            //
+            // 
             // btnNew
-            //
+            // 
             btnNew.BackColor = Color.LightSteelBlue;
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnNew.Location = new Point(296, 12);
+            btnNew.Location = new Point(364, 12);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(66, 32);
             btnNew.TabIndex = 5;
+            btnNew.Tag = "btn-modify";
             btnNew.Text = "新增";
             btnNew.UseVisualStyleBackColor = false;
             btnNew.Click += btnNew_Click;
-            //
+            // 
             // btnDelete
-            //
+            // 
             btnDelete.BackColor = Color.IndianRed;
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(366, 12);
+            btnDelete.Location = new Point(434, 12);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(66, 32);
             btnDelete.TabIndex = 6;
+            btnDelete.Tag = "btn-delete";
             btnDelete.Text = "刪除";
             btnDelete.UseVisualStyleBackColor = false;
             btnDelete.Click += btnDelete_Click;
-            //
+            // 
             // btnModify
-            //
+            // 
             btnModify.BackColor = Color.SteelBlue;
             btnModify.FlatStyle = FlatStyle.Flat;
             btnModify.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
             btnModify.ForeColor = Color.White;
-            btnModify.Location = new Point(436, 12);
+            btnModify.Location = new Point(504, 12);
             btnModify.Name = "btnModify";
             btnModify.Size = new Size(66, 32);
             btnModify.TabIndex = 7;
+            btnModify.Tag = "btn-modify";
             btnModify.Text = "修改";
             btnModify.UseVisualStyleBackColor = false;
             btnModify.Click += btnModify_Click;
-            //
+            // 
             // btnSave
-            //
+            // 
             btnSave.BackColor = Color.SeaGreen;
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -207,88 +210,95 @@ namespace DigiERP.UserControl.HR.Overtime
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Visible = false;
             btnSave.Click += btnSave_Click;
-            //
+            // 
             // btnValidate
-            //
+            // 
             btnValidate.BackColor = Color.DarkGreen;
             btnValidate.FlatStyle = FlatStyle.Flat;
             btnValidate.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
             btnValidate.ForeColor = Color.White;
-            btnValidate.Location = new Point(506, 12);
+            btnValidate.Location = new Point(574, 12);
             btnValidate.Name = "btnValidate";
             btnValidate.Size = new Size(66, 32);
             btnValidate.TabIndex = 9;
+            btnValidate.Tag = "btn-modify";
             btnValidate.Text = "生效";
             btnValidate.UseVisualStyleBackColor = false;
             btnValidate.Click += btnValidate_Click;
-            //
+            // 
             // btnInvalidate
-            //
+            // 
             btnInvalidate.BackColor = Color.Gainsboro;
             btnInvalidate.FlatStyle = FlatStyle.Flat;
             btnInvalidate.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnInvalidate.Location = new Point(576, 12);
+            btnInvalidate.Location = new Point(644, 12);
             btnInvalidate.Name = "btnInvalidate";
             btnInvalidate.Size = new Size(86, 32);
             btnInvalidate.TabIndex = 10;
+            btnInvalidate.Tag = "btn-modify";
             btnInvalidate.Text = "取消生效";
             btnInvalidate.UseVisualStyleBackColor = false;
             btnInvalidate.Click += btnInvalidate_Click;
-            //
+            // 
             // btnStaffReport
-            //
+            // 
             btnStaffReport.BackColor = Color.Lavender;
             btnStaffReport.FlatStyle = FlatStyle.Flat;
             btnStaffReport.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnStaffReport.Location = new Point(666, 12);
+            btnStaffReport.Location = new Point(734, 12);
             btnStaffReport.Name = "btnStaffReport";
             btnStaffReport.Size = new Size(130, 32);
             btnStaffReport.TabIndex = 11;
+            btnStaffReport.Tag = "btn-modify";
             btnStaffReport.Text = "員工別加班紀錄表";
             btnStaffReport.UseVisualStyleBackColor = false;
             btnStaffReport.Click += btnStaffReport_Click;
-            //
+            // 
             // btnPrint
-            //
+            // 
             btnPrint.BackColor = Color.Gainsboro;
             btnPrint.FlatStyle = FlatStyle.Flat;
             btnPrint.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnPrint.Location = new Point(800, 12);
+            btnPrint.Location = new Point(917, 12);
             btnPrint.Name = "btnPrint";
             btnPrint.Size = new Size(66, 32);
             btnPrint.TabIndex = 12;
+            btnPrint.Tag = "btn-modify";
             btnPrint.Text = "列印";
             btnPrint.UseVisualStyleBackColor = false;
             btnPrint.Click += btnPrint_Click;
-            //
+            // 
             // btnOverview
-            //
+            // 
             btnOverview.BackColor = Color.Gainsboro;
             btnOverview.FlatStyle = FlatStyle.Flat;
             btnOverview.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnOverview.Location = new Point(870, 12);
+            btnOverview.Location = new Point(987, 12);
             btnOverview.Name = "btnOverview";
             btnOverview.Size = new Size(66, 32);
             btnOverview.TabIndex = 13;
+            btnOverview.Tag = "btn-modify";
             btnOverview.Text = "總覽";
             btnOverview.UseVisualStyleBackColor = false;
             btnOverview.Click += btnOverview_Click;
-            //
+            // 
             // btnClose
-            //
+            // 
             btnClose.BackColor = Color.Gainsboro;
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnClose.Location = new Point(940, 12);
+            btnClose.Location = new Point(1057, 12);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(66, 32);
             btnClose.TabIndex = 14;
+            btnClose.Tag = "btn-modify";
             btnClose.Text = "關閉";
             btnClose.UseVisualStyleBackColor = false;
+            btnClose.Visible = false;
             btnClose.Click += btnClose_Click;
-            //
+            // 
             // panelFormHeader
-            //
+            // 
             panelFormHeader.Controls.Add(lblNo);
             panelFormHeader.Controls.Add(txtNo);
             panelFormHeader.Controls.Add(lblDate);
@@ -306,97 +316,97 @@ namespace DigiERP.UserControl.HR.Overtime
             panelFormHeader.Name = "panelFormHeader";
             panelFormHeader.Size = new Size(1360, 96);
             panelFormHeader.TabIndex = 1;
-            //
+            // 
             // lblNo
-            //
+            // 
             lblNo.AutoSize = true;
             lblNo.Font = new Font("微軟正黑體", 9F);
             lblNo.Location = new Point(16, 15);
             lblNo.Name = "lblNo";
-            lblNo.Size = new Size(70, 17);
+            lblNo.Size = new Size(58, 16);
             lblNo.TabIndex = 0;
             lblNo.Text = "單據編號:";
-            //
+            // 
             // txtNo
-            //
-            txtNo.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            // 
+            txtNo.BackColor = Color.WhiteSmoke;
             txtNo.Font = new Font("微軟正黑體", 9F);
             txtNo.Location = new Point(96, 12);
             txtNo.Name = "txtNo";
             txtNo.ReadOnly = true;
-            txtNo.Size = new Size(150, 25);
+            txtNo.Size = new Size(150, 23);
             txtNo.TabIndex = 1;
-            //
+            // 
             // lblDate
-            //
+            // 
             lblDate.AutoSize = true;
             lblDate.Font = new Font("微軟正黑體", 9F);
             lblDate.Location = new Point(266, 15);
             lblDate.Name = "lblDate";
-            lblDate.Size = new Size(70, 17);
+            lblDate.Size = new Size(58, 16);
             lblDate.TabIndex = 2;
             lblDate.Text = "申請日期:";
-            //
+            // 
             // dtDate
-            //
+            // 
             dtDate.Font = new Font("微軟正黑體", 9F);
             dtDate.Format = DateTimePickerFormat.Short;
             dtDate.Location = new Point(346, 12);
             dtDate.Name = "dtDate";
-            dtDate.Size = new Size(140, 25);
+            dtDate.Size = new Size(140, 23);
             dtDate.TabIndex = 3;
             dtDate.ValueChanged += dtDate_ValueChanged;
-            //
+            // 
             // lblCostUnit
-            //
+            // 
             lblCostUnit.AutoSize = true;
             lblCostUnit.Font = new Font("微軟正黑體", 9F);
             lblCostUnit.Location = new Point(506, 15);
             lblCostUnit.Name = "lblCostUnit";
-            lblCostUnit.Size = new Size(70, 17);
+            lblCostUnit.Size = new Size(58, 16);
             lblCostUnit.TabIndex = 4;
             lblCostUnit.Text = "申請單位:";
-            //
+            // 
             // cboCostUnit
-            //
+            // 
             cboCostUnit.DropDownStyle = ComboBoxStyle.DropDownList;
             cboCostUnit.Font = new Font("微軟正黑體", 9F);
             cboCostUnit.Location = new Point(586, 12);
             cboCostUnit.Name = "cboCostUnit";
-            cboCostUnit.Size = new Size(150, 25);
+            cboCostUnit.Size = new Size(150, 24);
             cboCostUnit.TabIndex = 5;
-            //
+            // 
             // lblApplicant
-            //
+            // 
             lblApplicant.AutoSize = true;
             lblApplicant.Font = new Font("微軟正黑體", 9F);
             lblApplicant.Location = new Point(16, 55);
             lblApplicant.Name = "lblApplicant";
-            lblApplicant.Size = new Size(70, 17);
+            lblApplicant.Size = new Size(46, 16);
             lblApplicant.TabIndex = 6;
             lblApplicant.Text = "申請人:";
-            //
+            // 
             // cboApplicant
-            //
+            // 
             cboApplicant.DropDownStyle = ComboBoxStyle.DropDownList;
             cboApplicant.Font = new Font("微軟正黑體", 9F);
             cboApplicant.Location = new Point(96, 52);
             cboApplicant.Name = "cboApplicant";
-            cboApplicant.Size = new Size(150, 25);
+            cboApplicant.Size = new Size(150, 24);
             cboApplicant.TabIndex = 7;
-            //
+            // 
             // lblApproved
-            //
+            // 
             lblApproved.AutoSize = true;
             lblApproved.Font = new Font("微軟正黑體", 9F);
             lblApproved.Location = new Point(266, 55);
             lblApproved.Name = "lblApproved";
-            lblApproved.Size = new Size(70, 17);
+            lblApproved.Size = new Size(58, 16);
             lblApproved.TabIndex = 8;
             lblApproved.Text = "核准生效:";
-            //
+            // 
             // chkApproved
-            //
+            // 
             chkApproved.AutoSize = true;
             chkApproved.Enabled = false;
             chkApproved.Location = new Point(346, 55);
@@ -404,29 +414,29 @@ namespace DigiERP.UserControl.HR.Overtime
             chkApproved.Size = new Size(15, 14);
             chkApproved.TabIndex = 9;
             chkApproved.UseVisualStyleBackColor = true;
-            //
+            // 
             // lblApprover
-            //
+            // 
             lblApprover.AutoSize = true;
             lblApprover.Font = new Font("微軟正黑體", 9F);
             lblApprover.Location = new Point(506, 55);
             lblApprover.Name = "lblApprover";
-            lblApprover.Size = new Size(70, 17);
+            lblApprover.Size = new Size(46, 16);
             lblApprover.TabIndex = 10;
             lblApprover.Text = "核准人:";
-            //
+            // 
             // txtApprover
-            //
-            txtApprover.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            // 
+            txtApprover.BackColor = Color.WhiteSmoke;
             txtApprover.Font = new Font("微軟正黑體", 9F);
             txtApprover.Location = new Point(586, 52);
             txtApprover.Name = "txtApprover";
             txtApprover.ReadOnly = true;
-            txtApprover.Size = new Size(150, 25);
+            txtApprover.Size = new Size(150, 23);
             txtApprover.TabIndex = 11;
-            //
+            // 
             // panelBody
-            //
+            // 
             panelBody.Controls.Add(dataGridView1);
             panelBody.Controls.Add(panelGridTool);
             panelBody.Dock = DockStyle.Fill;
@@ -434,9 +444,9 @@ namespace DigiERP.UserControl.HR.Overtime
             panelBody.Name = "panelBody";
             panelBody.Size = new Size(1360, 548);
             panelBody.TabIndex = 2;
-            //
+            // 
             // dataGridView1
-            //
+            // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.BackgroundColor = Color.White;
@@ -455,72 +465,79 @@ namespace DigiERP.UserControl.HR.Overtime
             dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
             dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
             dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
-            //
+            // 
             // colId
-            //
+            // 
             colId.HeaderText = "識別碼";
             colId.Name = "colId";
             colId.ReadOnly = true;
             colId.Visible = false;
-            //
+            // 
             // colEmpNo
-            //
+            // 
             colEmpNo.HeaderText = "員工編號";
             colEmpNo.Name = "colEmpNo";
+            colEmpNo.ReadOnly = true;
             colEmpNo.Width = 90;
-            //
+            // 
             // colName
-            //
+            // 
             colName.HeaderText = "姓名";
             colName.Name = "colName";
             colName.ReadOnly = true;
             colName.Width = 80;
-            //
+            // 
             // colOtDate
-            //
+            // 
             colOtDate.HeaderText = "加班日期";
             colOtDate.Name = "colOtDate";
-            colOtDate.Width = 100;
-            //
+            colOtDate.ReadOnly = true;
+            // 
             // colStart
-            //
+            // 
             colStart.HeaderText = "起";
             colStart.Name = "colStart";
+            colStart.ReadOnly = true;
             colStart.Width = 70;
-            //
+            // 
             // colEnd
-            //
+            // 
             colEnd.HeaderText = "訖";
             colEnd.Name = "colEnd";
+            colEnd.ReadOnly = true;
             colEnd.Width = 70;
-            //
+            // 
             // colHours
-            //
+            // 
             colHours.HeaderText = "時數";
-            colHours.Name = "colHours";
-            colHours.Width = 70;
             colHours.Items.AddRange(new object[] { "0.5", "1.0", "1.5", "2.0", "2.5", "3.0", "3.5", "4.0" });
-            //
+            colHours.Name = "colHours";
+            colHours.ReadOnly = true;
+            colHours.Width = 70;
+            // 
             // colReason
-            //
+            // 
             colReason.HeaderText = "加班事由";
             colReason.Name = "colReason";
+            colReason.ReadOnly = true;
             colReason.Width = 110;
-            //
+            // 
             // colDetail
-            //
+            // 
             colDetail.HeaderText = "加班內容詳述";
             colDetail.Name = "colDetail";
+            colDetail.ReadOnly = true;
             colDetail.Width = 160;
-            //
+            // 
             // colRemark
-            //
+            // 
             colRemark.HeaderText = "備註";
             colRemark.Name = "colRemark";
+            colRemark.ReadOnly = true;
             colRemark.Width = 160;
-            //
+            // 
             // panelGridTool
-            //
+            // 
             panelGridTool.Controls.Add(btnAddDetailRow);
             panelGridTool.Controls.Add(btnDeleteDetailRow);
             panelGridTool.Dock = DockStyle.Top;
@@ -528,9 +545,9 @@ namespace DigiERP.UserControl.HR.Overtime
             panelGridTool.Name = "panelGridTool";
             panelGridTool.Size = new Size(1360, 40);
             panelGridTool.TabIndex = 0;
-            //
+            // 
             // btnAddDetailRow
-            //
+            // 
             btnAddDetailRow.BackColor = Color.LightSteelBlue;
             btnAddDetailRow.FlatStyle = FlatStyle.Flat;
             btnAddDetailRow.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -541,9 +558,9 @@ namespace DigiERP.UserControl.HR.Overtime
             btnAddDetailRow.Text = "新增明細";
             btnAddDetailRow.UseVisualStyleBackColor = false;
             btnAddDetailRow.Click += btnAddDetailRow_Click;
-            //
+            // 
             // btnDeleteDetailRow
-            //
+            // 
             btnDeleteDetailRow.BackColor = Color.Gainsboro;
             btnDeleteDetailRow.FlatStyle = FlatStyle.Flat;
             btnDeleteDetailRow.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -554,9 +571,9 @@ namespace DigiERP.UserControl.HR.Overtime
             btnDeleteDetailRow.Text = "刪除明細";
             btnDeleteDetailRow.UseVisualStyleBackColor = false;
             btnDeleteDetailRow.Click += btnDeleteDetailRow_Click;
-            //
+            // 
             // OverTimeControl
-            //
+            // 
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panelBody);

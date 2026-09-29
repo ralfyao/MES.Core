@@ -39,9 +39,9 @@ namespace DigiERP.UserControl.HR.ProjectHour
             panelBody.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            //
+            // 
             // panelHeader
-            //
+            // 
             panelHeader.BackColor = Color.Moccasin;
             panelHeader.Controls.Add(pictureBox1);
             panelHeader.Controls.Add(lblTitle);
@@ -52,9 +52,9 @@ namespace DigiERP.UserControl.HR.ProjectHour
             panelHeader.Name = "panelHeader";
             panelHeader.Size = new Size(1200, 56);
             panelHeader.TabIndex = 0;
-            //
+            // 
             // pictureBox1
-            //
+            // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(4, 4);
             pictureBox1.Name = "pictureBox1";
@@ -62,20 +62,20 @@ namespace DigiERP.UserControl.HR.ProjectHour
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
-            //
+            // 
             // lblTitle
-            //
+            // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("微軟正黑體", 14F, FontStyle.Bold);
             lblTitle.ForeColor = Color.Firebrick;
             lblTitle.Location = new Point(58, 16);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(180, 24);
+            lblTitle.Size = new Size(162, 24);
             lblTitle.TabIndex = 1;
             lblTitle.Text = "專案累計工作時數";
-            //
+            // 
             // btnExport
-            //
+            // 
             btnExport.BackColor = Color.LightSteelBlue;
             btnExport.FlatStyle = FlatStyle.Flat;
             btnExport.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -83,12 +83,13 @@ namespace DigiERP.UserControl.HR.ProjectHour
             btnExport.Name = "btnExport";
             btnExport.Size = new Size(90, 32);
             btnExport.TabIndex = 2;
+            btnExport.Tag = "btn-modify";
             btnExport.Text = "匯出至Excel";
             btnExport.UseVisualStyleBackColor = false;
             btnExport.Click += btnExport_Click;
-            //
+            // 
             // btnExit
-            //
+            // 
             btnExit.BackColor = Color.Gainsboro;
             btnExit.FlatStyle = FlatStyle.Flat;
             btnExit.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
@@ -98,19 +99,20 @@ namespace DigiERP.UserControl.HR.ProjectHour
             btnExit.TabIndex = 3;
             btnExit.Text = "關閉";
             btnExit.UseVisualStyleBackColor = false;
+            btnExit.Visible = false;
             btnExit.Click += btnExit_Click;
-            //
+            // 
             // panelBody
-            //
+            // 
             panelBody.Controls.Add(dataGridView1);
             panelBody.Dock = DockStyle.Fill;
             panelBody.Location = new Point(0, 56);
             panelBody.Name = "panelBody";
             panelBody.Size = new Size(1200, 600);
             panelBody.TabIndex = 1;
-            //
+            // 
             // dataGridView1
-            //
+            // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.BackgroundColor = Color.White;
@@ -126,72 +128,70 @@ namespace DigiERP.UserControl.HR.ProjectHour
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(1200, 600);
             dataGridView1.TabIndex = 0;
-            //
+            // 
             // colProjectNo
-            //
+            // 
             colProjectNo.HeaderText = "專案序號";
             colProjectNo.Name = "colProjectNo";
             colProjectNo.ReadOnly = true;
             colProjectNo.Width = 110;
-            //
+            // 
             // colCustomer
-            //
+            // 
             colCustomer.HeaderText = "客戶簡稱";
             colCustomer.Name = "colCustomer";
             colCustomer.ReadOnly = true;
-            colCustomer.Width = 100;
-            //
+            // 
             // colModel
-            //
+            // 
             colModel.HeaderText = "機台型號";
             colModel.Name = "colModel";
             colModel.ReadOnly = true;
             colModel.Width = 110;
-            //
+            // 
             // colMachineName
-            //
+            // 
             colMachineName.HeaderText = "機台名稱";
             colMachineName.Name = "colMachineName";
             colMachineName.ReadOnly = true;
             colMachineName.Width = 140;
-            //
+            // 
             // colEmpNo
-            //
+            // 
             colEmpNo.HeaderText = "員工編號";
             colEmpNo.Name = "colEmpNo";
             colEmpNo.ReadOnly = true;
             colEmpNo.Width = 90;
-            //
+            // 
             // colName
-            //
+            // 
             colName.HeaderText = "姓名";
             colName.Name = "colName";
             colName.ReadOnly = true;
             colName.Width = 90;
-            //
+            // 
             // colHours
-            //
+            // 
             colHours.HeaderText = "工時合計";
             colHours.Name = "colHours";
             colHours.ReadOnly = true;
             colHours.Width = 90;
-            //
+            // 
             // colCost
-            //
+            // 
             colCost.HeaderText = "工時成本";
             colCost.Name = "colCost";
             colCost.ReadOnly = true;
-            colCost.Width = 100;
-            //
+            // 
             // colClosed
-            //
+            // 
             colClosed.HeaderText = "結案";
             colClosed.Name = "colClosed";
             colClosed.ReadOnly = true;
             colClosed.Width = 60;
-            //
+            // 
             // ProjectHourControl
-            //
+            // 
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panelBody);

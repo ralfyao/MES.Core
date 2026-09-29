@@ -108,7 +108,7 @@ namespace DigiERP.UserControl.HR.ClockInOut
             btnPrev.BackColor = Color.Gainsboro;
             btnPrev.FlatStyle = FlatStyle.Flat;
             btnPrev.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnPrev.Location = new Point(325, 12);
+            btnPrev.Location = new Point(398, 13);
             btnPrev.Name = "btnPrev";
             btnPrev.Size = new Size(40, 32);
             btnPrev.TabIndex = 2;
@@ -121,7 +121,7 @@ namespace DigiERP.UserControl.HR.ClockInOut
             btnNext.BackColor = Color.Gainsboro;
             btnNext.FlatStyle = FlatStyle.Flat;
             btnNext.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnNext.Location = new Point(370, 12);
+            btnNext.Location = new Point(520, 13);
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(40, 32);
             btnNext.TabIndex = 3;
@@ -134,7 +134,7 @@ namespace DigiERP.UserControl.HR.ClockInOut
             btnLast.BackColor = Color.Gainsboro;
             btnLast.FlatStyle = FlatStyle.Flat;
             btnLast.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnLast.Location = new Point(415, 12);
+            btnLast.Location = new Point(631, 13);
             btnLast.Name = "btnLast";
             btnLast.Size = new Size(40, 32);
             btnLast.TabIndex = 4;
@@ -166,6 +166,7 @@ namespace DigiERP.UserControl.HR.ClockInOut
             btnExit.TabIndex = 6;
             btnExit.Text = "關閉";
             btnExit.UseVisualStyleBackColor = false;
+            btnExit.Visible = false;
             btnExit.Click += btnExit_Click;
             // 
             // panelInfo
@@ -320,6 +321,7 @@ namespace DigiERP.UserControl.HR.ClockInOut
             btnRequery.Name = "btnRequery";
             btnRequery.Size = new Size(90, 30);
             btnRequery.TabIndex = 12;
+            btnRequery.Tag = "btn-modify";
             btnRequery.Text = "重新查詢";
             btnRequery.UseVisualStyleBackColor = false;
             btnRequery.Click += btnRequery_Click;

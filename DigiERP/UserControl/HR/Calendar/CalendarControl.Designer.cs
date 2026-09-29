@@ -97,10 +97,11 @@ namespace DigiERP.UserControl.HR.Calendar
             btnModify.FlatStyle = FlatStyle.Flat;
             btnModify.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
             btnModify.ForeColor = Color.White;
-            btnModify.Location = new Point(390, 12);
+            btnModify.Location = new Point(412, 11);
             btnModify.Name = "btnModify";
             btnModify.Size = new Size(100, 32);
             btnModify.TabIndex = 2;
+            btnModify.Tag = "btn-modify";
             btnModify.Text = "增修日曆天";
             btnModify.UseVisualStyleBackColor = false;
             btnModify.Click += btnModify_Click;
@@ -111,10 +112,11 @@ namespace DigiERP.UserControl.HR.Calendar
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
             btnSave.ForeColor = Color.White;
-            btnSave.Location = new Point(500, 12);
+            btnSave.Location = new Point(557, 11);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(90, 32);
             btnSave.TabIndex = 3;
+            btnSave.Tag = "btn-modify";
             btnSave.Text = "儲存";
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Visible = false;
@@ -125,10 +127,11 @@ namespace DigiERP.UserControl.HR.Calendar
             btnAddRow.BackColor = Color.LightSteelBlue;
             btnAddRow.FlatStyle = FlatStyle.Flat;
             btnAddRow.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnAddRow.Location = new Point(600, 12);
+            btnAddRow.Location = new Point(698, 11);
             btnAddRow.Name = "btnAddRow";
             btnAddRow.Size = new Size(100, 32);
             btnAddRow.TabIndex = 4;
+            btnAddRow.Tag = "btn-modify";
             btnAddRow.Text = "新增一筆";
             btnAddRow.UseVisualStyleBackColor = false;
             btnAddRow.Visible = false;
@@ -145,6 +148,7 @@ namespace DigiERP.UserControl.HR.Calendar
             btnExit.TabIndex = 5;
             btnExit.Text = "關閉";
             btnExit.UseVisualStyleBackColor = false;
+            btnExit.Visible = false;
             btnExit.Click += btnExit_Click;
             // 
             // panelBody
@@ -175,7 +179,7 @@ namespace DigiERP.UserControl.HR.Calendar
             dataGridView1.Size = new Size(1200, 600);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
-            //
+            // 
             // colDate
             // 
             colDate.HeaderText = "日期";
