@@ -17,10 +17,11 @@ using DigiERP.UserControl.Customer;
 using DigiERP.UserControl.Customer.ShippingOrder;
 using DigiERP.UserControl.Customer.Receivables;
 using MES.WebAPI.Controllers;
+using DigiERP.Common;
 
 namespace DigiERP
 {
-    public partial class FrmObjective : Form
+    public partial class FrmObjective : BaseForm
     {
         private bool isloaded = false;
         private static string moduleId = "a688ada1-1fa2-481a-9a2c-16a0cb90d664";
@@ -28,6 +29,7 @@ namespace DigiERP
         {
             isloaded = false;
             InitializeComponent();
+            DigiERP.Common.UIStyle.ApplyControlStyle(this);
             initMenu();
             treeView.SelectedNode = null;
             ToggleDrawer(null, null);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace DigiERP.Common
@@ -45,6 +46,9 @@ namespace DigiERP.Common
         public const int ButtonMinWidth = 70;
         public const int ButtonHorizontalPadding = 32;
 
+        // Tag="btn-modify" 按鈕的圓角半徑(px)。
+        public const int ButtonCornerRadius = 5;
+
         // 樣式 class 表：在設計器把控制項的 Tag 設成這裡的鍵（可空白分隔多個，類似 CSS 的 class="a b"），
         // ApplyControlStyle 會自動套用對應樣式，覆蓋掉預設值。要新增一種樣式，只要在這裡加一筆規則即可，
         // 不用改 BaseForm／CommonUserControl，也不用逐一表單修改程式碼。
@@ -54,7 +58,7 @@ namespace DigiERP.Common
                 ["title"] = c => { c.Font = TitleFont; c.ForeColor = TitleColor; },
                 ["btn-add"] = c => ApplyButtonColor(c, ButtonNeutralColor),
                 ["btn-save"] = c => ApplyButtonColor(c, ButtonNeutralColor),
-                ["btn-modify"] = c => ApplyButtonColor(c, ButtonNeutralColor),
+                ["btn-modify"] = c => { ApplyButtonColor(c, ButtonNeutralColor); if (c is Button btn) ApplyRoundedCorners(btn, ButtonCornerRadius); },
                 ["btn-delete"] = c => ApplyButtonColor(c, ButtonDeleteColor),
                 ["btn-approve"] = c => ApplyButtonColor(c, ButtonNeutralColor),
                 ["btn-cancel-approve"] = c => ApplyButtonColor(c, ButtonNeutralColor),
@@ -68,6 +72,60 @@ namespace DigiERP.Common
         {
             c.BackColor = backColor;
             c.ForeColor = ButtonForeColor;
+        }
+
+        // WinForms 按鈕沒有原生圓角屬性，且 Region 裁切只能做出鋸齒狀的硬切角、
+        // 切掉的角落也不會有邊框線。改為完全自行繪製(Paint 事件)：先用父容器
+        // 底色蓋掉 FlatStyle 預設畫的方角背景，再以反鋸齒(AntiAlias)填色+描邊
+        // 畫出圓角矩形本體，讓圓角處的邊框線也能平滑地畫出來；Hover/按下的變色
+        // 狀態改由自己追蹤(isHover/isPressed)，取代 FlatAppearance 內建的方角
+        // 版本 ──────────────────────────────────────────────────────────────
+        private static void ApplyRoundedCorners(Button button, int radius)
+        {
+            bool isHover = false;
+            bool isPressed = false;
+
+            void Paint(object? sender, PaintEventArgs e)
+            {
+                var g = e.Graphics;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                var rect = new Rectangle(0, 0, Math.Max(1, button.Width - 1), Math.Max(1, button.Height - 1));
+                int d = Math.Max(2, Math.Min(radius * 2, Math.Min(rect.Width, rect.Height)));
+                using var path = new GraphicsPath();
+                path.AddArc(rect.X, rect.Y, d, d, 180, 90);
+                path.AddArc(rect.Right - d, rect.Y, d, d, 270, 90);
+                path.AddArc(rect.Right - d, rect.Bottom - d, d, d, 0, 90);
+                path.AddArc(rect.X, rect.Bottom - d, d, d, 90, 90);
+                path.CloseFigure();
+
+                Color parentColor = button.Parent?.BackColor ?? SystemColors.Control;
+                using (var eraseBrush = new SolidBrush(parentColor))
+                {
+                    g.FillRectangle(eraseBrush, button.ClientRectangle);
+                }
+
+                Color fill = isPressed ? button.FlatAppearance.MouseDownBackColor
+                    : isHover ? button.FlatAppearance.MouseOverBackColor
+                    : button.BackColor;
+                using (var fillBrush = new SolidBrush(fill))
+                {
+                    g.FillPath(fillBrush, path);
+                }
+                using (var pen = new Pen(button.FlatAppearance.BorderColor, Math.Max(1, button.FlatAppearance.BorderSize)))
+                {
+                    g.DrawPath(pen, path);
+                }
+
+                TextRenderer.DrawText(g, button.Text, button.Font, button.ClientRectangle, button.ForeColor,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
+            }
+
+            button.MouseEnter += (s, e) => { isHover = true; button.Invalidate(); };
+            button.MouseLeave += (s, e) => { isHover = false; isPressed = false; button.Invalidate(); };
+            button.MouseDown += (s, e) => { isPressed = true; button.Invalidate(); };
+            button.MouseUp += (s, e) => { isPressed = false; button.Invalidate(); };
+            button.Paint += Paint;
         }
 
         // 把顏色往白色方向混合，amount 為 0~1，數字越大越淡。
