@@ -75,9 +75,9 @@ namespace DigiERP.UserControl.Objective.Bank
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel4.SuspendLayout();
             SuspendLayout();
-            //
+            // 
             // panel1
-            //
+            // 
             panel1.BackColor = Color.Honeydew;
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(lblTitle);
@@ -94,9 +94,9 @@ namespace DigiERP.UserControl.Objective.Bank
             panel1.Name = "panel1";
             panel1.Size = new Size(1539, 56);
             panel1.TabIndex = 0;
-            //
+            // 
             // pictureBox1
-            //
+            // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(4, 4);
             pictureBox1.Name = "pictureBox1";
@@ -104,112 +104,119 @@ namespace DigiERP.UserControl.Objective.Bank
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 20;
             pictureBox1.TabStop = false;
-            //
+            // 
             // lblTitle
-            //
+            // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("微軟正黑體", 13F, FontStyle.Bold);
             lblTitle.ForeColor = Color.Firebrick;
             lblTitle.Location = new Point(60, 16);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(100, 23);
+            lblTitle.Size = new Size(82, 23);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "資金調節";
-            //
+            // 
             // btnDelete
-            //
+            // 
             btnDelete.BackColor = Color.Firebrick;
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(444, 12);
+            btnDelete.Location = new Point(742, 12);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(98, 32);
             btnDelete.TabIndex = 2;
+            btnDelete.Tag = "btn-delete";
             btnDelete.Text = "刪除紀錄";
             btnDelete.UseVisualStyleBackColor = false;
             btnDelete.Click += btnDelete_Click;
-            //
+            // 
             // btnAdd
-            //
+            // 
             btnAdd.BackColor = Color.Gainsboro;
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnAdd.Location = new Point(548, 12);
+            btnAdd.Location = new Point(846, 12);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(98, 32);
             btnAdd.TabIndex = 3;
+            btnAdd.Tag = "btn-modify";
             btnAdd.Text = "新增";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += btnAdd_Click;
-            //
+            // 
             // btnModify
-            //
+            // 
             btnModify.BackColor = Color.Gainsboro;
             btnModify.FlatStyle = FlatStyle.Flat;
             btnModify.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnModify.Location = new Point(652, 12);
+            btnModify.Location = new Point(950, 12);
             btnModify.Name = "btnModify";
             btnModify.Size = new Size(98, 32);
             btnModify.TabIndex = 4;
+            btnModify.Tag = "btn-modify";
             btnModify.Text = "修改";
             btnModify.UseVisualStyleBackColor = false;
             btnModify.Click += btnModify_Click;
-            //
+            // 
             // btnSave
-            //
+            // 
             btnSave.BackColor = Color.Gainsboro;
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnSave.Location = new Point(756, 12);
+            btnSave.Location = new Point(1054, 12);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(98, 32);
             btnSave.TabIndex = 5;
+            btnSave.Tag = "btn-modify";
             btnSave.Text = "儲存";
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Click += btnSave_Click;
-            //
+            // 
             // btnVerify
-            //
+            // 
             btnVerify.BackColor = Color.Gainsboro;
             btnVerify.FlatStyle = FlatStyle.Flat;
             btnVerify.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnVerify.Location = new Point(860, 12);
+            btnVerify.Location = new Point(1158, 12);
             btnVerify.Name = "btnVerify";
             btnVerify.Size = new Size(98, 32);
             btnVerify.TabIndex = 6;
+            btnVerify.Tag = "btn-modify";
             btnVerify.Text = "覆核";
             btnVerify.UseVisualStyleBackColor = false;
             btnVerify.Click += btnVerify_Click;
-            //
+            // 
             // btnCancelVerify
-            //
+            // 
             btnCancelVerify.BackColor = Color.Gainsboro;
             btnCancelVerify.FlatStyle = FlatStyle.Flat;
             btnCancelVerify.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnCancelVerify.Location = new Point(964, 12);
+            btnCancelVerify.Location = new Point(1262, 12);
             btnCancelVerify.Name = "btnCancelVerify";
             btnCancelVerify.Size = new Size(98, 32);
             btnCancelVerify.TabIndex = 7;
+            btnCancelVerify.Tag = "btn-modify";
             btnCancelVerify.Text = "取消覆核";
             btnCancelVerify.UseVisualStyleBackColor = false;
             btnCancelVerify.Click += btnCancelVerify_Click;
-            //
+            // 
             // btnPrint
-            //
+            // 
             btnPrint.BackColor = Color.Gainsboro;
             btnPrint.FlatStyle = FlatStyle.Flat;
             btnPrint.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnPrint.Location = new Point(1068, 12);
+            btnPrint.Location = new Point(1366, 12);
             btnPrint.Name = "btnPrint";
             btnPrint.Size = new Size(98, 32);
             btnPrint.TabIndex = 8;
+            btnPrint.Tag = "btn-modify";
             btnPrint.Text = "列印";
             btnPrint.UseVisualStyleBackColor = false;
             btnPrint.Click += btnPrint_Click;
-            //
+            // 
             // btnClose
-            //
+            // 
             btnClose.BackColor = Color.Gainsboro;
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
@@ -217,12 +224,14 @@ namespace DigiERP.UserControl.Objective.Bank
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(98, 32);
             btnClose.TabIndex = 10;
+            btnClose.Tag = "btn-modify";
             btnClose.Text = "關閉";
             btnClose.UseVisualStyleBackColor = false;
+            btnClose.Visible = false;
             btnClose.Click += btnClose_Click;
-            //
+            // 
             // panel2
-            //
+            // 
             panel2.BackColor = Color.Honeydew;
             panel2.Controls.Add(lblDate);
             panel2.Controls.Add(dtDate);
@@ -243,141 +252,141 @@ namespace DigiERP.UserControl.Objective.Bank
             panel2.Name = "panel2";
             panel2.Size = new Size(1539, 96);
             panel2.TabIndex = 1;
-            //
+            // 
             // lblDate
-            //
+            // 
             lblDate.AutoSize = true;
             lblDate.Location = new Point(8, 10);
             lblDate.Name = "lblDate";
             lblDate.Size = new Size(36, 18);
             lblDate.TabIndex = 0;
             lblDate.Text = "日期";
-            //
+            // 
             // dtDate
-            //
+            // 
             dtDate.Enabled = false;
             dtDate.Format = DateTimePickerFormat.Short;
-            dtDate.Location = new Point(62, 6);
+            dtDate.Location = new Point(82, 6);
             dtDate.Name = "dtDate";
-            dtDate.Size = new Size(130, 25);
+            dtDate.Size = new Size(140, 25);
             dtDate.TabIndex = 1;
-            //
+            // 
             // lblNo
-            //
+            // 
             lblNo.AutoSize = true;
-            lblNo.Location = new Point(204, 8);
+            lblNo.Location = new Point(238, 10);
             lblNo.Name = "lblNo";
             lblNo.Size = new Size(36, 18);
             lblNo.TabIndex = 2;
             lblNo.Text = "單號";
-            //
+            // 
             // txtNo
-            //
-            txtNo.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
-            txtNo.Location = new Point(258, 4);
+            // 
+            txtNo.BackColor = Color.WhiteSmoke;
+            txtNo.Location = new Point(292, 6);
             txtNo.Name = "txtNo";
             txtNo.ReadOnly = true;
-            txtNo.Size = new Size(150, 25);
+            txtNo.Size = new Size(257, 25);
             txtNo.TabIndex = 3;
-            //
+            // 
             // lblPurpose
-            //
+            // 
             lblPurpose.AutoSize = true;
-            lblPurpose.Location = new Point(420, 8);
+            lblPurpose.Location = new Point(555, 10);
             lblPurpose.Name = "lblPurpose";
             lblPurpose.Size = new Size(36, 18);
             lblPurpose.TabIndex = 4;
             lblPurpose.Text = "用途";
-            //
+            // 
             // cboPurpose
-            //
+            // 
             cboPurpose.DropDownStyle = ComboBoxStyle.DropDownList;
             cboPurpose.FormattingEnabled = true;
-            cboPurpose.Location = new Point(474, 4);
+            cboPurpose.Location = new Point(609, 6);
             cboPurpose.Name = "cboPurpose";
             cboPurpose.Size = new Size(180, 25);
             cboPurpose.TabIndex = 5;
             cboPurpose.SelectedIndexChanged += cboPurpose_SelectedIndexChanged;
-            //
+            // 
             // lblSubjectCode
-            //
+            // 
             lblSubjectCode.AutoSize = true;
-            lblSubjectCode.Location = new Point(668, 8);
+            lblSubjectCode.Location = new Point(803, 10);
             lblSubjectCode.Name = "lblSubjectCode";
             lblSubjectCode.Size = new Size(64, 18);
             lblSubjectCode.TabIndex = 6;
             lblSubjectCode.Text = "會科代碼";
-            //
+            // 
             // txtSubjectCode
-            //
-            txtSubjectCode.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
-            txtSubjectCode.Location = new Point(742, 4);
+            // 
+            txtSubjectCode.BackColor = Color.WhiteSmoke;
+            txtSubjectCode.Location = new Point(877, 6);
             txtSubjectCode.Name = "txtSubjectCode";
             txtSubjectCode.ReadOnly = true;
             txtSubjectCode.Size = new Size(90, 25);
             txtSubjectCode.TabIndex = 7;
-            //
+            // 
             // lblSubjectName
-            //
+            // 
             lblSubjectName.AutoSize = true;
-            lblSubjectName.Location = new Point(848, 8);
+            lblSubjectName.Location = new Point(983, 10);
             lblSubjectName.Name = "lblSubjectName";
             lblSubjectName.Size = new Size(64, 18);
             lblSubjectName.TabIndex = 8;
             lblSubjectName.Text = "會科名稱";
-            //
+            // 
             // txtSubjectName
-            //
-            txtSubjectName.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
-            txtSubjectName.Location = new Point(922, 4);
+            // 
+            txtSubjectName.BackColor = Color.WhiteSmoke;
+            txtSubjectName.Location = new Point(1057, 6);
             txtSubjectName.Name = "txtSubjectName";
             txtSubjectName.ReadOnly = true;
             txtSubjectName.Size = new Size(180, 25);
             txtSubjectName.TabIndex = 9;
-            //
+            // 
             // lblVoucherNo
-            //
+            // 
             lblVoucherNo.AutoSize = true;
             lblVoucherNo.Location = new Point(8, 46);
             lblVoucherNo.Name = "lblVoucherNo";
             lblVoucherNo.Size = new Size(64, 18);
             lblVoucherNo.TabIndex = 10;
             lblVoucherNo.Text = "傳票編號";
-            //
+            // 
             // txtVoucherNo
-            //
+            // 
             txtVoucherNo.Location = new Point(82, 42);
             txtVoucherNo.Name = "txtVoucherNo";
             txtVoucherNo.Size = new Size(140, 25);
             txtVoucherNo.TabIndex = 11;
-            //
+            // 
             // lblRemark
-            //
+            // 
             lblRemark.AutoSize = true;
             lblRemark.Location = new Point(238, 46);
             lblRemark.Name = "lblRemark";
             lblRemark.Size = new Size(36, 18);
             lblRemark.TabIndex = 12;
             lblRemark.Text = "備註";
-            //
+            // 
             // txtRemark
-            //
+            // 
             txtRemark.Location = new Point(292, 42);
             txtRemark.Name = "txtRemark";
-            txtRemark.Size = new Size(500, 25);
+            txtRemark.Size = new Size(497, 25);
             txtRemark.TabIndex = 13;
-            //
+            // 
             // panel3
-            //
+            // 
             panel3.Controls.Add(dataGridView1);
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(0, 152);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1539, 384);
+            panel3.Size = new Size(1539, 440);
             panel3.TabIndex = 2;
-            //
+            // 
             // dataGridView1
-            //
+            // 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -389,63 +398,63 @@ namespace DigiERP.UserControl.Objective.Bank
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowTemplate.Height = 26;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1539, 384);
+            dataGridView1.Size = new Size(1539, 440);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
             dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
-            //
+            // 
             // colBank
-            //
+            // 
             colBank.HeaderText = "銀存編碼";
             colBank.Name = "colBank";
-            //
+            // 
             // colBankName
-            //
+            // 
             colBankName.FillWeight = 160F;
             colBankName.HeaderText = "銀存名稱";
             colBankName.Name = "colBankName";
             colBankName.ReadOnly = true;
-            //
+            // 
             // colDate
-            //
+            // 
             colDate.HeaderText = "日期";
             colDate.Name = "colDate";
-            //
+            // 
             // colSummary
-            //
+            // 
             colSummary.FillWeight = 160F;
             colSummary.HeaderText = "摘要";
             colSummary.Name = "colSummary";
-            //
+            // 
             // colDeposit
-            //
+            // 
             colDeposit.HeaderText = "存入";
             colDeposit.Name = "colDeposit";
-            //
+            // 
             // colWithdraw
-            //
+            // 
             colWithdraw.HeaderText = "支出";
             colWithdraw.Name = "colWithdraw";
-            //
+            // 
             // colCurrency
-            //
+            // 
             colCurrency.HeaderText = "幣別";
             colCurrency.Name = "colCurrency";
-            //
+            // 
             // colExRate
-            //
+            // 
             colExRate.HeaderText = "轉帳匯率";
             colExRate.Name = "colExRate";
             colExRate.ReadOnly = true;
-            //
+            // 
             // colDetailRemark
-            //
+            // 
             colDetailRemark.FillWeight = 200F;
             colDetailRemark.HeaderText = "備註";
             colDetailRemark.Name = "colDetailRemark";
-            //
+            // 
             // panel4
-            //
+            // 
             panel4.BackColor = Color.Honeydew;
             panel4.Controls.Add(lblCreatorCap);
             panel4.Controls.Add(txtCreator);
@@ -460,121 +469,121 @@ namespace DigiERP.UserControl.Objective.Bank
             panel4.Controls.Add(lblReviewDateCap);
             panel4.Controls.Add(txtReviewDate);
             panel4.Dock = DockStyle.Bottom;
-            panel4.Location = new Point(0, 536);
+            panel4.Location = new Point(0, 592);
             panel4.Name = "panel4";
             panel4.Size = new Size(1539, 64);
             panel4.TabIndex = 3;
-            //
+            // 
             // lblCreatorCap
-            //
+            // 
             lblCreatorCap.AutoSize = true;
             lblCreatorCap.Location = new Point(10, 20);
             lblCreatorCap.Name = "lblCreatorCap";
             lblCreatorCap.Size = new Size(64, 18);
             lblCreatorCap.TabIndex = 0;
             lblCreatorCap.Text = "建檔人員";
-            //
+            // 
             // txtCreator
-            //
-            txtCreator.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            // 
+            txtCreator.BackColor = Color.WhiteSmoke;
             txtCreator.Location = new Point(92, 16);
             txtCreator.Name = "txtCreator";
             txtCreator.ReadOnly = true;
             txtCreator.Size = new Size(120, 25);
             txtCreator.TabIndex = 1;
-            //
+            // 
             // lblCreateDateCap
-            //
+            // 
             lblCreateDateCap.AutoSize = true;
             lblCreateDateCap.Location = new Point(226, 20);
             lblCreateDateCap.Name = "lblCreateDateCap";
             lblCreateDateCap.Size = new Size(50, 18);
             lblCreateDateCap.TabIndex = 2;
             lblCreateDateCap.Text = "建檔日";
-            //
+            // 
             // txtCreateDate
-            //
-            txtCreateDate.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            // 
+            txtCreateDate.BackColor = Color.WhiteSmoke;
             txtCreateDate.Location = new Point(288, 16);
             txtCreateDate.Name = "txtCreateDate";
             txtCreateDate.ReadOnly = true;
             txtCreateDate.Size = new Size(120, 25);
             txtCreateDate.TabIndex = 3;
-            //
+            // 
             // lblModifierCap
-            //
+            // 
             lblModifierCap.AutoSize = true;
             lblModifierCap.Location = new Point(430, 20);
             lblModifierCap.Name = "lblModifierCap";
             lblModifierCap.Size = new Size(64, 18);
             lblModifierCap.TabIndex = 4;
             lblModifierCap.Text = "修改人員";
-            //
+            // 
             // txtModifier
-            //
-            txtModifier.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            // 
+            txtModifier.BackColor = Color.WhiteSmoke;
             txtModifier.Location = new Point(512, 16);
             txtModifier.Name = "txtModifier";
             txtModifier.ReadOnly = true;
             txtModifier.Size = new Size(120, 25);
             txtModifier.TabIndex = 5;
-            //
+            // 
             // lblModifyDateCap
-            //
+            // 
             lblModifyDateCap.AutoSize = true;
             lblModifyDateCap.Location = new Point(646, 20);
             lblModifyDateCap.Name = "lblModifyDateCap";
             lblModifyDateCap.Size = new Size(50, 18);
             lblModifyDateCap.TabIndex = 6;
             lblModifyDateCap.Text = "修改日";
-            //
+            // 
             // txtModifyDate
-            //
-            txtModifyDate.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            // 
+            txtModifyDate.BackColor = Color.WhiteSmoke;
             txtModifyDate.Location = new Point(708, 16);
             txtModifyDate.Name = "txtModifyDate";
             txtModifyDate.ReadOnly = true;
             txtModifyDate.Size = new Size(120, 25);
             txtModifyDate.TabIndex = 7;
-            //
+            // 
             // lblReviewerCap
-            //
+            // 
             lblReviewerCap.AutoSize = true;
             lblReviewerCap.Location = new Point(850, 20);
             lblReviewerCap.Name = "lblReviewerCap";
             lblReviewerCap.Size = new Size(64, 18);
             lblReviewerCap.TabIndex = 8;
             lblReviewerCap.Text = "核准人員";
-            //
+            // 
             // txtReviewer
-            //
-            txtReviewer.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            // 
+            txtReviewer.BackColor = Color.WhiteSmoke;
             txtReviewer.Location = new Point(932, 16);
             txtReviewer.Name = "txtReviewer";
             txtReviewer.ReadOnly = true;
             txtReviewer.Size = new Size(120, 25);
             txtReviewer.TabIndex = 9;
-            //
+            // 
             // lblReviewDateCap
-            //
+            // 
             lblReviewDateCap.AutoSize = true;
             lblReviewDateCap.Location = new Point(1066, 20);
             lblReviewDateCap.Name = "lblReviewDateCap";
             lblReviewDateCap.Size = new Size(50, 18);
             lblReviewDateCap.TabIndex = 10;
             lblReviewDateCap.Text = "核准日";
-            //
+            // 
             // txtReviewDate
-            //
-            txtReviewDate.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            // 
+            txtReviewDate.BackColor = Color.WhiteSmoke;
             txtReviewDate.Location = new Point(1128, 16);
             txtReviewDate.Name = "txtReviewDate";
             txtReviewDate.ReadOnly = true;
             txtReviewDate.Size = new Size(120, 25);
             txtReviewDate.TabIndex = 11;
-            //
+            // 
             // CurrencyAdjustMaintainControl
-            //
+            // 
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panel3);

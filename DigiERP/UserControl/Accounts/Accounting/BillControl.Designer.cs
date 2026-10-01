@@ -105,6 +105,7 @@ namespace DigiERP.UserControl.Accounts.Accounting
             btnExit.TabIndex = 2;
             btnExit.Text = "關閉";
             btnExit.UseVisualStyleBackColor = false;
+            btnExit.Visible = false;
             btnExit.Click += btnExit_Click;
             // 
             // panel2

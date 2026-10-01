@@ -68,6 +68,13 @@ namespace DigiERP.UserControl.Objective.ExRate
             FillGrid(rates);
         }
 
+        // ── 後端 日期 欄位為 datetime(存成含時間的字串，如"2026-08-13 00:00:00")，
+        //    Grid 不管顯示或編輯一律統一成 yyyy/MM/dd ────────────────────────
+        private static string FormatDate(string value)
+        {
+            return DateTime.TryParse(value, out var d) ? d.ToString("yyyy/MM/dd") : value;
+        }
+
         private void FillGrid(List<F匯率> rates)
         {
             _isLoading = true;
@@ -78,7 +85,7 @@ namespace DigiERP.UserControl.Objective.ExRate
                 int i = dataGridView1.Rows.Add();
                 var row = dataGridView1.Rows[i];
                 row.Cells[colId.Index].Value = x.識別;
-                row.Cells[colDate.Index].Value = x.日期;
+                row.Cells[colDate.Index].Value = FormatDate(x.日期);
                 row.Cells[colRate.Index].Value = x.匯率;
             }
             _isLoading = false;
@@ -128,7 +135,7 @@ namespace DigiERP.UserControl.Objective.ExRate
             {
                 識別 = id,
                 CURRENCY = txtCurrency.Text,
-                日期 = date,
+                日期 = DateTime.TryParse(date, out var d) ? d.ToString("yyyy-MM-dd") : date,
                 匯率 = rate
             };
             var rep = new ExRateController().SaveExRate(form);

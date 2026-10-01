@@ -115,6 +115,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(120, 32);
             btnSave.TabIndex = 0;
+            btnSave.Tag = "btn-modify";
             btnSave.Text = "SAVE";
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Click += btnSave_Click;
@@ -129,6 +130,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(120, 32);
             btnExit.TabIndex = 1;
+            btnExit.Tag = "btn-modify";
             btnExit.Text = "EXIT";
             btnExit.UseVisualStyleBackColor = false;
             btnExit.Click += btnExit_Click;

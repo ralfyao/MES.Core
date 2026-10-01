@@ -88,6 +88,7 @@ namespace DigiERP.UserControl.SalesOrder
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(75, 23);
             btnAdd.TabIndex = 10;
+            btnAdd.Tag = "btn-modify";
             btnAdd.Text = "新增";
             btnAdd.UseVisualStyleBackColor = true;
             btnAdd.Click += btnAdd_Click;
@@ -133,6 +134,7 @@ namespace DigiERP.UserControl.SalesOrder
             btnQuery.Name = "btnQuery";
             btnQuery.Size = new Size(75, 23);
             btnQuery.TabIndex = 5;
+            btnQuery.Tag = "btn-modify";
             btnQuery.Text = "查詢";
             btnQuery.UseVisualStyleBackColor = true;
             btnQuery.Click += btnQuery_Click;

@@ -48,13 +48,13 @@ namespace DigiERP.UserControl.Objective.ExRate
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(400, 56);
+            panel1.Size = new Size(400, 60);
             panel1.TabIndex = 0;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(4, 4);
+            pictureBox1.Location = new Point(8, 8);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(48, 48);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -81,6 +81,7 @@ namespace DigiERP.UserControl.Objective.ExRate
             btnPrev.Name = "btnPrev";
             btnPrev.Size = new Size(48, 32);
             btnPrev.TabIndex = 1;
+            btnPrev.Tag = "btn-modify";
             btnPrev.Text = "◄";
             btnPrev.UseVisualStyleBackColor = false;
             btnPrev.Click += btnPrev_Click;
@@ -90,10 +91,11 @@ namespace DigiERP.UserControl.Objective.ExRate
             btnNext.BackColor = Color.LightSteelBlue;
             btnNext.FlatStyle = FlatStyle.Flat;
             btnNext.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
-            btnNext.Location = new Point(254, 12);
+            btnNext.Location = new Point(286, 12);
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(48, 32);
             btnNext.TabIndex = 2;
+            btnNext.Tag = "btn-modify";
             btnNext.Text = "►";
             btnNext.UseVisualStyleBackColor = false;
             btnNext.Click += btnNext_Click;
@@ -120,9 +122,9 @@ namespace DigiERP.UserControl.Objective.ExRate
             panel2.Controls.Add(txtCurrency);
             panel2.Controls.Add(lblCurrencyCap);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 56);
+            panel2.Location = new Point(0, 60);
             panel2.Name = "panel2";
-            panel2.Size = new Size(400, 544);
+            panel2.Size = new Size(400, 540);
             panel2.TabIndex = 1;
             // 
             // dataGridView1
@@ -139,8 +141,8 @@ namespace DigiERP.UserControl.Objective.ExRate
             dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dataGridView1.Size = new Size(360, 460);
             dataGridView1.TabIndex = 2;
-            dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
+            dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
             dataGridView1.RowValidated += dataGridView1_RowValidated;
             // 
             // colId
@@ -161,7 +163,7 @@ namespace DigiERP.UserControl.Objective.ExRate
             // 
             // txtCurrency
             // 
-            txtCurrency.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtCurrency.BackColor = Color.WhiteSmoke;
             txtCurrency.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
             txtCurrency.Location = new Point(140, 16);
             txtCurrency.Name = "txtCurrency";

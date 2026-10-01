@@ -58,13 +58,13 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1600, 56);
+            panel1.Size = new Size(1600, 60);
             panel1.TabIndex = 0;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(4, 4);
+            pictureBox1.Location = new Point(8, 8);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(48, 48);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -79,6 +79,7 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(124, 24);
             lblTitle.TabIndex = 0;
+            lblTitle.Tag = "title";
             lblTitle.Text = "付款沖帳總覽";
             // 
             // btnWithin60
@@ -87,10 +88,11 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             btnWithin60.FlatStyle = FlatStyle.Flat;
             btnWithin60.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
             btnWithin60.ForeColor = Color.White;
-            btnWithin60.Location = new Point(340, 12);
+            btnWithin60.Location = new Point(1164, 12);
             btnWithin60.Name = "btnWithin60";
             btnWithin60.Size = new Size(100, 32);
             btnWithin60.TabIndex = 1;
+            btnWithin60.Tag = "btn-modify";
             btnWithin60.Text = "60天內";
             btnWithin60.UseVisualStyleBackColor = false;
             btnWithin60.Click += btnWithin60_Click;
@@ -101,10 +103,11 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             btnOver60.FlatStyle = FlatStyle.Flat;
             btnOver60.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
             btnOver60.ForeColor = Color.White;
-            btnOver60.Location = new Point(450, 12);
+            btnOver60.Location = new Point(1274, 12);
             btnOver60.Name = "btnOver60";
             btnOver60.Size = new Size(110, 32);
             btnOver60.TabIndex = 2;
+            btnOver60.Tag = "btn-modify";
             btnOver60.Text = "超過60天";
             btnOver60.UseVisualStyleBackColor = false;
             btnOver60.Click += btnOver60_Click;
@@ -118,6 +121,7 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(80, 32);
             btnAdd.TabIndex = 3;
+            btnAdd.Tag = "btn-modify";
             btnAdd.Text = "新增";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += btnAdd_Click;
@@ -133,15 +137,16 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             btnExit.TabIndex = 4;
             btnExit.Text = "關閉";
             btnExit.UseVisualStyleBackColor = false;
+            btnExit.Visible = false;
             btnExit.Click += btnExit_Click;
             // 
             // panel2
             // 
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 56);
+            panel2.Location = new Point(0, 60);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1600, 600);
+            panel2.Size = new Size(1600, 596);
             panel2.TabIndex = 1;
             // 
             // dataGridView1
@@ -160,7 +165,7 @@ namespace DigiERP.UserControl.Inventory.StockInCert
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowTemplate.Height = 26;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1600, 600);
+            dataGridView1.Size = new Size(1600, 596);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 

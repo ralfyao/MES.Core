@@ -80,6 +80,7 @@
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(128, 44);
             btnAdd.TabIndex = 4;
+            btnAdd.Tag = "btn-modify";
             btnAdd.Text = "新增";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += btnAdd_Click;
@@ -93,6 +94,7 @@
             btnClosed.Name = "btnClosed";
             btnClosed.Size = new Size(128, 44);
             btnClosed.TabIndex = 3;
+            btnClosed.Tag = "btn-modify";
             btnClosed.Text = "已結案";
             btnClosed.UseVisualStyleBackColor = false;
             btnClosed.Click += btnClosed_Click;
@@ -106,6 +108,7 @@
             btnUnClosed.Name = "btnUnClosed";
             btnUnClosed.Size = new Size(128, 44);
             btnUnClosed.TabIndex = 2;
+            btnUnClosed.Tag = "btn-modify";
             btnUnClosed.Text = "未結案";
             btnUnClosed.UseVisualStyleBackColor = false;
             btnUnClosed.Click += btnUnClosed_Click;

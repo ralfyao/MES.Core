@@ -65,13 +65,14 @@ namespace DigiERP.UserControl.Objective.SalesTracking
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1900, 56);
+            panel1.Size = new Size(1900, 60);
             panel1.TabIndex = 0;
+            panel1.Tag = "btn-modify";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(4, 4);
+            pictureBox1.Location = new Point(8, 8);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(48, 48);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -86,6 +87,7 @@ namespace DigiERP.UserControl.Objective.SalesTracking
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(143, 24);
             lblTitle.TabIndex = 0;
+            lblTitle.Tag = "title";
             lblTitle.Text = "客戶活動力分析";
             // 
             // dtStart
@@ -124,6 +126,7 @@ namespace DigiERP.UserControl.Objective.SalesTracking
             btnReview.Name = "btnReview";
             btnReview.Size = new Size(110, 32);
             btnReview.TabIndex = 4;
+            btnReview.Tag = "btn-modify";
             btnReview.Text = "REVIEW";
             btnReview.UseVisualStyleBackColor = false;
             btnReview.Click += btnReview_Click;
@@ -138,6 +141,7 @@ namespace DigiERP.UserControl.Objective.SalesTracking
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(110, 32);
             btnReset.TabIndex = 5;
+            btnReset.Tag = "btn-modify";
             btnReset.Text = "RESET";
             btnReset.UseVisualStyleBackColor = false;
             btnReset.Click += btnReset_Click;
@@ -154,15 +158,16 @@ namespace DigiERP.UserControl.Objective.SalesTracking
             btnExit.TabIndex = 6;
             btnExit.Text = "EXIT";
             btnExit.UseVisualStyleBackColor = false;
+            btnExit.Visible = false;
             btnExit.Click += btnExit_Click;
             // 
             // panel2
             // 
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 56);
+            panel2.Location = new Point(0, 60);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1900, 600);
+            panel2.Size = new Size(1900, 596);
             panel2.TabIndex = 1;
             // 
             // dataGridView1
@@ -181,7 +186,7 @@ namespace DigiERP.UserControl.Objective.SalesTracking
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowTemplate.Height = 26;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1900, 600);
+            dataGridView1.Size = new Size(1900, 596);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 

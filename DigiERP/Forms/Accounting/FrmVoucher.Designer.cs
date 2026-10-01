@@ -19,6 +19,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmVoucher));
             panelToolbar = new Panel();
+            pictureBox1 = new PictureBox();
             lblTitle = new Label();
             btnDeleteRecord = new Button();
             btnAddNew = new Button();
@@ -62,13 +63,12 @@ namespace DigiERP.UserControl.Inventory.StockIn
             lblTotalCap = new Label();
             txtTotalDebit = new TextBox();
             txtTotalCredit = new TextBox();
-            pictureBox1 = new PictureBox();
             panelToolbar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panelHeader.SuspendLayout();
             panelGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDetail).BeginInit();
             panelFooter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panelToolbar
@@ -88,14 +88,24 @@ namespace DigiERP.UserControl.Inventory.StockIn
             panelToolbar.Dock = DockStyle.Top;
             panelToolbar.Location = new Point(0, 0);
             panelToolbar.Name = "panelToolbar";
-            panelToolbar.Size = new Size(1000, 44);
+            panelToolbar.Size = new Size(1157, 60);
             panelToolbar.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(8, 8);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(48, 48);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 10;
+            pictureBox1.TabStop = false;
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("微軟正黑體", 12F, FontStyle.Bold);
-            lblTitle.Location = new Point(59, 10);
+            lblTitle.Location = new Point(73, 14);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(74, 21);
             lblTitle.TabIndex = 0;
@@ -106,7 +116,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             btnDeleteRecord.BackColor = Color.Firebrick;
             btnDeleteRecord.FlatStyle = FlatStyle.Flat;
             btnDeleteRecord.ForeColor = Color.White;
-            btnDeleteRecord.Location = new Point(149, 8);
+            btnDeleteRecord.Location = new Point(368, 14);
             btnDeleteRecord.Name = "btnDeleteRecord";
             btnDeleteRecord.Size = new Size(90, 28);
             btnDeleteRecord.TabIndex = 1;
@@ -118,7 +128,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             // 
             btnAddNew.BackColor = Color.Gainsboro;
             btnAddNew.FlatStyle = FlatStyle.Flat;
-            btnAddNew.Location = new Point(247, 8);
+            btnAddNew.Location = new Point(466, 14);
             btnAddNew.Name = "btnAddNew";
             btnAddNew.Size = new Size(80, 28);
             btnAddNew.TabIndex = 2;
@@ -130,7 +140,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             // 
             btnModify.BackColor = Color.Gainsboro;
             btnModify.FlatStyle = FlatStyle.Flat;
-            btnModify.Location = new Point(330, 8);
+            btnModify.Location = new Point(549, 14);
             btnModify.Name = "btnModify";
             btnModify.Size = new Size(80, 28);
             btnModify.TabIndex = 3;
@@ -142,7 +152,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             // 
             btnSave.BackColor = Color.Gainsboro;
             btnSave.FlatStyle = FlatStyle.Flat;
-            btnSave.Location = new Point(413, 8);
+            btnSave.Location = new Point(632, 14);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(80, 28);
             btnSave.TabIndex = 4;
@@ -154,7 +164,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             // 
             btnPost.BackColor = Color.Gainsboro;
             btnPost.FlatStyle = FlatStyle.Flat;
-            btnPost.Location = new Point(496, 8);
+            btnPost.Location = new Point(715, 14);
             btnPost.Name = "btnPost";
             btnPost.Size = new Size(80, 28);
             btnPost.TabIndex = 5;
@@ -166,7 +176,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             // 
             btnCancelPost.BackColor = Color.Gainsboro;
             btnCancelPost.FlatStyle = FlatStyle.Flat;
-            btnCancelPost.Location = new Point(579, 8);
+            btnCancelPost.Location = new Point(798, 14);
             btnCancelPost.Name = "btnCancelPost";
             btnCancelPost.Size = new Size(90, 28);
             btnCancelPost.TabIndex = 6;
@@ -178,7 +188,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             // 
             btnQuery.BackColor = Color.Gainsboro;
             btnQuery.FlatStyle = FlatStyle.Flat;
-            btnQuery.Location = new Point(672, 8);
+            btnQuery.Location = new Point(891, 14);
             btnQuery.Name = "btnQuery";
             btnQuery.Size = new Size(80, 28);
             btnQuery.TabIndex = 7;
@@ -190,7 +200,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             // 
             btnPrint.BackColor = Color.Gainsboro;
             btnPrint.FlatStyle = FlatStyle.Flat;
-            btnPrint.Location = new Point(755, 8);
+            btnPrint.Location = new Point(974, 14);
             btnPrint.Name = "btnPrint";
             btnPrint.Size = new Size(80, 28);
             btnPrint.TabIndex = 8;
@@ -202,12 +212,13 @@ namespace DigiERP.UserControl.Inventory.StockIn
             // 
             btnClose.BackColor = Color.Gainsboro;
             btnClose.FlatStyle = FlatStyle.Flat;
-            btnClose.Location = new Point(838, 8);
+            btnClose.Location = new Point(1057, 14);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(80, 28);
             btnClose.TabIndex = 9;
             btnClose.Text = "關閉";
             btnClose.UseVisualStyleBackColor = false;
+            btnClose.Visible = false;
             btnClose.Click += btnClose_Click;
             // 
             // panelHeader
@@ -233,9 +244,9 @@ namespace DigiERP.UserControl.Inventory.StockIn
             panelHeader.Controls.Add(txtPostDate);
             panelHeader.Controls.Add(btnImportAccount);
             panelHeader.Dock = DockStyle.Top;
-            panelHeader.Location = new Point(0, 44);
+            panelHeader.Location = new Point(0, 60);
             panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(1000, 70);
+            panelHeader.Size = new Size(1157, 70);
             panelHeader.TabIndex = 1;
             // 
             // lblDate
@@ -400,6 +411,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             btnImportAccount.Name = "btnImportAccount";
             btnImportAccount.Size = new Size(90, 26);
             btnImportAccount.TabIndex = 18;
+            btnImportAccount.Tag = "btn-modify";
             btnImportAccount.Text = "會科帶入";
             btnImportAccount.UseVisualStyleBackColor = false;
             btnImportAccount.Click += btnImportAccount_Click;
@@ -408,9 +420,9 @@ namespace DigiERP.UserControl.Inventory.StockIn
             // 
             panelGrid.Controls.Add(dgvDetail);
             panelGrid.Dock = DockStyle.Fill;
-            panelGrid.Location = new Point(0, 114);
+            panelGrid.Location = new Point(0, 130);
             panelGrid.Name = "panelGrid";
-            panelGrid.Size = new Size(1000, 380);
+            panelGrid.Size = new Size(1157, 364);
             panelGrid.TabIndex = 2;
             // 
             // dgvDetail
@@ -424,7 +436,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             dgvDetail.Location = new Point(0, 0);
             dgvDetail.Name = "dgvDetail";
             dgvDetail.RowTemplate.Height = 26;
-            dgvDetail.Size = new Size(1000, 380);
+            dgvDetail.Size = new Size(1157, 364);
             dgvDetail.TabIndex = 0;
             dgvDetail.CellEndEdit += dgvDetail_CellEndEdit;
             dgvDetail.RowsRemoved += dgvDetail_RowsRemoved;
@@ -479,7 +491,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             panelFooter.Dock = DockStyle.Bottom;
             panelFooter.Location = new Point(0, 494);
             panelFooter.Name = "panelFooter";
-            panelFooter.Size = new Size(1000, 40);
+            panelFooter.Size = new Size(1157, 40);
             panelFooter.TabIndex = 3;
             // 
             // lblTotalCap
@@ -510,21 +522,11 @@ namespace DigiERP.UserControl.Inventory.StockIn
             txtTotalCredit.TabIndex = 2;
             txtTotalCredit.TextAlign = HorizontalAlignment.Right;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(4, 4);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(48, 48);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 10;
-            pictureBox1.TabStop = false;
-            // 
             // FrmVoucher
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1000, 534);
+            ClientSize = new Size(1157, 534);
             Controls.Add(panelGrid);
             Controls.Add(panelFooter);
             Controls.Add(panelHeader);
@@ -537,13 +539,13 @@ namespace DigiERP.UserControl.Inventory.StockIn
             Text = "會計傳票";
             panelToolbar.ResumeLayout(false);
             panelToolbar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panelHeader.ResumeLayout(false);
             panelHeader.PerformLayout();
             panelGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvDetail).EndInit();
             panelFooter.ResumeLayout(false);
             panelFooter.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 

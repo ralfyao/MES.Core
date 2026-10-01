@@ -67,13 +67,13 @@ namespace DigiERP.UserControl.Objective.Bank
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1900, 56);
+            panel1.Size = new Size(1900, 60);
             panel1.TabIndex = 0;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(4, 4);
+            pictureBox1.Location = new Point(8, 8);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(48, 48);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -95,12 +95,13 @@ namespace DigiERP.UserControl.Objective.Bank
             btnAdd.BackColor = Color.Gainsboro;
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
-            btnAdd.Location = new Point(340, 12);
+            btnAdd.Location = new Point(1193, 12);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(100, 32);
             btnAdd.TabIndex = 1;
             btnAdd.Text = "新增";
             btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Visible = false;
             btnAdd.Click += btnAdd_Click;
             // 
             // btnModify
@@ -108,7 +109,7 @@ namespace DigiERP.UserControl.Objective.Bank
             btnModify.BackColor = Color.Gainsboro;
             btnModify.FlatStyle = FlatStyle.Flat;
             btnModify.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
-            btnModify.Location = new Point(450, 12);
+            btnModify.Location = new Point(1303, 12);
             btnModify.Name = "btnModify";
             btnModify.Size = new Size(100, 32);
             btnModify.TabIndex = 2;
@@ -121,7 +122,7 @@ namespace DigiERP.UserControl.Objective.Bank
             btnSave.BackColor = Color.Gainsboro;
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
-            btnSave.Location = new Point(560, 12);
+            btnSave.Location = new Point(1413, 12);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(100, 32);
             btnSave.TabIndex = 3;
@@ -134,7 +135,7 @@ namespace DigiERP.UserControl.Objective.Bank
             btnDetail.BackColor = Color.Gainsboro;
             btnDetail.FlatStyle = FlatStyle.Flat;
             btnDetail.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
-            btnDetail.Location = new Point(670, 12);
+            btnDetail.Location = new Point(1523, 12);
             btnDetail.Name = "btnDetail";
             btnDetail.Size = new Size(100, 32);
             btnDetail.TabIndex = 4;
@@ -153,6 +154,7 @@ namespace DigiERP.UserControl.Objective.Bank
             btnClose.TabIndex = 5;
             btnClose.Text = "關閉";
             btnClose.UseVisualStyleBackColor = false;
+            btnClose.Visible = false;
             btnClose.Click += btnClose_Click;
             // 
             // panel2
@@ -181,9 +183,9 @@ namespace DigiERP.UserControl.Objective.Bank
             panel2.Controls.Add(lblExt);
             panel2.Controls.Add(txtExt);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 56);
+            panel2.Location = new Point(0, 60);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1900, 600);
+            panel2.Size = new Size(1900, 596);
             panel2.TabIndex = 1;
             // 
             // lblBankCode

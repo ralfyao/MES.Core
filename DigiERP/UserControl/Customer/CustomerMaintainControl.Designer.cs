@@ -37,7 +37,7 @@ namespace DigiERP.UserControl
             txtMachineIssue = new CommonTextBox();
             label19 = new Label();
             btnIndustryCodeManage = new Button();
-            industryCodeSelect1 = new DigiERP.UserControl.Common.IndustryCodeSelect();
+            industryCodeSelect1 = new Common.IndustryCodeSelect();
             txtColumn1 = new CommonTextBox();
             label18 = new Label();
             cboIndustrry = new CommonComboBox();
@@ -64,7 +64,7 @@ namespace DigiERP.UserControl
             txtContactPersion = new CommonTextBox();
             label7 = new Label();
             label6 = new Label();
-            coutrySelect1 = new DigiERP.UserControl.Common.CoutrySelect();
+            coutrySelect1 = new Common.CoutrySelect();
             label5 = new Label();
             btnGenCustNumber = new Button();
             txtCustNumber = new CommonTextBox();
@@ -75,7 +75,7 @@ namespace DigiERP.UserControl
             txtCustomerCompany = new CommonTextBox();
             label2 = new Label();
             label21 = new Label();
-            bankCodeSelect1 = new DigiERP.UserControl.Common.BankCodeSelect();
+            bankCodeSelect1 = new Common.BankCodeSelect();
             btnInactivate = new Button();
             btnActivate = new Button();
             label22 = new Label();
@@ -149,6 +149,7 @@ namespace DigiERP.UserControl
             button1.TabIndex = 2;
             button1.Text = "EXIT";
             button1.UseVisualStyleBackColor = false;
+            button1.Visible = false;
             button1.Click += button1_Click;
             // 
             // label20
@@ -187,7 +188,7 @@ namespace DigiERP.UserControl
             btnIndustryCodeManage.BackColor = Color.Brown;
             btnIndustryCodeManage.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 136);
             btnIndustryCodeManage.ForeColor = SystemColors.ButtonFace;
-            btnIndustryCodeManage.Location = new Point(452, 523);
+            btnIndustryCodeManage.Location = new Point(466, 523);
             btnIndustryCodeManage.Margin = new Padding(2);
             btnIndustryCodeManage.Name = "btnIndustryCodeManage";
             btnIndustryCodeManage.Size = new Size(104, 35);
@@ -611,7 +612,7 @@ namespace DigiERP.UserControl
             btnInactivate.BackColor = Color.Tomato;
             btnInactivate.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 136);
             btnInactivate.ForeColor = SystemColors.InactiveBorder;
-            btnInactivate.Location = new Point(340, 602);
+            btnInactivate.Location = new Point(296, 602);
             btnInactivate.Name = "btnInactivate";
             btnInactivate.Size = new Size(88, 32);
             btnInactivate.TabIndex = 125;
@@ -625,7 +626,7 @@ namespace DigiERP.UserControl
             btnActivate.BackColor = Color.DodgerBlue;
             btnActivate.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 136);
             btnActivate.ForeColor = SystemColors.InactiveBorder;
-            btnActivate.Location = new Point(452, 602);
+            btnActivate.Location = new Point(463, 602);
             btnActivate.Name = "btnActivate";
             btnActivate.Size = new Size(104, 32);
             btnActivate.TabIndex = 126;

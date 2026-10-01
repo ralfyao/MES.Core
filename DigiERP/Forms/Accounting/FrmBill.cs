@@ -17,6 +17,7 @@ namespace DigiERP.Forms.Accounting
         {
             InitializeComponent();
             initBankCombo();
+            DigiERP.Common.UIStyle.ApplyControlStyle(this);
             disableControls(false);
         }
 

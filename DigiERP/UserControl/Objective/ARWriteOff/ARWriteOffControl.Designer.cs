@@ -65,17 +65,18 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1497, 108);
+            panel1.Size = new Size(1710, 60);
             panel1.TabIndex = 0;
             // 
             // btn新增
             // 
             btn新增.BackColor = Color.Gray;
             btn新增.ForeColor = SystemColors.ButtonHighlight;
-            btn新增.Location = new Point(956, 36);
+            btn新增.Location = new Point(1543, 10);
             btn新增.Name = "btn新增";
             btn新增.Size = new Size(156, 44);
             btn新增.TabIndex = 9;
+            btn新增.Tag = "btn-modify";
             btn新增.Text = "新增";
             btn新增.UseVisualStyleBackColor = false;
             btn新增.Click += btn新增_Click;
@@ -83,20 +84,22 @@
             // btn超過60天
             // 
             btn超過60天.BackColor = Color.LimeGreen;
-            btn超過60天.Location = new Point(684, 32);
+            btn超過60天.Location = new Point(1352, 10);
             btn超過60天.Name = "btn超過60天";
-            btn超過60天.Size = new Size(172, 56);
+            btn超過60天.Size = new Size(172, 44);
             btn超過60天.TabIndex = 8;
+            btn超過60天.Tag = "btn-modify";
             btn超過60天.Text = "超過60天";
             btn超過60天.UseVisualStyleBackColor = false;
             // 
             // btn60天內
             // 
             btn60天內.BackColor = Color.FromArgb(128, 128, 255);
-            btn60天內.Location = new Point(440, 36);
+            btn60天內.Location = new Point(1152, 10);
             btn60天內.Name = "btn60天內";
-            btn60天內.Size = new Size(172, 52);
+            btn60天內.Size = new Size(172, 44);
             btn60天內.TabIndex = 7;
+            btn60天內.Tag = "btn-modify";
             btn60天內.Text = "60天內";
             btn60天內.UseVisualStyleBackColor = false;
             // 
@@ -108,12 +111,13 @@
             label1.Name = "label1";
             label1.Size = new Size(162, 37);
             label1.TabIndex = 6;
+            label1.Tag = "title";
             label1.Text = "沖款收總覽";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(12, 12);
+            pictureBox1.Location = new Point(8, 8);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(48, 48);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -124,9 +128,9 @@
             // 
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 108);
+            panel2.Location = new Point(0, 60);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1497, 511);
+            panel2.Size = new Size(1710, 559);
             panel2.TabIndex = 1;
             // 
             // dataGridView1
@@ -140,10 +144,10 @@
             dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
-            dataGridView1.Size = new Size(1497, 511);
+            dataGridView1.Size = new Size(1710, 559);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
-            //
+            // 
             // orderNo
             // 
             orderNo.HeaderText = "單號";
@@ -225,7 +229,7 @@
             Controls.Add(panel1);
             Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             Name = "ARWriteOffControl";
-            Size = new Size(1497, 619);
+            Size = new Size(1710, 619);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

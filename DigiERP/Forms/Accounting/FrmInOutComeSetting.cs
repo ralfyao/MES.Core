@@ -15,6 +15,7 @@ namespace DigiERP.UserControl.Inventory.StockIn
             InitializeComponent();
             initPayTypeCombo();
             initAccountCodeCombo();
+            DigiERP.Common.UIStyle.ApplyControlStyle(this);
             LoadList();
         }
 

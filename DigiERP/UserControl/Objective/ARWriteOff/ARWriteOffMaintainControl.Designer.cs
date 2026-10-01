@@ -139,13 +139,14 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1700, 56);
+            panel1.Size = new Size(1700, 60);
             panel1.TabIndex = 0;
+            panel1.Tag = "btn-modify";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(4, 4);
+            pictureBox1.Location = new Point(8, 8);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(48, 48);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -161,6 +162,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(64, 23);
             lblTitle.TabIndex = 0;
+            lblTitle.Tag = "title";
             lblTitle.Text = "收款單";
             // 
             // btnVoucherEntry
@@ -168,10 +170,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnVoucherEntry.BackColor = Color.Gainsboro;
             btnVoucherEntry.FlatStyle = FlatStyle.Flat;
             btnVoucherEntry.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnVoucherEntry.Location = new Point(230, 12);
+            btnVoucherEntry.Location = new Point(632, 13);
             btnVoucherEntry.Name = "btnVoucherEntry";
             btnVoucherEntry.Size = new Size(98, 32);
             btnVoucherEntry.TabIndex = 1;
+            btnVoucherEntry.Tag = "btn-modify";
             btnVoucherEntry.Text = "會計傳票";
             btnVoucherEntry.UseVisualStyleBackColor = false;
             btnVoucherEntry.Click += btnVoucherEntry_Click;
@@ -182,10 +185,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnImportDetail.FlatStyle = FlatStyle.Flat;
             btnImportDetail.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
             btnImportDetail.ForeColor = Color.White;
-            btnImportDetail.Location = new Point(334, 12);
+            btnImportDetail.Location = new Point(736, 13);
             btnImportDetail.Name = "btnImportDetail";
             btnImportDetail.Size = new Size(110, 32);
             btnImportDetail.TabIndex = 2;
+            btnImportDetail.Tag = "btn-modify";
             btnImportDetail.Text = "應收款導入";
             btnImportDetail.UseVisualStyleBackColor = false;
             btnImportDetail.Click += btnImportDetail_Click;
@@ -196,10 +200,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(456, 12);
+            btnDelete.Location = new Point(858, 13);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(98, 32);
             btnDelete.TabIndex = 3;
+            btnDelete.Tag = "btn-delete";
             btnDelete.Text = "刪除紀錄";
             btnDelete.UseVisualStyleBackColor = false;
             btnDelete.Click += btnDelete_Click;
@@ -209,10 +214,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnAdd.BackColor = Color.Gainsboro;
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnAdd.Location = new Point(560, 12);
+            btnAdd.Location = new Point(962, 13);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(98, 32);
             btnAdd.TabIndex = 4;
+            btnAdd.Tag = "btn-modify";
             btnAdd.Text = "新增";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += btnAdd_Click;
@@ -222,10 +228,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnModify.BackColor = Color.Gainsboro;
             btnModify.FlatStyle = FlatStyle.Flat;
             btnModify.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnModify.Location = new Point(664, 12);
+            btnModify.Location = new Point(1066, 13);
             btnModify.Name = "btnModify";
             btnModify.Size = new Size(98, 32);
             btnModify.TabIndex = 5;
+            btnModify.Tag = "btn-modify";
             btnModify.Text = "修改";
             btnModify.UseVisualStyleBackColor = false;
             btnModify.Click += btnModify_Click;
@@ -235,10 +242,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnSave.BackColor = Color.Gainsboro;
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnSave.Location = new Point(768, 12);
+            btnSave.Location = new Point(1170, 13);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(98, 32);
             btnSave.TabIndex = 6;
+            btnSave.Tag = "btn-modify";
             btnSave.Text = "儲存";
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Click += btnSave_Click;
@@ -248,10 +256,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnVerify.BackColor = Color.Gainsboro;
             btnVerify.FlatStyle = FlatStyle.Flat;
             btnVerify.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnVerify.Location = new Point(872, 12);
+            btnVerify.Location = new Point(1274, 13);
             btnVerify.Name = "btnVerify";
             btnVerify.Size = new Size(98, 32);
             btnVerify.TabIndex = 7;
+            btnVerify.Tag = "btn-modify";
             btnVerify.Text = "覆核";
             btnVerify.UseVisualStyleBackColor = false;
             btnVerify.Click += btnVerify_Click;
@@ -261,10 +270,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnCancelVerify.BackColor = Color.Gainsboro;
             btnCancelVerify.FlatStyle = FlatStyle.Flat;
             btnCancelVerify.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnCancelVerify.Location = new Point(976, 12);
+            btnCancelVerify.Location = new Point(1378, 13);
             btnCancelVerify.Name = "btnCancelVerify";
             btnCancelVerify.Size = new Size(98, 32);
             btnCancelVerify.TabIndex = 8;
+            btnCancelVerify.Tag = "btn-modify";
             btnCancelVerify.Text = "取消覆核";
             btnCancelVerify.UseVisualStyleBackColor = false;
             btnCancelVerify.Click += btnCancelVerify_Click;
@@ -274,10 +284,11 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnOverview.BackColor = Color.Gainsboro;
             btnOverview.FlatStyle = FlatStyle.Flat;
             btnOverview.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnOverview.Location = new Point(1080, 12);
+            btnOverview.Location = new Point(1482, 13);
             btnOverview.Name = "btnOverview";
             btnOverview.Size = new Size(98, 32);
             btnOverview.TabIndex = 9;
+            btnOverview.Tag = "btn-modify";
             btnOverview.Text = "總覽";
             btnOverview.UseVisualStyleBackColor = false;
             btnOverview.Visible = false;
@@ -288,12 +299,14 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnClose.BackColor = Color.Gainsboro;
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnClose.Location = new Point(1184, 12);
+            btnClose.Location = new Point(1586, 13);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(98, 32);
             btnClose.TabIndex = 10;
+            btnClose.Tag = "btn-modify";
             btnClose.Text = "關閉";
             btnClose.UseVisualStyleBackColor = false;
+            btnClose.Visible = false;
             btnClose.Click += btnClose_Click;
             // 
             // panel2
@@ -341,7 +354,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             panel2.Controls.Add(lblOrigOffset);
             panel2.Controls.Add(txtOrigOffset);
             panel2.Dock = DockStyle.Top;
-            panel2.Location = new Point(0, 56);
+            panel2.Location = new Point(0, 60);
             panel2.Name = "panel2";
             panel2.Size = new Size(1700, 190);
             panel2.TabIndex = 1;
@@ -367,7 +380,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblNo
             // 
             lblNo.AutoSize = true;
-            lblNo.Location = new Point(224, 10);
+            lblNo.Location = new Point(288, 10);
             lblNo.Name = "lblNo";
             lblNo.Size = new Size(36, 18);
             lblNo.TabIndex = 2;
@@ -375,17 +388,17 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtNo
             // 
-            txtNo.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
-            txtNo.Location = new Point(278, 6);
+            txtNo.BackColor = Color.WhiteSmoke;
+            txtNo.Location = new Point(362, 6);
             txtNo.Name = "txtNo";
             txtNo.ReadOnly = true;
-            txtNo.Size = new Size(150, 25);
+            txtNo.Size = new Size(190, 25);
             txtNo.TabIndex = 3;
             // 
             // lblCurrency
             // 
             lblCurrency.AutoSize = true;
-            lblCurrency.Location = new Point(440, 10);
+            lblCurrency.Location = new Point(566, 10);
             lblCurrency.Name = "lblCurrency";
             lblCurrency.Size = new Size(36, 18);
             lblCurrency.TabIndex = 4;
@@ -395,16 +408,16 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             cboCurrency.DropDownStyle = ComboBoxStyle.DropDownList;
             cboCurrency.FormattingEnabled = true;
-            cboCurrency.Location = new Point(486, 6);
+            cboCurrency.Location = new Point(640, 6);
             cboCurrency.Name = "cboCurrency";
-            cboCurrency.Size = new Size(72, 25);
+            cboCurrency.Size = new Size(110, 25);
             cboCurrency.TabIndex = 5;
             cboCurrency.SelectedIndexChanged += cboCurrency_SelectedIndexChanged;
             // 
             // lblExRate
             // 
             lblExRate.AutoSize = true;
-            lblExRate.Location = new Point(566, 10);
+            lblExRate.Location = new Point(762, 12);
             lblExRate.Name = "lblExRate";
             lblExRate.Size = new Size(36, 18);
             lblExRate.TabIndex = 6;
@@ -412,9 +425,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtExRate
             // 
-            txtExRate.Location = new Point(612, 6);
+            txtExRate.Location = new Point(836, 7);
             txtExRate.Name = "txtExRate";
-            txtExRate.Size = new Size(80, 25);
+            txtExRate.Size = new Size(110, 25);
             txtExRate.TabIndex = 7;
             // 
             // lblCustomerNo
@@ -449,7 +462,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblCustomerName
             // 
             lblCustomerName.AutoSize = true;
-            lblCustomerName.Location = new Point(242, 46);
+            lblCustomerName.Location = new Point(288, 46);
             lblCustomerName.Name = "lblCustomerName";
             lblCustomerName.Size = new Size(64, 18);
             lblCustomerName.TabIndex = 11;
@@ -457,8 +470,8 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtCustomerName
             // 
-            txtCustomerName.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
-            txtCustomerName.Location = new Point(316, 42);
+            txtCustomerName.BackColor = Color.WhiteSmoke;
+            txtCustomerName.Location = new Point(362, 42);
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.ReadOnly = true;
             txtCustomerName.Size = new Size(190, 25);
@@ -467,7 +480,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblTwdOffset
             // 
             lblTwdOffset.AutoSize = true;
-            lblTwdOffset.Location = new Point(520, 46);
+            lblTwdOffset.Location = new Point(566, 46);
             lblTwdOffset.Name = "lblTwdOffset";
             lblTwdOffset.Size = new Size(64, 18);
             lblTwdOffset.TabIndex = 13;
@@ -476,7 +489,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // txtTwdOffset
             // 
             txtTwdOffset.BackColor = Color.LightYellow;
-            txtTwdOffset.Location = new Point(594, 42);
+            txtTwdOffset.Location = new Point(640, 42);
             txtTwdOffset.Name = "txtTwdOffset";
             txtTwdOffset.ReadOnly = true;
             txtTwdOffset.Size = new Size(110, 25);
@@ -485,7 +498,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblExDiff
             // 
             lblExDiff.AutoSize = true;
-            lblExDiff.Location = new Point(716, 46);
+            lblExDiff.Location = new Point(762, 46);
             lblExDiff.Name = "lblExDiff";
             lblExDiff.Size = new Size(64, 18);
             lblExDiff.TabIndex = 15;
@@ -494,7 +507,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // txtExDiff
             // 
             txtExDiff.BackColor = Color.LightYellow;
-            txtExDiff.Location = new Point(790, 42);
+            txtExDiff.Location = new Point(836, 42);
             txtExDiff.Name = "txtExDiff";
             txtExDiff.ReadOnly = true;
             txtExDiff.Size = new Size(110, 25);
@@ -503,7 +516,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblAllowance
             // 
             lblAllowance.AutoSize = true;
-            lblAllowance.Location = new Point(912, 46);
+            lblAllowance.Location = new Point(1052, 46);
             lblAllowance.Name = "lblAllowance";
             lblAllowance.Size = new Size(64, 18);
             lblAllowance.TabIndex = 17;
@@ -512,7 +525,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // txtAllowance
             // 
             txtAllowance.BackColor = Color.LightYellow;
-            txtAllowance.Location = new Point(986, 42);
+            txtAllowance.Location = new Point(1126, 42);
             txtAllowance.Name = "txtAllowance";
             txtAllowance.ReadOnly = true;
             txtAllowance.Size = new Size(110, 25);
@@ -537,7 +550,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblRemark
             // 
             lblRemark.AutoSize = true;
-            lblRemark.Location = new Point(212, 82);
+            lblRemark.Location = new Point(288, 82);
             lblRemark.Name = "lblRemark";
             lblRemark.Size = new Size(36, 18);
             lblRemark.TabIndex = 21;
@@ -545,9 +558,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtRemark
             // 
-            txtRemark.Location = new Point(262, 78);
+            txtRemark.Location = new Point(362, 79);
             txtRemark.Name = "txtRemark";
-            txtRemark.Size = new Size(500, 25);
+            txtRemark.Size = new Size(584, 25);
             txtRemark.TabIndex = 22;
             // 
             // lblCashAmt
@@ -570,7 +583,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblFee
             // 
             lblFee.AutoSize = true;
-            lblFee.Location = new Point(200, 118);
+            lblFee.Location = new Point(288, 118);
             lblFee.Name = "lblFee";
             lblFee.Size = new Size(36, 18);
             lblFee.TabIndex = 25;
@@ -578,7 +591,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtFee
             // 
-            txtFee.Location = new Point(246, 114);
+            txtFee.Location = new Point(362, 115);
             txtFee.Name = "txtFee";
             txtFee.Size = new Size(90, 25);
             txtFee.TabIndex = 26;
@@ -586,7 +599,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblBankAmt
             // 
             lblBankAmt.AutoSize = true;
-            lblBankAmt.Location = new Point(344, 118);
+            lblBankAmt.Location = new Point(566, 120);
             lblBankAmt.Name = "lblBankAmt";
             lblBankAmt.Size = new Size(64, 18);
             lblBankAmt.TabIndex = 27;
@@ -594,7 +607,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtBankAmt
             // 
-            txtBankAmt.Location = new Point(418, 114);
+            txtBankAmt.Location = new Point(640, 117);
             txtBankAmt.Name = "txtBankAmt";
             txtBankAmt.Size = new Size(110, 25);
             txtBankAmt.TabIndex = 28;
@@ -603,7 +616,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblBankCode
             // 
             lblBankCode.AutoSize = true;
-            lblBankCode.Location = new Point(536, 118);
+            lblBankCode.Location = new Point(758, 121);
             lblBankCode.Name = "lblBankCode";
             lblBankCode.Size = new Size(64, 18);
             lblBankCode.TabIndex = 29;
@@ -612,9 +625,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // cboBankCode
             // 
             cboBankCode.FormattingEnabled = true;
-            cboBankCode.Location = new Point(610, 114);
+            cboBankCode.Location = new Point(836, 117);
             cboBankCode.Name = "cboBankCode";
-            cboBankCode.Size = new Size(120, 25);
+            cboBankCode.Size = new Size(110, 25);
             cboBankCode.TabIndex = 30;
             // 
             // btnRemit
@@ -622,7 +635,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnRemit.BackColor = Color.Orange;
             btnRemit.FlatStyle = FlatStyle.Flat;
             btnRemit.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
-            btnRemit.Location = new Point(736, 112);
+            btnRemit.Location = new Point(958, 115);
             btnRemit.Name = "btnRemit";
             btnRemit.Size = new Size(80, 28);
             btnRemit.TabIndex = 31;
@@ -633,7 +646,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblCheckAmt
             // 
             lblCheckAmt.AutoSize = true;
-            lblCheckAmt.Location = new Point(830, 118);
+            lblCheckAmt.Location = new Point(1052, 121);
             lblCheckAmt.Name = "lblCheckAmt";
             lblCheckAmt.Size = new Size(64, 18);
             lblCheckAmt.TabIndex = 32;
@@ -641,7 +654,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtCheckAmt
             // 
-            txtCheckAmt.Location = new Point(904, 114);
+            txtCheckAmt.Location = new Point(1126, 117);
             txtCheckAmt.Name = "txtCheckAmt";
             txtCheckAmt.Size = new Size(110, 25);
             txtCheckAmt.TabIndex = 33;
@@ -650,7 +663,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblCheckNo
             // 
             lblCheckNo.AutoSize = true;
-            lblCheckNo.Location = new Point(1022, 118);
+            lblCheckNo.Location = new Point(1244, 121);
             lblCheckNo.Name = "lblCheckNo";
             lblCheckNo.Size = new Size(64, 18);
             lblCheckNo.TabIndex = 34;
@@ -658,7 +671,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtCheckNo
             // 
-            txtCheckNo.Location = new Point(1096, 114);
+            txtCheckNo.Location = new Point(1318, 117);
             txtCheckNo.Name = "txtCheckNo";
             txtCheckNo.Size = new Size(140, 25);
             txtCheckNo.TabIndex = 35;
@@ -669,7 +682,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             btnCheck.FlatStyle = FlatStyle.Flat;
             btnCheck.Font = new Font("微軟正黑體", 9F, FontStyle.Bold);
             btnCheck.ForeColor = Color.White;
-            btnCheck.Location = new Point(1242, 112);
+            btnCheck.Location = new Point(1464, 115);
             btnCheck.Name = "btnCheck";
             btnCheck.Size = new Size(70, 28);
             btnCheck.TabIndex = 36;
@@ -698,7 +711,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // lblOrigOffset
             // 
             lblOrigOffset.AutoSize = true;
-            lblOrigOffset.Location = new Point(200, 154);
+            lblOrigOffset.Location = new Point(288, 154);
             lblOrigOffset.Name = "lblOrigOffset";
             lblOrigOffset.Size = new Size(64, 18);
             lblOrigOffset.TabIndex = 39;
@@ -707,7 +720,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // txtOrigOffset
             // 
             txtOrigOffset.BackColor = Color.LightYellow;
-            txtOrigOffset.Location = new Point(274, 150);
+            txtOrigOffset.Location = new Point(362, 150);
             txtOrigOffset.Name = "txtOrigOffset";
             txtOrigOffset.ReadOnly = true;
             txtOrigOffset.Size = new Size(110, 25);
@@ -717,9 +730,9 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             panel3.Controls.Add(dataGridView1);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(0, 246);
+            panel3.Location = new Point(0, 250);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1700, 320);
+            panel3.Size = new Size(1700, 316);
             panel3.TabIndex = 2;
             // 
             // dataGridView1
@@ -735,7 +748,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowTemplate.Height = 26;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1700, 320);
+            dataGridView1.Size = new Size(1700, 316);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
             // 
@@ -849,7 +862,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtSumOrigUntaxed
             // 
-            txtSumOrigUntaxed.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtSumOrigUntaxed.BackColor = Color.WhiteSmoke;
             txtSumOrigUntaxed.Location = new Point(300, 4);
             txtSumOrigUntaxed.Name = "txtSumOrigUntaxed";
             txtSumOrigUntaxed.ReadOnly = true;
@@ -858,7 +871,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtSumTwdUntaxed
             // 
-            txtSumTwdUntaxed.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtSumTwdUntaxed.BackColor = Color.WhiteSmoke;
             txtSumTwdUntaxed.Location = new Point(404, 4);
             txtSumTwdUntaxed.Name = "txtSumTwdUntaxed";
             txtSumTwdUntaxed.ReadOnly = true;
@@ -867,7 +880,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtSumTax
             // 
-            txtSumTax.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtSumTax.BackColor = Color.WhiteSmoke;
             txtSumTax.Location = new Point(508, 4);
             txtSumTax.Name = "txtSumTax";
             txtSumTax.ReadOnly = true;
@@ -876,7 +889,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtSumAmount
             // 
-            txtSumAmount.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtSumAmount.BackColor = Color.WhiteSmoke;
             txtSumAmount.Location = new Point(592, 4);
             txtSumAmount.Name = "txtSumAmount";
             txtSumAmount.ReadOnly = true;
@@ -885,7 +898,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtSumOrigOffsetAmt
             // 
-            txtSumOrigOffsetAmt.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtSumOrigOffsetAmt.BackColor = Color.WhiteSmoke;
             txtSumOrigOffsetAmt.Location = new Point(696, 4);
             txtSumOrigOffsetAmt.Name = "txtSumOrigOffsetAmt";
             txtSumOrigOffsetAmt.ReadOnly = true;
@@ -894,7 +907,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtSumTwdOffsetAmt
             // 
-            txtSumTwdOffsetAmt.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtSumTwdOffsetAmt.BackColor = Color.WhiteSmoke;
             txtSumTwdOffsetAmt.Location = new Point(800, 4);
             txtSumTwdOffsetAmt.Name = "txtSumTwdOffsetAmt";
             txtSumTwdOffsetAmt.ReadOnly = true;
@@ -903,7 +916,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtSumAllowance
             // 
-            txtSumAllowance.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtSumAllowance.BackColor = Color.WhiteSmoke;
             txtSumAllowance.Location = new Point(904, 4);
             txtSumAllowance.Name = "txtSumAllowance";
             txtSumAllowance.ReadOnly = true;
@@ -912,7 +925,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtSumExDiff
             // 
-            txtSumExDiff.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtSumExDiff.BackColor = Color.WhiteSmoke;
             txtSumExDiff.Location = new Point(1008, 4);
             txtSumExDiff.Name = "txtSumExDiff";
             txtSumExDiff.ReadOnly = true;
@@ -951,7 +964,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtReviewer
             // 
-            txtReviewer.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtReviewer.BackColor = Color.WhiteSmoke;
             txtReviewer.Location = new Point(92, 14);
             txtReviewer.Name = "txtReviewer";
             txtReviewer.ReadOnly = true;
@@ -969,7 +982,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtReviewDate
             // 
-            txtReviewDate.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtReviewDate.BackColor = Color.WhiteSmoke;
             txtReviewDate.Location = new Point(288, 14);
             txtReviewDate.Name = "txtReviewDate";
             txtReviewDate.ReadOnly = true;
@@ -987,7 +1000,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtModifier
             // 
-            txtModifier.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtModifier.BackColor = Color.WhiteSmoke;
             txtModifier.Location = new Point(512, 14);
             txtModifier.Name = "txtModifier";
             txtModifier.ReadOnly = true;
@@ -1005,7 +1018,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtModifyDate
             // 
-            txtModifyDate.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtModifyDate.BackColor = Color.WhiteSmoke;
             txtModifyDate.Location = new Point(708, 14);
             txtModifyDate.Name = "txtModifyDate";
             txtModifyDate.ReadOnly = true;
@@ -1023,7 +1036,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtCreator
             // 
-            txtCreator.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtCreator.BackColor = Color.WhiteSmoke;
             txtCreator.Location = new Point(932, 14);
             txtCreator.Name = "txtCreator";
             txtCreator.ReadOnly = true;
@@ -1041,7 +1054,7 @@ namespace DigiERP.UserControl.Objective.ARWriteOff
             // 
             // txtCreateDate
             // 
-            txtCreateDate.BackColor = DigiERP.Common.UIStyle.ReadOnlyBackColor;
+            txtCreateDate.BackColor = Color.WhiteSmoke;
             txtCreateDate.Location = new Point(1128, 14);
             txtCreateDate.Name = "txtCreateDate";
             txtCreateDate.ReadOnly = true;

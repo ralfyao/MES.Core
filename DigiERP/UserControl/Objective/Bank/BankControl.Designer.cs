@@ -58,13 +58,13 @@ namespace DigiERP.UserControl.Objective.Bank
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1900, 56);
+            panel1.Size = new Size(1900, 60);
             panel1.TabIndex = 0;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(4, 4);
+            pictureBox1.Location = new Point(8, 8);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(48, 48);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -85,7 +85,7 @@ namespace DigiERP.UserControl.Objective.Bank
             // 
             lblMonthEnd.AutoSize = true;
             lblMonthEnd.Font = new Font("微軟正黑體", 10F);
-            lblMonthEnd.Location = new Point(300, 20);
+            lblMonthEnd.Location = new Point(1093, 20);
             lblMonthEnd.Name = "lblMonthEnd";
             lblMonthEnd.Size = new Size(50, 18);
             lblMonthEnd.TabIndex = 1;
@@ -94,7 +94,7 @@ namespace DigiERP.UserControl.Objective.Bank
             // dtMonthEnd
             // 
             dtMonthEnd.Format = DateTimePickerFormat.Short;
-            dtMonthEnd.Location = new Point(370, 14);
+            dtMonthEnd.Location = new Point(1163, 14);
             dtMonthEnd.Name = "dtMonthEnd";
             dtMonthEnd.Size = new Size(140, 25);
             dtMonthEnd.TabIndex = 2;
@@ -104,10 +104,11 @@ namespace DigiERP.UserControl.Objective.Bank
             btnMonthBalance.BackColor = Color.Gainsboro;
             btnMonthBalance.FlatStyle = FlatStyle.Flat;
             btnMonthBalance.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
-            btnMonthBalance.Location = new Point(540, 12);
+            btnMonthBalance.Location = new Point(1333, 12);
             btnMonthBalance.Name = "btnMonthBalance";
             btnMonthBalance.Size = new Size(100, 32);
             btnMonthBalance.TabIndex = 3;
+            btnMonthBalance.Tag = "btn-modify";
             btnMonthBalance.Text = "月結餘額";
             btnMonthBalance.UseVisualStyleBackColor = false;
             btnMonthBalance.Click += btnMonthBalance_Click;
@@ -117,10 +118,11 @@ namespace DigiERP.UserControl.Objective.Bank
             btnRefresh.BackColor = Color.Gainsboro;
             btnRefresh.FlatStyle = FlatStyle.Flat;
             btnRefresh.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
-            btnRefresh.Location = new Point(670, 12);
+            btnRefresh.Location = new Point(1463, 12);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(100, 32);
             btnRefresh.TabIndex = 4;
+            btnRefresh.Tag = "btn-modify";
             btnRefresh.Text = "重新整理";
             btnRefresh.UseVisualStyleBackColor = false;
             btnRefresh.Click += btnRefresh_Click;
@@ -130,10 +132,11 @@ namespace DigiERP.UserControl.Objective.Bank
             btnAdd.BackColor = Color.Gainsboro;
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("微軟正黑體", 10F, FontStyle.Bold);
-            btnAdd.Location = new Point(784, 12);
+            btnAdd.Location = new Point(1577, 12);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(100, 32);
             btnAdd.TabIndex = 5;
+            btnAdd.Tag = "btn-modify";
             btnAdd.Text = "ADD";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += btnAdd_Click;
@@ -149,15 +152,16 @@ namespace DigiERP.UserControl.Objective.Bank
             btnExit.TabIndex = 6;
             btnExit.Text = "EXIT";
             btnExit.UseVisualStyleBackColor = false;
+            btnExit.Visible = false;
             btnExit.Click += btnExit_Click;
             // 
             // panel2
             // 
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 56);
+            panel2.Location = new Point(0, 60);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1900, 600);
+            panel2.Size = new Size(1900, 596);
             panel2.TabIndex = 1;
             // 
             // dataGridView1
@@ -176,7 +180,7 @@ namespace DigiERP.UserControl.Objective.Bank
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowTemplate.Height = 26;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1900, 600);
+            dataGridView1.Size = new Size(1900, 596);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 

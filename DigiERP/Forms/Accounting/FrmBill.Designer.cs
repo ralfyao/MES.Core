@@ -95,6 +95,7 @@ namespace DigiERP.Forms.Accounting
             btnConfirm.Name = "btnConfirm";
             btnConfirm.Size = new Size(90, 28);
             btnConfirm.TabIndex = 2;
+            btnConfirm.Tag = "btn-modify";
             btnConfirm.Text = "確定";
             btnConfirm.UseVisualStyleBackColor = false;
             btnConfirm.Click += btnConfirm_Click;
