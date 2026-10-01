@@ -24,6 +24,7 @@ namespace DigiERP.Forms.SalesAndOrder
             initMenu();
             treeView.SelectedNode = null;
             DigiERP.Common.UIStyle.ApplyControlStyle(this);
+            DigiERP.Common.ContentScroller.Attach(tabControl);
             ToggleDrawer(null, null);
             ToggleDrawer(null, null);
             isloaded = true;

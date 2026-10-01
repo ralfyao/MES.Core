@@ -35,6 +35,7 @@ namespace DigiERP
             ToggleDrawer(null, null);
             ToggleDrawer(null, null);
             DigiERP.Common.UIStyle.ApplyControlStyle(this);
+            DigiERP.Common.ContentScroller.Attach(tabControl);
             isloaded = true;
         }
 

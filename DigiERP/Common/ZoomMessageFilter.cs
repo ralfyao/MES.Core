@@ -20,7 +20,8 @@ namespace DigiERP.Common
     //      3. 根控制項改為固定大小(取消 Dock，依原始大小 × 目前縮放倍率設定絕對
     //         尺寸)，並開啟其父層(通常是 TabPage)的 AutoScroll，讓放大超出可視
     //         範圍時能夠捲動檢視，取代原本 Dock=Fill 被父層鎖死大小、放大也看不
-    //         到超出部分的問題。
+    //         到超出部分的問題。縮小(< 100%)時則只縮小元件，根控制項維持原本的
+    //         Dock/大小填滿分頁，不會連畫面本體一起縮小而切到元件。
     //    Reset() 供 TabNavigator 呼叫：關閉分頁、切回來源分頁時，強制把來源分頁
     //    的內容重置回 100%(而非延續使用者先前對它做過的縮放) ───────────────────
     public class ZoomMessageFilter : IMessageFilter
@@ -94,6 +95,27 @@ namespace DigiERP.Common
         private static void ApplyZoom(Control target, ZoomState state, float newLevel)
         {
             float factor = newLevel / state.Level;
+            bool isForm = target.Parent is Form && state.OriginalFormSize.HasValue;
+
+            if (!isForm)
+            {
+                // 先捲回原點並清掉捲動範圍，避免子控制項座標帶著捲動位移一起被縮放
+                if (target is ScrollableControl sc && sc.AutoScroll)
+                {
+                    sc.AutoScrollPosition = Point.Empty;
+                    sc.AutoScrollMinSize = Size.Empty;
+                }
+
+                // 縮放前先解除 Dock、以目前實際大小固定下來，讓 Scale() 連同根控制項本身
+                // 一起等比例縮放。若在 Dock=Fill 狀態下 Scale()，根控制項大小不會跟著變，
+                // 之後才另外調整根控制項大小時，錨定在右/下側(Anchor Right/Bottom)的子
+                // 控制項會被「重複縮放」一次，導致縮小時右側元件被切掉
+                var currentSize = target.Size;
+                target.Dock = DockStyle.None;
+                target.Location = Point.Empty;
+                target.Size = currentSize;
+            }
+
             target.Scale(new SizeF(factor, factor));
             ScaleFonts(target, factor);
 
@@ -110,9 +132,20 @@ namespace DigiERP.Common
                         Math.Max(150, (int)(state.OriginalFormSize.Value.Height * newLevel)));
                 target.Dock = state.OriginalDock;
             }
-            else if (isReset)
+            else if (state.OriginalDock == DockStyle.Fill && target is ScrollableControl)
             {
-                // 回到 100%：還原成原本的 Dock，讓版面照常自動填滿，不留殘留的固定尺寸/捲動狀態
+                // 分頁畫面(Dock=Fill)：不論放大/縮小，畫面本體都維持填滿分頁，只縮放裡面
+                // 的元件；內容超出可視範圍時由 ContentScroller 在畫面本體上開垂直/水平
+                // 捲軸，可以捲過去看到被遮住的元件
+                target.Dock = DockStyle.Fill;
+                target.Location = Point.Empty;
+                ContentScroller.Update(target);
+            }
+            else if (isReset || newLevel < 1f)
+            {
+                // 回到 100% 或縮小：只縮小裡面的元件，畫面本體(根控制項)維持原本的 Dock/
+                // 大小照常填滿分頁，不跟著縮小——錨定在右/下側的元件會隨之貼齊邊緣，
+                // 不會被切掉，也不留殘留的固定尺寸/捲動狀態
                 target.Dock = state.OriginalDock;
                 target.Location = Point.Empty;
                 if (state.OriginalDock == DockStyle.None)

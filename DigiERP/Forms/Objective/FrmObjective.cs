@@ -30,6 +30,7 @@ namespace DigiERP
             isloaded = false;
             InitializeComponent();
             DigiERP.Common.UIStyle.ApplyControlStyle(this);
+            DigiERP.Common.ContentScroller.Attach(tabControl);
             initMenu();
             treeView.SelectedNode = null;
             ToggleDrawer(null, null);
