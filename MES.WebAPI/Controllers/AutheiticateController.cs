@@ -112,7 +112,8 @@ namespace MES.WebAPI.Controllers
             }
             return rep;
         }
-        [Route("api/UpdatePassword"), HttpGet]
+        [HttpGet]
+        [Route("api/UpdatePassword")]
         public CommonRep<string> UpdatePassword(string? account, string? password)
         {
             CommonRep<string> commonRep = new CommonRep<string>();

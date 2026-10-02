@@ -57,7 +57,7 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
-
+        [Route("api/SaveUserPrivilege2"), HttpPost]
         public CommonRep<int> SaveUserPrivilege(List<A使用者授權> saveList)
         {
             CommonRep<int> rep = new CommonRep<int>();

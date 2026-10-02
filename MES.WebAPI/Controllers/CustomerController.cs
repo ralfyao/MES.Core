@@ -2358,7 +2358,7 @@ namespace MES.WebAPI.Controllers
             }
             return commonRep;
         }
-
+        [Route("api/GetEQPShipping2"), HttpGet]
         public CommonRep<專案機台交貨單> GetEQPShipping(string? orderNo)
         {
             CommonRep<專案機台交貨單> commonRep = new CommonRep<專案機台交貨單>();
